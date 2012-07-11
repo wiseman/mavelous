@@ -10,6 +10,7 @@ Released under the GNU GPL version 3 or later
 import sys, os, struct, math, time, socket
 import fnmatch, errno, threading
 import serial, Queue, select
+import logging
 
 # find the mavlink.py module
 for d in [ 'pymavlink',
@@ -191,6 +192,11 @@ class MPState(object):
         self.functions.say = say
         self.functions.process_stdin = process_stdin
         self.select_extra = {}
+        self.msg_queue = Queue.Queue()
+
+    def queue_message(self, message):
+        logging.info('Queueing message %s', message)
+        self.msg_queue.put(message)
 
     def master(self):
         '''return the currently chosen mavlink master object'''
@@ -745,6 +751,7 @@ def cmd_module(args):
             print("Loaded module %s" % modname)
         except Exception, msg:
             print("Unable to load module %s: %s" % (modname, msg))
+            raise
     elif args[0] == "reload":
         if len(args) < 2:
             print("usage: module reload <name>")
@@ -1382,6 +1389,13 @@ def periodic_tasks():
     if mpstate.status.setup_mode:
         return
 
+    while not mpstate.msg_queue.empty():
+        # Shouldn't block here if the queue isn't empty, but be defensive.
+        message = mpstate.msg_queue.get(block=False)
+        logging.info('Sending queued message %s', message)
+        mpstate.master().mav.send(message)
+
+
     if heartbeat_period.trigger() and mpstate.settings.heartbeat != 0:
         mpstate.status.counters['MasterOut'] += 1
         for master in mpstate.mav_master:
@@ -1516,13 +1530,30 @@ def run_script(scriptfile):
         mpstate.console.writeln("-> %s" % line)
         process_stdin(line)
     f.close()
-        
+
+
+LOGGING_LEVELS = {
+  'DEBUG': logging.DEBUG,
+  'INFO': logging.INFO,
+  'WARNING': logging.WARNING,
+  'ERROR': logging.ERROR,
+  'CRITICAL': logging.CRITICAL
+  }
+
+
+def get_logging_level_by_name(name):
+  return LOGGING_LEVELS[name]
+
+
 
 if __name__ == '__main__':
 
     from optparse import OptionParser
     parser = OptionParser("mavproxy.py [options]")
 
+    parser.add_option('--logging-level', dest='logging_level', default='INFO',
+                      choices=LOGGING_LEVELS.keys(),
+                      help='The logging level to use.')
     parser.add_option("--master",dest="master", action='append', help="MAVLink master port", default=[])
     parser.add_option("--baudrate", dest="baudrate", type='int',
                       help="master port baud rate", default=115200)
