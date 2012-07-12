@@ -8,7 +8,7 @@ Mavelous can be used with any vehicle that speaks the [MAVLink
 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
 tested with the [Arducopter](http://code.google.com/p/arducopter/).
 
-Here's a screenshot of Mavelous running in a desktop browser:
+Here's a screenshot of Mavelous running in a desktop web browser:
 
 ![Screenshot of Mavelous running in a desktop
 browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-desktop-s.jpg
@@ -18,8 +18,27 @@ Here's a video of Mavelous being used in the field to fly an
 ArduCopter: http://www.youtube.com/watch?v=gEhxnVNXYeg
 
 
-What
-----
+Architecture
+------------
+
+        *  Drone
+        |
+    *---+---*
+        | 
+        *
+       
+        ^
+        | 
+        | Radio link
+        |
+        V
+       
+    +--------+          +-----------------+
+    |        |   HTTP   | Front end, runs |
+    | Server |<-------->| in Browser      |
+    |        |          |                 |
+    +--------+          +-----------------+
+
 
 Mavelous has two main parts:
 
@@ -29,12 +48,14 @@ Mavelous has two main parts:
 the drone.  It has a web server that talks to the front end, and it
 sends and receives drone commands using a wireless modem (like an
 [XBee radio](http://www.sparkfun.com/products/9099) or a [3D Robotics
-radio](https://store.diydrones.com/3DR_Radio_USB_915_Mhz_Ground_module_p/br-3drusb915.htm).
+radio](https://store.diydrones.com/3DR_Radio_USB_915_Mhz_Ground_module_p/br-3drusb915.htm)).
 
-With a laptop or netbook, you can run both parts of Mavelous on the
-same machine.  If you want to run the front end of Mavelous on a phone
-or tablet, you will probably have to use another machine (laptop or
-netbook) to run the server.
+The front end and the server can run on the same computer, or on two
+different computers.
+
+The server is written in Python, and probably requires a laptop or
+netbook.  The front end is written in HTML/CSS/Javascript, and can run
+on anything with a web browser, including phones and tablets.
 
 
 Why
