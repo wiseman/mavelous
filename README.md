@@ -4,6 +4,9 @@ Mavelous
 Mavelous is a browser-based ground control station (GCS) for
 drones/UAVs/micro air vehicles.
 
+A week ago this code was an ugly hack/proof of concept.  Hacker
+beware.
+
 Mavelous can be used with any vehicle that speaks the [MAVLink
 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
 tested with the [Arducopter](http://code.google.com/p/arducopter/).
