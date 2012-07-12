@@ -117,9 +117,11 @@ How to run it
 
 4. At the mavproxy prompt, load the mmap module:
 
+    ```
     GUIDED> module load mmap
+    ```
 
-A web browser should open showing you the Mavelous interface.
+A web browser will open showing you the Mavelous interface.
 
 
 ### With a real drone
