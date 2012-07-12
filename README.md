@@ -81,10 +81,38 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iph
 "Mavelous in an iPhone browser")
 
 
-How
----
+How to run it
+-------------
 
-Coming soon.  Need to add a feature to mavproxy.py first.
+### Software in the loop simuation with ardupilot-mega
+
+1. Compile the ardupilot-mega firmware.
+
+2. Start the firmware in desktop mode.  For example:
+
+    $ ~/ardupilot-mega/tmp/ArduCopter.build/ArduCopter.elf -H 20
+
+2. Start the simulated multicopter.  For example:
+
+    $ python ~/ardupilot-mega/Tools/autotest/pysim/sim_multicopter.py \
+      --frame=+ --rate=400 --home=34.092047,-118.267136,20,0 --wind=6,45,.3
+
+3. Start mavproxy:
+
+    $ python mavproxy.py --master=tcp:127.0.0.1:5760 --out=127.0.0.1:14550 \
+      --aircraft=test.ArduCopter --sitl=127.0.0.1:5501 --out=127.0.0.1:19550 \
+      --quadcopter --streamrate=5
+
+4. At the mavproxy prompt, load the mmap module:
+
+    GUIDED> module load mmap
+
+A web browser should open showing you the Mavelous interface.
+
+
+### With a real done
+
+TBD.
 
 
 Feature status
