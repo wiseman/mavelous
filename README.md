@@ -4,17 +4,22 @@ Mavelous
 Mavelous is a ground control station (GCS) for drones/UAVs/micro air
 vehicles that runs in a web browser.
 
-Any vehicle that speaks the [MAVLink
-protocol](http://qgroundcontrol.org/mavlink/start) can be used with
-Mavelous.  It has been tested with the
-[Arducopter](http://code.google.com/p/arducopter/).
+Mavelous can be used with any vehicle that speaks the [MAVLink
+protocol](http://qgroundcontrol.org/mavlink/start).  It has been
+tested with the [Arducopter](http://code.google.com/p/arducopter/).
+
+Here's a screenshot of Mavelous running in a desktop browser:
 
 ![Screenshot of Mavelous running in a desktop
 browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-desktop-s.jpg
 "Mavelous in a desktop browser")
-![Screenshot of Mavelous running on an iPhone
-browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
-"Mavelous in an iPhone browser")
+
+Here's a video of Mavelous being used in the field to fly an
+ArduCopter:
+
+<iframe width="853" height="480"
+src="http://www.youtube.com/embed/gEhxnVNXYeg" frameborder="0"
+allowfullscreen></iframe>
 
 
 What
@@ -54,6 +59,25 @@ anything that speaks the MAVLink protocol (and hopefully
 [ROS](http://www.willowgarage.com/pages/software/ros-platform)
 devices, too, some day).
 
+![Screenshot of Mavelous running on an iPhone
+browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
+"Mavelous in an iPhone browser")
+
 
 How
 ---
+
+Coming soon.  Need to add a feature to mavproxy.py first.
+
+
+Feature status
+--------------
+
+Currently you can watch your drone fly around with Mavelous.  You can
+see some basic flight data (speed, altitude, etc.).  You can double
+click/tap on the map to send the drone to that location.
+
+Features under development include
+
+* Mission creation and editing
+* A full-featured primary flight display.
