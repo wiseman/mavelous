@@ -126,12 +126,22 @@ Feature status
 
 Currently you can watch your drone fly around with Mavelous.  You can
 see some basic flight data (speed, altitude, etc.).  You can double
-click/tap on the map to send the drone to that location.
+click/tap on the map to send the drone to that location.  Multiple
+users can control the same drone.
 
-Features under development include
+
+Planned features
+----------------
+
+I definitely want to add
 
 * Mission creation and editing
 * A full-featured primary flight display
+* Offline support (map caching)
+
+I'd like to add
+
+* Multi-vehicle control
 
 
 Mailing list
