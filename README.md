@@ -1,8 +1,8 @@
 Mavelous
 ========
 
-Mavelous is a ground control station (GCS) for drones/UAVs/micro air
-vehicles that runs in a web browser.
+Mavelous is a browser-based ground control station (GCS) for
+drones/UAVs/micro air vehicles.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
