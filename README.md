@@ -66,7 +66,7 @@ there are currently no ground control stations for amateur drones that
 can run on an iPhone or iPad--Mavelous can (at least the front end
 can).
 
-The flagship DIY drone GCS, [APM Mission
+The most popular Arducopter GCS, [APM Mission
 Planner](http://code.google.com/p/ardupilot-mega/wiki/Mission), is
 primarily a Windows application.  It can run under OS X and Linux with
 Mono, but the experience is not always smooth.
