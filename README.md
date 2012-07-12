@@ -129,17 +129,13 @@ see some basic flight data (speed, altitude, etc.).  You can double
 click/tap on the map to send the drone to that location.  Multiple
 users can control the same drone.
 
-
-Planned features
-----------------
-
-I definitely want to add
+I definitely want to add the following features:
 
 * Mission creation and editing
 * A full-featured primary flight display
 * Offline support (map caching)
 
-I'd like to add
+I'd like to add these features:
 
 * Multi-vehicle control
 
