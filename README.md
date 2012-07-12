@@ -15,11 +15,7 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-des
 "Mavelous in a desktop browser")
 
 Here's a video of Mavelous being used in the field to fly an
-ArduCopter:
-
-<iframe width="853" height="480"
-src="http://www.youtube.com/embed/gEhxnVNXYeg" frameborder="0"
-allowfullscreen></iframe>
+ArduCopter: http://www.youtube.com/watch?v=gEhxnVNXYeg
 
 
 What
@@ -33,7 +29,7 @@ Mavelous has two main parts:
 the drone.  It has a web server that talks to the front end, and it
 sends and receives drone commands using a wireless modem (like an
 [XBee radio](http://www.sparkfun.com/products/9099) or a [3D Robotics
-radio]https://store.diydrones.com/3DR_Radio_USB_915_Mhz_Ground_module_p/br-3drusb915.htm().
+radio](https://store.diydrones.com/3DR_Radio_USB_915_Mhz_Ground_module_p/br-3drusb915.htm).
 
 With a laptop or netbook, you can run both parts of Mavelous on the
 same machine.  If you want to run the front end of Mavelous on a phone
@@ -80,4 +76,11 @@ click/tap on the map to send the drone to that location.
 Features under development include
 
 * Mission creation and editing
-* A full-featured primary flight display.
+* A full-featured primary flight display
+
+
+Mailing list
+------------
+
+There is a [mailing list](https://groups.google.com/group/mavelous)
+for Mavelous users and developers.
