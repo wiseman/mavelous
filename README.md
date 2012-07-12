@@ -149,3 +149,12 @@ Mailing list
 
 There is a [mailing list](https://groups.google.com/group/mavelous)
 for Mavelous users and developers.
+
+License
+-------
+
+Mavelous is covered by the MIT license, see the accompanying file
+LICENSE.md for details.
+
+This repository contains additional code that may be covered by other
+licenses, including jquery, MAVproxy and modest maps.
