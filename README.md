@@ -116,7 +116,7 @@ How to run it
 A web browser should open showing you the Mavelous interface.
 
 
-### With a real done
+### With a real drone
 
 TBD.
 
