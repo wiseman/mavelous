@@ -26,10 +26,12 @@ def get_joystick():
         for e in pygame.event.get(): # iterate over event stack
             #the following is somewhat custom for the specific joystick model:
             if e.type == pygame.JOYAXISMOTION:
-                mpstate.status.override[0] = int(j.get_axis(2)*400 + 1500)
-                mpstate.status.override[1] = int(j.get_axis(3)*400 + 1500)
-                mpstate.status.override[2] = int(-j.get_axis(1)*800 + 1100)
-                mpstate.status.override[3] = int(j.get_axis(0)*400 + 1500)
+                mpstate.status.override[0] = int(j.get_axis(0)*400 + 1500)
+                mpstate.status.override[1] = int(j.get_axis(1)*400 + 1500)
+                mpstate.status.override[2] = int(-j.get_axis(3)*800 + 1100)
+                mpstate.status.override[3] = int(j.get_axis(2)*400 + 1500)
+                #for axis in range(4):
+                #    print '%s: %s' % (axis, j.get_axis(axis))
                 mpstate.override_period.force()
 
 def name():

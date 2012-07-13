@@ -63,6 +63,127 @@ function ADI(container) {
     this.stage.setScale(containerElement.offsetWidth / 100.0,
                         containerElement.offsetHeight / 100.0);
     this.layer = new Kinetic.Layer();
+
+    this.makeSpeedIndicator = function() {
+        var o = new Kinetic.Group();
+        o.add(new Kinetic.Rect({
+            width: 20,
+            height: 100,
+            x: 0,
+            y: 0,
+            fill: 'rgb(60,60,60)',
+            stroke: 'rgb(60,60,60)'
+        }));
+        theADI.speedTape = new Kinetic.Group();
+        for (var spd = 0; spd <= 50; spd += 5) {
+            var y = 100 - spd * 2;
+            theADI.speedTape.add(new Kinetic.Text({
+                x: 3,
+                y: y - 3,
+                text: spd,
+                fontSize: 6,
+                fontFamily: 'Tahoma,sans-serif',
+                textFill: 'white'
+            }));
+            theADI.speedTape.add(new Kinetic.Line({
+                points: [16, y, 21, y],
+                stroke: 'white',
+                strokeWidth: 1
+            }));
+        }
+        o.add(theADI.speedTape);
+        var speedGroup = new Kinetic.Group();
+        speedGroup.add(new Kinetic.Polygon({
+            points: [0, 45, 19, 45, 19, 47, 22, 50, 19, 53, 19, 56, 0, 56, 0, 45],
+            stroke: 'white',
+            strokeWidth: 1.0,
+            fill: 'black'
+        }));
+        // speedGroup.add(new Kinetic.Rect({
+        //     x: 0,
+        //     y: 45,
+        //     width: 19,
+        //     height: 11,
+        //     stroke: 'white',
+        //     strokeWidth: 1.0,
+        //     fill: 'black'
+        // }));
+        // speedGroup.add(new Kinetic.Polygon({
+        //     points: [20, 48, 22, 50, 20, 52, 20, 48],
+        //     stroke: 'white',
+        //     fill: 'white',
+        //     strokeWidth: 1
+        // }));
+        theADI.speed = new Kinetic.Text({
+            x: 2,
+            y: 46,
+            text: '129',
+            fontSize: 8,
+            fontFamily: 'Tahoma,sans-serif',
+            textFill: 'white'
+        });
+        speedGroup.add(theADI.speed);
+        o.add(speedGroup);
+        return o;
+    };
+
+    this.makeAltitudeIndicator = function() {
+        var o = new Kinetic.Group();
+        o.add(new Kinetic.Rect({
+            width: 20,
+            height: 100,
+            x: 80,
+            y: 0,
+            fill: 'rgb(60,60,60)',
+            stroke: 'rgb(60,60,60)'
+        }));
+        theADI.altitudeTape = new Kinetic.Group();
+        for (var alt = 0; alt <= 400; alt += 10) {
+            var y = 800 - alt * 2;
+            theADI.altitudeTape.add(new Kinetic.Text({
+                x: 86,
+                y: y - 3,
+                text: alt,
+                fontSize: 6,
+                fontFamily: 'Tahoma,sans-serif',
+                textFill: 'white'
+            }));
+            theADI.altitudeTape.add(new Kinetic.Line({
+                points: [80, y, 85, y],
+                stroke: 'white',
+                strokeWidth: 1
+            }));
+        }
+        o.add(theADI.altitudeTape);
+        var altitudeGroup = new Kinetic.Group();
+        altitudeGroup.add(new Kinetic.Rect({
+            x: 81,
+            y: 45,
+            width: 19,
+            height: 11,
+            stroke: 'white',
+            strokeWidth: 1.0,
+            fill: 'black'
+        }));
+        altitudeGroup.add(new Kinetic.Polygon({
+            points: [81, 48, 79, 50, 81, 52, 81, 48],
+            stroke: 'white',
+            fill: 'white',
+            strokeWidth: 1
+        }));
+        theADI.altitude = new Kinetic.Text({
+            x: 82,
+            y: 46,
+            text: '129',
+            fontSize: 8,
+            fontFamily: 'Tahoma,sans-serif',
+            textFill: 'white'
+        });
+        altitudeGroup.add(theADI.altitude);
+        o.add(altitudeGroup);
+        return o;
+    };
+
     this.plane = new Kinetic.Path({
         x: 50,
         y: 50,
@@ -80,6 +201,8 @@ function ADI(container) {
     });
     // add the shape to the layer
     this.layer.add(this.plane);
+    this.layer.add(this.makeSpeedIndicator());
+    this.layer.add(this.makeAltitudeIndicator());
     this.horizon = new Kinetic.Path({
         x: 50,
         y: 50,
@@ -131,9 +254,17 @@ function ADI(container) {
     };
     
     this.setAttitude = function(pitch, roll) {
-        this.targetPitch = pitch;
-        this.targetRoll = roll;
-        MM.getFrame(this.animateToAttitude);
+        theADI.targetPitch = pitch;
+        theADI.targetRoll = roll;
+        MM.getFrame(theADI.animateToAttitude);
+    };
+    this.setSpeed = function(speed) {
+        theADI.speedTape.setY(speed * 2 - 50);
+        theADI.speed.setText(speed.toPrecision(2));
+    };
+    this.setAltitude = function(altitude) {
+        theADI.altitudeTape.setY(altitude * 2 - 750);
+        theADI.altitude.setText(Math.round(altitude));
     };
 }
 
@@ -181,7 +312,7 @@ mmap.initMap = function() {
       if (mmap.lastFlyTo){
         mmap.flyTo(mmap.lastFlyTo);
       }
-    }
+    };
 };
 
 
@@ -296,6 +427,8 @@ mmap.handleVfrHud = function(time, index, msg) {
     $('#t_aspd').html(msg.airspeed.toPrecision(2));
     $('#t_hdg').html(msg.heading);
     mmap.rotateDrone(msg.heading);
+    mmap.adi.setSpeed(msg.groundspeed);
+    mmap.adi.setAltitude(msg.alt);
 };
 
 
