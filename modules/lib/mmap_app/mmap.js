@@ -312,7 +312,8 @@ mmap.handleMetaWaypoint = function(time, index, msg) {
 };
 
 mmap.handleStatusText = function(time, index, msg) {
-    if ((!mmap.statusTextSeq) || index > mmap.statusTextSeq) {
+    if ((mmap.statusTextSeq === null) || index > mmap.statusTextSeq) {
+        mmap.statusTextSeq = index;
         var audioElement = new Audio('drone_chime.mp3');
         audioElement.play();
         $('#t_sta_txt').html(msg.text)
@@ -333,7 +334,6 @@ mmap.handleStatusText = function(time, index, msg) {
                 duration: 5000,
                 queue: true
             });
-        mmap.statusTextSeq = index;
     }
 };
 
