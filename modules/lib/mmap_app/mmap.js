@@ -603,15 +603,21 @@ mmap.handleVfrHud = function(time, index, msg) {
     $('#t_aspd').html(msg.airspeed.toPrecision(2));
     $('#t_hdg').html(msg.heading);
     mmap.rotateDrone(msg.heading);
-    mmap.adi.setSpeed(msg.groundspeed);
-    mmap.adi.setTargetSpeed(11);
+    mmap.adi.setSpeed(msg.airspeed);
+    mmap.airspeed = msg.airspeed;
     mmap.adi.setAltitude(msg.alt);
-    mmap.adi.setTargetAltitude(15);
+    mmap.altitude = msg.alt;
 };
 
 
 mmap.handleAttitude = function(time, index, msg) {
     mmap.adi.setAttitude(msg.pitch, msg.roll);
+};
+
+
+mmap.handleNavControllerOutput = function(time, index, msg) {
+    mmap.adi.setTargetAltitude(mmap.altitude + msg.alt_error);
+    mmap.adi.setTargetSpeed(mmap.airspeed + msg.aspd_error);
 };
 
 
@@ -621,6 +627,7 @@ mmap.handleMetaWaypoint = function(time, index, msg) {
 	mmap.newWaypoint(msg.waypoint);
     }
 };
+
 
 mmap.handleStatusText = function(time, index, msg) {
     if ((mmap.statusTextSeq === null) || index > mmap.statusTextSeq) {
@@ -655,12 +662,13 @@ mmap.setAlt = function(newalt, updateslider) {
     mmap.altSlider.value = newalt;
   }
   mmap._alt = newalt;
-  $('#v_altwaypt').html(newalt.toString())
-}
+    $('#v_altwaypt').html(newalt.toString());
+};
+
 
 mmap.getAlt = function() { 
   return mmap._alt;
-}
+};
 
 mmap.messageHandlerMap = {
     'HEARTBEAT': mmap.handleHeartbeat,
@@ -669,6 +677,7 @@ mmap.messageHandlerMap = {
     'VFR_HUD': mmap.handleVfrHud,
     'ATTITUDE': mmap.handleAttitude,
     'STATUSTEXT': mmap.handleStatusText,
+    'NAV_CONTROLLER_OUTPUT': mmap.handleNavControllerOutput,
     'META_WAYPOINT': mmap.handleMetaWaypoint
 };
 
