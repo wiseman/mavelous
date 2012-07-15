@@ -110,7 +110,7 @@ mmap.ADI.prototype = {
 
     init: function(container, options) {
         this.options = options || {};
-        this.options.fontFamily = this.options.fontFamily || 'Tahoma,sans-serif';
+        this.options.fontFamily = this.options.fontFamily || 'monospace,Tahoma,sans-serif';
         this.options.fontSize = this.options.fontSize || 8;
         this.options.fontColor = this.options.fontColor || 'white';
         this.options.backgroundColor1 = this.options.backgroundColor1 || 'black';
@@ -129,7 +129,12 @@ mmap.ADI.prototype = {
 
         // --------------------
         // Speed tape
+        // The speed tape displays 3 pieces of info:
+        //   * current speed
+        //   * moving speed ladder
+        //   * target speed, if set
 
+        // background
         this.layer.add(
             new Kinetic.Rect({
                 x: 0,
@@ -140,6 +145,7 @@ mmap.ADI.prototype = {
                 fill: this.options.backgroundColor2
             }));
 
+        // clipping region for moving speed ladder
         this.speedTape = new mmap.ClippedGroup({
             x: 0,
             y: 20,
@@ -147,14 +153,16 @@ mmap.ADI.prototype = {
             height: 140
         });
 
+        // moving speed ladder
         var smallFontSize = this.options.fontSize * 0.9;
+        var isMajorTick, y;
         for (var spd = 0; spd <= 100; spd += 5) {
-            var isMajorTick = (spd % 10 === 0);
-            var y = 70 - (2 * spd);
+            isMajorTick = (spd % 10 === 0);
+            y = 70 - (2 * spd);
             if (isMajorTick) {
                 this.speedTape.add(new Kinetic.Line({
                     points: [25, y, 30, y],
-                    stroke: 'white',
+                    stroke: this.options.fontColor,
                     strokeWidth: 1.0,
                     lineCap: 'square'
                 }));
@@ -164,12 +172,12 @@ mmap.ADI.prototype = {
                     fontSize: smallFontSize,
                     fontFamily: this.options.fontFamily,
                     textFill: this.options.fontColor,
-                    text: mmap.zeroPad(spd, 5, ' ')
+                    text: mmap.zeroPad(spd, 4, ' ')
                 }));
             } else {
                 this.speedTape.add(new Kinetic.Line({
                     points: [28, y, 30, y],
-                    stroke: 'white',
+                    stroke: this.options.fontColor,
                     strokeWidth: 1.0,
                     lineCap: 'square'
                 }));
@@ -195,7 +203,7 @@ mmap.ADI.prototype = {
                              25, 20,
                              0, 20,
                              0, 0],
-                    stroke: 'white',
+                    stroke: this.options.fontColor,
                     strokeWidth: 1.0,
                     fill: this.options.backgroundColor1
                 }),
@@ -205,16 +213,90 @@ mmap.ADI.prototype = {
                 y: 80
             }));
 
-        this.altitudeInst = new Kinetic.Text({
-            x: 10,
+        // end of speed tape
+        // --------------------
+
+        // --------------------
+        // altitude tape
+
+        // background
+        this.layer.add(
+            new Kinetic.Rect({
+                x: 170,
+                y: 20,
+                width: 30,
+                height: 140,
+                stroke: this.options.backgroundColor2,
+                fill: this.options.backgroundColor2
+            }));
+
+        // clipping region for moving altitude ladder
+        this.altitudeTape = new mmap.ClippedGroup({
+            x: 170,
             y: 20,
-            text: '',
+            width: 30,
+            height: 140
+        });
+
+        // moving altitude ladder
+        for (var alt = 0; alt <= 400; alt += 1) {
+            isMajorTick = (alt % 10 === 0);
+            y = 70 - (4 * alt);
+            if (isMajorTick) {
+                this.altitudeTape.add(new Kinetic.Line({
+                    points: [0, y, 5, y],
+                    stroke: this.options.fontColor,
+                    strokeWidth: 1.0,
+                    lineCap: 'square'
+                }));
+                this.altitudeTape.add(new Kinetic.Text({
+                    x: 6,
+                    y: y - smallFontSize / 2,
+                    fontSize: smallFontSize,
+                    fontFamily: this.options.fontFamily,
+                    textFill: this.options.fontColor,
+                    text: alt.toString()
+                }));
+            } else {
+                this.altitudeTape.add(new Kinetic.Line({
+                    points: [0, y, 2, y],
+                    stroke: this.options.fontColor,
+                    strokeWidth: 1.0,
+                    lineCap: 'square'
+                }));
+            }
+        }
+        this.layer.add(this.altitudeTape);
+        
+        // Instantaneous speed text
+        this.altitudeInst = new Kinetic.Text({
+            x: 6,
+            y: 10 - Math.round(this.options.fontSize / 2),
+            text: 'UNK',
             fontSize: this.options.fontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.fontColor
         });
-        this.layer.add(this.altitudeInst);
+        this.layer.add(
+            this.makeGroup([
+                new Kinetic.Polygon({
+                    points: [0, 10,
+                             5, 0,
+                             30, 0,
+                             30, 20,
+                             5, 20,
+                             0, 10],
+                    stroke: this.options.fontColor,
+                    strokeWidth: 1.0,
+                    fill: this.options.backgroundColor1
+                }),
+                this.altitudeInst
+            ], {
+                x: 170,
+                y: 80
+            }));
 
+        // end of speed tape
         this.flightMode = new Kinetic.Text({
             x: 10,
             y: 30,
@@ -246,7 +328,14 @@ mmap.ADI.prototype = {
     },
 
     setSpeed: function(speed) {
-        this.speedInst.setText(speed.toPrecision(2));
+        var spdTxt = speed.toString();
+        if (spdTxt.length > 3) {
+            spdTxt = spdTxt.substring(0, 3);
+            if (spdTxt.charAt(spdTxt.length - 1) == '.') {
+                spdTxt = spdTxt.substr(0, spdTxt.length - 1);
+            }
+        }
+        this.speedInst.setText(spdTxt);
         this.layer.draw();
     },
 
