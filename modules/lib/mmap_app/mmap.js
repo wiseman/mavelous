@@ -145,13 +145,14 @@ mmap.ADI.prototype = {
                 fill: this.options.backgroundColor2
             }));
 
+        this.speedTape = new Kinetic.Group();
         // clipping region for moving speed ladder
-        this.speedTape = new mmap.ClippedGroup({
+        this.layer.add(new mmap.ClippedGroup({
             x: 0,
             y: 20,
             width: 30,
             height: 140
-        });
+        }).add(this.speedTape));
 
         // moving speed ladder
         var smallFontSize = this.options.fontSize * 0.9;
@@ -183,7 +184,6 @@ mmap.ADI.prototype = {
                 }));
             }
         }
-        this.layer.add(this.speedTape);
         
         // Instantaneous speed text
         this.speedInst = new Kinetic.Text({
@@ -230,13 +230,14 @@ mmap.ADI.prototype = {
                 fill: this.options.backgroundColor2
             }));
 
+        this.altitudeTape = new Kinetic.Group();
         // clipping region for moving altitude ladder
-        this.altitudeTape = new mmap.ClippedGroup({
+        this.layer.add(new mmap.ClippedGroup({
             x: 170,
             y: 20,
             width: 30,
             height: 140
-        });
+        }).add(this.altitudeTape));
 
         // moving altitude ladder
         for (var alt = 0; alt <= 400; alt += 1) {
@@ -266,7 +267,6 @@ mmap.ADI.prototype = {
                 }));
             }
         }
-        this.layer.add(this.altitudeTape);
         
         // Instantaneous speed text
         this.altitudeInst = new Kinetic.Text({
@@ -320,7 +320,8 @@ mmap.ADI.prototype = {
                                            
 
     setAltitude: function(altitude) {
-        //this.altitudeInst.setText(mmap.zeroPad(Math.round(altitude), 3));
+        this.altitudeInst.setText(mmap.zeroPad(Math.round(altitude), 3, ' '));
+        this.altitudeTape.setY(altitude * 4);
         this.layer.draw();
     },
 
@@ -335,7 +336,9 @@ mmap.ADI.prototype = {
                 spdTxt = spdTxt.substr(0, spdTxt.length - 1);
             }
         }
+        spdTxt = mmap.zeroPad(spdTxt, 3, ' ');
         this.speedInst.setText(spdTxt);
+        this.speedTape.setY(speed * 2);
         this.layer.draw();
     },
 
