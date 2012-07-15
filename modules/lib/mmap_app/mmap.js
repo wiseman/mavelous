@@ -13,6 +13,17 @@ mmap.chimeAudio = new Audio('drone_chime.mp3');
 mmap.clientWaypointSeq = null;
 mmap._alt = null;
 
+mmap.zeroPad = function(number, width, padChar) {
+    if (!padChar) {
+        padChar = '0';
+    }
+    width -= number.toString().length;
+    if (width > 0) {
+        return new Array(width + (/\./.test(number) ? 2 : 1)).join(padChar) + number;
+    }
+    return number + ""; // always return a string
+};
+
 function MapPanner(map) {
     var theMapPanner = this;
     this.map = map;
@@ -46,228 +57,216 @@ function MapPanner(map) {
 }
 
 
-function ADI(container) {
-    var theADI = this;
+// Like a regular group except that it draws its children with a
+// clipping region active.  Requires a width and height.
 
-    this.pitch = -90.0 * Math.PI / 180.0;
-    this.roll = 90.0 * Math.PI / 180.0;
-    this.targetPitch = 0.0;
-    this.targetRoll = 0.0;
+mmap.ClippedGroup = Kinetic.Container.extend({
+    init: function(config) {
+        this.nodeType = 'Group';
+        
+        // call super constructor
+        this._super(config);
+    },
 
-    var containerElement = document.getElementById(container);
-    this.stage = new Kinetic.Stage({
-        container: container,
-        height: containerElement.offsetHeight,
-        width: containerElement.offsetWidth
-    });
-    this.stage.setScale(containerElement.offsetWidth / 100.0,
-                        containerElement.offsetHeight / 100.0);
-    this.layer = new Kinetic.Layer();
+    draw: function() {
+        if(this.attrs.visible) {
+            var xform = this.getAbsoluteTransform();
+            var m = xform.getMatrix();
+            var width = this.attrs.width;
+            var height = this.attrs.height;
+            var canvas = this.getLayer().getContext();
+            canvas.save();
+            canvas.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+            canvas.beginPath();
+            canvas.rect(0, 0, this.attrs.width, this.attrs.height);
+            // canvas.lineWidth = 2;
+            // canvas.strokeStyle = 'black';
+            // canvas.stroke();
+            canvas.clip();
+            xform.invert();
+            m = xform.getMatrix();
+            canvas.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+            this._drawChildren();
+            canvas.restore();
+        }
+    }
+});
 
-    this.makeSpeedIndicator = function() {
-        var o = new Kinetic.Group();
-        o.add(new Kinetic.Rect({
-            width: 20,
-            height: 100,
+
+mmap.ADI = function(container) {
+    this.init(container);
+};
+
+mmap.ADI.prototype = {
+    containerElement: null,
+    
+    makeGroup: function(items, config) {
+        var group = new Kinetic.Group(config);
+        for (var i = 0; i < items.length; i++) {
+            group.add(items[i]);
+        }
+        return group;
+    },
+
+    init: function(container, options) {
+        this.options = options || {};
+        this.options.fontFamily = this.options.fontFamily || 'Tahoma,sans-serif';
+        this.options.fontSize = this.options.fontSize || 8;
+        this.options.fontColor = this.options.fontColor || 'white';
+        this.options.backgroundColor1 = this.options.backgroundColor1 || 'black';
+        this.options.backgroundColor2 = this.options.backgroundColor2 || 'rgb(60,60,60)';
+
+        var containerElt = document.getElementById(container);
+        this.stage = new Kinetic.Stage({
+            container: container,
+            width: containerElt.offsetWidth,
+            height: containerElt.offsetHeight
+        });
+        this.layer = new Kinetic.Layer();
+        this.stage.add(this.layer);
+        this.stage.setScale(containerElt.offsetWidth / 200.0,
+                            containerElt.offsetHeight / 200.0);
+
+        // --------------------
+        // Speed tape
+
+        this.layer.add(
+            new Kinetic.Rect({
+                x: 0,
+                y: 20,
+                width: 30,
+                height: 140,
+                stroke: this.options.backgroundColor2,
+                fill: this.options.backgroundColor2
+            }));
+
+        this.speedTape = new mmap.ClippedGroup({
             x: 0,
-            y: 0,
-            fill: 'rgb(60,60,60)',
-            stroke: 'rgb(60,60,60)'
-        }));
-        theADI.speedTape = new Kinetic.Group();
-        for (var spd = 0; spd <= 50; spd += 5) {
-            var y = 100 - spd * 2;
-            theADI.speedTape.add(new Kinetic.Text({
-                x: 3,
-                y: y - 3,
-                text: spd,
-                fontSize: 6,
-                fontFamily: 'Tahoma,sans-serif',
-                textFill: 'white'
-            }));
-            theADI.speedTape.add(new Kinetic.Line({
-                points: [16, y, 21, y],
-                stroke: 'white',
-                strokeWidth: 1
-            }));
+            y: 20,
+            width: 30,
+            height: 140
+        });
+
+        var smallFontSize = this.options.fontSize * 0.9;
+        for (var spd = 0; spd <= 100; spd += 5) {
+            var isMajorTick = (spd % 10 === 0);
+            var y = 70 - (2 * spd);
+            if (isMajorTick) {
+                this.speedTape.add(new Kinetic.Line({
+                    points: [25, y, 30, y],
+                    stroke: 'white',
+                    strokeWidth: 1.0,
+                    lineCap: 'square'
+                }));
+                this.speedTape.add(new Kinetic.Text({
+                    x: 0,
+                    y: y - smallFontSize / 2,
+                    fontSize: smallFontSize,
+                    fontFamily: this.options.fontFamily,
+                    textFill: this.options.fontColor,
+                    text: mmap.zeroPad(spd, 5, ' ')
+                }));
+            } else {
+                this.speedTape.add(new Kinetic.Line({
+                    points: [28, y, 30, y],
+                    stroke: 'white',
+                    strokeWidth: 1.0,
+                    lineCap: 'square'
+                }));
+            }
         }
-        o.add(theADI.speedTape);
-        var speedGroup = new Kinetic.Group();
-        speedGroup.add(new Kinetic.Polygon({
-            points: [0, 45, 19, 45, 19, 47, 22, 50, 19, 53, 19, 56, 0, 56, 0, 45],
-            stroke: 'white',
-            strokeWidth: 1.0,
-            fill: 'black'
-        }));
-        // speedGroup.add(new Kinetic.Rect({
-        //     x: 0,
-        //     y: 45,
-        //     width: 19,
-        //     height: 11,
-        //     stroke: 'white',
-        //     strokeWidth: 1.0,
-        //     fill: 'black'
-        // }));
-        // speedGroup.add(new Kinetic.Polygon({
-        //     points: [20, 48, 22, 50, 20, 52, 20, 48],
-        //     stroke: 'white',
-        //     fill: 'white',
-        //     strokeWidth: 1
-        // }));
-        theADI.speed = new Kinetic.Text({
+        this.layer.add(this.speedTape);
+        
+        // Instantaneous speed text
+        this.speedInst = new Kinetic.Text({
             x: 2,
-            y: 46,
-            text: '129',
-            fontSize: 8,
-            fontFamily: 'Tahoma,sans-serif',
-            textFill: 'white'
+            y: 10 - this.options.fontSize / 2,
+            text: 'UNK',
+            fontSize: this.options.fontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.fontColor
         });
-        speedGroup.add(theADI.speed);
-        o.add(speedGroup);
-        return o;
-    };
+        this.layer.add(
+            this.makeGroup([
+                new Kinetic.Polygon({
+                    points: [0, 0,
+                             25, 0,
+                             30, 10,
+                             25, 20,
+                             0, 20,
+                             0, 0],
+                    stroke: 'white',
+                    strokeWidth: 1.0,
+                    fill: this.options.backgroundColor1
+                }),
+                this.speedInst
+            ], {
+                x: 0,
+                y: 80
+            }));
 
-    this.makeAltitudeIndicator = function() {
-        var o = new Kinetic.Group();
-        o.add(new Kinetic.Rect({
-            width: 20,
-            height: 100,
-            x: 80,
-            y: 0,
-            fill: 'rgb(60,60,60)',
-            stroke: 'rgb(60,60,60)'
-        }));
-        theADI.altitudeTape = new Kinetic.Group();
-        for (var alt = 0; alt <= 400; alt += 10) {
-            var y = 800 - alt * 2;
-            theADI.altitudeTape.add(new Kinetic.Text({
-                x: 86,
-                y: y - 3,
-                text: alt,
-                fontSize: 6,
-                fontFamily: 'Tahoma,sans-serif',
-                textFill: 'white'
-            }));
-            theADI.altitudeTape.add(new Kinetic.Line({
-                points: [80, y, 85, y],
-                stroke: 'white',
-                strokeWidth: 1
-            }));
-        }
-        o.add(theADI.altitudeTape);
-        var altitudeGroup = new Kinetic.Group();
-        altitudeGroup.add(new Kinetic.Rect({
-            x: 81,
-            y: 45,
-            width: 19,
-            height: 11,
-            stroke: 'white',
-            strokeWidth: 1.0,
-            fill: 'black'
-        }));
-        altitudeGroup.add(new Kinetic.Polygon({
-            points: [81, 48, 79, 50, 81, 52, 81, 48],
-            stroke: 'white',
-            fill: 'white',
-            strokeWidth: 1
-        }));
-        theADI.altitude = new Kinetic.Text({
-            x: 82,
-            y: 46,
-            text: '129',
-            fontSize: 8,
-            fontFamily: 'Tahoma,sans-serif',
-            textFill: 'white'
+        this.altitudeInst = new Kinetic.Text({
+            x: 10,
+            y: 20,
+            text: '',
+            fontSize: this.options.fontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.fontColor
         });
-        altitudeGroup.add(theADI.altitude);
-        o.add(altitudeGroup);
-        return o;
-    };
+        this.layer.add(this.altitudeInst);
 
-    this.plane = new Kinetic.Path({
-        x: 50,
-        y: 50,
-        data: 'm -26,0 15,0 3,3 M -1,0 l 2,0 M 26,0 l -15,0 -3,3',
-        stroke: 'black',
-        lineJoin: 'round',
-        strokeWidth: 2.5,
-        shadow: {
-            color: 'black',
-            blur: 5,
-            offset: [1, 1],
-            alpha: 0.5
-        },
-        scale: 1.2
-    });
-    // add the shape to the layer
-    this.layer.add(this.plane);
-    this.layer.add(this.makeSpeedIndicator());
-    this.layer.add(this.makeAltitudeIndicator());
-    this.horizon = new Kinetic.Path({
-        x: 50,
-        y: 50,
-        data: 'm -100,0 200,0',
-        stroke: 'black',
-        lineJoin: 'round',
-        strokeWidth: 1.7,
-        scale: 1
-    });
-    this.layer.add(this.horizon);
-    // add the layer to the stage
-    this.stage.add(this.layer);
+        this.flightMode = new Kinetic.Text({
+            x: 10,
+            y: 30,
+            text: '',
+            fontSize: this.options.fontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.fontColor
+        });
+        this.layer.add(this.flightMode);
 
-    this.drawFromAttitude = function(pitch, roll) {
-        var horizon_y = 50.0 + 50.0 * Math.sin(pitch);
-        theADI.horizon.setY(horizon_y);
-        theADI.horizon.setRotation(-roll);
-        theADI.layer.draw();
-    };
+        this.statusText = new Kinetic.Text({
+            x: 10,
+            y: 40,
+            text: '',
+            fontSize: this.options.fontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.fontSize
+        });
+        this.layer.add(this.statusText);
+    },
+                                           
 
-    this.drawFromAttitude(this.pitch, this.roll);
-    
-    this.animateToAttitude = function() {
-        var need_more_animation = false;
-        
-        var curPitch = theADI.pitch;
-        var nextPitch = curPitch + (theADI.targetPitch - curPitch) * 0.05;
-        if (Math.abs(nextPitch - curPitch) < 0.001) {
-            nextPitch = theADI.targetPitch;
-        } else {
-            need_more_animation = true;
-        }
-        
-        var curRoll = theADI.roll;
-        var nextRoll = curRoll + (theADI.targetRoll - curRoll) * 0.05;
-        if (Math.abs(nextRoll - curRoll) < 0.001) {
-            nextRoll = theADI.targetRoll;
-        } else {
-            need_more_animation = true;
-        }
-        
-        theADI.drawFromAttitude(nextPitch, nextRoll);
-        
-        theADI.pitch = nextPitch;
-        theADI.roll = nextRoll;
-        if (need_more_animation) {
-            MM.getFrame(theADI.animateToAttitude);
-        }
-    };
-    
-    this.setAttitude = function(pitch, roll) {
-        theADI.targetPitch = pitch;
-        theADI.targetRoll = roll;
-        MM.getFrame(theADI.animateToAttitude);
-    };
-    this.setSpeed = function(speed) {
-        theADI.speedTape.setY(speed * 2 - 50);
-        theADI.speed.setText(speed.toPrecision(2));
-    };
-    this.setAltitude = function(altitude) {
-        theADI.altitudeTape.setY(altitude * 2 - 750);
-        theADI.altitude.setText(Math.round(altitude));
-    };
-}
+    setAltitude: function(altitude) {
+        //this.altitudeInst.setText(mmap.zeroPad(Math.round(altitude), 3));
+        this.layer.draw();
+    },
 
+    setTargetAltitude: function(altitude) {
+    },
+
+    setSpeed: function(speed) {
+        this.speedInst.setText(speed.toPrecision(2));
+        this.layer.draw();
+    },
+
+    setTargetSpeed: function(speed) {
+    },
+
+    setHeading: function(heading) {
+    },
+
+    setFlightMode: function(mode) {
+        // this.flightMode.setText('MODE ' + mode);
+    },
+
+    setAttitude: function(pitch, roll) {
+    },
+
+    setStatusText: function(status) {
+        this.statusText.setText(status);
+    }
+};
 
 mmap.initMap = function() {
     // Microsoft Bing
@@ -293,7 +292,7 @@ mmap.initMap = function() {
 
     mmap.mapPanner = new MapPanner(mmap.map);
     
-    mmap.adi = new ADI('adi');
+    mmap.adi = new mmap.ADI('adi');
 
     var zoomSlider = document.getElementById('zoom');
     zoomSlider.onchange = function() {
@@ -384,6 +383,7 @@ mmap.flightModeString = function(msg) {
 
 
 mmap.handleHeartbeat = function(time, index, msg) {
+    mmap.adi.setFlightMode(mmap.flightModeString(msg));
     $('#t_flt_mode').html(mmap.flightModeString(msg));
 };
 
@@ -449,6 +449,7 @@ mmap.handleStatusText = function(time, index, msg) {
         mmap.statusTextSeq = index;
         var audioElement = new Audio('drone_chime.mp3');
         audioElement.play();
+        mmap.adi.setStatusText(msg.text);
         $('#t_sta_txt').html(msg.text)
             .stop(true, true)
             .css('color', 'yellow')
