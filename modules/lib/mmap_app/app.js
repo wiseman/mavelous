@@ -1,16 +1,19 @@
 
 $(function(){ 
 
-  var vfrHudModel    = new VfrHudModel;
-  var gpsRawIntModel = new GpsRawIntModel;
-  var heartbeatModel = new HeartbeatModel;
+  var vfrHudModel       = new VfrHudModel;
+  var gpsRawIntModel    = new GpsRawIntModel;
+  var heartbeatModel    = new HeartbeatModel;
+  var attitudeModel     = new AttitudeModel;
+  var metaWaypointModel = new MetaWaypointModel;
+
 
   var mavlinkAPI = new MavlinkAPI(
         { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
         , 'GPS_RAW_INT':   sendNewMavlinkMessageToModel( gpsRawIntModel )
         , 'VFR_HUD':       sendNewMavlinkMessageToModel( vfrHudModel )
-        , 'ATTITUDE':      function (garbage) {}
-        , 'META_WAYPOINT': function (garbage) {}
+        , 'ATTITUDE':      sendNewMavlinkMessageToModel( attitudeModel )
+        , 'META_WAYPOINT': sendNewMavlinkMessageToModel( metaWaypointModel )
         }
       , function () { console.log('mavlink api fail'); });
 
