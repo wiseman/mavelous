@@ -22,10 +22,10 @@
 <!-- APP VIEW TEMPLATES -->
 <script type="text/template" id="vfrhudtexttemplate">
   <div class="telemetry" id="vfrhudtextview">
-    ALT <span class="t_value"><%= alt %> m</span> |
-    HDG <span class="t_value"><%= heading %></span><br>
-    GROUNDSPEED <span class="t_value"><%= groundspeed %> m/s</span> |
-    AIRSPEED <span class="t_value"><%= airspeed %> m/s</span><br>
+    ALT <span class="t_value"><%= alt.toPrecision(4) %> m</span> |
+    HDG <span class="t_value"><%= heading.toPrecision(4) %></span><br>
+    GROUNDSPEED <span class="t_value"><%= groundspeed.toPrecision(3) %> m/s</span> |
+    AIRSPEED <span class="t_value"><%= airspeed.toPrecision(3) %> m/s</span><br>
   </div>
 </script>
 
