@@ -496,9 +496,12 @@ mmap.messageHandlerMap = {
 
 
 mmap.handleMessages = function(msgs) {
-    for (var i = 0; i < msgs.length; i++) {
-        mmap.handleMessage(msgs[i]);
+  /* msgs is a dict: (key : messagetype, value : messages) */
+  for (var mtype in msgs) {
+    if (mtype in mmap.messageHandlerMap){
+      mmap.handleMessage(msgs[mtype]);
     }
+  }
 };
 
 

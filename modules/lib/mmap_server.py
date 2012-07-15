@@ -56,7 +56,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     if len(ps) == 3 and ps[1] == 'mavlink':
       mtypes = ps[2].split('+')
       msgs = self.server.module_state.messages
-      results = []
+      results = {}
       for mtype in mtypes:
         if msgs.has_message(mtype):
           (t, n, m) = msgs.get_message(mtype)
@@ -67,7 +67,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
           resp = {'time_usec': t,
                   'index': n,
                   'msg': mdict}
-          results.append(resp)
+          results[mtype] = resp
       self.send_response(200)
       self.send_header('Content-type', 'application/json')
       self.end_headers()
