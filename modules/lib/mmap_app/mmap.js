@@ -118,8 +118,10 @@ mmap.ADI.prototype = {
         this.options.bugColor = this.options.bugColor || 'rgb(255,137,201)';
         this.options.bugColor = 'rgb(255,0,0)';
 
-        this.targetSpeed = null;
         this.speed = null;
+        this.targetSpeed = null;
+        this.altitude = null;
+        this.targetAltitude = null;
 
         var containerElt = document.getElementById(container);
         this.stage = new Kinetic.Stage({
@@ -318,7 +320,26 @@ mmap.ADI.prototype = {
                 y: 80
             }));
 
+        // --------------------
         // end of speed tape
+
+        // Altitude bug
+        this.altitudeBug = new Kinetic.Polygon({
+            x: 169,
+            y: 90,
+            points: [0, 0,
+                     -3, -2,
+                     -5, -2,
+                     -5, 2,
+                     -3, 2,
+                     0, 0],
+            stroke: this.options.bugColor,
+            fill: this.options.bugColor,
+            strokeWidth: 1.0,
+            visible: false
+        });
+        this.layer.add(this.altitudeBug);
+
         this.flightMode = new Kinetic.Text({
             x: 10,
             y: 30,
@@ -341,19 +362,18 @@ mmap.ADI.prototype = {
     },
                                            
 
-    setAltitude: function(altitude) {
-        this.altitudeInst.setText(mmap.zeroPad(Math.round(altitude), 3, ' '));
-        this.altitudeTape.setY(altitude * 4);
-        this.layer.draw();
-    },
-
-    setTargetAltitude: function(altitude) {
-    },
-
     _calcSpeedBugY: function() {
         var y = 90;
         y -= this.targetSpeed * 2;
         y += this.speed * 2;
+        y = Math.min(160, Math.max(20, y));
+        return y;
+    },
+
+    _calcAltitudeBugY: function() {
+        var y = 90;
+        y -= this.targetAltitude * 4;
+        y += this.altitude * 4;
         y = Math.min(160, Math.max(20, y));
         return y;
     },
@@ -374,7 +394,6 @@ mmap.ADI.prototype = {
         if (this.speedBug.isVisible()) {
             this.speedBug.setY(this._calcSpeedBugY());
         }
-
         this.layer.draw();
     },
 
@@ -385,6 +404,27 @@ mmap.ADI.prototype = {
         } else {
             this.speedBug.setY(this._calcSpeedBugY());
             this.speedBug.show();
+        }
+        this.layer.draw();
+    },
+
+    setAltitude: function(altitude) {
+        this.altitude = altitude;
+        this.altitudeInst.setText(mmap.zeroPad(Math.round(altitude), 3, ' '));
+        this.altitudeTape.setY(altitude * 4);
+        if (this.altitudeBug.isVisible()) {
+            this.altitudeBug.setY(this._calcAltitudeBugY());
+        }
+        this.layer.draw();
+    },
+
+    setTargetAltitude: function(altitude) {
+        this.targetAltitude = altitude;
+        if (this.targetAltitude === null) {
+            this.altitudeBug.hide();
+        } else {
+            this.altitudeBug.setY(this._calcAltitudeBugY());
+            this.altitudeBug.show();
         }
         this.layer.draw();
     },
@@ -564,7 +604,9 @@ mmap.handleVfrHud = function(time, index, msg) {
     $('#t_hdg').html(msg.heading);
     mmap.rotateDrone(msg.heading);
     mmap.adi.setSpeed(msg.groundspeed);
+    mmap.adi.setTargetSpeed(11);
     mmap.adi.setAltitude(msg.alt);
+    mmap.adi.setTargetAltitude(15);
 };
 
 
