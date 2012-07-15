@@ -1,17 +1,18 @@
 
 $(function(){ 
-  var mavlinkAPI = new MavlinkAPI(
-                          { 'HEARTBEAT': function() {}
-                          , 'GPS_RAW_INT': function () {}
-                          , 'VFR_HUD': function () {}
-                          , 'ATTITUDE': function () {}
-                          , 'META_WAYPOINT': function () {}
-                          }
-                        , function () { console.log('mavlink api fail'); });
 
   var vfrHudModel    = new VfrHudModel;
   var gpsRawIntModel = new GpsRawIntModel;
   var heartbeatModel = new HeartbeatModel;
+
+  var mavlinkAPI = new MavlinkAPI(
+        { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
+        , 'GPS_RAW_INT':   sendNewMavlinkMessageToModel( gpsRawIntModel )
+        , 'VFR_HUD':       sendNewMavlinkMessageToModel( vfrHudModel )
+        , 'ATTITUDE':      function (garbage) {}
+        , 'META_WAYPOINT': function (garbage) {}
+        }
+      , function () { console.log('mavlink api fail'); });
 
   var vfrtextview  = new VfrHudTextView({ model: vfrHudModel });
   var gpstextview  = new GpsTextView({ model: gpsRawIntModel });
@@ -23,13 +24,15 @@ $(function(){
 
   setInterval(function() {
     console.log("tick");
+    /*
     var curralt = vfrHudModel.get("alt");
     vfrHudModel.set({alt: (curralt + 1) });
-
+    */
     mavlinkAPI.update();
 
   }, 1000); 
 
+  /*
   setTimeout( function () {
     gpsRawIntModel.set({
       "fix_type": 3,
@@ -48,4 +51,5 @@ $(function(){
       "mavlink_version": 3
     });
   }, 5000);
+  */
 });
