@@ -115,6 +115,11 @@ mmap.ADI.prototype = {
         this.options.fontColor = this.options.fontColor || 'white';
         this.options.backgroundColor1 = this.options.backgroundColor1 || 'black';
         this.options.backgroundColor2 = this.options.backgroundColor2 || 'rgb(60,60,60)';
+        this.options.bugColor = this.options.bugColor || 'rgb(255,137,201)';
+        this.options.bugColor = 'rgb(255,0,0)';
+
+        this.targetSpeed = null;
+        this.speed = null;
 
         var containerElt = document.getElementById(container);
         this.stage = new Kinetic.Stage({
@@ -216,6 +221,23 @@ mmap.ADI.prototype = {
         // end of speed tape
         // --------------------
 
+        // Speed bug
+        this.speedBug = new Kinetic.Polygon({
+            x: 31,
+            y: 90,
+            points: [0, 0,
+                     3, -2,
+                     5, -2,
+                     5, 2,
+                     3, 2,
+                     0, 0],
+            stroke: this.options.bugColor,
+            fill: this.options.bugColor,
+            strokeWidth: 1.0,
+            visible: false
+        });
+        this.layer.add(this.speedBug);
+
         // --------------------
         // altitude tape
 
@@ -315,7 +337,7 @@ mmap.ADI.prototype = {
             fontFamily: this.options.fontFamily,
             textFill: this.options.fontSize
         });
-        this.layer.add(this.statusText);
+        //this.layer.add(this.statusText);
     },
                                            
 
@@ -328,7 +350,16 @@ mmap.ADI.prototype = {
     setTargetAltitude: function(altitude) {
     },
 
+    _calcSpeedBugY: function() {
+        var y = 90;
+        y -= this.targetSpeed * 2;
+        y += this.speed * 2;
+        y = Math.min(160, Math.max(20, y));
+        return y;
+    },
+
     setSpeed: function(speed) {
+        this.speed = speed;
         var spdTxt = speed.toString();
         if (spdTxt.length > 3) {
             spdTxt = spdTxt.substring(0, 3);
@@ -339,10 +370,23 @@ mmap.ADI.prototype = {
         spdTxt = mmap.zeroPad(spdTxt, 3, ' ');
         this.speedInst.setText(spdTxt);
         this.speedTape.setY(speed * 2);
+
+        if (this.speedBug.isVisible()) {
+            this.speedBug.setY(this._calcSpeedBugY());
+        }
+
         this.layer.draw();
     },
 
     setTargetSpeed: function(speed) {
+        this.targetSpeed = speed;
+        if (this.targetSpeed === null) {
+            this.speedBug.hide();
+        } else {
+            this.speedBug.setY(this._calcSpeedBugY());
+            this.speedBug.show();
+        }
+        this.layer.draw();
     },
 
     setHeading: function(heading) {
