@@ -5,6 +5,7 @@ $(function(){
     var self = this;
     this.mtable = mtable;
     this.commStatusModel = commStatusModel;
+    this.heartbeatIndex = -1;
 
     this.parseMsgResults = function (data) {
       console.log({"mavlink api data": data });
@@ -18,7 +19,10 @@ $(function(){
         }
 
         if (mtype == "HEARTBEAT") {
-          self.commStatusModel.onHeartbeat();
+          if (msg.index > self.heartbeatIndex) {
+            self.heartbeatIndex = msg.index;
+            self.commStatusModel.onHeartbeat();
+          }
         }
       });
     };
