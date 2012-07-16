@@ -18,9 +18,10 @@ $(function(){
         }
       , commStatusModel); 
 
-  var vfrtextview  = new VfrHudTextView({ model: vfrHudModel });
-  var gpstextview  = new GpsTextView({ model: gpsRawIntModel });
-  var modetextview = new ModeTextView({ model: heartbeatModel });
+  var vfrtextview    = new VfrHudTextView({ model: vfrHudModel });
+  var gpstextview    = new GpsTextView({ model: gpsRawIntModel });
+  var modetextview   = new ModeTextView({ model: heartbeatModel });
+  var commstatusview = new CommStatusView({ model: commStatusModel });
 
   console.log('appview initialized');
   

@@ -1,8 +1,8 @@
 
 $(function(){
   window.CommStatusModel = Backbone.Model.extend({
-    SERVER_TIMEOUT_INTERVAL: 2000,
-    HEARTBEAT_TIMEOUT_INTERVAL: 3000,
+    SERVER_TIMEOUT_INTERVAL:    3000,
+    HEARTBEAT_TIMEOUT_INTERVAL: 2000,
     /* Constants: */
     UNINITIALIZED: 0,
     OK : 1,
@@ -76,7 +76,35 @@ $(function(){
     }
   });
 
-  window.CommStatusView =  {}
+  window.CommStatusView = Backbone.View.extend({
+    template: _.template($('#commstatustexttemplate').html()),
+
+    initialize: function () {
+      $("#commstatustextview").replaceWith(this.render().el);
+      this.model.bind('change', this.render, this);
+    },
+
+    render_status: function (stat) {
+      if (stat == this.model.UNINITIALIZED) {
+        return '<span class="slow">?</span>';
+      } else if (stat == this.model.OK) {
+        return '<span class="ok">OK</span>';
+      } else if (stat == this.model.TIMED_OUT_ONCE) {
+        return '<span class="slow">TIMED OUT</span>';
+      } else if (stat == this.model.TIMED_OUT_MANY) {
+        return '<span class="error">TIMED OUT</span>';
+      } else {
+        return '<span class="error">ERROR</span>';
+      }
+    },
+    render: function () {
+      var mdl = this.model.toJSON();
+      mdl.server_html = this.render_status(mdl.server);
+      mdl.mav_html = this.render_status(mdl.mav);
+      this.$el.html(this.template(mdl));
+      return this;
+    }
+  });
 
 
 });

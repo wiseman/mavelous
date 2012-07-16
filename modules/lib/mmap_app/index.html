@@ -48,9 +48,9 @@
   </div>
 </script>
 
-<script type="text/template" id="linkstatustexttemplate"> 
-  <div class="telemetry" id="linkstatustextview">
-    LINK <span class="t_value"><%= status %></span> |
+<script type="text/template" id="commstatustexttemplate">
+  <div class="telemetry" id="commstatustextview">
+    MAV <%= mav_html %> | SERVER <%= server_html %>
   </div>
 </script>
 
@@ -62,7 +62,7 @@
     <div id="adi"></div>
     <div class="telemetry" id="vfrhudtextview"></div>
     <div class="telemetry" id="gpstextview"></div>
-    <div class="telemetry" id="linkstatustextview"></div>
+    <div class="telemetry" id="commstatustextview"></div>
     <div class="telemetry" id="modetextview"></div>
     <span class="t_sta_txt" id="t_sta_txt"></span>
   </div> <!-- header -->
