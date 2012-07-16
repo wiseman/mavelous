@@ -109,19 +109,21 @@ mmap.ADI.prototype = {
     },
 
     init: function(container, options) {
-        this.options = options || {};
-        this.options.fontFamily = this.options.fontFamily || 'monospace,Tahoma,sans-serif';
-        this.options.fontSize = this.options.fontSize || 8;
-        this.options.fontColor = this.options.fontColor || 'white';
-        this.options.backgroundColor1 = this.options.backgroundColor1 || 'black';
-        this.options.backgroundColor2 = this.options.backgroundColor2 || 'rgb(60,60,60)';
-        this.options.bugColor = this.options.bugColor || 'rgb(255,137,201)';
-        this.options.bugColor = 'rgb(255,0,0)';
+        options = options || {};
+        this.options = options;
+        this.options.fontFamily = options.fontFamily || 'monospace,Tahoma,sans-serif';
+        this.options.fontSize = options.fontSize || 8;
+        this.options.fontColor = options.fontColor || 'white';
+        this.options.backgroundColor1 = options.backgroundColor1 || 'black';
+        this.options.backgroundColor2 = options.backgroundColor2 || 'rgb(60,60,60)';
+        this.options.bugColor = options.bugColor || 'rgb(255,0,100)';
+        this.options.highlightColor = options.highlightColor || 'rgb(255,255,255)';
 
         this.speed = null;
         this.targetSpeed = null;
         this.altitude = null;
         this.targetAltitude = null;
+        this.flightMode = null;
 
         var containerElt = document.getElementById(container);
         this.stage = new Kinetic.Stage({
@@ -132,7 +134,7 @@ mmap.ADI.prototype = {
         this.layer = new Kinetic.Layer();
         this.stage.add(this.layer);
         this.stage.setScale(containerElt.offsetWidth / 200.0,
-                            containerElt.offsetHeight / 200.0);
+                            containerElt.offsetWidth / 200.0);
 
         // --------------------
         // Speed tape
@@ -223,6 +225,24 @@ mmap.ADI.prototype = {
         // end of speed tape
         // --------------------
 
+        // Target altitude
+        this.targetAltitudeDisplay = new Kinetic.Text({
+            x: 170,
+            y: 10,
+            fontSize: smallFontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.bugColor});
+        this.layer.add(this.targetAltitudeDisplay);
+            
+        // Target speed
+        this.targetSpeedDisplay = new Kinetic.Text({
+            x: 0,
+            y: 10,
+            fontSize: smallFontSize,
+            fontFamily: this.options.fontFamily,
+            textFill: this.options.bugColor});
+        this.layer.add(this.targetSpeedDisplay);
+            
         // Speed bug
         this.speedBug = new Kinetic.Polygon({
             x: 31,
@@ -340,15 +360,25 @@ mmap.ADI.prototype = {
         });
         this.layer.add(this.altitudeBug);
 
-        this.flightMode = new Kinetic.Text({
-            x: 10,
-            y: 30,
+        this.flightModeRect = new Kinetic.Rect({
+            x: 1,
+            y: 1,
+            width: 60,
+            height: 9,
+            stroke: this.options.highlightColor,
+            strokeWidth: 1.0,
+            visible: false});
+        this.layer.add(this.flightModeRect);
+
+        this.flightModeDisplay = new Kinetic.Text({
+            x: 2,
+            y: 2,
             text: '',
             fontSize: this.options.fontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.fontColor
         });
-        this.layer.add(this.flightMode);
+        this.layer.add(this.flightModeDisplay);
 
         this.statusText = new Kinetic.Text({
             x: 10,
@@ -366,7 +396,7 @@ mmap.ADI.prototype = {
         var y = 90;
         y -= this.targetSpeed * 2;
         y += this.speed * 2;
-        y = Math.min(160, Math.max(20, y));
+        y = Math.min(162, Math.max(16, y));
         return y;
     },
 
@@ -374,7 +404,7 @@ mmap.ADI.prototype = {
         var y = 90;
         y -= this.targetAltitude * 4;
         y += this.altitude * 4;
-        y = Math.min(160, Math.max(20, y));
+        y = Math.min(162, Math.max(16, y));
         return y;
     },
 
@@ -394,17 +424,25 @@ mmap.ADI.prototype = {
         if (this.speedBug.isVisible()) {
             this.speedBug.setY(this._calcSpeedBugY());
         }
-        this.layer.draw();
+        //this.layer.draw();
     },
 
     setTargetSpeed: function(speed) {
         this.targetSpeed = speed;
         if (this.targetSpeed === null) {
             this.speedBug.hide();
+            this.targetSpeedDisplay.hide();
         } else {
             this.speedBug.setY(this._calcSpeedBugY());
             this.speedBug.show();
+            this.targetSpeedDisplay.setText(mmap.zeroPad(
+                Math.round(speed), 4, ' '));
+            this.targetSpeedDisplay.show();
         }
+        //this.layer.draw();
+    },
+
+    draw: function() {
         this.layer.draw();
     },
 
@@ -415,25 +453,40 @@ mmap.ADI.prototype = {
         if (this.altitudeBug.isVisible()) {
             this.altitudeBug.setY(this._calcAltitudeBugY());
         }
-        this.layer.draw();
+        //this.layer.draw();
     },
 
     setTargetAltitude: function(altitude) {
         this.targetAltitude = altitude;
         if (this.targetAltitude === null) {
             this.altitudeBug.hide();
+            this.targetAltitudeDisplay.hide();
         } else {
             this.altitudeBug.setY(this._calcAltitudeBugY());
             this.altitudeBug.show();
+            this.targetAltitudeDisplay.setText(mmap.zeroPad(
+                Math.round(altitude), 4, ' '));
+            this.targetAltitudeDisplay.show();
         }
-        this.layer.draw();
+        //this.layer.draw();
     },
 
     setHeading: function(heading) {
     },
 
     setFlightMode: function(mode) {
-        // this.flightMode.setText('MODE ' + mode);
+        if (mode != this.flightMode) {
+            this.flightMode = mode;
+            this.flightModeDisplay.setText(mode);
+            this.flightModeRect.setWidth(mode.length * this.options.fontSize);
+            this.flightModeRect.setAlpha(1.0);
+            this.flightModeRect.show();
+            this.flightModeRect.transitionTo({
+                alpha: 0.0,
+                duration: 10,
+                easing: 'ease-out'
+            });
+        }
     },
 
     setAttitude: function(pitch, roll) {
@@ -616,8 +669,12 @@ mmap.handleAttitude = function(time, index, msg) {
 
 
 mmap.handleNavControllerOutput = function(time, index, msg) {
-    mmap.adi.setTargetAltitude(mmap.altitude + msg.alt_error);
-    mmap.adi.setTargetSpeed(mmap.airspeed + msg.aspd_error);
+    if (Math.abs(msg.alt_error) > 0) {
+        mmap.adi.setTargetAltitude(mmap.altitude + msg.alt_error);
+    }
+    if (Math.abs(msg.aspd_error) > 0) {
+        mmap.adi.setTargetSpeed(mmap.airspeed + msg.aspd_error);
+    }
 };
 
 
@@ -689,6 +746,7 @@ mmap.handleMessages = function(msgs) {
       mmap.handleMessage(msgs[mtype]);
     }
   }
+    mmap.adi.draw();
 };
 
 
@@ -777,9 +835,9 @@ mmap.updateMapLayer = function() {
 
 mmap.lastFlyTo = null;
 mmap.flyTo = function(location) {
-  var loc = {lat: location.lat
-            , lon: location.lon
-            , alt: mmap.getAlt() };
+    var loc = {lat: location.lat,
+               lon: location.lon,
+               alt: mmap.getAlt() };
   mmap.lastFlyTo = loc;
     $.ajax({
         type: 'POST',
