@@ -8,6 +8,8 @@ $(function(){
   var metaWaypointModel = new MetaWaypointModel;
 
   var commStatusModel   = new CommStatusModel;
+  var guideModel        = new GuideModel;
+  guideModel.withMetaWaypointModel( metaWaypointModel );
 
   var mavlinkAPI = new MavlinkAPI(
         { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
@@ -22,6 +24,7 @@ $(function(){
   var gpstextview    = new GpsTextView({ model: gpsRawIntModel });
   var modetextview   = new ModeTextView({ model: heartbeatModel });
   var commstatusview = new CommStatusView({ model: commStatusModel });
+  var guidealtview   = new GuideAltitudeView({ model: guideModel });
 
   console.log('appview initialized');
   

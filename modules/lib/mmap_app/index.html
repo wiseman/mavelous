@@ -18,6 +18,8 @@
 <script type="text/javascript" src="attitude.js"></script>
 <script type="text/javascript" src="metawaypoint.js"></script>
 
+<script type="text/javascript" src="guidemodel.js"></script>
+<script type="text/javascript" src="guideview.js"></script>
 <script type="text/javascript" src="commstatus.js"></script>
 
 <!-- APP INSTANCE-->
@@ -53,7 +55,14 @@
     MAV <%= mav_html %> | SERVER <%= server_html %>
   </div>
 </script>
-
+<script type="text/template" id="guidealtitudeviewtemplate">
+  <div id="guidealtitudeview">
+    Guide Altitude:
+    <input id="altinput" type="range" value="20" min="0" max="200">
+    <input id="altinput_submit" type="submit" value="Update">
+    <span class="t_value" id="v_altwaypt"></span> m
+  </div>
+</script>
 <!-- HTML BODY-->
 <title>backbone mavelous</title>
 </head>
@@ -64,16 +73,9 @@
     <div class="telemetry" id="gpstextview"></div>
     <div class="telemetry" id="commstatustextview"></div>
     <div class="telemetry" id="modetextview"></div>
+    <div id="guidealtitudeview"></div>
     <span class="t_sta_txt" id="t_sta_txt"></span>
   </div> <!-- header -->
-    <div id="controls">
-      <div class="altslider">
-        Guide Altitude:
-        <input id="altinput" type="range" value="20" min="0" max="200">
-        <input id="altinput_submit" type="submit" value="Update">
-        <span class="t_value" id="v_altwaypt"></span> m
-      </div> <!-- altslider -->
-    </div> <!-- controls -->
   <div id="map"></div>
   <div id="drone"></div>
 </body>
