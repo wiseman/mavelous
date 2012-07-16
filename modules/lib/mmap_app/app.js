@@ -7,6 +7,7 @@ $(function(){
   var attitudeModel     = new AttitudeModel;
   var metaWaypointModel = new MetaWaypointModel;
 
+  var commStatusModel   = new CommStatusModel;
 
   var mavlinkAPI = new MavlinkAPI(
         { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
@@ -15,7 +16,7 @@ $(function(){
         , 'ATTITUDE':      sendNewMavlinkMessageToModel( attitudeModel )
         , 'META_WAYPOINT': sendNewMavlinkMessageToModel( metaWaypointModel )
         }
-      , function () { console.log('mavlink api fail'); });
+      , commStatusModel); 
 
   var vfrtextview  = new VfrHudTextView({ model: vfrHudModel });
   var gpstextview  = new GpsTextView({ model: gpsRawIntModel });
