@@ -5,7 +5,7 @@ $(function(){
     defaults: function() {
       return {
         time_usec: 0,
-        fix_type: 0,
+        fix_type: null,
         lat: 0,
         lon: 0,
         alt: 0,
@@ -31,7 +31,17 @@ $(function(){
     },
 
     render: function() {
-      this.$el.html(this.template(this.model.toJSON()));
+      var mdl = this.model.toJSON();
+        if (mdl.fix_type >= 3) {
+          mdl.fix_type_html = '<span class="ok">3D</span>';
+        } else if (mdl.fix_type == 2) {
+          mdl.fix_type_html = '<span class="slow">2D</span>';
+        } else if (mdl.fix_type == null) {
+          mdl.fix_type_html = '<span class="slow">?</span>';
+        } else {
+          mdl.fix_type_html = '<span class="error">' + mdl.fix_type + '</span>';
+        }
+      this.$el.html(this.template(mdl));
       return this;
     }
 

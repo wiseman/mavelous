@@ -33,16 +33,7 @@
 
 <script type="text/template" id="gpstexttemplate">
   <div class="telemetry" id="gpstextview">
-    GPS <span class="t_value">
-      <%
-        if (fix_type >= 3) {
-          print('<span class="ok">3D</span>');
-        } else if (fix_type == 2) {
-          print('<span class="slow">2D</span>');
-        } else {
-          print('<span class="error">' + fix_type + '</span>');
-        }
-      %></span> |
+    GPS <%= fix_type_html %>
     (<span class="t_value"><%= (lat / 1.0e7).toPrecision(11) %></span>, 
     <span class="t_value"><%= (lon / 1.0e7).toPrecision(11) %></span>)
   </div>
