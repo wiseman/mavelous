@@ -5,15 +5,10 @@ $(function(){
 
     defaults: function() {
       return {
-        /* TODO some sort of stateful initialized flag
-         * How do I hook that into the Model set({}) method?
-         * Or do I do that elsewhere?  */
-        waypoint: {
-          alt : 0,
-          lat : 0,
-          lon : 0
+        /* Once initialized, a waypoint is a dict with
+         * fields { alt : float, lat : float, lon : float } */
+        waypoint: null
         }
-      };
     },
 
     initialize: function() {
