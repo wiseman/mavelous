@@ -57,6 +57,119 @@ function MapPanner(map) {
 }
 
 
+mmap.ArtificialHorizon = Kinetic.Shape.extend({
+    init: function(config) {
+        this.setDefaultAttrs({
+            width: 0,
+            height: 0,
+            skyColor: '#72cde4',
+            groundColor: '#323232',
+            lineColor: '#ffffff'
+        });
+
+        this.shapeType = 'ArtificialHorizon';
+        this.radius = Math.min(config.width, config.height) / 2.0;
+        console.log('radius: ' + this.radius);
+        this.pitch = 0;
+        this.roll = 0;
+        this.KAPPA = 0.5522847498;
+        this.radius_mul_kappa = this.radius * this.KAPPA;
+        
+        config.drawFunc = function() {
+            var radius = this.radius;
+            var horizon = this.getHorizon();
+            var KAPPA = this.KAPPA;
+            var radius_mul_kappa = this.radius_mul_kappa;
+
+            var context = this.getContext();
+            var rotationCorrection = 0;
+
+            context.save();
+
+            context.translate(radius, radius);
+            context.rotate(this.roll - rotationCorrection);
+
+            // Draw ground
+            context.fillStyle = this.attrs.groundColor;
+            context.strokeStyle = this.attrs.lineColor;
+            context.lineWidth = 3;
+            context.beginPath();
+            context.arc(0, 0, radius, 0, 2 * Math.PI, false);
+            context.fill();
+
+            // draw sky
+            context.fillStyle = this.attrs.skyColor;
+            context.beginPath();
+            context.moveTo(-radius, 0);
+            context.arcTo(0, -radius*20, radius, 0, radius);
+            context.bezierCurveTo(
+                radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
+            context.bezierCurveTo(
+                    -radius_mul_kappa, horizon, -radius, horizon * KAPPA,
+                    -radius, 0);
+            context.closePath();
+            context.stroke();
+            context.fill();
+
+    
+            // draw scale
+            context.lineWidth = 2;
+            this.drawScale(36, radius * 0.8);
+            this.drawScale(30, radius * 0.1);
+            this.drawScale(24, radius * 0.6);
+            this.drawScale(18, radius * 0.1);
+            this.drawScale(12, radius * 0.4);
+            this.drawScale(6, radius * 0.1);
+            
+            this.drawScale(0, radius * 2);
+            context.restore();
+        };
+
+        this._super(config);
+    },
+
+    drawScale: function(offset, scaleWidth) {
+        var diameter = 2 * this.radius;
+        var radius = this.radius;
+        var KAPPA = this.KAPPA;
+        var radius_mul_kappa = this.radius_mul_kappa;
+        var context = this.getContext();
+        context.save();
+        
+        context.beginPath();
+        context.rect(-scaleWidth / 2, -diameter, scaleWidth, 2 * diameter);
+        context.clip();
+
+        var horizon = this.getHorizon(this.pitch + offset * Math.PI / 180);
+        context.beginPath();
+        context.moveTo(radius, 0);
+        context.bezierCurveTo(
+            radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
+        context.bezierCurveTo(
+                -radius_mul_kappa, horizon, -radius, horizon * KAPPA, -radius, 0);
+        context.stroke();
+
+        horizon = this.getHorizon(this.pitch - offset * Math.PI / 180);
+        context.beginPath();
+        context.moveTo(radius, 0);
+        context.bezierCurveTo(radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
+        context.bezierCurveTo(-radius_mul_kappa, horizon, -radius, horizon * KAPPA, -radius, 0);
+        context.stroke();
+    
+        context.restore();
+    },
+
+
+    getHorizon: function(pitch) {
+        return Math.sin(pitch) * this.radius;
+    },
+
+    setPitchRoll: function(pitch, roll) {
+        this.pitch = pitch;
+        this.roll = roll;
+    }
+});
+
 // Like a regular group except that it draws its children with a
 // clipping region active.  Requires a width and height.
 
@@ -118,6 +231,8 @@ mmap.ADI.prototype = {
         this.options.backgroundColor2 = options.backgroundColor2 || 'rgb(60,60,60)';
         this.options.bugColor = options.bugColor || 'rgb(255,0,100)';
         this.options.highlightColor = options.highlightColor || 'rgb(255,255,255)';
+        this.options.skyColor = options.skyColor || 'rgb(114,149,179)';
+        this.options.groundColor = options.groundColor || 'rgb(165,105,63)';
 
         this.speed = null;
         this.targetSpeed = null;
@@ -135,6 +250,53 @@ mmap.ADI.prototype = {
         this.stage.add(this.layer);
         this.stage.setScale(containerElt.offsetWidth / 200.0,
                             containerElt.offsetWidth / 200.0);
+
+        // this.attitudeIndicator = new Kinetic.Group()
+        //     .add(new Kinetic.Polygon({
+        //         points: [-200, 0,
+        //                  200, 0,
+        //                  200, 200,
+        //                  -200, 200,
+        //                  -200, 0],
+        //         //stroke: this.options.groundColor,
+        //         fill: this.options.groundColor
+        //     }))
+        //     .add(new Kinetic.Polygon({
+        //         points: [-200, 0,
+        //                  200, 0,
+        //                  200, -200,
+        //                  -200, -200,
+        //                  -200, 0],
+        //         //stroke: this.options.skyColor,
+        //         fill: this.options.skyColor
+        //     }))
+        //     .add(new Kinetic.Line({
+        //         points: [0, -7, 0, 7],
+        //         stroke: 'black',
+        //         strokeWidth: 1.0}))
+        //     .add(new Kinetic.Line({
+        //         points: [-7, 0, 7, 0],
+        //         stroke: 'black',
+        //         strokeWidth: 1.0}));
+        // this.layer.add(
+        //     new mmap.ClippedGroup({
+        //         x: 35,
+        //         y: 25,
+        //         width: 130,
+        //         height: 130})
+        //         .add(new Kinetic.Group({
+        //             x: 70,
+        //             y: 65,
+        //             width: 135,
+        //             height: 140})
+        //              .add(this.attitudeIndicator)));
+
+        this.attitudeIndicator = new mmap.ArtificialHorizon({
+            x: 50, y: 45, width: 100, height: 100,
+            groundColor: this.options.groundColor,
+            skyColor: this.options.skyColor
+        });
+        this.layer.add(this.attitudeIndicator);
 
         // --------------------
         // Speed tape
@@ -381,14 +543,15 @@ mmap.ADI.prototype = {
         this.layer.add(this.flightModeDisplay);
 
         this.statusText = new Kinetic.Text({
-            x: 10,
-            y: 40,
+            x: 2,
+            y: 170,
             text: '',
-            fontSize: this.options.fontSize,
+            fontSize: smallFontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.fontSize
         });
-        //this.layer.add(this.statusText);
+        this.layer.add(this.statusText);
+
     },
                                            
 
@@ -490,6 +653,7 @@ mmap.ADI.prototype = {
     },
 
     setAttitude: function(pitch, roll) {
+        this.attitudeIndicator.setPitchRoll(pitch, roll);
     },
 
     setStatusText: function(status) {
