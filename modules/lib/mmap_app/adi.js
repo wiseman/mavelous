@@ -88,7 +88,7 @@ $(function(){
     this.setAttitude = function(pitch, roll) {
         theADI.targetPitch = pitch;
         theADI.targetRoll = roll;
-        MM.getFrame(theADI.animateTvoAttitude);
+        MM.getFrame(theADI.animateToAttitude);
     };
   };
 
