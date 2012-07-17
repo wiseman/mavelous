@@ -48,6 +48,9 @@ class message_memo(object):
     else:
       return None
 
+  def message_types(self):
+    return self._d.keys()
+
   def has_message(self, mt):
     mtype = mt.upper()
     if mtype in self._d:
