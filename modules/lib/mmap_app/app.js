@@ -6,6 +6,7 @@ $(function(){
   var heartbeatModel    = new HeartbeatModel;
   var attitudeModel     = new AttitudeModel;
   var metaWaypointModel = new MetaWaypointModel;
+  var statusTextModel   = new StatusTextModel;
 
   var commStatusModel   = new CommStatusModel;
   var guideModel        = new GuideModel;
@@ -17,6 +18,7 @@ $(function(){
         , 'VFR_HUD':       sendNewMavlinkMessageToModel( vfrHudModel )
         , 'ATTITUDE':      sendNewMavlinkMessageToModel( attitudeModel )
         , 'META_WAYPOINT': sendNewMavlinkMessageToModel( metaWaypointModel )
+        , 'STATUSTEXT':    sendNewMavlinkMessageToModel( statusTextModel )
         }
       , commStatusModel); 
 
@@ -25,6 +27,7 @@ $(function(){
   var modetextview   = new ModeTextView({ model: heartbeatModel });
   var commstatusview = new CommStatusView({ model: commStatusModel });
   var guidealtview   = new GuideAltitudeView({ model: guideModel });
+  var statustextview = new StatusTextView({ model: statusTextModel });
 
   console.log('appview initialized');
   

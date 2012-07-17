@@ -11,13 +11,16 @@
 <script type="text/javascript" src="backbone-0.9.2.js"></script>
 
 <!-- APP MODULES -->
-<script type="text/javascript" src="mavlinkapi.js"></script>
+  <!-- MAVLINK MESSAGES -->
 <script type="text/javascript" src="vfrhud.js"></script>
 <script type="text/javascript" src="gps.js"></script>
 <script type="text/javascript" src="heartbeat.js"></script>
 <script type="text/javascript" src="attitude.js"></script>
+  <!-- MAVELOUS SPECIFIC MESSAGES -->
 <script type="text/javascript" src="metawaypoint.js"></script>
-
+<script type="text/javascript" src="statustext.js"></script>
+  <!-- MAVELOUS SPECIFIC MODULES -->
+<script type="text/javascript" src="mavlinkapi.js"></script>
 <script type="text/javascript" src="guidemodel.js"></script>
 <script type="text/javascript" src="guideview.js"></script>
 <script type="text/javascript" src="commstatus.js"></script>
@@ -46,7 +49,6 @@
 <script type="text/template" id="modetexttemplate">
   <div class="telemetry" id="modetextview">
     MODE <span class="t_value"><%= modestring %></span>
-    <span class="t_sta_txt" id="t_sta_txt"></span>
   </div>
 </script>
 
@@ -74,8 +76,8 @@
     <div class="telemetry" id="commstatustextview"></div>
     <div class="telemetry" id="modetextview"></div>
     <div id="guidealtitudeview"></div>
-    <span class="t_sta_txt" id="t_sta_txt"></span>
   </div> <!-- header -->
+  <div class="t_sta_txt" id="statustextview"></div>
   <div id="map"></div>
   <div id="drone"></div>
 </body>
