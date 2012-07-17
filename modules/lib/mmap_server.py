@@ -51,6 +51,7 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
 
   def do_GET(self):
     scheme, host, path, params, query, frag = urlparse.urlparse(self.path)
+    query_dict = urlparse.parse_qs(query, keep_blank_values=True)
     ps = path.split('/')
     # API: /mavlink/mtype1+mtype2+...
     if len(ps) == 3 and ps[1] == 'mavlink':
@@ -67,7 +68,10 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
       self.send_response(200)
       self.send_header('Content-type', 'application/json')
       self.end_headers()
-      self.wfile.write(json.dumps(results))
+      if 'pp' in query_dict or 'debug' in query_dict:
+        self.wfile.write(json.dumps(results, indent=4))
+      else:
+        self.wfile.write(json.dumps(results))
     else:
       # Remove leading '/'.
       path = path[1:]
