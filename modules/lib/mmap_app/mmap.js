@@ -1,3 +1,6 @@
+
+$(function(){
+
 mmap = {};
 
 mmap.location = null;
@@ -343,3 +346,7 @@ mmap.flyTo = function(location) {
                               location: loc })
     });
 };
+
+mmap.initMap();
+
+});
