@@ -80,6 +80,13 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
 
             context.save();
             context.translate(width / 2, height / 2);
+
+            // Set up clipping.
+            context.beginPath();
+            context.rect(-width / 2, -height / 2, width, height);
+            context.clip();
+
+
             context.rotate(this.roll);
 
             // Draw ground
@@ -87,13 +94,13 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
             context.strokeStyle = this.attrs.lineColor;
             context.lineWidth = 3;
             context.beginPath();
-            context.rect(-width / 2, horizon, width, height / 2 - horizon);
+            context.rect(-width, horizon, width * 2, height);
             context.fill();
 
             // Draw sky
             context.fillStyle = this.attrs.skyColor;
             context.beginPath();
-            context.rect(-width/2, -height/2, width, height / 2 + horizon);
+            context.rect(-width, -height, width * 2, height + horizon);
             context.fill();
 
             // Draw horizon
@@ -231,7 +238,7 @@ mmap.ADI.prototype = {
                             containerElt.offsetWidth / 200.0);
 
         this.attitudeIndicator = new mmap.ArtificialHorizon({
-            x: 30, y: 20, width: 140, height: 140,
+            x: 35, y: 25, width: 130, height: 130,
             groundColor: this.options.groundColor,
             skyColor: this.options.skyColor
         });
