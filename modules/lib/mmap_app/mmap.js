@@ -64,7 +64,8 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
             height: 0,
             skyColor: '#72cde4',
             groundColor: '#323232',
-            lineColor: '#ffffff'
+            lineColor: '#ffffff',
+            planeColor: 'black'
         });
 
         this.shapeType = 'ArtificialHorizon';
@@ -81,11 +82,12 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
             context.save();
             context.translate(width / 2, height / 2);
 
+            context.save();
+
             // Set up clipping.
             context.beginPath();
             context.rect(-width / 2, -height / 2, width, height);
             context.clip();
-
 
             context.rotate(this.roll);
 
@@ -117,6 +119,22 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
             this.drawScale(18, width * 0.05);
             this.drawScale(12, width * 0.2);
             this.drawScale(6, width * 0.05);
+            context.restore();
+
+            // Draw the plane.
+            context.strokeStyle = this.attrs.planeColor;
+            context.lineWidth = 3;
+            context.beginPath();
+            context.moveTo(-30, -1);
+            context.lineTo(-10, -1);
+            context.lineTo(-5, 5);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(30, -1);
+            context.lineTo(10, -1);
+            context.lineTo(5, 5);
+            context.stroke();
+            
             context.restore();
         };
 
