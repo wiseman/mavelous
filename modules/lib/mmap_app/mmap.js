@@ -124,10 +124,6 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
         
         context.lineWidth = 1;
         context.strokeStyle = this.attrs.lineColor;
-        //context.beginPath();
-        //context.rect(-scaleWidth / 2, -height, scaleWidth, height * 2);
-//        context.clip();
-
         var horizon = this.getHorizon(this.pitch + offset * Math.PI / 180);
         context.beginPath();
         context.moveTo(-scaleWidth/2, horizon);
@@ -144,7 +140,6 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
 
 
     getHorizon: function(pitch) {
-        //console.log('pitch ' + pitch + ' radius' + this.radius);
         return Math.sin(pitch) * this.radius;
     },
 
@@ -234,46 +229,6 @@ mmap.ADI.prototype = {
         this.stage.add(this.layer);
         this.stage.setScale(containerElt.offsetWidth / 200.0,
                             containerElt.offsetWidth / 200.0);
-
-        // this.attitudeIndicator = new Kinetic.Group()
-        //     .add(new Kinetic.Polygon({
-        //         points: [-200, 0,
-        //                  200, 0,
-        //                  200, 200,
-        //                  -200, 200,
-        //                  -200, 0],
-        //         //stroke: this.options.groundColor,
-        //         fill: this.options.groundColor
-        //     }))
-        //     .add(new Kinetic.Polygon({
-        //         points: [-200, 0,
-        //                  200, 0,
-        //                  200, -200,
-        //                  -200, -200,
-        //                  -200, 0],
-        //         //stroke: this.options.skyColor,
-        //         fill: this.options.skyColor
-        //     }))
-        //     .add(new Kinetic.Line({
-        //         points: [0, -7, 0, 7],
-        //         stroke: 'black',
-        //         strokeWidth: 1.0}))
-        //     .add(new Kinetic.Line({
-        //         points: [-7, 0, 7, 0],
-        //         stroke: 'black',
-        //         strokeWidth: 1.0}));
-        // this.layer.add(
-        //     new mmap.ClippedGroup({
-        //         x: 35,
-        //         y: 25,
-        //         width: 130,
-        //         height: 130})
-        //         .add(new Kinetic.Group({
-        //             x: 70,
-        //             y: 65,
-        //             width: 135,
-        //             height: 140})
-        //              .add(this.attitudeIndicator)));
 
         this.attitudeIndicator = new mmap.ArtificialHorizon({
             x: 30, y: 20, width: 140, height: 140,
