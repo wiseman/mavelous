@@ -49,6 +49,16 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.send_response(200)
     self.end_headers()
 
+  def response_for_message(self, t, n, msg):
+    mdict = msg.to_dict()
+    for key, value in mdict.items():
+      if isinstance(value, types.StringTypes):
+        mdict[key] = nul_terminate(value)
+    resp = {'time_usec': t,
+            'index': n,
+            'msg': mdict}
+    return resp
+
   def do_GET(self):
     scheme, host, path, params, query, frag = urlparse.urlparse(self.path)
     query_dict = urlparse.parse_qs(query, keep_blank_values=True)
