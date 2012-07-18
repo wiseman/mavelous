@@ -24,9 +24,9 @@ mmap.initMap = function() {
     mmap.mapLayer = new MM.Layer(provider);
     mmap.markerLayer = new MM.MarkerLayer();
     var eventHandlers = [
-	new MouseWheelHandler(),
-	new TouchHandler(),
-	new DoubleClickHandler()
+	new MMHandlers.MouseWheelHandler(),
+	new MMHandlers.TouchHandler(),
+	new MMHandlers.DoubleClickHandler()
     ];
     mmap.map = new MM.Map('map', mmap.mapLayer, undefined, eventHandlers);
     mmap.map.addLayer(mmap.markerLayer);
