@@ -69,59 +69,47 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
 
         this.shapeType = 'ArtificialHorizon';
         this.radius = Math.min(config.width, config.height) / 2.0;
-        console.log('radius: ' + this.radius);
         this.pitch = 0;
         this.roll = 0;
-        this.KAPPA = 0.5522847498;
-        this.radius_mul_kappa = this.radius * this.KAPPA;
         
         config.drawFunc = function() {
-            var radius = this.radius;
-            var horizon = this.getHorizon();
-            var KAPPA = this.KAPPA;
-            var radius_mul_kappa = this.radius_mul_kappa;
-
+            var horizon = this.getHorizon(this.pitch);
             var context = this.getContext();
-            var rotationCorrection = 0;
+            var width = this.attrs.width;
+            var height = this.attrs.height;
 
             context.save();
-
-            context.translate(radius, radius);
-            context.rotate(this.roll - rotationCorrection);
+            context.translate(width / 2, height / 2);
+            context.rotate(this.roll);
 
             // Draw ground
             context.fillStyle = this.attrs.groundColor;
             context.strokeStyle = this.attrs.lineColor;
             context.lineWidth = 3;
             context.beginPath();
-            context.arc(0, 0, radius, 0, 2 * Math.PI, false);
+            context.rect(-width / 2, horizon, width, height / 2 - horizon);
             context.fill();
 
-            // draw sky
+            // Draw sky
             context.fillStyle = this.attrs.skyColor;
             context.beginPath();
-            context.moveTo(-radius, 0);
-            context.arcTo(0, -radius*20, radius, 0, radius);
-            context.bezierCurveTo(
-                radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
-            context.bezierCurveTo(
-                    -radius_mul_kappa, horizon, -radius, horizon * KAPPA,
-                    -radius, 0);
-            context.closePath();
-            context.stroke();
+            context.rect(-width/2, -height/2, width, height / 2 + horizon);
             context.fill();
 
+            // Draw horizon
+            context.beginPath();
+            context.lineWidth = 1;
+            context.moveTo(-width / 2, horizon);
+            context.lineTo(width / 2, horizon);
+            context.stroke();
     
             // draw scale
-            context.lineWidth = 2;
-            this.drawScale(36, radius * 0.8);
-            this.drawScale(30, radius * 0.1);
-            this.drawScale(24, radius * 0.6);
-            this.drawScale(18, radius * 0.1);
-            this.drawScale(12, radius * 0.4);
-            this.drawScale(6, radius * 0.1);
-            
-            this.drawScale(0, radius * 2);
+            this.drawScale(36, width * 0.4);
+            this.drawScale(30, width * 0.05);
+            this.drawScale(24, width * 0.3);
+            this.drawScale(18, width * 0.05);
+            this.drawScale(12, width * 0.2);
+            this.drawScale(6, width * 0.05);
             context.restore();
         };
 
@@ -129,31 +117,26 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
     },
 
     drawScale: function(offset, scaleWidth) {
-        var diameter = 2 * this.radius;
-        var radius = this.radius;
-        var KAPPA = this.KAPPA;
-        var radius_mul_kappa = this.radius_mul_kappa;
         var context = this.getContext();
+        var height = this.attrs.height;
+        var width = this.attrs.width;
         context.save();
         
-        context.beginPath();
-        context.rect(-scaleWidth / 2, -diameter, scaleWidth, 2 * diameter);
-        context.clip();
+        context.lineWidth = 1;
+        context.strokeStyle = this.attrs.lineColor;
+        //context.beginPath();
+        //context.rect(-scaleWidth / 2, -height, scaleWidth, height * 2);
+//        context.clip();
 
         var horizon = this.getHorizon(this.pitch + offset * Math.PI / 180);
         context.beginPath();
-        context.moveTo(radius, 0);
-        context.bezierCurveTo(
-            radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
-        context.bezierCurveTo(
-                -radius_mul_kappa, horizon, -radius, horizon * KAPPA, -radius, 0);
+        context.moveTo(-scaleWidth/2, horizon);
+        context.lineTo(scaleWidth/2, horizon);
         context.stroke();
 
         horizon = this.getHorizon(this.pitch - offset * Math.PI / 180);
-        context.beginPath();
-        context.moveTo(radius, 0);
-        context.bezierCurveTo(radius, horizon * KAPPA, radius_mul_kappa, horizon, 0, horizon);
-        context.bezierCurveTo(-radius_mul_kappa, horizon, -radius, horizon * KAPPA, -radius, 0);
+        context.moveTo(-scaleWidth / 2, horizon);
+        context.lineTo(scaleWidth / 2, horizon);
         context.stroke();
     
         context.restore();
@@ -161,6 +144,7 @@ mmap.ArtificialHorizon = Kinetic.Shape.extend({
 
 
     getHorizon: function(pitch) {
+        //console.log('pitch ' + pitch + ' radius' + this.radius);
         return Math.sin(pitch) * this.radius;
     },
 
@@ -292,7 +276,7 @@ mmap.ADI.prototype = {
         //              .add(this.attitudeIndicator)));
 
         this.attitudeIndicator = new mmap.ArtificialHorizon({
-            x: 50, y: 45, width: 100, height: 100,
+            x: 30, y: 20, width: 140, height: 140,
             groundColor: this.options.groundColor,
             skyColor: this.options.skyColor
         });
