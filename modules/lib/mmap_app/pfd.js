@@ -45,7 +45,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         this.roll = 0;
         
         config.drawFunc = function() {
-            var horizon = this._getHorizon(this.pitch);
+            var horizon = this.getHorizon_(this.pitch);
             var context = this.getContext();
             var width = this.attrs.width;
             var height = this.attrs.height;
@@ -87,12 +87,12 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
             context.stroke();
     
             // Draw the pitch ladder.
-            this.drawScale(36, width * 0.4);
-            this.drawScale(30, width * 0.05);
-            this.drawScale(24, width * 0.3);
-            this.drawScale(18, width * 0.05);
-            this.drawScale(12, width * 0.2);
-            this.drawScale(6, width * 0.05);
+            this.drawRung_(36, width * 0.4);
+            this.drawRung_(30, width * 0.05);
+            this.drawRung_(24, width * 0.3);
+            this.drawRung_(18, width * 0.05);
+            this.drawRung_(12, width * 0.2);
+            this.drawRung_(6, width * 0.05);
 
             // Undo the roll rotation so we can draw the plane figure
             // over the rotated elements.
@@ -118,7 +118,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         this._super(config);
     },
 
-    drawScale: function(offset, scaleWidth) {
+    drawRung_: function(offset, scaleWidth) {
         var context = this.getContext();
         var height = this.attrs.height;
         var width = this.attrs.width;
@@ -126,13 +126,13 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         
         context.lineWidth = 1;
         context.strokeStyle = this.attrs.lineColor;
-        var horizon = this._getHorizon(this.pitch + offset * Math.PI / 180);
+        var horizon = this.getHorizon_(this.pitch + offset * Math.PI / 180);
         context.beginPath();
         context.moveTo(-scaleWidth/2, horizon);
         context.lineTo(scaleWidth/2, horizon);
         context.stroke();
 
-        horizon = this._getHorizon(this.pitch - offset * Math.PI / 180);
+        horizon = this.getHorizon_(this.pitch - offset * Math.PI / 180);
         context.moveTo(-scaleWidth / 2, horizon);
         context.lineTo(scaleWidth / 2, horizon);
         context.stroke();
@@ -140,7 +140,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         context.restore();
     },
 
-    _getHorizon: function(pitch) {
+    getHorizon_: function(pitch) {
         return Math.sin(pitch) * this.radius;
     },
 
