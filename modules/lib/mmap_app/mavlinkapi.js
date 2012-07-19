@@ -8,7 +8,7 @@ $(function(){
     this.heartbeatIndex = -1;
 
     this.parseMsgResults = function (data) {
-      console.log({"mavlink api data": data });
+      // console.log({"mavlink api data": data });
       self.commStatusModel.onServerSuccess();
       /* For each messagetype in data, */
       _.each(data, function( msg, mtype ) {
