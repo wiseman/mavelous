@@ -86,20 +86,38 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
             context.stroke();
     
             // Draw the pitch ladder.
-            this.drawRung_(36, width * 0.4);
-            this.drawRung_(30, width * 0.05);
-            this.drawRung_(24, width * 0.3);
-            this.drawRung_(18, width * 0.05);
-            this.drawRung_(12, width * 0.2);
-            this.drawRung_(6, width * 0.05);
+            this.drawRung_(30, width * 0.3);
+            this.drawRung_(25, width * 0.05);
+            this.drawRung_(20, width * 0.2);
+            this.drawRung_(15, width * 0.05);
+            this.drawRung_(10, width * 0.1);
+            this.drawRung_(5, width * 0.05);
 
             // Draw the roll indicator.
             context.beginPath();
-            context.arc(0, 0, 50, 330 * Math.PI / 180.0, 30 * Math.PI / 180.0);
+            var rollRadius = this.radius * 0.9;
+            context.arc(0, 0, rollRadius, 210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
+            context.stroke();
+            this.drawRoll_(210 * Math.PI / 180, 10, rollRadius);
+            this.drawRoll_(220 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(230 * Math.PI / 180, 10, rollRadius);
+            this.drawRoll_(240 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(250 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(260 * Math.PI / 180, 5, rollRadius);
+            //this.drawRoll_(270 * Math.PI / 180, 5, rollRadius);
+            this.drawTriangle_(270 * Math.PI / 180, 5, rollRadius, true);
+            this.drawRoll_(280 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(290 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(300 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(310 * Math.PI / 180, 10, rollRadius);
+            this.drawRoll_(320 * Math.PI / 180, 5, rollRadius);
+            this.drawRoll_(330 * Math.PI / 180, 10, rollRadius);
 
             // Undo the roll rotation so we can draw the plane figure
             // over the rotated elements.
             context.restore();
+
+            this.drawTriangle_(270 * Math.PI / 180, -5, rollRadius, false);
 
             // Draw the plane.
             context.strokeStyle = this.attrs.planeColor;
@@ -119,6 +137,45 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         };
 
         this._super(config);
+    },
+
+    drawTriangle_: function(theta, length, radius, filled) {
+        var context = this.getContext();
+        var cos = Math.cos(theta);
+        var sin = Math.sin(theta);
+        var phi = 2 * Math.PI / 180;
+        context.save();
+        context.lineWidth = 1;
+        context.strokeStyle = this.attrs.lineColor;
+        context.beginPath();
+        context.moveTo(radius * Math.cos(theta),
+                       radius * Math.sin(theta));
+        context.lineTo((radius + length) * Math.cos(theta + phi),
+                       (radius + length) * Math.sin(theta + phi));
+        context.lineTo((radius + length) * Math.cos(theta - phi),
+                       (radius + length) * Math.sin(theta - phi));
+        context.lineTo(radius * Math.cos(theta),
+                       radius * Math.sin(theta));
+        context.stroke();
+        if (filled) {
+            context.fillStyle = this.attrs.lineColor;
+            context.fill();
+        }
+        context.restore();
+    },
+
+    drawRoll_: function(theta, length, radius) {
+        var context = this.getContext();
+        var cos = Math.cos(theta);
+        var sin = Math.sin(theta);
+        context.save();
+        context.lineWidth = 1;
+        context.strokeStyle = this.attrs.lineColor;
+        context.beginPath();
+        context.moveTo(cos * radius, sin * radius);
+        context.lineTo(cos * (radius + length), sin * (radius + length));
+        context.stroke();
+        context.restore();
     },
 
     drawRung_: function(offset, scaleWidth) {
