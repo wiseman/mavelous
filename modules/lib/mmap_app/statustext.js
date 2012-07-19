@@ -16,7 +16,6 @@ $(function(){
   window.StatusTextView = Backbone.View.extend({
 
     initialize: function () {
-      var self = this;
       /* First, render the template so we have the elements we expect in DOM. */
       /* render just updates the DOM via jQuery. */
       this.model.bind('change', this.render, this);
