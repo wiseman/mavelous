@@ -29,10 +29,12 @@
 <script type="text/javascript" src="guidemodel.js"></script>
 <script type="text/javascript" src="guideview.js"></script>
 <script type="text/javascript" src="commstatus.js"></script>
-
+  <!-- ADI MODULES -->
 <script type="text/javascript" src="adi.js"></script>
 <script type="text/javascript" src="adiview.js"></script>
 
+  <!-- MMAP MODULES -->
+<script type="text/javascript" src="mmapprovider.js"></script>
 <script type="text/javascript" src="mmapview.js"></script>
 
 <!-- APP INSTANCE-->
@@ -67,6 +69,7 @@
     MAV <%= mav_html %> | SERVER <%= server_html %>
   </div>
 </script>
+
 <script type="text/template" id="guidealtitudeviewtemplate">
   <div id="guidealtitudeview">
     Guide Altitude:
@@ -75,6 +78,14 @@
     <span class="t_value" id="v_altwaypt"></span> m
   </div>
 </script>
+
+<script type="text/template" id="mapsettingsviewtemplate">
+  <div id="mapsettingsview">
+    Map: <select id="mapproviderpicker"></select>
+    Zoom: <input id="mapzoom" type="range" value="18000" min="0" max="18000">
+  </div>
+</script> 
+
 <!-- HTML BODY-->
 <title>backbone mavelous</title>
 </head>
@@ -85,10 +96,12 @@
     <div class="telemetry" id="gpstextview"></div>
     <div class="telemetry" id="commstatustextview"></div>
     <div class="telemetry" id="modetextview"></div>
+    <div id="mapsettingsview"></div>
     <div id="guidealtitudeview"></div>
   </div> <!-- header -->
   <div class="t_sta_txt" id="statustextview"></div>
   <div id="map"></div>
   <div id="drone"></div>
+  <div id="mapproviderdebug">hello</div>
 </body>
 </html>

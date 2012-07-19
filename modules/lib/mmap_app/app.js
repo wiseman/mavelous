@@ -12,6 +12,8 @@ $(function(){
   var guideModel        = new GuideModel;
   guideModel.withMetaWaypointModel( metaWaypointModel );
 
+  var mmapProviderModel = new MMapProviderModel;
+
   var mavlinkAPI = new MavlinkAPI(
         { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
         , 'GPS_RAW_INT':   sendNewMavlinkMessageToModel( gpsRawIntModel )
@@ -32,6 +34,12 @@ $(function(){
   var statustextview = new StatusTextView({ model: statusTextModel });
   var adiview        = new ADIView({ model: attitudeModel, adi: adidrawing });
 
+  var mapsettings    = new MMapSettingsView({
+                              providerModel: mmapProviderModel,
+                              renderModel: undefined
+                       });
+
+  var providerdebug  = new MMapProviderView({ model: mmapProviderModel });
   console.log('appview initialized');
   
   setInterval(function() {
