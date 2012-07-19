@@ -556,7 +556,7 @@ pfd.ADI.prototype = {
             text: '',
             fontSize: smallFontSize,
             fontFamily: this.options.fontFamily,
-            textFill: this.options.fontSize
+            textFill: this.options.fontColor
         });
         this.layer.add(this.statusText);
 
