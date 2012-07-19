@@ -1,13 +1,30 @@
 
 $(function(){
-  
-  var key = 'Anmc0b2q6140lnPvAj5xANM1rvF1A4CvVtr6H2VJvQcdnDvc8NL-I2C49owIe9xC';
-  var style = 'AerialWithLabels';
 
-  window.mapProvider = new MM.BingProvider(key,style);
-  window.mapLayer    = new MM.Layer(mapProvider);
-  window.markerLayer = new MM.MarkerLayer();
-  window.map = new MM.Map('map', mapLayer, undefined, []);
-  window.map.addLayer(markerLayer);
+  window.MMapView = Backbone.View.extend({
+    initialize: function () {
+      this.providerModel = this.options.providerModel;
+      this.providerModel.bind('change', this.onProviderChange, this);
 
+      /* Setup instance variables: */
+      var provider = this.providerModel.getProvider().constructor();
+
+      this.mapLayer    = new MM.Layer(provider);
+      this.markerLayer = new MM.MarkerLayer();
+      this.map = new MM.Map('map', this.mapLayer, undefined, []);
+      this.map.addLayer(this.markerLayer);
+
+    },
+
+    render: function () {
+
+
+    },
+
+    onProviderChange: function () {
+      var provider = this.providerModel.getProvider();
+      this.mapLayer.setProvider(provider.constructor());
+    }
+
+  });
 });

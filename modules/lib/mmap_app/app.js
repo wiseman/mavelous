@@ -38,6 +38,10 @@ $(function(){
                               providerModel: mmapProviderModel,
                               renderModel: undefined
                        });
+  var mapview        = new MMapView({
+                              providerModel: mmapProviderModel,
+                              renderModel: undefined
+                       });
 
   var providerdebug  = new MMapProviderView({ model: mmapProviderModel });
   console.log('appview initialized');

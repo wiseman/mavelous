@@ -1,8 +1,10 @@
 
 $(function(){
 
+  var bingKey = 'Anmc0b2q6140lnPvAj5xANM1rvF1A4CvVtr6H2VJvQcdnDvc8NL' + 
+                '-I2C49owIe9xC';
+
   window.MMapProviderModel = Backbone.Model.extend({
-    bingKey: 'Anmc0b2q6140lnPvAj5xANM1rvF1A4CvVtr6H2VJvQcdnDvc8NL-I2C49owIe9xC',
 
     defaults: function () {
       return { provider: 'bingaerial' };
@@ -39,8 +41,9 @@ $(function(){
       return _.pluck(this.providers, 'description');
     },
     
-    newProvider: function () {
-
+    getProvider: function () {
+      var k = this.get('provider');
+      return this.providers[k];
     }
   });
 
