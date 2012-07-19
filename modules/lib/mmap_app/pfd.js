@@ -8,7 +8,6 @@
 //
 // Requirements:
 //   * Kineticjs
-//   * Underscore
 
 
 pfd = {};
@@ -93,6 +92,10 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
             this.drawRung_(18, width * 0.05);
             this.drawRung_(12, width * 0.2);
             this.drawRung_(6, width * 0.05);
+
+            // Draw the roll indicator.
+            context.beginPath();
+            context.arc(0, 0, 50, 330 * Math.PI / 180.0, 30 * Math.PI / 180.0);
 
             // Undo the roll rotation so we can draw the plane figure
             // over the rotated elements.
