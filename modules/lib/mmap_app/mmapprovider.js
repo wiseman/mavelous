@@ -10,6 +10,12 @@ $(function(){
       return { provider: 'bingaerial' };
     },
 
+    validate: function ( attrs ) {
+      if (!(attrs.provider in this.providers)) {
+        return "must set provider to a key in providers table";
+      }
+    },
+
     initialize: function () {
       console.log('mmap provider model initialize');
     },
