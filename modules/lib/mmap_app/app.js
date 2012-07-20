@@ -34,6 +34,8 @@ $(function(){
   var statustextview = new StatusTextView({ model: statusTextModel });
   var adiview        = new ADIView({ model: attitudeModel, adi: adidrawing });
 
+  var droneview      = new DroneView({ model: vfrHudModel }); 
+
   var mapsettings    = new MMapSettingsView({
                               providerModel: mmapProviderModel,
                               renderModel: undefined
