@@ -12,6 +12,9 @@ $(function(){
   var guideModel        = new GuideModel;
   guideModel.withMetaWaypointModel( metaWaypointModel );
 
+  var mmapModel         = new MMapModel;
+  mmapModel.withGpsModel( gpsRawIntModel );
+
   var mmapProviderModel = new MMapProviderModel;
 
   var mavlinkAPI = new MavlinkAPI(
@@ -38,14 +41,17 @@ $(function(){
 
   var mapsettings    = new MMapSettingsView({
                               providerModel: mmapProviderModel,
-                              renderModel: undefined
+                              mapModel: mmapModel
                        });
   var mapview        = new MMapView({
                               providerModel: mmapProviderModel,
-                              renderModel: undefined
+                              mapModel: mmapModel
                        });
 
-  var providerdebug  = new MMapProviderView({ model: mmapProviderModel });
+  var providerdebug  = new MMapProviderView({
+                              providerModel: mmapProviderModel,
+                              mapModel: mmapModel
+                        });
   console.log('appview initialized');
   
   setInterval(function() {
