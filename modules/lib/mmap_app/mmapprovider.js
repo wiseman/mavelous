@@ -17,23 +17,26 @@ $(function(){
     providers: {
       bingaerial: {
         description: "Bing Aerial",
-        constructor: function () { 
-          return new MM.BingProvider(bingKey, 'AerialWithLabels');} 
+        constructor: function (onready) {
+          return new MM.BingProvider(bingKey, 'AerialWithLabels', onready); }
       },
       bingbirdseye: {
         description: "Bing Birdseye",
-        constructor: function () {
-          return new MM.BingProvider(bingKey, 'BirdseyeWithLabels'); },
+        constructor: function (onready) {
+          return new MM.BingProvider(bingKey, 'BirdseyeWithLabels', onready); }
       },
       bingroad: {
         description: "Bing Road",
-        constructor:  function () {
-          return new MM.BingProvider(bingKey, 'Road');}
+        constructor:  function (onready) {
+          return new MM.BingProvider(bingKey, 'Road', onready);}
       },
       bluemarble: {
         description: "Blue Marble",
-        constructor: function () {
-          return new MM.BlueMarbleProvider(); }
+        constructor: function (onready) {
+          var provider = new MM.BlueMarbleProvider();
+          if (onready) { onready(provider ); }
+          return provider;
+        }
       }
     },
 

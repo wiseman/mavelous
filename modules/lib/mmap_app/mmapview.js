@@ -3,16 +3,18 @@ $(function(){
 
   window.MMapView = Backbone.View.extend({
     initialize: function () {
+      var self = this;
       this.providerModel = this.options.providerModel;
       this.providerModel.bind('change', this.onProviderChange, this);
 
       /* Setup instance variables: */
-      var provider = this.providerModel.getProvider().constructor();
-
-      this.mapLayer    = new MM.Layer(provider);
-      this.markerLayer = new MM.MarkerLayer();
-      this.map = new MM.Map('map', this.mapLayer, undefined, []);
-      this.map.addLayer(this.markerLayer);
+      var p = this.providerModel.getProvider();
+      p.constructor( function (provider) {
+       self.mapLayer    = new MM.Layer(provider);
+       self.map = new MM.Map('map', self.mapLayer, undefined, []);
+       self.markerLayer = new MM.MarkerLayer();
+       self.map.addLayer(self.markerLayer);
+      });
 
     },
 
@@ -22,8 +24,11 @@ $(function(){
     },
 
     onProviderChange: function () {
-      var provider = this.providerModel.getProvider();
-      this.mapLayer.setProvider(provider.constructor());
+      var self = this;
+      var p = this.providerModel.getProvider();
+      p.constructor(function (provider) {
+        self.mapLayer.setProvider(provider);
+      });
     }
 
   });
