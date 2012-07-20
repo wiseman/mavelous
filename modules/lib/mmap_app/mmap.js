@@ -298,7 +298,7 @@ $(function(){
           '-ms-transform:' + rotate,
           '-o-transform:' + rotate
       );
-      var drone = document.getElementById('drone');
+      var drone = document.getElementById('droneicon');
       drone.setAttribute('style', tr.join(';'));
   };
 
