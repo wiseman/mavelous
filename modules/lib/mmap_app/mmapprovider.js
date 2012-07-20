@@ -62,10 +62,11 @@ $(function(){
 
     initialize: function () {
       this.providerModel = this.options.providerModel;
-      this.renderModel   = this.options.renderModel;
+      this.mapModel      = this.options.mapModel;
 
       $('#mapsettingsview').replaceWith(this.render().el);
       this.setupProviderDropdown();
+      this.setupZoomSlider();
     },
 
     setupProviderDropdown: function () {
@@ -80,6 +81,15 @@ $(function(){
         self.providerModel.set('provider', newprovider);
       });
     },
+  
+    setupZoomSlider: function () {
+      var self = this;
+      this.zoomSlider_el = $('#mapzoom');
+      this.zoomSlider_el.val(this.mapModel.get('zoom'));
+      this.zoomSlider_el.change(function() {
+        self.mapModel.set('zoom', self.zoomSlider_el.val());
+      });
+    },
 
     render: function () {
       this.$el.html(this.template({}));
@@ -89,13 +99,17 @@ $(function(){
 
   window.MMapProviderView = Backbone.View.extend({
     initialize: function () {
-      this.model.bind('change', this.render, this);
+      this.providerModel = this.options.providerModel;
+      this.mapModel      = this.options.mapModel;
+      this.providerModel.bind('change', this.render, this);
+      this.mapModel.bind('change', this.render, this);
       this.render();
     },
 
     render: function () {
-      var provider = this.model.get('provider');
-      $('#mapproviderdebug').html(provider);
+      var provider = this.providerModel.get('provider');
+      var zoom = this.mapModel.get('zoom');
+      $('#mapproviderdebug').html(provider + ' ' + zoom.toString());
     }
   });
 });
