@@ -37,7 +37,7 @@ html {
     float: left;
 }
 
-#drone {
+#droneicon {
     background-image: url('drone-sm.png');
     background-repeat: no-repeat;
     position: absolute;
