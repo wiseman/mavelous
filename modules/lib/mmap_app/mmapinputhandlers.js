@@ -2,9 +2,12 @@ $(function() {
 
   window.MMHandlers = {};
 
-  window.MMHandlers.TouchHandler = function(map, options) {
-      if (map) {
-          this.init(map, options);
+  window.MMHandlers.TouchHandler =
+    function(map, mapModel, guideModel, options) {
+      if ( map !== undefined 
+        && mapModel  !== undefined
+        && guideModel !== undefined ) {
+          this.init(map, mapModel, guideModel, options);
       }
   };
 
@@ -18,8 +21,10 @@ $(function() {
       wasPinching: false,
       lastPinchCenter: null,
 
-      init: function(map, options) {
+      init: function(map, mapModel, guideModel, options) {
           this.map = map;
+          this.mapModel = mapModel;
+          this.guideModel = guideModel;
           options = options || {};
 
           // Fail early if this isn't a touch device.
@@ -178,7 +183,7 @@ $(function() {
       // location.
       onDoubleTap: function(tap) {
         var target = this.map.pointLocation(new MM.Point(tap.x, tap.y));
-        mmap.flyTo(target);
+        this.guideModel.set(target);
       },
 
       // Re-transform the actual map parent's CSS transformation
@@ -201,7 +206,7 @@ $(function() {
           // scale about the center of these touches
           var center = MM.Point.interpolate(p0, p1, 0.5);
 
-          this.map.zoomBy(
+          this.mapModel.zoomBy(
               Math.log(e.scale) / Math.LN2 -
                   Math.log(l0.scale) / Math.LN2);
 
@@ -216,9 +221,9 @@ $(function() {
       onPinched: function(p) {
           // TODO: easing
           if (this.options.snapToZoom) {
-              var z = this.map.getZoom(), // current zoom
+              var z = this.mapModel.getZoom(), // current zoom
               tz = Math.round(z);     // target zoom
-              this.map.zoomBy(tz - z);
+              this.mapModel.zoomBy(tz - z);
           }
           this.wasPinching = false;
       }
@@ -227,21 +232,18 @@ $(function() {
 
   // A handler that allows mouse-wheel zooming - zooming in
   // when page would scroll up, and out when the page would scroll down.
-  window.MMHandlers.MouseWheelHandler = function(map, precise) {
-      // only init() if we get a map
-      if (map) {
-          this.init(map, precise);
-          // allow (null, true) as constructor args
-      } else if (arguments.length > 1) {
-          this.precise = precise ? true : false;
+  window.MMHandlers.MouseWheelHandler = function(map, mapModel) {
+      if (map !== undefined && mapModel !== undefined) {
+        this.init(map, mapModel); 
       }
   };
 
   window.MMHandlers.MouseWheelHandler.prototype = {
       precise: false,
       
-      init: function(map) {
+      init: function(map, mapModel) {
           this.map = map;
+          this.mapModel = mapModel;
           this._mouseWheel = MM.bind(this.mouseWheel, this);
     
           this._zoomDiv = document.body.appendChild(
@@ -276,11 +278,11 @@ $(function() {
     
           if (Math.abs(delta) > 0 && (timeSince > 200) && !this.precise) {
               var point = MM.getMousePoint(e, this.map);
-              this.map.zoomBy(delta > 0 ? 1 : -1);
+              this.mapModel.zoomBy(delta > 0 ? 1 : -1);
 
               this.prevTime = new Date().getTime();
           } else if (this.precise) {
-              this.map.zoomBy(delta * 0.001);
+              this.mapModel.zoomBy(delta * 0.001);
           }
     
           // Cancel the event so that the page doesn't scroll
@@ -291,16 +293,17 @@ $(function() {
 
 
   // Handle double clicks by telling the drone to fly to that location.
-  window.MMHandlers.DoubleClickHandler = function(map, options) {
-      if (map !== undefined) {
-          this.init(map, options);
+  window.MMHandlers.DoubleClickHandler = function(map, guideModel, options) {
+      if (map !== undefined && guideModel !== undefined ) {
+          this.init(map, guideModel, options);
       }
   };
 
   window.MMHandlers.DoubleClickHandler.prototype = {
 
-      init: function(map, options) {
+      init: function(map, guideModel, options) {
           this.map = map;
+          this.guideModel = guideModel;
           this._doubleClick = MM.bind(this.doubleClick, this);
           MM.addEvent(map.parent, 'dblclick', this._doubleClick);
 
@@ -312,13 +315,12 @@ $(function() {
       },
 
       doubleClick: function(e) {
-          // Ensure that this handler is attached once.
-          // Get the point on the map that was double-clicked
-
-      var clickPoint = MM.getMousePoint(e, this.map);
-      var target = this.map.pointLocation(clickPoint);
-      mmap.flyTo(target);
-            return MM.cancelEvent(e);
+        // Ensure that this handler is attached once.
+        // Get the point on the map that was double-clicked
+        var clickPoint = MM.getMousePoint(e, this.map);
+        var target = this.map.pointLocation(clickPoint);
+        this.guideModel.set(target);
+        return MM.cancelEvent(e);
       }
   };
 
