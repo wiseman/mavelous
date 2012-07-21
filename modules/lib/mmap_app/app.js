@@ -43,9 +43,11 @@ $(function(){
                               providerModel: mmapProviderModel,
                               mapModel: mmapModel
                        });
+
   var mapview        = new MMapView({
                               providerModel: mmapProviderModel,
-                              mapModel: mmapModel
+                              mapModel: mmapModel,
+                              guideModel: guideModel
                        });
 
   var providerdebug  = new MMapProviderView({

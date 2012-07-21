@@ -7,6 +7,7 @@ $(function(){
 
       this.providerModel = this.options.providerModel;
       this.mapModel      = this.options.mapModel;
+      this.guideModel    = this.options.guideModel;
 
 
       /* Setup instance variables: */
@@ -17,6 +18,7 @@ $(function(){
         self.markerLayer = new MM.MarkerLayer();
         self.map.addLayer(self.markerLayer);
 
+
         self.onZoomChange();
         self.onCenterChange();
 
@@ -26,6 +28,16 @@ $(function(){
       });
 
     },
+
+    setupMapHandlers: function (map) {
+        /* Need to do something to bind models to these handlers before
+         * passing them to be initialzed by the MM.Map constructor... */
+        self.mapHandlers =  [
+          new MMHandlers.MouseWheelHandler( self.map, self.mapModel ),
+          new MMHandlers.TouchHandler( self.map, self.mapModel, self.guideModel ),
+          new MMHandlers.MouseWheelHandler( self.map, self.mapModel ),
+        ]
+    }
 
     onProviderChange: function () {
       var self = this;
