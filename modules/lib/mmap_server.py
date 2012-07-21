@@ -49,34 +49,44 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.send_response(200)
     self.end_headers()
 
+  def response_for_message(self, t, n, msg):
+    mdict = msg.to_dict()
+    for key, value in mdict.items():
+      if isinstance(value, types.StringTypes):
+        mdict[key] = nul_terminate(value)
+    resp = {'time_usec': t,
+            'index': n,
+            'msg': mdict}
+    return resp
+
   def do_GET(self):
     scheme, host, path, params, query, frag = urlparse.urlparse(self.path)
+    query_dict = urlparse.parse_qs(query, keep_blank_values=True)
     ps = path.split('/')
     # API: /mavlink/mtype1+mtype2+...
     if len(ps) == 3 and ps[1] == 'mavlink':
       mtypes = ps[2].split('+')
       msgs = self.server.module_state.messages
       results = {}
+      # Treat * as a wildcard.
+      if mtypes == ['*']:
+        mtypes = msgs.message_types()
       for mtype in mtypes:
         if msgs.has_message(mtype):
           (t, n, m) = msgs.get_message(mtype)
-          mdict = m.to_dict()
-          for key, value in mdict.items():
-            if isinstance(value, types.StringTypes):
-              mdict[key] = nul_terminate(value)
-          resp = {'time_usec': t,
-                  'index': n,
-                  'msg': mdict}
-          results[mtype] = resp
+          results[mtype] = self.response_dict_for_message(m, t, n)
       self.send_response(200)
       self.send_header('Content-type', 'application/json')
       self.end_headers()
-      self.wfile.write(json.dumps(results))
+      if 'pp' in query_dict or 'debug' in query_dict:
+        self.wfile.write(json.dumps(results, indent=4))
+      else:
+        self.wfile.write(json.dumps(results))
     else:
       # Remove leading '/'.
       path = path[1:]
-      # Ignore all directories.  E.g.  for ../../bar/a.txt serve
-      # DOC_DIR/a.txt.
+      # For security ignore all directories.  E.g.  for
+      # ../../bar/a.txt serve DOC_DIR/a.txt.
       unused_head, path = os.path.split(path)
       # for / serve index.html.
       if path == '':
@@ -97,6 +107,18 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.send_response(404)
         self.end_headers()
         self.wfile.write('Error: %s' % (error,))
+
+  def response_dict_for_message(self, msg, time, index):
+    mdict = msg.to_dict()
+    for key, value in mdict.items():
+      if isinstance(value, types.StringTypes):
+        mdict[key] = nul_terminate(value)
+      resp = {
+        'time_usec': time,
+        'index': index,
+        'msg': mdict
+        }
+    return resp
 
 
 def start_server(address, port, module_state):
