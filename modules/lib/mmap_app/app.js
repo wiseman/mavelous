@@ -55,10 +55,6 @@ $(function(){
                               guideModel: guideModel
                        });
 
-  var providerdebug  = new MMapProviderView({
-                              providerModel: mmapProviderModel,
-                              mapModel: mmapModel
-                        });
   console.log('appview initialized');
   
   setInterval(function() {
