@@ -27,6 +27,11 @@ $(function(){
       }
     },
 
+    setTarget: function (target) {
+      this.set(target);
+      this.send();
+    },
+
     send: function () {
       var loc= this.toJSON();
       if (loc.lat != null && loc.lon != null) {
@@ -35,9 +40,11 @@ $(function(){
     },
 
     sendServer: function ( loc ) {
+      var req = JSON.stringify({ command: 'FLYTO', location: loc })
+      console.log(req);
       $.ajax({ type: 'POST',
                url: '/command',
-               data: JSON.stringify({ command: 'FLYTO', location: loc })
+               data: req 
              });
       }
   });

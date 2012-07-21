@@ -29,7 +29,7 @@ $(function(){
       this.zoomSlider_el = $('#mapzoom');
       this.zoomSlider_el.val(this.mapModel.get('zoom'));
       this.zoomSlider_el.change(function() {
-        self.mapModel.set('zoom', self.zoomSlider_el.val());
+        self.mapModel.setZoom(self.zoomSlider_el.val());
       });
     },
 

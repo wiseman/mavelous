@@ -41,6 +41,10 @@ $(function(){
       this.set('zoom', this.get('zoom') + parseFloat(delta));
     },
 
+    setZoom: function (z) {
+      this.set('zoom', parseFloat(z));
+    },
+
     getZoom: function () {
       return this.get('zoom');
     }

@@ -178,7 +178,7 @@ $(function() {
       // location.
       onDoubleTap: function(tap) {
         var target = this.map.pointLocation(new MM.Point(tap.x, tap.y));
-        this.guideModel.set(target);
+        this.guideModel.setTarget(target);
       },
 
       // Re-transform the actual map parent's CSS transformation
@@ -310,7 +310,7 @@ $(function() {
         // Get the point on the map that was double-clicked
         var clickPoint = MM.getMousePoint(e, this.map);
         var target = this.map.pointLocation(clickPoint);
-        this.guideModel.set(target);
+        this.guideModel.setTarget(target);
         return MM.cancelEvent(e);
       }
   };

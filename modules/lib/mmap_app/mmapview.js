@@ -9,6 +9,7 @@ $(function(){
       this.mapModel      = this.options.mapModel;
       this.guideModel    = this.options.guideModel;
 
+      this.guideWaypoint = null;
 
       /* Setup instance variables: */
       var p = this.providerModel.getProvider();
@@ -24,21 +25,35 @@ $(function(){
         self.markerLayer = new MM.MarkerLayer();
         self.map.addLayer(self.markerLayer);
 
-
         self.onZoomChange();
         self.onCenterChange();
 
         self.providerModel.bind('change:provider',self.onProviderChange, self);
         self.mapModel.bind('change:zoom', self.onZoomChange, self);
         self.mapModel.bind('change', self.onCenterChange, self);
+        self.guideModel.bind('change', self.onGuideWaypointChange, self);
       });
 
     },
 
-    setupMapHandlers: function (map) {
-      var self = this;
-        /* Need to do something to bind models to these handlers before
-         * passing them to be initialzed by the MM.Map constructor... */
+    onGuideWaypointChange: function () {
+      var loc = this.guideModel.toJSON();
+      if (this.guideWaypoint) {
+        this.guideWaypoint.coord = this.map.locationCoordinate(loc);
+        this.markerLayer.repositionMarker(this.guideWaypoint);
+      } else {
+        this.guideWaypoint = this.createWaypoint(loc, "mapmarker.png", 50, 50);
+      }
+    },
+
+    createWaypoint: function (location, imageurl, width, height) {
+      var el = document.createElement('div');
+      el.innerHTML = '<img src="' + imageurl + '"' +
+                     ' width="' + width.toString() + '"' +
+                     ' height="' + height.toString() + '">';
+      el.pixelOffset = { x: -1*width/2 , y: -1*height };
+      this.markerLayer.addMarker(el, location);
+      return el;
     },
 
     onProviderChange: function () {
