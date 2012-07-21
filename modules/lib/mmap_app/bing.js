@@ -47,6 +47,7 @@ MM.BingProvider = function(key, style, onready) {
                         .replace('{quadkey}',quadKey)
                         .replace('{subdomain}', resource.imageUrlSubdomains[server]);
                 };
+                provider.releaseTile = function(coord) { };
                 // TODO: use resource.imageWidth
                 // TODO: use resource.imageHeight
             }
