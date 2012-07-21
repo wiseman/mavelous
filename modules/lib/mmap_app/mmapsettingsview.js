@@ -5,7 +5,7 @@ $(function(){
     initialize: function () {
       this.providerModel = this.options.providerModel;
       this.mapModel      = this.options.mapModel;
-
+      this.mapModel.bind('change:zoom', this.onZoomChange, this);
       $('#mapsettingsview').replaceWith(this.render().el);
       this.setupProviderDropdown();
       this.setupZoomSlider();
@@ -32,6 +32,12 @@ $(function(){
         self.mapModel.set('zoom', self.zoomSlider_el.val());
       });
     },
+
+    onZoomChange: function () {
+      var zoom = this.mapModel.get('zoom');
+      this.zoomSlider_el.val(zoom);
+    },
+
     render: function () {
       this.$el.html(this.template({}));
       return this;
