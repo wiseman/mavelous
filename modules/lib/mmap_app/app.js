@@ -56,6 +56,6 @@ $(function(){
   
   setInterval(function() {
     mavlinkAPI.update();
-  }, 1000); 
+  }, 250); 
 
 });
