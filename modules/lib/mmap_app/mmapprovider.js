@@ -26,11 +26,13 @@ $(function(){
         constructor: function (onready) {
           return new MM.BingProvider(bingKey, 'AerialWithLabels', onready); }
       },
+      /* XXX Bing Birdseye map doesn't seem to work...
       bingbirdseye: {
         description: "Bing Birdseye",
         constructor: function (onready) {
           return new MM.BingProvider(bingKey, 'BirdseyeWithLabels', onready); }
       },
+      */
       bingroad: {
         description: "Bing Road",
         constructor:  function (onready) {
