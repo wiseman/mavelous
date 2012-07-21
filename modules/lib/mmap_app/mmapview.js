@@ -29,8 +29,6 @@ $(function(){
 
     onProviderChange: function () {
       var self = this;
-      console.log('MMapView.onProviderChange: ' +
-            this.providerModel.get('provider'));
       var p = this.providerModel.getProvider();
       p.constructor(function (provider) {
         self.mapLayer.setProvider(provider);
