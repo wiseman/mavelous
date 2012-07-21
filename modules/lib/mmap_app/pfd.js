@@ -10,8 +10,10 @@
 //   * Kineticjs
 
 
-pfd = {};
 
+$(function(){
+
+pfd = {};
 
 pfd.zeroPad = function(number, width, padChar) {
     if (!padChar) {
@@ -668,3 +670,7 @@ pfd.ADI.prototype = {
         this.statusText.setText(status);
     }
 };
+
+window.pfd = pfd;
+
+});
