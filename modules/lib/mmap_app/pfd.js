@@ -256,11 +256,11 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
   });
 
 
-  pfd.ADI = function(container) {
+  pfd.PFD = function(container) {
     this.init(container);
   };
 
-  pfd.ADI.prototype = {
+  pfd.PFD.prototype = {
     containerElement: null,
     
     makeGroup: function(items, config) {

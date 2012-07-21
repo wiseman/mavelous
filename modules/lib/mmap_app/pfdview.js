@@ -1,18 +1,18 @@
 
 $(function(){
 
-  window.ADIView = Backbone.View.extend({
-    adi: null,
+  window.PFDView = Backbone.View.extend({
+    pfd: null,
 
     initialize: function() {
-      this.adi = new pfd.ADI('adi');
+      this.pfd = new pfd.PFD('pfd');
       this.model.bind('change', this.render, this);
     },
 
     render: function() {
       var mdl = this.model.toJSON();
-      this.adi.setAttitude( mdl.pitch, mdl.roll );
-      this.adi.draw();
+      this.pfd.setAttitude( mdl.pitch, mdl.roll );
+      this.pfd.draw();
       return this;
     }
 

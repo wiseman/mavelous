@@ -82,7 +82,7 @@ mmap.initMap = function() {
 
     mmap.mapPanner = new MapPanner(mmap.map);
     
-    mmap.adi = new pfd.ADI('adi');
+    mmap.adi = new pfd.PFD('pfd');
 
     var zoomSlider = document.getElementById('zoom');
     zoomSlider.onchange = function() {
