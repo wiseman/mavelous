@@ -14,7 +14,13 @@ $(function(){
       var p = this.providerModel.getProvider();
       p.constructor( function (provider) {
         self.mapLayer    = new MM.Layer(provider);
-        self.map = new MM.Map('map', self.mapLayer, undefined, []);
+
+        self.mapHandlers =
+          [ new MMHandlers.MouseWheelHandler( self.mapModel )
+          , new MMHandlers.TouchHandler( self.mapModel, self.guideModel )
+          , new MMHandlers.DoubleClickHandler( self.guideModel )
+          ];
+        self.map = new MM.Map('map', self.mapLayer, undefined,self.mapHandlers);
         self.markerLayer = new MM.MarkerLayer();
         self.map.addLayer(self.markerLayer);
 
@@ -30,14 +36,10 @@ $(function(){
     },
 
     setupMapHandlers: function (map) {
+      var self = this;
         /* Need to do something to bind models to these handlers before
          * passing them to be initialzed by the MM.Map constructor... */
-        self.mapHandlers =  [
-          new MMHandlers.MouseWheelHandler( self.map, self.mapModel ),
-          new MMHandlers.TouchHandler( self.map, self.mapModel, self.guideModel ),
-          new MMHandlers.MouseWheelHandler( self.map, self.mapModel ),
-        ]
-    }
+    },
 
     onProviderChange: function () {
       var self = this;

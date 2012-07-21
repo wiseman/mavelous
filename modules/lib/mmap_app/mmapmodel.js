@@ -36,6 +36,13 @@ $(function(){
       }
       this.set(state);
     },
+
+    zoomBy: function (delta) {
+      this.set('zoom', this.get('zoom') + parseFloat(delta));
+    },
+
+    getZoom: function () {
+      return this.get('zoom');
     }
   });
 });

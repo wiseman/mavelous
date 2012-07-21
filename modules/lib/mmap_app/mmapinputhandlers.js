@@ -2,13 +2,10 @@ $(function() {
 
   window.MMHandlers = {};
 
-  window.MMHandlers.TouchHandler =
-    function(map, mapModel, guideModel, options) {
-      if ( map !== undefined 
-        && mapModel  !== undefined
-        && guideModel !== undefined ) {
-          this.init(map, mapModel, guideModel, options);
-      }
+  window.MMHandlers.TouchHandler =  function(mapModel, guideModel) {
+      this.mapModel = mapModel;
+      this.guideModel = guideModel;
+      return this;
   };
 
   window.MMHandlers.TouchHandler.prototype = {
@@ -21,10 +18,8 @@ $(function() {
       wasPinching: false,
       lastPinchCenter: null,
 
-      init: function(map, mapModel, guideModel, options) {
+      init: function(map, options) {
           this.map = map;
-          this.mapModel = mapModel;
-          this.guideModel = guideModel;
           options = options || {};
 
           // Fail early if this isn't a touch device.
@@ -232,18 +227,16 @@ $(function() {
 
   // A handler that allows mouse-wheel zooming - zooming in
   // when page would scroll up, and out when the page would scroll down.
-  window.MMHandlers.MouseWheelHandler = function(map, mapModel) {
-      if (map !== undefined && mapModel !== undefined) {
-        this.init(map, mapModel); 
-      }
+  window.MMHandlers.MouseWheelHandler = function(mapModel) {
+    this.mapModel = mapModel;
+    return this;
   };
 
   window.MMHandlers.MouseWheelHandler.prototype = {
       precise: false,
       
-      init: function(map, mapModel) {
+      init: function(map) {
           this.map = map;
-          this.mapModel = mapModel;
           this._mouseWheel = MM.bind(this.mouseWheel, this);
     
           this._zoomDiv = document.body.appendChild(
@@ -293,21 +286,19 @@ $(function() {
 
 
   // Handle double clicks by telling the drone to fly to that location.
-  window.MMHandlers.DoubleClickHandler = function(map, guideModel, options) {
-      if (map !== undefined && guideModel !== undefined ) {
-          this.init(map, guideModel, options);
-      }
+  window.MMHandlers.DoubleClickHandler = function ( guideModel ) {
+    this.guideModel = guideModel;
+    return this;
   };
 
   window.MMHandlers.DoubleClickHandler.prototype = {
 
-      init: function(map, guideModel, options) {
+      init: function(map, options) {
           this.map = map;
-          this.guideModel = guideModel;
           this._doubleClick = MM.bind(this.doubleClick, this);
           MM.addEvent(map.parent, 'dblclick', this._doubleClick);
 
-          this.options = {};
+          this.options = options || {};
       },
 
       remove: function() {
