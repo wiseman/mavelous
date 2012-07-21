@@ -35,7 +35,12 @@ $(function(){
   var commstatusview = new CommStatusView({ model: commStatusModel });
   var guidealtview   = new GuideAltitudeView({ model: guideModel });
   var statustextview = new StatusTextView({ model: statusTextModel });
-  var pfdview        = new PFDView({ model: attitudeModel });
+  var pfdview        = new PFDView({
+                              attitudeModel:   attitudeModel,
+                              vfrHudModel:     vfrHudModel,
+                              statusTextModel: statusTextModel,
+                              heartbeatModel:  heartbeatModel,
+                      });
 
   var droneview      = new DroneView({ model: vfrHudModel }); 
 
