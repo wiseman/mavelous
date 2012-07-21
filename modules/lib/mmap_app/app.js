@@ -1,31 +1,32 @@
 
 $(function(){ 
 
-  var vfrHudModel       = new VfrHudModel;
-  var gpsRawIntModel    = new GpsRawIntModel;
-  var heartbeatModel    = new HeartbeatModel;
-  var attitudeModel     = new AttitudeModel;
-  var metaWaypointModel = new MetaWaypointModel;
-  var statusTextModel   = new StatusTextModel;
-
-  var commStatusModel   = new CommStatusModel;
-  var guideModel        = new GuideModel;
+  var vfrHudModel       = new VfrHudModel();
+  var gpsRawIntModel    = new GpsRawIntModel();
+  var heartbeatModel    = new HeartbeatModel();
+  var attitudeModel     = new AttitudeModel();
+  var metaWaypointModel = new MetaWaypointModel();
+  var statusTextModel   = new StatusTextModel();
+  var navControllerOutputModel = new NavControllerOutputModel();
+  var commStatusModel   = new CommStatusModel();
+  var guideModel        = new GuideModel();
   guideModel.withMetaWaypointModel( metaWaypointModel );
 
-  var mmapModel         = new MMapModel;
+  var mmapModel         = new MMapModel();
   mmapModel.withGpsModel( gpsRawIntModel );
 
-  var mmapProviderModel = new MMapProviderModel;
+  var mmapProviderModel = new MMapProviderModel();
 
   var mavlinkAPI = new MavlinkAPI(
-        { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel )
-        , 'GPS_RAW_INT':   sendNewMavlinkMessageToModel( gpsRawIntModel )
-        , 'VFR_HUD':       sendNewMavlinkMessageToModel( vfrHudModel )
-        , 'ATTITUDE':      sendNewMavlinkMessageToModel( attitudeModel )
-        , 'META_WAYPOINT': sendNewMavlinkMessageToModel( metaWaypointModel )
-        , 'STATUSTEXT':    sendNewMavlinkMessageToModel( statusTextModel )
-        }
-      , commStatusModel); 
+    { 'HEARTBEAT':     sendNewMavlinkMessageToModel( heartbeatModel ),
+      'GPS_RAW_INT':   sendNewMavlinkMessageToModel( gpsRawIntModel ),
+      'VFR_HUD':       sendNewMavlinkMessageToModel( vfrHudModel ),
+      'ATTITUDE':      sendNewMavlinkMessageToModel( attitudeModel ),
+      'META_WAYPOINT': sendNewMavlinkMessageToModel( metaWaypointModel ),
+      'STATUSTEXT':    sendNewMavlinkMessageToModel( statusTextModel ),
+      'NAV_CONTROLLER_OUTPUT': sendNewMavlinkMessageToModel(navControllerOutputModel)
+    },
+    commStatusModel); 
 
 //  var adidrawing = new ADI('adi');
 
@@ -36,11 +37,12 @@ $(function(){
   var guidealtview   = new GuideAltitudeView({ model: guideModel });
   var statustextview = new StatusTextView({ model: statusTextModel });
   var pfdview        = new PFDView({
-                              attitudeModel:   attitudeModel,
-                              vfrHudModel:     vfrHudModel,
-                              statusTextModel: statusTextModel,
-                              heartbeatModel:  heartbeatModel,
-                      });
+    attitudeModel:   attitudeModel,
+    vfrHudModel:     vfrHudModel,
+    statusTextModel: statusTextModel,
+    heartbeatModel:  heartbeatModel,
+    navControllerOutputModel: navControllerOutputModel
+  });
 
   var droneview      = new DroneView({ model: vfrHudModel }); 
 

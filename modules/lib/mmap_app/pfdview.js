@@ -9,6 +9,7 @@ $(function(){
       this.attitudeModel   = this.options.attitudeModel;
       this.vfrHudModel     = this.options.vfrHudModel;
       this.statusTextModel = this.options.statusTextModel;
+      this.navControllerOutputModel = this.options.navControllerOutputModel;
       this.heartbeatModel  = this.options.heartbeatModel;
 
       /* Create pfd object */
@@ -19,12 +20,14 @@ $(function(){
       this.vfrHudModel.bind    ('change', this.onVfrHudChange,     this);
       this.statusTextModel.bind('change', this.onStatusTextChange, this);
       this.heartbeatModel.bind ('change', this.onHeartbeatChange,  this);
+      this.navControllerOutputModel.bind('change', this.onNavControllerOutputChange, this);
 
       /* Set off each callback to initialize view */
       this.onAttitudeChange();
       this.onVfrHudChange();
       this.onStatusTextChange();
       this.onHeartbeatChange();
+      this.onNavControllerOutputChange();
       console.log('pfd view initialized');
     },
 
@@ -50,6 +53,17 @@ $(function(){
     onHeartbeatChange: function () {
       var modestring = this.heartbeatModel.modestring();
       this.pfd.setFlightMode(modestring);
+    },
+
+    onNavControllerOutputChange: function() {
+      var alt_error = this.navControllerOutputModel.get('alt_error');
+      var aspd_error = this.navControllerOutputModel.get('aspd_error');
+      if (Math.abs(alt_error) > 0) {
+        this.pfd.setTargetAltitude(this.vfrHudModel.get('alt') + alt_error);
+      }
+      if (Math.abs(aspd_error) > 0) {
+        this.pfd.setTargetAltitude(this.vfrHudModel.get('airspeed') + aspd_error);
+      }
     }
   });
 

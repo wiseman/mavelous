@@ -44,8 +44,6 @@ $(function(){
         lastidx = newmsg.index;
         model.set(newmsg.msg);
       }
-    }
-  }
-
-
+    };
+  };
 });
