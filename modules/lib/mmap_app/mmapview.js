@@ -8,20 +8,21 @@ $(function(){
       this.providerModel = this.options.providerModel;
       this.mapModel      = this.options.mapModel;
 
-      this.providerModel.bind('change:provider', this.onProviderChange, this);
-      this.mapModel.bind('change:zoom', this.onZoomChange, this);
-      this.mapModel.bind('change', this.onCenterChange, this);
 
       /* Setup instance variables: */
       var p = this.providerModel.getProvider();
       p.constructor( function (provider) {
-       self.mapLayer    = new MM.Layer(provider);
-       self.map = new MM.Map('map', self.mapLayer, undefined, []);
-       self.markerLayer = new MM.MarkerLayer();
-       self.map.addLayer(self.markerLayer);
+        self.mapLayer    = new MM.Layer(provider);
+        self.map = new MM.Map('map', self.mapLayer, undefined, []);
+        self.markerLayer = new MM.MarkerLayer();
+        self.map.addLayer(self.markerLayer);
 
-       self.onZoomChange();
-       self.onCenterChange();
+        self.onZoomChange();
+        self.onCenterChange();
+
+        self.providerModel.bind('change:provider',self.onProviderChange, self);
+        self.mapModel.bind('change:zoom', self.onZoomChange, self);
+        self.mapModel.bind('change', self.onCenterChange, self);
       });
 
     },
