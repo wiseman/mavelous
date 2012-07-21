@@ -349,10 +349,12 @@ pfd.ADI.prototype = {
                 this.speedTape.add(new Kinetic.Text({
                     x: 0,
                     y: y - smallFontSize / 2,
+                    width: 23,
+                    align: 'right',
                     fontSize: smallFontSize,
                     fontFamily: this.options.fontFamily,
                     textFill: this.options.fontColor,
-                    text: pfd.zeroPad(spd, 4, ' ')
+                    text: '' + spd
                 }));
             } else {
                 this.speedTape.add(new Kinetic.Line({
@@ -366,9 +368,11 @@ pfd.ADI.prototype = {
         
         // Instantaneous speed text
         this.speedInst = new Kinetic.Text({
-            x: 2,
+            x: 0,
             y: 10 - this.options.fontSize / 2,
+            width: 23,
             text: 'UNK',
+            align: 'right',
             fontSize: this.options.fontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.fontColor
@@ -399,6 +403,8 @@ pfd.ADI.prototype = {
         this.targetAltitudeDisplay = new Kinetic.Text({
             x: 170,
             y: 10,
+            width: 30,
+            align: 'center',
             fontSize: smallFontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.bugColor});
@@ -408,6 +414,8 @@ pfd.ADI.prototype = {
         this.targetSpeedDisplay = new Kinetic.Text({
             x: 0,
             y: 10,
+            width: 30,
+            align: 'center',
             fontSize: smallFontSize,
             fontFamily: this.options.fontFamily,
             textFill: this.options.bugColor});
@@ -465,7 +473,7 @@ pfd.ADI.prototype = {
                     lineCap: 'square'
                 }));
                 this.altitudeTape.add(new Kinetic.Text({
-                    x: 6,
+                    x: 7,
                     y: y - smallFontSize / 2,
                     fontSize: smallFontSize,
                     fontFamily: this.options.fontFamily,
@@ -484,7 +492,7 @@ pfd.ADI.prototype = {
         
         // Instantaneous speed text
         this.altitudeInst = new Kinetic.Text({
-            x: 6,
+            x: 7,
             y: 10 - Math.round(this.options.fontSize / 2),
             text: 'UNK',
             fontSize: this.options.fontSize,
@@ -531,18 +539,20 @@ pfd.ADI.prototype = {
         this.layer.add(this.altitudeBug);
 
         this.flightModeRect = new Kinetic.Rect({
-            x: 1,
-            y: 1,
+            x: 0,
+            y: 0,
             width: 60,
-            height: 9,
+            height: 10,
             stroke: this.options.highlightColor,
             strokeWidth: 1.0,
             visible: false});
         this.layer.add(this.flightModeRect);
 
         this.flightModeDisplay = new Kinetic.Text({
-            x: 2,
-            y: 2,
+            x: 0,
+            y: 0,
+            padding: 2,
+            width: 'auto',
             text: '',
             fontSize: this.options.fontSize,
             fontFamily: this.options.fontFamily,
@@ -588,7 +598,6 @@ pfd.ADI.prototype = {
                 spdTxt = spdTxt.substr(0, spdTxt.length - 1);
             }
         }
-        spdTxt = pfd.zeroPad(spdTxt, 3, ' ');
         this.speedInst.setText(spdTxt);
         this.speedTape.setY(speed * 2);
 
@@ -606,8 +615,7 @@ pfd.ADI.prototype = {
         } else {
             this.speedBug.setY(this._calcSpeedBugY());
             this.speedBug.show();
-            this.targetSpeedDisplay.setText(pfd.zeroPad(
-                Math.round(speed), 4, ' '));
+            this.targetSpeedDisplay.setText(Math.round(speed).toString());
             this.targetSpeedDisplay.show();
         }
         //this.layer.draw();
@@ -619,7 +627,7 @@ pfd.ADI.prototype = {
 
     setAltitude: function(altitude) {
         this.altitude = altitude;
-        this.altitudeInst.setText(pfd.zeroPad(Math.round(altitude), 3, ' '));
+      this.altitudeInst.setText(Math.round(altitude).toString());
         this.altitudeTape.setY(altitude * 4);
         if (this.altitudeBug.isVisible()) {
             this.altitudeBug.setY(this._calcAltitudeBugY());
@@ -635,8 +643,7 @@ pfd.ADI.prototype = {
         } else {
             this.altitudeBug.setY(this._calcAltitudeBugY());
             this.altitudeBug.show();
-            this.targetAltitudeDisplay.setText(pfd.zeroPad(
-                Math.round(altitude), 4, ' '));
+          this.targetAltitudeDisplay.setText(Math.round(altitude).toString());
             this.targetAltitudeDisplay.show();
         }
         //this.layer.draw();
@@ -649,7 +656,7 @@ pfd.ADI.prototype = {
         if (mode != this.flightMode) {
             this.flightMode = mode;
             this.flightModeDisplay.setText(mode);
-            this.flightModeRect.setWidth(mode.length * this.options.fontSize);
+            this.flightModeRect.setWidth(this.flightModeDisplay.getBoxWidth());
             this.flightModeRect.setAlpha(1.0);
             this.flightModeRect.show();
             this.flightModeRect.transitionTo({
