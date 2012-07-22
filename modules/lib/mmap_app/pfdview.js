@@ -41,7 +41,6 @@ $(function(){
     pfd: null,
 
     modestring: function(msg) {
-      console.log(msg);
       var base_mode = msg.get('base_mode');
       var type = msg.get('type');
       var custom_mode = msg.get('custom_mode');
@@ -83,7 +82,6 @@ $(function(){
       this.onStatusTextChange();
       this.onHeartbeatChange();
       this.onNavControllerOutputChange();
-      console.log('pfd view initialized');
     },
 
     onAttitudeChange: function() {

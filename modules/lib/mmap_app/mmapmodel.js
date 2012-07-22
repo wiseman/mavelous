@@ -16,8 +16,6 @@ $(function(){
     },
 
     initialize: function () {
-      console.log('mmap model initialize');
-      console.log(this);
       var mavlink = this.get('mavlinkSrc');
       this.gotgps = false;
       this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGps, this);
@@ -28,7 +26,7 @@ $(function(){
       var gpslon = this.gps.get('lon');
       var state = { lat: gpslat / 1.0e7, lon: gpslon / 1.0e7 };
 
-      if ( gpslat != 0 && gpslon != 0 && this.gotgps == false ) {
+      if ( gpslat !== 0 && gpslon !== 0 && this.gotgps === false ) {
         this.gotgps = true;
         state.zoom = this.TIGHT_ZOOM;
       }

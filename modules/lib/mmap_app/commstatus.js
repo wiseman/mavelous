@@ -82,8 +82,8 @@ $(function(){
     template: _.template($('#commstatustexttemplate').html()),
 
     initialize: function () {
-      $("#commstatustextview").replaceWith(this.render().el);
       this.model.bind('change', this.render, this);
+      this.render();
     },
 
     render_status: function (stat) {
@@ -99,6 +99,7 @@ $(function(){
         return '<span class="error">ERROR</span>';
       }
     },
+
     render: function () {
       var mdl = this.model.toJSON();
       mdl.server_html = this.render_status(mdl.server);

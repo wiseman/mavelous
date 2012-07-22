@@ -7,7 +7,7 @@ $(function(){
     initialize: function() {
       var mavlink = this.options.mavlinkSrc;
       this.gps = mavlink.subscribe('GPS_RAW_INT', this.render, this);
-      $("#gpstextview").replaceWith(this.render().el);
+      this.render();
     },
     
     render: function() {

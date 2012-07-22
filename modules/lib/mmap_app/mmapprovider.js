@@ -17,7 +17,6 @@ $(function(){
     },
 
     initialize: function () {
-      console.log('mmap provider model initialize');
     },
 
     providers: {

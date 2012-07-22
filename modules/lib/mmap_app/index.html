@@ -41,32 +41,12 @@
 <!-- APP INSTANCE-->
 <script type="text/javascript" src="app.js"></script>
 
-<!-- APP VIEW TEMPLATES -->
-<script type="text/template" id="vfrhudtexttemplate">
-  <div class="telemetry" id="vfrhudtextview">
-    ALT <span class="t_value"><%= alt.toPrecision(4) %> m</span> |
-    HDG <span class="t_value"><%= heading.toPrecision(4) %></span><br>
-    GROUNDSPEED <span class="t_value"><%= groundspeed.toPrecision(3) %> m/s</span> |
-    AIRSPEED <span class="t_value"><%= airspeed.toPrecision(3) %> m/s</span><br>
-  </div>
-</script>
-
 <script type="text/template" id="gpstexttemplate">
-  <div class="telemetry" id="gpstextview">
     GPS <%= fix_type_html %>
-  </div>
-</script>
-
-<script type="text/template" id="modetexttemplate">
-  <div class="telemetry" id="modetextview">
-    MODE <span class="t_value"><%= modestring %></span>
-  </div>
 </script>
 
 <script type="text/template" id="commstatustexttemplate">
-  <div class="telemetry" id="commstatustextview">
     MAV <%= mav_html %> | SERVER <%= server_html %>
-  </div>
 </script>
 
 <script type="text/template" id="guidealtitudeviewtemplate">
@@ -91,14 +71,11 @@
 <body>
   <div id="header">
     <div id="pfd"></div>
-    <div class="telemetry" id="vfrhudtextview"></div>
-    <div class="telemetry" id="gpstextview"></div>
-    <div class="telemetry" id="commstatustextview"></div>
-    <div class="telemetry" id="modetextview"></div>
+    <span class="telemetry" id="gpstextview"></span> |
+    <span class="telemetry" id="commstatustextview"></span>
     <div id="mapsettingsview"></div>
     <div id="guidealtitudeview"></div>
   </div> <!-- header -->
-  <div class="t_sta_txt" id="statustextview"></div>
   <div id="map"></div>
   <div id="droneicon"></div>
 </body>
