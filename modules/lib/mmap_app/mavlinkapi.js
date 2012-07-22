@@ -1,49 +1,49 @@
-
 $(function(){
   
-  window.MavlinkAPI = function ( mtable, commStatusModel ) {
+  window.MavlinkMessage = Backbone.Model.extend({});
+
+
+  window.MavlinkAPI = function(url) {
     var self = this;
-    this.mtable = mtable;
-    this.commStatusModel = commStatusModel;
-    this.heartbeatIndex = -1;
+    this.url = url;
+    // Table of message models, keyed by message type.
+    this.messageModels = {};
 
-    this.parseMsgResults = function (data) {
-      // console.log({"mavlink api data": data });
-      self.commStatusModel.onServerSuccess();
-      /* For each messagetype in data, */
-      _.each(data, function( msg, mtype ) {
-        /* Find the handler for that messagetype in mtable */
-        if (mtype in self.mtable) {
-          /* and dispatch the message to the handler. */
-          self.mtable[mtype](msg);
-        }
+    this.subscribe = function(msgType, handlerFunction, context) {
+      if (!self.messageModels[msgType]) {
+        self.messageModels[msgType] = new MavlinkMessage({
+          _type: msgType,
+          _index: -1});
+      }
+      var model = self.messageModels[msgType];
+      model.bind('change', handlerFunction, context);
+      return model;
+    };
 
-        if (mtype == "HEARTBEAT") {
-          if (msg.index > self.heartbeatIndex) {
-            self.heartbeatIndex = msg.index;
-            self.commStatusModel.onHeartbeat();
-          }
-        }
-      });
+    this.handleMessages = function(msgEnvelopes) {
+      _.each(msgEnvelopes, self.handleMessage, self);
+    };
+
+    this.handleMessage = function(msg, msgType) {
+      // Update the model if this is a new message for this type.
+      var msgModel = self.messageModels[msgType];
+      if (msgModel._index === undefined || msg.index > msgModel._index) {
+        msgModel.set({
+          _index: msg.index
+        }, {
+          silent: true
+        });
+        msgModel.set(msg.msg);
+      }
     };
 
     this.update = function () {
       $.ajax({ type : 'GET',
-               url : "mavlink/" + _.keys(self.mtable).join("+"),
+               url : self.url + _.keys(self.messageModels).join("+"),
                datatype: 'json',
-               success: self.parseMsgResults,
+               success: self.handleMessages,
                fail : function () { self.commStatusModel.onServerError(); }
              });
-    };
-  };
-
-  window.sendNewMavlinkMessageToModel = function ( model ) {
-    var lastidx = -1;
-    return function (newmsg) {
-      if (newmsg.index > lastidx) {
-        lastidx = newmsg.index;
-        model.set(newmsg.msg);
-      }
     };
   };
 });

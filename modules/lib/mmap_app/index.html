@@ -19,14 +19,7 @@
 
 <!-- APP MODULES -->
   <!-- MAVLINK MESSAGES -->
-<script type="text/javascript" src="vfrhud.js"></script>
-<script type="text/javascript" src="navcontrolleroutput.js"></script>
-<script type="text/javascript" src="gps.js"></script>
-<script type="text/javascript" src="heartbeat.js"></script>
-<script type="text/javascript" src="attitude.js"></script>
-<script type="text/javascript" src="statustext.js"></script>
-  <!-- MAVELOUS SPECIFIC MESSAGES -->
-<script type="text/javascript" src="metawaypoint.js"></script>
+<script type="text/javascript" src="gpsstatus.js"></script>
   <!-- MAVELOUS SPECIFIC MODULES -->
 <script type="text/javascript" src="mavlinkapi.js"></script>
 <script type="text/javascript" src="guidemodel.js"></script>
@@ -61,8 +54,6 @@
 <script type="text/template" id="gpstexttemplate">
   <div class="telemetry" id="gpstextview">
     GPS <%= fix_type_html %>
-    (<span class="t_value"><%= (lat / 1.0e7).toPrecision(11) %></span>, 
-    <span class="t_value"><%= (lon / 1.0e7).toPrecision(11) %></span>)
   </div>
 </script>
 

@@ -16,13 +16,11 @@ $(function(){
     },
 
     initialize: function () {
-      this.gotgps = false;
       console.log('mmap model initialize');
-    },
-
-    withGpsModel: function ( gps ) {
-      this.gps = gps;
-      this.gps.bind('change', this.onGps, this);
+      console.log(this);
+      var mavlink = this.get('mavlinkSrc');
+      this.gotgps = false;
+      this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGps, this);
     },
 
     onGps: function () {
