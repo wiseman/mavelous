@@ -23,6 +23,7 @@ $(function(){
       15: 'GUIDED',
       16: 'INITIALIZING'
     },
+
     arduCopterFlightModes: {
       0: 'STABILIZE',
       1: 'ACRO',
@@ -53,12 +54,12 @@ $(function(){
         return ('BaseMode('+ base_mode + ')');
       } else if (type == this.MAV_TYPE_QUADROTOR &&
                  custom_mode in this.arduCopterFlightModes) {
-        return this.arduCopterFlightModes[msg.custom_mode];
+        return this.arduCopterFlightModes[custom_mode];
       } else if (type == this.MAV_TYPE_FIXED_WING &&
                  custom_mode in this.arduPlaneFlightModes) {
-        return this.arduPlaneFlightModes[msg.custom_mode];
+        return this.arduPlaneFlightModes[custom_mode];
       }
-      return ('CustomMode(' + msg.custom_mode + ')');
+      return ('CustomMode(' + custom_mode + ')');
     },
 
     initialize: function() {
