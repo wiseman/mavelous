@@ -1,6 +1,6 @@
 
 $(function(){ 
-  var mavlinkAPI = new MavlinkAPI('/mavlink/');
+  var mavlinkAPI = new MavlinkAPI({ url: '/mavlink/' });
 
   var pfdView = new PFDView({ mavlinkSrc: mavlinkAPI });
 

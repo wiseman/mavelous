@@ -3,30 +3,35 @@ $(function(){
   window.MavlinkMessage = Backbone.Model.extend({});
 
 
-  window.MavlinkAPI = function(url) {
-    var self = this;
-    this.url = url;
-    // Table of message models, keyed by message type.
-    this.messageModels = {};
+  // FIXME: I'm just extending Model to get the
+  // constructor/initialize() behavior and the Events mixin.  Should
+  // define an Object class that calls a constructor.
+  window.MavlinkAPI = Backbone.Model.extend({
+    initialize: function() {
+      this.url = this.get('url');
+      // Table of message models, keyed by message type.
+      this.messageModels = {};
+    },
 
-    this.subscribe = function(msgType, handlerFunction, context) {
-      if (!self.messageModels[msgType]) {
-        self.messageModels[msgType] = new MavlinkMessage({
+    subscribe: function(msgType, handlerFunction, context) {
+      if (!this.messageModels[msgType]) {
+        this.messageModels[msgType] = new MavlinkMessage({
           _type: msgType,
           _index: -1});
       }
-      var model = self.messageModels[msgType];
+      var model = this.messageModels[msgType];
       model.bind('change', handlerFunction, context);
       return model;
-    };
+    },
 
-    this.handleMessages = function(msgEnvelopes) {
-      _.each(msgEnvelopes, self.handleMessage, self);
-    };
+    handleMessages: function(msgEnvelopes) {
+      _.each(msgEnvelopes, this.handleMessage, this);
+    },
 
-    this.handleMessage = function(msg, msgType) {
+    handleMessage: function(msg, msgType) {
+      this.trigger('gotServerResponse');
       // Update the model if this is a new message for this type.
-      var msgModel = self.messageModels[msgType];
+      var msgModel = this.messageModels[msgType];
       if (msgModel._index === undefined || msg.index > msgModel._index) {
         msgModel.set({
           _index: msg.index
@@ -35,15 +40,18 @@ $(function(){
         });
         msgModel.set(msg.msg);
       }
-    };
+    },
 
-    this.update = function () {
-      $.ajax({ type : 'GET',
-               url : self.url + _.keys(self.messageModels).join("+"),
+    update: function () {
+      $.ajax({ context: this,
+               type : 'GET',
+               url : this.url + _.keys(this.messageModels).join("+"),
                datatype: 'json',
-               success: self.handleMessages,
-               fail : function () { self.commStatusModel.onServerError(); }
+               success: this.handleMessages,
+               fail : function () {
+                 this.trigger('gotServerError');
+               }
              });
-    };
-  };
+    }
+  });
 });
