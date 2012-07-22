@@ -28,14 +28,9 @@ $(function(){
     },
     commStatusModel); 
 
-//  var adidrawing = new ADI('adi');
-
-  var vfrtextview    = new VfrHudTextView({ model: vfrHudModel });
   var gpstextview    = new GpsTextView({ model: gpsRawIntModel });
-  var modetextview   = new ModeTextView({ model: heartbeatModel });
   var commstatusview = new CommStatusView({ model: commStatusModel });
   var guidealtview   = new GuideAltitudeView({ model: guideModel });
-  var statustextview = new StatusTextView({ model: statusTextModel });
   var pfdview        = new PFDView({
     attitudeModel:   attitudeModel,
     vfrHudModel:     vfrHudModel,
