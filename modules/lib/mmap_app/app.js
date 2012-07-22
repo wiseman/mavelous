@@ -33,6 +33,7 @@ $(function(){
     el: $('#gpstextview')
   });
 
+  var statustextView = new StatustextView({ mavlinkSrc: mavlinkAPI });
   var modeStringView = new ModeStringView({ mavlinkSrc: mavlinkAPI });
 
   setInterval(function() {
