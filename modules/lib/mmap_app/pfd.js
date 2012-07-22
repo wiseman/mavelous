@@ -575,39 +575,6 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         fontFamily: this.options.fontFamily,
         textFill: this.options.bugColor});
       this.layer.add(this.targetSpeedDisplay);
-      
-
-      this.flightModeRect = new Kinetic.Rect({
-        x: 0,
-        y: 0,
-        width: 60,
-        height: 10,
-        stroke: this.options.highlightColor,
-        strokeWidth: 1.0,
-        visible: false});
-      this.layer.add(this.flightModeRect);
-
-      this.flightModeDisplay = new Kinetic.Text({
-        x: 0,
-        y: 0,
-        padding: 2,
-        width: 'auto',
-        text: '',
-        fontSize: this.options.fontSize,
-        fontFamily: this.options.fontFamily,
-        textFill: this.options.fontColor
-      });
-      this.layer.add(this.flightModeDisplay);
-
-      this.statusText = new Kinetic.Text({
-        x: 2,
-        y: 170,
-        text: '',
-        fontSize: smallFontSize,
-        fontFamily: this.options.fontFamily,
-        textFill: this.options.fontColor
-      });
-      this.layer.add(this.statusText);
 
     },
     
@@ -677,28 +644,10 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
     setHeading: function(heading) {
     },
 
-    setFlightMode: function(mode) {
-      if (mode != this.flightMode) {
-        this.flightMode = mode;
-        this.flightModeDisplay.setText(mode);
-        this.flightModeRect.setWidth(this.flightModeDisplay.getBoxWidth());
-        this.flightModeRect.setAlpha(1.0);
-        this.flightModeRect.show();
-        this.flightModeRect.transitionTo({
-          alpha: 0.0,
-          duration: 10,
-          easing: 'ease-out'
-        });
-      }
-    },
-
     setAttitude: function(pitch, roll) {
       this.attitudeIndicator.setPitchRoll(pitch, roll);
-    },
-
-    setStatusText: function(status) {
-      this.statusText.setText(status);
     }
+
   };
 
   window.pfd = pfd;

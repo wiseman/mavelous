@@ -12,10 +12,8 @@ $(function(){
       // wouldn't need to keep these handles to models.
       this.attitude = mavlinkSrc.subscribe('ATTITUDE', this.onAttitudeChange, this);
       this.vfrHud = mavlinkSrc.subscribe('VFR_HUD', this.onVfrHudChange, this);
-      this.statusText = mavlinkSrc.subscribe('STATUSTEXT', this.onStatusTextChange, this);
       this.navControllerOutput = mavlinkSrc.subscribe(
         'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
-      this.heartbeat = mavlinkSrc.subscribe('HEARTBEAT', this.onHeartbeatChange, this);
 
       /* Create pfd object */
       this.pfd = new pfd.PFD('pfd');
@@ -23,8 +21,6 @@ $(function(){
       /* Set off each callback to initialize view */
       this.onAttitudeChange();
       this.onVfrHudChange();
-      this.onStatusTextChange();
-      this.onHeartbeatChange();
       this.onNavControllerOutputChange();
     },
 
@@ -40,16 +36,6 @@ $(function(){
       var airSpeed = this.vfrHud.get('airspeed');
       this.pfd.setSpeed(airSpeed);
       this.pfd.draw();
-    },
-
-    onStatusTextChange: function () {
-      var text = this.statusText.get('text');
-      this.pfd.setStatusText(text);
-    },
-
-    onHeartbeatChange: function () {
-      var modestring = mavlinkModestring(this.heartbeat);
-      this.pfd.setFlightMode(modestring);
     },
 
     onNavControllerOutputChange: function() {
