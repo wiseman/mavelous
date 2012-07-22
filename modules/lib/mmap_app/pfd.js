@@ -256,6 +256,248 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
   });
 
 
+  pfd.SpeedTape = function (parent, layer, origin) {
+    this.init(parent,layer,origin);
+  }
+
+  pfd.SpeedTape.prototype = {
+    init: function (parent, layer, origin) {
+      // --------------------
+      // Speed tape
+      // The speed tape displays 3 pieces of info:
+      //   * current speed
+      //   * moving speed ladder
+      //   * target speed, if set
+
+      // background
+      layer.add(
+        new Kinetic.Rect({
+          x: origin.x,
+          y: origin.y,
+          width: 30,
+          height: 140,
+          stroke: parent.options.backgroundColor2,
+          fill: parent.options.backgroundColor2
+        }));
+
+      this.tape = new Kinetic.Group();
+      // clipping region for moving speed ladder
+      layer.add(new pfd.ClippedGroup({
+        x: origin.x,
+        y: origin.y,
+        width: 30,
+        height: 140
+      }).add(this.tape));
+
+      // moving speed ladder
+      var smallFontSize = parent.options.fontSize * 0.9;
+      var isMajorTick, y;
+      for (var spd = 0; spd <= 100; spd += 5) {
+        isMajorTick = (spd % 10 === 0);
+        y = 70 - (2 * spd);
+        if (isMajorTick) {
+          this.tape.add(new Kinetic.Line({
+            points: [25, y, 30, y],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            lineCap: 'square'
+          }));
+          this.tape.add(new Kinetic.Text({
+            x: 0,
+            y: y - smallFontSize / 2,
+            width: 23,
+            align: 'right',
+            fontSize: smallFontSize,
+            fontFamily: parent.options.fontFamily,
+            textFill: parent.options.fontColor,
+            text: '' + spd
+          }));
+        } else {
+          this.tape.add(new Kinetic.Line({
+            points: [28, y, 30, y],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            lineCap: 'square'
+          }));
+        }
+      }
+      
+      // Instantaneous speed text
+      this.inst = new Kinetic.Text({
+        x: 0,
+        y: 10 - parent.options.fontSize / 2,
+        width: 23,
+        text: 'UNK',
+        align: 'right',
+        fontSize: parent.options.fontSize,
+        fontFamily: parent.options.fontFamily,
+        textFill: parent.options.fontColor
+      });
+      layer.add(
+        parent.makeGroup([
+          new Kinetic.Polygon({
+            points: [0, 0,
+                     25, 0,
+                     30, 10,
+                     25, 20,
+                     0, 20,
+                     0, 0],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            fill: parent.options.backgroundColor1
+          }),
+          this.inst
+        ], {
+          x: origin.x,
+          y: origin.y + 60
+        }));
+
+      // Speed bug
+      this.bug = new Kinetic.Polygon({
+          x: origin.x + 31,
+          y: origin.y,
+          points: [0, 0,
+                   3, -2,
+                   5, -2,
+                   5, 2,
+                   3, 2,
+                   0, 0],
+          stroke: parent.options.bugColor,
+          fill: parent.options.bugColor,
+          strokeWidth: 1.0,
+          visible: false
+        });
+      layer.add(this.bug);
+      this.setBug = function (target, current) {
+        var y = origin.y + 70;
+        y -= target * 2;
+        y += current * 2;
+        y = Math.min(162, Math.max(16, y));
+        this.bug.setY(y);
+      }
+    }
+  };
+  // end of speed tape
+  // --------------------
+ 
+  pfd.AltTape = function (parent, layer, origin) {
+    this.init(parent,layer,origin);
+
+  };
+ 
+  pfd.AltTape.prototype = {
+      // --------------------
+      // altitude tape
+
+    init: function (parent, layer, origin) {
+      // background
+      layer.add(
+        new Kinetic.Rect({
+          x: origin.x,
+          y: origin.y,
+          width: 30,
+          height: 140,
+          stroke: parent.options.backgroundColor2,
+          fill: parent.options.backgroundColor2
+        }));
+
+      this.tape = new Kinetic.Group();
+      // clipping region for moving altitude ladder
+      layer.add(new pfd.ClippedGroup({
+        x: origin.x,
+        y: origin.y,
+        width: 30,
+        height: 140
+      }).add(this.tape));
+
+      // moving altitude ladder
+      var smallFontSize = parent.options.fontSize * 0.9;
+      for (var alt = 0; alt <= 400; alt += 1) {
+        isMajorTick = (alt % 10 === 0);
+        y = 70 - (4 * alt);
+        if (isMajorTick) {
+          this.tape.add(new Kinetic.Line({
+            points: [0, y, 5, y],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            lineCap: 'square'
+          }));
+          this.tape.add(new Kinetic.Text({
+            x: 7,
+            y: y - smallFontSize / 2,
+            fontSize: smallFontSize,
+            fontFamily: parent.options.fontFamily,
+            textFill: parent.options.fontColor,
+            text: alt.toString()
+          }));
+        } else {
+          this.tape.add(new Kinetic.Line({
+            points: [0, y, 2, y],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            lineCap: 'square'
+          }));
+        }
+      }
+      
+      // Instantaneous speed text
+      this.inst = new Kinetic.Text({
+        x: 7,
+        y: 10 - Math.round(parent.options.fontSize / 2),
+        text: 'UNK',
+        fontSize: parent.options.fontSize,
+        fontFamily: parent.options.fontFamily,
+        textFill: parent.options.fontColor
+      });
+      layer.add(
+        parent.makeGroup([
+          new Kinetic.Polygon({
+            points: [0, 10,
+                     5, 0,
+                     30, 0,
+                     30, 20,
+                     5, 20,
+                     0, 10],
+            stroke: parent.options.fontColor,
+            strokeWidth: 1.0,
+            fill: parent.options.backgroundColor1
+          }),
+          this.inst
+        ], {
+          x: origin.x,
+          y: origin.y + 60
+        }));
+
+      // --------------------
+      // end of alt tape
+
+      // Altitude bug
+      this.bug = new Kinetic.Polygon({
+        x: origin.x - 1,
+        y: origin.y + 70,
+        points: [0, 0,
+                 -3, -2,
+                 -5, -2,
+                 -5, 2,
+                 -3, 2,
+                 0, 0],
+        stroke: parent.options.bugColor,
+        fill: parent.options.bugColor,
+        strokeWidth: 1.0,
+        visible: false
+      });
+      layer.add(this.bug);
+
+      this.setBug = function(target, current) {
+        var y = origin.y + 70;
+        y -= target * 4;
+        y += current * 4;
+        y = Math.min(162, Math.max(16, y));
+        this.bug.setY(y);
+      };
+    }
+  };
+  
   pfd.PFD = function(container) {
     this.init(container);
   };
@@ -302,106 +544,17 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
                           containerElt.offsetWidth / 200.0);
 
       this.attitudeIndicator = new pfd.ArtificialHorizon({
-        x: 35, y: 25, width: 130, height: 130,
+        x: 35, y: 5, width: 130, height: 130,
         groundColor: this.options.groundColor,
         skyColor: this.options.skyColor
       });
       this.layer.add(this.attitudeIndicator);
-
-      // --------------------
-      // Speed tape
-      // The speed tape displays 3 pieces of info:
-      //   * current speed
-      //   * moving speed ladder
-      //   * target speed, if set
-
-      // background
-      this.layer.add(
-        new Kinetic.Rect({
-          x: 0,
-          y: 20,
-          width: 30,
-          height: 140,
-          stroke: this.options.backgroundColor2,
-          fill: this.options.backgroundColor2
-        }));
-
-      this.speedTape = new Kinetic.Group();
-      // clipping region for moving speed ladder
-      this.layer.add(new pfd.ClippedGroup({
-        x: 0,
-        y: 20,
-        width: 30,
-        height: 140
-      }).add(this.speedTape));
-
-      // moving speed ladder
-      var smallFontSize = this.options.fontSize * 0.9;
-      var isMajorTick, y;
-      for (var spd = 0; spd <= 100; spd += 5) {
-        isMajorTick = (spd % 10 === 0);
-        y = 70 - (2 * spd);
-        if (isMajorTick) {
-          this.speedTape.add(new Kinetic.Line({
-            points: [25, y, 30, y],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-          this.speedTape.add(new Kinetic.Text({
-            x: 0,
-            y: y - smallFontSize / 2,
-            width: 23,
-            align: 'right',
-            fontSize: smallFontSize,
-            fontFamily: this.options.fontFamily,
-            textFill: this.options.fontColor,
-            text: '' + spd
-          }));
-        } else {
-          this.speedTape.add(new Kinetic.Line({
-            points: [28, y, 30, y],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-        }
-      }
       
-      // Instantaneous speed text
-      this.speedInst = new Kinetic.Text({
-        x: 0,
-        y: 10 - this.options.fontSize / 2,
-        width: 23,
-        text: 'UNK',
-        align: 'right',
-        fontSize: this.options.fontSize,
-        fontFamily: this.options.fontFamily,
-        textFill: this.options.fontColor
-      });
-      this.layer.add(
-        this.makeGroup([
-          new Kinetic.Polygon({
-            points: [0, 0,
-                     25, 0,
-                     30, 10,
-                     25, 20,
-                     0, 20,
-                     0, 0],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            fill: this.options.backgroundColor1
-          }),
-          this.speedInst
-        ], {
-          x: 0,
-          y: 80
-        }));
-
-      // end of speed tape
-      // --------------------
+      this.speedTape = new pfd.SpeedTape(this, this.layer, {x:0, y:0});
+      this.altitudeTape = new pfd.AltTape(this, this.layer, {x:170, y:0});
 
       // Target altitude
+      var smallFontSize = this.options.fontSize * 0.9;
       this.targetAltitudeDisplay = new Kinetic.Text({
         x: 170,
         y: 10,
@@ -423,122 +576,6 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
         textFill: this.options.bugColor});
       this.layer.add(this.targetSpeedDisplay);
       
-      // Speed bug
-      this.speedBug = new Kinetic.Polygon({
-        x: 31,
-        y: 90,
-        points: [0, 0,
-                 3, -2,
-                 5, -2,
-                 5, 2,
-                 3, 2,
-                 0, 0],
-        stroke: this.options.bugColor,
-        fill: this.options.bugColor,
-        strokeWidth: 1.0,
-        visible: false
-      });
-      this.layer.add(this.speedBug);
-
-      // --------------------
-      // altitude tape
-
-      // background
-      this.layer.add(
-        new Kinetic.Rect({
-          x: 170,
-          y: 20,
-          width: 30,
-          height: 140,
-          stroke: this.options.backgroundColor2,
-          fill: this.options.backgroundColor2
-        }));
-
-      this.altitudeTape = new Kinetic.Group();
-      // clipping region for moving altitude ladder
-      this.layer.add(new pfd.ClippedGroup({
-        x: 170,
-        y: 20,
-        width: 30,
-        height: 140
-      }).add(this.altitudeTape));
-
-      // moving altitude ladder
-      for (var alt = 0; alt <= 400; alt += 1) {
-        isMajorTick = (alt % 10 === 0);
-        y = 70 - (4 * alt);
-        if (isMajorTick) {
-          this.altitudeTape.add(new Kinetic.Line({
-            points: [0, y, 5, y],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-          this.altitudeTape.add(new Kinetic.Text({
-            x: 7,
-            y: y - smallFontSize / 2,
-            fontSize: smallFontSize,
-            fontFamily: this.options.fontFamily,
-            textFill: this.options.fontColor,
-            text: alt.toString()
-          }));
-        } else {
-          this.altitudeTape.add(new Kinetic.Line({
-            points: [0, y, 2, y],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-        }
-      }
-      
-      // Instantaneous speed text
-      this.altitudeInst = new Kinetic.Text({
-        x: 7,
-        y: 10 - Math.round(this.options.fontSize / 2),
-        text: 'UNK',
-        fontSize: this.options.fontSize,
-        fontFamily: this.options.fontFamily,
-        textFill: this.options.fontColor
-      });
-      this.layer.add(
-        this.makeGroup([
-          new Kinetic.Polygon({
-            points: [0, 10,
-                     5, 0,
-                     30, 0,
-                     30, 20,
-                     5, 20,
-                     0, 10],
-            stroke: this.options.fontColor,
-            strokeWidth: 1.0,
-            fill: this.options.backgroundColor1
-          }),
-          this.altitudeInst
-        ], {
-          x: 170,
-          y: 80
-        }));
-
-      // --------------------
-      // end of speed tape
-
-      // Altitude bug
-      this.altitudeBug = new Kinetic.Polygon({
-        x: 169,
-        y: 90,
-        points: [0, 0,
-                 -3, -2,
-                 -5, -2,
-                 -5, 2,
-                 -3, 2,
-                 0, 0],
-        stroke: this.options.bugColor,
-        fill: this.options.bugColor,
-        strokeWidth: 1.0,
-        visible: false
-      });
-      this.layer.add(this.altitudeBug);
 
       this.flightModeRect = new Kinetic.Rect({
         x: 0,
@@ -575,26 +612,10 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
     },
     
 
-    _calcSpeedBugY: function() {
-      var y = 90;
-      y -= this.targetSpeed * 2;
-      y += this.speed * 2;
-      y = Math.min(162, Math.max(16, y));
-      return y;
-    },
-
-    _calcAltitudeBugY: function() {
-      var y = 90;
-      y -= this.targetAltitude * 4;
-      y += this.altitude * 4;
-      y = Math.min(162, Math.max(16, y));
-      return y;
-    },
-
     setSpeed: function(speed) {
       var spdTxt = 'ERR';
       if (speed) {
-        spdTxt = speed.toString();
+        spdTxt = speed.toString(); 
       }
       if (spdTxt.length > 3) {
         spdTxt = spdTxt.substring(0, 3);
@@ -602,22 +623,23 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
           spdTxt = spdTxt.substr(0, spdTxt.length - 1);
         }
       }
-      this.speedInst.setText(spdTxt);
-      this.speedTape.setY(speed * 2);
-      
-      if (this.speedBug.isVisible()) {
-        this.speedBug.setY(this._calcSpeedBugY());
+      this.speedTape.inst.setText(spdTxt);
+      this.speedTape.tape.setY(speed * 2);
+
+      if (this.speedTape.bug.isVisible()) {
+        this.speedTape.setBug(this.targetSpeed, this.speed);
       }
+      //this.layer.draw();
     },
 
     setTargetSpeed: function(speed) {
       this.targetSpeed = speed;
       if (this.targetSpeed === null) {
-        this.speedBug.hide();
+        this.speedTape.bug.hide();
         this.targetSpeedDisplay.hide();
       } else {
-        this.speedBug.setY(this._calcSpeedBugY());
-        this.speedBug.show();
+        this.speedTape.setBug(this.targetSpeed, this.speed);
+        this.speedTape.bug.show();
         this.targetSpeedDisplay.setText(Math.round(speed).toString());
         this.targetSpeedDisplay.show();
       }
@@ -630,10 +652,10 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
     setAltitude: function(altitude) {
       this.altitude = altitude;
-      this.altitudeInst.setText(Math.round(altitude).toString());
-      this.altitudeTape.setY(altitude * 4);
-      if (this.altitudeBug.isVisible()) {
-        this.altitudeBug.setY(this._calcAltitudeBugY());
+      this.altitudeTape.inst.setText(Math.round(altitude).toString());
+      this.altitudeTape.tape.setY(altitude * 4);
+      if (this.altitudeTape.bug.isVisible()) {
+        this.altitudeTape.setBug(this.targetAltitude, this.altitude);
       }
       //this.layer.draw();
     },
@@ -641,11 +663,11 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
     setTargetAltitude: function(altitude) {
       this.targetAltitude = altitude;
       if (this.targetAltitude === null) {
-        this.altitudeBug.hide();
+        this.altitudeTape.bug.hide();
         this.targetAltitudeDisplay.hide();
       } else {
-        this.altitudeBug.setY(this._calcAltitudeBugY());
-        this.altitudeBug.show();
+        this.altitudeTape.setBug(this.targetAltitude, this.altitude);
+        this.altitudeTape.bug.show();
         this.targetAltitudeDisplay.setText(Math.round(altitude).toString());
         this.targetAltitudeDisplay.show();
       }
