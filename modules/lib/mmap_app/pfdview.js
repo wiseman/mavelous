@@ -16,7 +16,7 @@ $(function(){
         'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
 
       /* Create pfd object */
-      this.pfd = new pfd.PFD('pfd');
+      this.pfd = new pfd.PFD(this.options.container);
 
       /* Set off each callback to initialize view */
       this.onAttitudeChange();

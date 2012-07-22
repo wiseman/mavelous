@@ -2,7 +2,10 @@
 $(function(){ 
   var mavlinkAPI = new MavlinkAPI({ url: '/mavlink/' });
 
-  var pfdView = new PFDView({ mavlinkSrc: mavlinkAPI });
+  var pfdView = new PFDView({
+    mavlinkSrc: mavlinkAPI,
+    container: 'pfd'
+  });
 
   var mmapModel = new MMapModel({ mavlinkSrc: mavlinkAPI });
   var mmapProviderModel = new MMapProviderModel();
