@@ -28,8 +28,10 @@ $(function(){
     },
 
     send: function () {
-      var loc = this.toJSON();
-      if (loc.lat !== null && loc.lon !== null) {
+      var loc = { lat: this.get('lat')
+                , lon: this.get('lon')
+                , alt: this.get('alt') };
+      if (loc.lat !== null && loc.lon !== null && loc.alt !== null) {
         this.sendServer(loc);
       }
     },
