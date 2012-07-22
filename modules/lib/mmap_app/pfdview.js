@@ -2,65 +2,8 @@
 $(function(){
 
   window.PFDView = Backbone.View.extend({
-    /* Constants: */
-    MAV_MODE_FLAG_CUSTOM_MODE_ENABLED: 1,
-    MAV_TYPE_FIXED_WING: 1,
-    MAV_TYPE_QUADROTOR: 2,
-
-    /* Flight mode lookup tables: */
-    arduPlaneFlightModes: {
-      0: 'MANUAL',
-      1: 'CIRCLE',
-      2: 'STABILIZE',
-      5: 'FBWA',
-      6: 'FBWB',
-      7: 'FBWC',
-      10: 'AUTO',
-      11: 'RTL',
-      12: 'LOITER',
-      13: 'TAKEOFF',
-      14: 'LAND',
-      15: 'GUIDED',
-      16: 'INITIALIZING'
-    },
-
-    arduCopterFlightModes: {
-      0: 'STABILIZE',
-      1: 'ACRO',
-      2: 'ALT_HOLD',
-      3: 'AUTO',
-      4: 'GUIDED',
-      5: 'LOITER',
-      6: 'RTL',
-      7: 'CIRCLE',
-      8: 'POSITION',
-      9: 'LAND',
-      10: 'OF_LOITER',
-      11: 'APPROACH'
-    },
 
     pfd: null,
-
-    modestring: function(msg) {
-      var base_mode = msg.get('base_mode');
-      var type = msg.get('type');
-      var custom_mode = msg.get('custom_mode');
-
-      if (!(base_mode && type && custom_mode)) {
-        return;
-      }
-
-      if (!base_mode & this.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED) {
-        return ('BaseMode('+ base_mode + ')');
-      } else if (type == this.MAV_TYPE_QUADROTOR &&
-                 custom_mode in this.arduCopterFlightModes) {
-        return this.arduCopterFlightModes[custom_mode];
-      } else if (type == this.MAV_TYPE_FIXED_WING &&
-                 custom_mode in this.arduPlaneFlightModes) {
-        return this.arduPlaneFlightModes[custom_mode];
-      }
-      return ('CustomMode(' + custom_mode + ')');
-    },
 
     initialize: function() {
       var mavlinkSrc = this.options.mavlinkSrc;
@@ -105,7 +48,7 @@ $(function(){
     },
 
     onHeartbeatChange: function () {
-      var modestring = this.modestring(this.heartbeat);
+      var modestring = mavlinkModestring(this.heartbeat);
       this.pfd.setFlightMode(modestring);
     },
 
