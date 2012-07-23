@@ -10,10 +10,10 @@
 //   * Kineticjs
 
 $(function(){
+  window.Mavelous = window.Mavelous || {};
+  
 
-pfd = {};
-
-pfd.zeroPad = function(number, width, padChar) {
+Mavelous.zeroPad = function(number, width, padChar) {
   if (!padChar) {
     padChar = '0';
   }
@@ -27,7 +27,7 @@ pfd.zeroPad = function(number, width, padChar) {
 
 // The artificial horizon is implemented as a Kinetic Shape subclass.
 
-pfd.ArtificialHorizon = Kinetic.Shape.extend({
+  Mavelous.ArtificialHorizon = Kinetic.Shape.extend({
   init: function(config) {
     this.setDefaultAttrs({
       width: 100,
@@ -214,7 +214,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
   // Like a regular group except that it draws its children with a
   // clipping rect active.  Requires a width and height.
 
-  pfd.ClippedGroup = Kinetic.Container.extend({
+  Mavelous.ClippedGroup = Kinetic.Container.extend({
     init: function(config) {
       this.nodeType = 'Group';
       this._super(config);
@@ -254,11 +254,11 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
   });
 
 
-  pfd.SpeedTape = function (parent, layer, origin) {
+  Mavelous.SpeedTape = function (parent, layer, origin) {
     this.init(parent,layer,origin);
   };
 
-  pfd.SpeedTape.prototype = {
+  Mavelous.SpeedTape.prototype = {
     init: function (parent, layer, origin) {
       // --------------------
       // Speed tape
@@ -280,7 +280,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
       this.tape = new Kinetic.Group();
       // clipping region for moving speed ladder
-      layer.add(new pfd.ClippedGroup({
+      layer.add(new Mavelous.ClippedGroup({
         x: origin.x,
         y: origin.y,
         width: 30,
@@ -378,12 +378,12 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
   // end of speed tape
   // --------------------
  
-  pfd.AltTape = function (parent, layer, origin) {
+  Mavelous.AltTape = function (parent, layer, origin) {
     this.init(parent,layer,origin);
 
   };
  
-  pfd.AltTape.prototype = {
+  Mavelous.AltTape.prototype = {
       // --------------------
       // altitude tape
 
@@ -401,7 +401,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
       this.tape = new Kinetic.Group();
       // clipping region for moving altitude ladder
-      layer.add(new pfd.ClippedGroup({
+      layer.add(new Mavelous.ClippedGroup({
         x: origin.x,
         y: origin.y,
         width: 30,
@@ -496,11 +496,11 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
     }
   };
   
-  pfd.PFD = function(container) {
+  Mavelous.PFD = function(container) {
     this.init(container);
   };
 
-  pfd.PFD.prototype = {
+  Mavelous.PFD.prototype = {
     containerElement: null,
     
     makeGroup: function(items, config) {
@@ -541,15 +541,15 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
       this.stage.setScale(containerElt.offsetWidth / 200.0,
                           containerElt.offsetWidth / 200.0);
 
-      this.attitudeIndicator = new pfd.ArtificialHorizon({
+      this.attitudeIndicator = new Mavelous.ArtificialHorizon({
         x: 35, y: 5, width: 130, height: 130,
         groundColor: this.options.groundColor,
         skyColor: this.options.skyColor
       });
       this.layer.add(this.attitudeIndicator);
       
-      this.speedTape = new pfd.SpeedTape(this, this.layer, {x:0, y:0});
-      this.altitudeTape = new pfd.AltTape(this, this.layer, {x:170, y:0});
+      this.speedTape = new Mavelous.SpeedTape(this, this.layer, {x:0, y:0});
+      this.altitudeTape = new Mavelous.AltTape(this, this.layer, {x:170, y:0});
 
       // Target altitude
       var smallFontSize = this.options.fontSize * 0.9;
