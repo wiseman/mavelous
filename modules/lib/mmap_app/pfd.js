@@ -9,8 +9,6 @@
 // Requirements:
 //   * Kineticjs
 
-
-
 $(function(){
 
 pfd = {};
@@ -258,7 +256,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
   pfd.SpeedTape = function (parent, layer, origin) {
     this.init(parent,layer,origin);
-  }
+  };
 
   pfd.SpeedTape.prototype = {
     init: function (parent, layer, origin) {
@@ -581,7 +579,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
     setSpeed: function(speed) {
       var spdTxt = 'ERR';
-      if (speed != null) {
+      if (speed !== null) {
         spdTxt = speed.toString(); 
       }
       if (spdTxt.length > 3) {
