@@ -12,8 +12,14 @@ $(function () {
     },
 
     onHeartbeat : function () {
-      var modestring = mavlinkModestring(this.heartbeat);
+      var modestring = mavutil.heartbeat.modestring(this.heartbeat);
+      var armed = mavutil.heartbeat.armed(this.heartbeat);
       if (modestring) {
+        if (armed) {
+          modestring += ' <span class="ok">ARMED</span>';
+        } else {
+          modestring += ' <span class="slow">DISARMED</span>';
+        }
         this.$el.html(modestring);
       }
     }
