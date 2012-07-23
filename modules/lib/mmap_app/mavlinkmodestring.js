@@ -43,7 +43,7 @@ $(function(){
     var type = msg.get('type');
     var custom_mode = msg.get('custom_mode');
 
-    if (base_mode == null || type == null || custom_mode == null) {
+    if (base_mode === null || type === null || custom_mode === null) {
       return;
     }
 

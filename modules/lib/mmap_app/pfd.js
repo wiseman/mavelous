@@ -366,13 +366,14 @@ Mavelous.zeroPad = function(number, width, padChar) {
           visible: false
         });
       layer.add(this.bug);
+
       this.setBug = function (target, current) {
         var y = origin.y + 70;
         y -= target * 2;
         y += current * 2;
         y = Math.min(162, Math.max(16, y));
         this.bug.setY(y);
-      }
+      };
     }
   };
   // end of speed tape
