@@ -1,8 +1,19 @@
 
 $(function(){
 
+  window.mavutil = {};
+  window.mavutil.heartbeat = {};
   /* Constants: */
+  /* MAV_MODE_FLAG: bitfield for base_mode. */
   var MAV_MODE_FLAG_CUSTOM_MODE_ENABLED =  1;
+  var MAV_MODE_FLAG_TEST_ENABLED =  2;
+  var MAV_MODE_FLAG_AUTO_ENABLED =  4;
+  var MAV_MODE_FLAG_GUIDED_ENABLED =  8;
+  var MAV_MODE_FLAG_STABILIZE_ENABLED =  16;
+  var MAV_MODE_FLAG_HIL_ENABLED =  32;
+  var MAV_MODE_FLAG_MANUAL_INPUT_ENABLED =  64;
+  var MAV_MODE_FLAG_SAFETY_ARMED =  128;
+
   var MAV_TYPE_FIXED_WING = 1;
   var MAV_TYPE_QUADROTOR = 2;
 
@@ -38,7 +49,7 @@ $(function(){
     11: 'APPROACH'
   };
   
-  window.mavlinkModestring = function (msg) {
+  window.mavutil.heartbeat.modestring = function (msg) {
     var base_mode = msg.get('base_mode');
     var type = msg.get('type');
     var custom_mode = msg.get('custom_mode');
@@ -57,6 +68,16 @@ $(function(){
       return arduPlaneFlightModes[custom_mode];
     }
     return ('CustomMode(' + custom_mode + ')');
+  };
+
+  window.mavutil.heartbeat.armed = function (msg) {
+    base_mode = msg.get('base_mode');
+    if (base_mode == null) return null;
+    if (base_mode & MAV_MODE_FLAG_SAFETY_ARMED) {
+      return true;
+    }
+    return false;
+
   };
 
 });
