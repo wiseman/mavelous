@@ -12,20 +12,7 @@
 $(function(){
   window.Mavelous = window.Mavelous || {};
   
-
-Mavelous.zeroPad = function(number, width, padChar) {
-  if (!padChar) {
-    padChar = '0';
-  }
-  width -= number.toString().length;
-  if (width > 0) {
-    return new Array(width + (/\./.test(number) ? 2 : 1)).join(padChar) + number;
-  }
-  return number + ""; // always return a string
-};
-
-
-// The artificial horizon is implemented as a Kinetic Shape subclass.
+  // The artificial horizon is implemented as a Kinetic Shape subclass.
 
   Mavelous.ArtificialHorizon = Kinetic.Shape.extend({
   init: function(config) {
