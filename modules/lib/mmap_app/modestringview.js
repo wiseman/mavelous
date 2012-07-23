@@ -6,7 +6,7 @@ $(function () {
   
     initialize: function () {
       var mavlinkSrc = this.options.mavlinkSrc;
-      this.$el = $('#modestringview');
+      this.$el = this.options.el;
       this.heartbeat = mavlinkSrc.subscribe('HEARTBEAT',
                             this.onHeartbeat , this);
     },

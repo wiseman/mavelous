@@ -530,20 +530,20 @@ $(function(){
                           containerElt.offsetWidth / 200.0);
 
       this.attitudeIndicator = new Mavelous.ArtificialHorizon({
-        x: 35, y: 5, width: 130, height: 130,
+        x: 35, y: 20, width: 130, height: 130,
         groundColor: this.options.groundColor,
         skyColor: this.options.skyColor
       });
       this.layer.add(this.attitudeIndicator);
       
-      this.speedTape = new Mavelous.SpeedTape(this, this.layer, {x:0, y:0});
-      this.altitudeTape = new Mavelous.AltTape(this, this.layer, {x:170, y:0});
+      this.speedTape = new Mavelous.SpeedTape(this, this.layer, {x:0, y:15});
+      this.altitudeTape = new Mavelous.AltTape(this, this.layer, {x:170, y:15});
 
       // Target altitude
       var smallFontSize = this.options.fontSize * 0.9;
       this.targetAltitudeDisplay = new Kinetic.Text({
         x: 170,
-        y: 10,
+        y: 5,
         width: 30,
         align: 'center',
         fontSize: smallFontSize,
@@ -554,7 +554,7 @@ $(function(){
       // Target speed
       this.targetSpeedDisplay = new Kinetic.Text({
         x: 0,
-        y: 10,
+        y: 5,
         width: 30,
         align: 'center',
         fontSize: smallFontSize,

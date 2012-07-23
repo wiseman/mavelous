@@ -38,7 +38,10 @@ $(function(){
   });
 
   var statustextView = new Mavelous.StatustextView({ mavlinkSrc: mavlinkAPI });
-  var modeStringView = new Mavelous.ModeStringView({ mavlinkSrc: mavlinkAPI });
+  var modeStringView = new Mavelous.ModeStringView({
+    mavlinkSrc: mavlinkAPI,
+    el: $('#pfd_modestringview')
+  });
 
   setInterval(function() {
     mavlinkAPI.update();
