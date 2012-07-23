@@ -1,43 +1,44 @@
 
 $(function(){ 
-  var mavlinkAPI = new MavlinkAPI({ url: '/mavlink/' });
 
-  var pfdView = new PFDView({
+  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+
+  var pfdView = new Mavelous.PFDView({
     mavlinkSrc: mavlinkAPI,
     container: 'pfd'
   });
 
-  var mmapModel = new MMapModel({ mavlinkSrc: mavlinkAPI });
-  var mmapProviderModel = new MMapProviderModel();
-  var mapSettings = new MMapSettingsView({
+  var mmapModel = new Mavelous.MMapModel({ mavlinkSrc: mavlinkAPI });
+  var mmapProviderModel = new Mavelous.MMapProviderModel();
+  var mapSettings = new Mavelous.MMapSettingsView({
     providerModel: mmapProviderModel,
     mapModel: mmapModel
   });
-  var guideModel = new GuideModel({ mavlinkSrc: mavlinkAPI });
-  var guideAltView   = new GuideAltitudeView({ model: guideModel });
-  var mapView = new MMapView({
+  var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
+  var guideAltView   = new Mavelous.GuideAltitudeView({ model: guideModel });
+  var mapView = new Mavelous.MMapView({
     providerModel: mmapProviderModel,
     mapModel: mmapModel,
     guideModel: guideModel
   });
 
-  var commStatusModel = new CommStatusModel({
+  var commStatusModel = new Mavelous.CommStatusModel({
     mavlinkSrc: mavlinkAPI
   });
-  var commStatusView = new CommStatusView({
+  var commStatusView = new Mavelous.CommStatusView({
     model: commStatusModel,
     el: $('#commstatustextview')
  });
   
-  var droneView = new DroneView({ mavlinkSrc: mavlinkAPI });
+  var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
 
-  var gpsTextView = new GpsTextView({
+  var gpsTextView = new Mavelous.GpsTextView({
     mavlinkSrc: mavlinkAPI,
     el: $('#gpstextview')
   });
 
-  var statustextView = new StatustextView({ mavlinkSrc: mavlinkAPI });
-  var modeStringView = new ModeStringView({ mavlinkSrc: mavlinkAPI });
+  var statustextView = new Mavelous.StatustextView({ mavlinkSrc: mavlinkAPI });
+  var modeStringView = new Mavelous.ModeStringView({ mavlinkSrc: mavlinkAPI });
 
   setInterval(function() {
     mavlinkAPI.update();

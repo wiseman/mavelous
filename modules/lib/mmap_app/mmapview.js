@@ -1,7 +1,8 @@
 
 $(function(){
+  window.Mavelous = window.Mavelous || {};
 
-  window.MMapView = Backbone.View.extend({
+  Mavelous.MMapView = Backbone.View.extend({
     initialize: function () {
       var self = this;
 
@@ -17,9 +18,9 @@ $(function(){
         self.mapLayer    = new MM.Layer(provider);
 
         self.mapHandlers =
-          [ new MMHandlers.MouseWheelHandler( self.mapModel )
-          , new MMHandlers.TouchHandler( self.mapModel, self.guideModel )
-          , new MMHandlers.DoubleClickHandler( self.guideModel )
+          [ new MMHandlers.MouseWheelHandler( self.mapModel ),
+            new MMHandlers.TouchHandler( self.mapModel, self.guideModel ),
+            new MMHandlers.DoubleClickHandler( self.guideModel )
           ];
         self.map = new MM.Map('map', self.mapLayer, undefined,self.mapHandlers);
         self.markerLayer = new MM.MarkerLayer();

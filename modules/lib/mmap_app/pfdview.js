@@ -1,7 +1,8 @@
 
 $(function(){
-
-  window.PFDView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+  
+  Mavelous.PFDView = Backbone.View.extend({
 
     pfd: null,
 

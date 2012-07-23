@@ -1,6 +1,8 @@
 
 $(function () {
-  window.ModeStringView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.ModeStringView = Backbone.View.extend({
   
     initialize: function () {
       var mavlinkSrc = this.options.mavlinkSrc;
@@ -14,7 +16,7 @@ $(function () {
       if (modestring) {
         this.$el.html(modestring);
       }
-    },
+    }
 
   });
 });

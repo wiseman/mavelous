@@ -1,5 +1,7 @@
 $(function(){
-  window.MMapSettingsView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.MMapSettingsView = Backbone.View.extend({
     template: _.template($('#mapsettingsviewtemplate').html()),
 
     initialize: function () {

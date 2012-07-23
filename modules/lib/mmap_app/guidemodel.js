@@ -1,5 +1,7 @@
 $(function(){
-  window.GuideModel = Backbone.Model.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.GuideModel = Backbone.Model.extend({
 
     defaults: function() {
       return {
@@ -28,9 +30,9 @@ $(function(){
     },
 
     send: function () {
-      var loc = { lat: this.get('lat')
-                , lon: this.get('lon')
-                , alt: this.get('alt') };
+      var loc = { lat: this.get('lat'),
+                  lon: this.get('lon'),
+                  alt: this.get('alt') };
       if (loc.lat !== null && loc.lon !== null && loc.alt !== null) {
         this.sendServer(loc);
       }

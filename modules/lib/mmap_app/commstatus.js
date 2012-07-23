@@ -1,6 +1,8 @@
 
 $(function(){
-  window.CommStatusModel = Backbone.Model.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.CommStatusModel = Backbone.Model.extend({
     SERVER_TIMEOUT_INTERVAL:    3000,
     HEARTBEAT_TIMEOUT_INTERVAL: 2000,
     /* Constants: */
@@ -80,7 +82,7 @@ $(function(){
     }
   });
 
-  window.CommStatusView = Backbone.View.extend({
+  Mavelous.CommStatusView = Backbone.View.extend({
     template: _.template($('#commstatustexttemplate').html()),
 
     initialize: function () {

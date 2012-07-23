@@ -1,7 +1,8 @@
 
 $(function(){
+  window.Mavelous = window.Mavelous || {};
   
-  window.GpsTextView = Backbone.View.extend({
+  Mavelous.GpsTextView = Backbone.View.extend({
     template: _.template($('#gpstexttemplate').html()),
     
     initialize: function() {

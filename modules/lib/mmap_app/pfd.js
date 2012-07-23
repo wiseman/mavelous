@@ -579,7 +579,7 @@ pfd.ArtificialHorizon = Kinetic.Shape.extend({
 
     setSpeed: function(speed) {
       var spdTxt = 'ERR';
-      if (speed !== null) {
+      if (speed !== null && speed !== undefined) {
         spdTxt = speed.toString(); 
       }
       if (spdTxt.length > 3) {

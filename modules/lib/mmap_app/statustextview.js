@@ -1,6 +1,8 @@
 
 $(function () {
-  window.StatustextView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.StatustextView = Backbone.View.extend({
   
     initialize: function () {
       var mavlinkSrc = this.options.mavlinkSrc;
@@ -12,10 +14,10 @@ $(function () {
 
     onStatusTextChange: function () {
       clearTimeout(this.timeout);
-      var el = this.$el
+      var el = this.$el;
       el.html(this.statusText.get('text'));
       this.timeout = setTimeout(function () { el.html(''); }, 4000);
-    },
+    }
 
   });
 });

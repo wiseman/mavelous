@@ -1,10 +1,11 @@
 
 $(function(){
+  window.Mavelous = window.Mavelous || {};
 
   var bingKey = 'Anmc0b2q6140lnPvAj5xANM1rvF1A4CvVtr6H2VJvQcdnDvc8NL' + 
                 '-I2C49owIe9xC';
 
-  window.MMapProviderModel = Backbone.Model.extend({
+  Mavelous.MMapProviderModel = Backbone.Model.extend({
 
     defaults: function () {
       return { provider: 'bingaerial' };
@@ -58,7 +59,7 @@ $(function(){
   });
 
   /* Debugging view */
-  window.MMapProviderView = Backbone.View.extend({
+  Mavelous.MMapProviderView = Backbone.View.extend({
     initialize: function () {
       this.providerModel = this.options.providerModel;
       this.mapModel      = this.options.mapModel;

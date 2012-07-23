@@ -1,12 +1,12 @@
 $(function(){
-  
-  window.MavlinkMessage = Backbone.Model.extend({});
+  window.Mavelous = window.Mavelous || {};
 
+  Mavelous.MavlinkMessage = Backbone.Model.extend({});
 
   // FIXME: I'm just extending Model to get the
   // constructor/initialize() behavior and the Events mixin.  Should
   // define an Object class that calls a constructor.
-  window.MavlinkAPI = Backbone.Model.extend({
+  Mavelous.MavlinkAPI = Backbone.Model.extend({
     initialize: function() {
       this.url = this.get('url');
       // Table of message models, keyed by message type.
@@ -15,7 +15,7 @@ $(function(){
 
     subscribe: function(msgType, handlerFunction, context) {
       if (!this.messageModels[msgType]) {
-        this.messageModels[msgType] = new MavlinkMessage({
+        this.messageModels[msgType] = new Mavelous.MavlinkMessage({
           _type: msgType,
           _index: -1});
       }
@@ -55,3 +55,4 @@ $(function(){
     }
   });
 });
+

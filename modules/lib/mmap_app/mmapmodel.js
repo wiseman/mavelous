@@ -1,7 +1,8 @@
 
 $(function(){
+  window.Mavelous = window.Mavelous || {};
 
-  window.MMapModel = Backbone.Model.extend({
+  Mavelous.MMapModel = Backbone.Model.extend({
     WIDE_ZOOM: 2,
     TIGHT_ZOOM: 16,
     gotgps: false,

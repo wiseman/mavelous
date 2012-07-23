@@ -1,7 +1,8 @@
 
 $(function(){
-  
-  window.GuideAltitudeView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+
+  Mavelous.GuideAltitudeView = Backbone.View.extend({
     template: _.template($('#guidealtitudeviewtemplate').html()),
 
     initialize: function () {

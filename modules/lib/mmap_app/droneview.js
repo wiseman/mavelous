@@ -1,7 +1,7 @@
 
 $(function(){
-
-  window.DroneView = Backbone.View.extend({
+  window.Mavelous = window.Mavelous || {};
+  Mavelous.DroneView = Backbone.View.extend({
 
     initialize: function () {
       var mavlink = this.options.mavlinkSrc;
