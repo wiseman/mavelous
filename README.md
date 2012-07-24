@@ -21,6 +21,7 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-des
 Here's a video of Mavelous being used in the field to fly an
 ArduCopter: 
 ![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
+
 http://www.youtube.com/watch?v=QNql3n4C8iA
 
 
