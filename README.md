@@ -8,8 +8,9 @@ A week ago this code was an ugly hack/proof of concept.  Hacker
 beware.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
-protocol](http://qgroundcontrol.org/mavlink/start).  It has been
-tested with the [Arducopter](http://code.google.com/p/arducopter/).
+1.0 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
+tested with [Arducopter](http://code.google.com/p/arducopter/) and 
+[ArduPlane](http://code.google.com/p/ardupilot-mega/).
 
 Here's a screenshot of Mavelous running in a desktop web browser:
 
@@ -18,7 +19,10 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-des
 "Mavelous in a desktop browser")
 
 Here's a video of Mavelous being used in the field to fly an
-ArduCopter: http://www.youtube.com/watch?v=gEhxnVNXYeg
+ArduCopter: 
+![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
+
+http://www.youtube.com/watch?v=QNql3n4C8iA
 
 
 Architecture
@@ -72,7 +76,7 @@ there are currently no ground control stations for amateur drones that
 can run on an iPhone or iPad--Mavelous can (at least the front end
 can).
 
-The most popular Arducopter GCS, [APM Mission
+The most popular ArduCopter GCS, [APM Mission
 Planner](http://code.google.com/p/ardupilot-mega/wiki/Mission), is
 primarily a Windows application.  It can run under OS X and Linux with
 Mono, but the experience is not always smooth.
@@ -90,7 +94,32 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iph
 How to run it
 -------------
 
-### Software in the loop simuation with ardupilot-mega
+### With a real drone
+
+1. Connect your ArduCopter or ArduPlane to your computer with an Xbee or
+   3DR Radio. Power on the vehicle.
+
+2. Start mavproxy, specifying the correct baud rate. For 3DR Radios, this is
+   usually 57600.
+
+    ```
+    $ python mavproxy.py --baud=57600
+    ```
+    If required, select the right serial port with the ```--master=``` option.
+
+
+3. At the mavproxy prompt, load the mmap module:
+
+    ```
+    STABILIZE> module load mmap
+    ```
+
+A web browser will open showing you the Mavelous interface.
+
+You'll be able to use the Mavelous interface to control Guided mode once in
+flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
+
+### Software in the loop simulation with ardupilot-mega
 
 1. Compile the ardupilot-mega firmware.
 
@@ -124,23 +153,21 @@ How to run it
 A web browser will open showing you the Mavelous interface.
 
 
-### With a real drone
-
-TBD.
-
 
 Feature status
 --------------
 
-Currently you can watch your drone fly around with Mavelous.  You can
-see some basic flight data (speed, altitude, etc.).  You can double
-click/tap on the map to send the drone to that location.  Multiple
-users can control the same drone.
+Currently Mavelous is capable of monitoring and guiding a drone in flight.
 
-I definitely want to add the following features:
+* You can see basic flight data (speed, altitude, attitude) on the primary 
+  flight display.
+* You can double click/tap on the map to send the drone to that location.
+* Multiple users can control the same drone.
 
+We're working to add the following features soon:
+
+* Control auto takeoff, loiter, and landing of an ArduCopter
 * Mission creation and editing
-* A full-featured primary flight display
 * Offline support (map caching)
 
 I'd like to add these features:
@@ -151,8 +178,21 @@ I'd like to add these features:
 Mailing list
 ------------
 
-There is a [mailing list](https://groups.google.com/group/mavelous)
+There is a public [mailing list](https://groups.google.com/group/mavelous)
 for Mavelous users and developers.
+
+Acknowledgments
+------------
+
+The Mavelous backend is based on [Mavproxy](https://github.com/tridge/MAVProxy),a command line ground station by Andrew Tridgell.
+
+Mavelous uses open source code from the following projects: 
+[Modestmaps.js](https://github.com/stamen/modestmaps-js/),
+[Backbone.js](http://backbonejs.org/),
+[jQuery](http://jquery.com/),
+[Underscore.js](http://documentcloud.github.com/underscore/),
+[Kinetic.js](http://www.kineticjs.com/),
+and others.
 
 License
 -------
