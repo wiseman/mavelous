@@ -26,7 +26,7 @@
 
 <!-- APP MODULES -->
   <!-- MAVLINK MESSAGES -->
-<script type="text/javascript" src="mavlinkmodestring.js"></script>
+<script type="text/javascript" src="modestringview.js"></script>
   <!-- MAVELOUS SPECIFIC MODULES -->
 <script type="text/javascript" src="mavlinkapi.js"></script>
   <!-- ADI MODULES -->
@@ -36,8 +36,8 @@
 <script type="text/javascript">
 $(function() {
 
-  var mavlinkAPI = new MavlinkAPI({ url: '/mavlink/' });
-  var pfdView = new PFDView({
+  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  var pfdView = new Mavelous.PFDView({
     mavlinkSrc: mavlinkAPI,
     container: 'pfd'
   });
