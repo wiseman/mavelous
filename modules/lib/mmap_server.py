@@ -1,8 +1,11 @@
 import BaseHTTPServer
 import json
+import os
 import os.path
+import re
 import threading
 import types
+import unicodedata
 import urlparse
 
 DOC_DIR = os.path.join(os.path.dirname(__file__), 'mmap_app')
@@ -13,6 +16,57 @@ class Server(BaseHTTPServer.HTTPServer):
     BaseHTTPServer.HTTPServer.__init__(self, (address, port), handler)
     self.allow_reuse_address = True
     self.module_state = module_state
+
+
+# Taken from werkzeug, see
+# https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/utils.py
+# See
+# http://lucumr.pocoo.org/2010/12/24/common-mistakes-as-web-developer/
+# for why we do this.
+
+_FILENAME_ASCII_STRIP_RE = re.compile(r'[^A-Za-z0-9_.-]')
+
+_WINDOWS_DEVICE_FILES = (
+  'CON', 'AUX', 'COM1', 'COM2', 'COM3', 'COM4', 'LPT1',
+  'LPT2', 'LPT3', 'PRN', 'NUL')
+
+
+def secure_filename(filename):
+  """Pass it a filename and it will return a secure version of it.
+  This filename can then safely be stored on a regular file system and
+  passed to os.path.join.  The filename returned is an ASCII only
+  string for maximum portability.
+
+  On Windows system the function also makes sure that the file is not
+  named after one of the special device files.
+
+    >>> secure_filename("My cool movie.mov")
+    'My_cool_movie.mov'
+    >>> secure_filename("../../../etc/passwd")
+    'etc_passwd'
+    >>> secure_filename(u'i contain cool \xfcml\xe4uts.txt')
+    'i_contain_cool_umlauts.txt'
+
+  The function might return an empty filename.  It's your
+  responsibility to ensure that the filename is unique and that you
+  generate random filename if the function returned an empty one.
+  """
+  if isinstance(filename, unicode):
+    filename = unicodedata.normalize('NFKD', filename).encode(
+      'ascii', 'ignore')
+  for sep in os.path.sep, os.path.altsep:
+    if sep:
+      filename = filename.replace(sep, ' ')
+  filename = str(_FILENAME_ASCII_STRIP_RE.sub('', '_'.join(
+    filename.split()))).strip('._')
+
+  # On NT a couple of special files are present in each folder.  We
+  # have to ensure that the target file is not such a filename.  In
+  # this case we prepend an underline
+  if (os.name == 'nt' and filename and
+      filename.split('.')[0].upper() in _WINDOWS_DEVICE_FILES):
+      filename = '_' + filename
+  return filename
 
 
 def content_type_for_file(path):
