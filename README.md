@@ -99,14 +99,12 @@ How to run it
 1. Connect your ArduCopter or ArduPlane to your computer with an Xbee or
    3DR Radio. Power on the vehicle.
 
-2. Start mavproxy, specifying the correct baud rate. For 3DR Radios, this is
-   usually 57600.
+2. Start mavproxy, specifying the serial port and correct data rate. For 3DR Radios, the
+   data rate is usually 57600.  For example:
 
     ```
-    $ python mavproxy.py --baud=57600
+    $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
     ```
-    If required, select the right serial port with the ```--master=``` option.
-
 
 3. At the mavproxy prompt, load the mmap module:
 
