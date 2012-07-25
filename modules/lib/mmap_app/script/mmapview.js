@@ -43,7 +43,7 @@ $(function(){
         this.guideWaypoint.coord = this.map.locationCoordinate(loc);
         this.markerLayer.repositionMarker(this.guideWaypoint);
       } else {
-        this.guideWaypoint = this.createWaypoint(loc, "mapmarker.png", 50, 50);
+        this.guideWaypoint = this.createWaypoint(loc, "image/mapmarker.png", 50, 50);
       }
     },
 

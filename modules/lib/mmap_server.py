@@ -1,4 +1,5 @@
 import BaseHTTPServer
+import cgi
 import json
 import os
 import os.path
@@ -91,6 +92,15 @@ def nul_terminate(s):
 
 
 class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
+  # These are all under the mmap_app subdirectory.
+  ALLOWABLE_STATIC_DIRS = [
+    '.',
+    'audio',
+    'image',
+    'script',
+    'third_party'
+    ]
+
   def log_request(code, size=None):
     pass
 
@@ -137,30 +147,43 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
       else:
         self.wfile.write(json.dumps(results))
     else:
-      # Remove leading '/'.
-      path = path[1:]
-      # For security ignore all directories.  E.g.  for
-      # ../../bar/a.txt serve DOC_DIR/a.txt.
-      unused_head, path = os.path.split(path)
-      # for / serve index.html.
-      if path == '':
-        path = 'index.html'
-      content = None
-      error = None
-      try:
-        with open(os.path.join(DOC_DIR, path), 'rb') as f:
-          content = f.read()
-      except IOError, e:
-        error = str(e)
-      if content:
-        self.send_response(200)
-        self.send_header('Content-type', content_type_for_file(path))
-        self.end_headers()
-        self.wfile.write(content)
-      else:
+      self.maybe_send_static_file(path)
+
+  def maybe_send_static_file(self, path):
+    directory_path, filename = os.path.split(path)
+    # Remove leading '/'
+    directory_path = directory_path[1:]
+    if filename == '':
+      filename = 'index.html'
+    # A directory_path of '' means no subdirectories were asked for.
+    if directory_path != '':
+      # Some subdirectory has been specified, check that it's allowed.
+      if not directory_path in self.ALLOWABLE_STATIC_DIRS:
         self.send_response(404)
         self.end_headers()
-        self.wfile.write('Error: %s' % (error,))
+        # An invalid subdirectory was asked for.
+        self.wfile.write('No such file.\n')
+        return
+    # The path must be OK!  Now just make sure the filename is OK.
+    filename = secure_filename(filename)
+    # Finally, we feel safe.  Construct the path and serve the file.
+    path = os.path.join(directory_path, filename)
+    content = None
+    error = None
+    try:
+      with open(os.path.join(DOC_DIR, path), 'rb') as f:
+        content = f.read()
+    except IOError, e:
+      error = str(e)
+    if error:
+      self.send_response(500)
+      self.end_headers()
+      self.wfile.write('Error: %s' % (cgi.escape(error),))
+    else:
+      self.send_response(200)
+      self.send_header('Content-type', content_type_for_file(path))
+      self.end_headers()
+      self.wfile.write(content)
 
   def response_dict_for_message(self, msg, time, index):
     mdict = msg.to_dict()

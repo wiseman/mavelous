@@ -49,7 +49,7 @@ html {
 }
 
 #droneicon {
-    background-image: url('drone-sm.png');
+    background-image: url('image/drone-sm.png');
     background-repeat: no-repeat;
     position: absolute;
     top: 45%;
