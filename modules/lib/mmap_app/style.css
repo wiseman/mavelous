@@ -1,8 +1,6 @@
 body {
     width: 100%;
     margin: 0px 0px 0px 0px;
-    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
-    font-size: 24px;
 }
 
 select {
@@ -25,6 +23,8 @@ html {
 
 #header {
     background-color: rgba(0, 0, 0, 0.5);
+    font-size: 24px;
+    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
     width: 100%;
     color: white;
 }

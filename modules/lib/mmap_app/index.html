@@ -2,6 +2,11 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap.css" />
+  <style>
+    body {
+      padding-top: 40px;
+    }
+  </style>
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 <!-- JQUERY -->
@@ -9,7 +14,13 @@
 <script type="text/javascript" src="third_party/jquery.color.js"></script>
 
 <!-- BOOTSTRAP -->
-<script type="text/javascript" src="third_party/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-collapse.js"></script>
 
 <!-- BACKBONE -->
 <script type="text/javascript" src="third_party/underscore-1.3.3.js"></script>
@@ -80,6 +91,34 @@
 <title>backbone mavelous</title>
 </head>
 <body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="#">Mavelous</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="#">Overview</a></li>
+            <li><a href="/pfd.html">PFD</a></li>
+            <li class="divider-vertical"></li>
+          </ul>
+          <ul class="nav pull-right">
+            <li class="divider-vertical"></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+          <p class="navbar-text pull-right">
+            <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
+            <a class="btn" id="navbar-btn-mav" href="#">MAV</a>
+            <a class="btn" id="navbar-btn-server" href="#">Server</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="header">
     <div id="pfdwithstatus">
       <div id="pfdstatus">
