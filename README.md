@@ -4,7 +4,7 @@ Mavelous
 Mavelous is a browser-based ground control station (GCS) for
 drones/UAVs/micro air vehicles.
 
-A week ago this code was an ugly hack/proof of concept.  Hacker
+A few weeks ago this code was an ugly hack/proof of concept.  Hacker
 beware.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
@@ -114,7 +114,7 @@ How to run it
     STABILIZE> module load mmap
     ```
 
-A web browser will open showing you the Mavelous interface.
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
 
 You'll be able to use the Mavelous interface to control Guided mode once in
 flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
@@ -150,7 +150,7 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
     GUIDED> module load mmap
     ```
 
-A web browser will open showing you the Mavelous interface.
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999
 
 
 
