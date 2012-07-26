@@ -27,6 +27,7 @@ html {
     font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
     width: 100%;
     color: white;
+    padding-top: 5px;
 }
 
 #pfdwithstatus {
