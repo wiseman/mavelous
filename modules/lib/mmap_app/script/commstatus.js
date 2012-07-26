@@ -82,7 +82,7 @@ $(function(){
     }
   });
 
-  Mavelous.CommStatusView = Backbone.View.extend({
+  Mavelous.CommStatusTextView = Backbone.View.extend({
     template: _.template($('#commstatustexttemplate').html()),
 
     initialize: function () {
@@ -113,5 +113,55 @@ $(function(){
     }
   });
 
+  Mavelous.CommStatusButtonView = Backbone.View.extend({
+    initialize: function () {
+      this.$el = this.options.el;
+      this.model.bind('change', this.render, this);
+      this.render();
+    },
+
+    render_status: function (stat) {
+      console.log('link render '+stat);
+      this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
+      if (stat == this.model.UNINITIALIZED) {
+        this.$el.addClass('btn-inverse');
+        this.$el.html('Link: None');
+      } else if (stat == this.model.OK) {
+        this.$el.addClass('btn-success');
+        this.$el.html('Link: Good');
+      } else if (stat == this.model.TIMED_OUT_ONCE) {
+        this.$el.addClass('btn-warning');
+        this.$el.html('Link: Lost');
+      } else if (stat == this.model.TIMED_OUT_MANY) {
+        this.$el.addClass('btn-danger');
+        this.$el.html('Link: Lost');
+      } else {
+        this.$el.addClass('btn-danger');
+        this.$el.html('Link: Error');
+      }
+    },
+
+    render: function () {
+      var mdl = this.model.toJSON();
+      var server = mdl.server;
+      var mav = mdl.mav;
+      if ( server == this.model.OK
+         && mav == this.model.OK ){
+        this.render_status(this.model.OK);
+      } else if ( server == this.model.UNINITIALIZED
+          || mav == this.model.UNINITIALIZED ){
+        this.render_status(this.model.UNINITIALIZED );
+      } else if ( server == this.model.TIMED_OUT_MANY
+          || mav == this.model.TIMED_OUT_MANY ){
+        this.render_status(this.model.TIMED_OUT_MANY);
+      } else if ( server == this.model.TIMED_OUT_ONCE
+          || mav == this.model.TIMED_OUT_ONCE ){
+        this.render_status(this.model.TIMED_OUT_ONCE);
+      } else {
+        this.render_status(this.model.ERROR);
+      }
+      return this;
+    }
+  });
 
 });

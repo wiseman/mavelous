@@ -25,16 +25,16 @@ $(function(){
   var commStatusModel = new Mavelous.CommStatusModel({
     mavlinkSrc: mavlinkAPI
   });
-  var commStatusView = new Mavelous.CommStatusView({
+  var commStatusButtonView = new Mavelous.CommStatusButtonView({
     model: commStatusModel,
-    el: $('#commstatustextview')
- });
-  
+    el: $('#navbar-btn-link')
+  });
+
   var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
 
-  var gpsTextView = new Mavelous.GpsTextView({
+  var gpsButtonView = new Mavelous.GpsButtonView({
     mavlinkSrc: mavlinkAPI,
-    el: $('#gpstextview')
+    el: $('#navbar-btn-gps')
   });
 
   var statustextView = new Mavelous.StatustextView({ mavlinkSrc: mavlinkAPI });
