@@ -3,11 +3,6 @@ body {
     margin: 0px 0px 0px 0px;
 }
 
-select {
-    font-family: 'Droid Sans Mono', Courier, Courier News, monospace !important;
-    font-size: 20px !important;
-}
-
 html {
     width: 100%;
 }

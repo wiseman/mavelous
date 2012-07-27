@@ -10,10 +10,7 @@ $(function(){
 
   var mmapModel = new Mavelous.MMapModel({ mavlinkSrc: mavlinkAPI });
   var mmapProviderModel = new Mavelous.MMapProviderModel();
-  var mapSettings = new Mavelous.MMapSettingsView({
-    providerModel: mmapProviderModel,
-    mapModel: mmapModel
-  });
+
   var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
   var guideAltView   = new Mavelous.GuideAltitudeView({ model: guideModel });
   var mapView = new Mavelous.MMapView({
