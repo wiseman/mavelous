@@ -44,6 +44,7 @@
 <script type="text/javascript" src="script/guidemodel.js"></script>
 <script type="text/javascript" src="script/guideview.js"></script>
 <script type="text/javascript" src="script/commstatus.js"></script>
+<script type="text/javascript" src="script/settingsview.js"></script>
 
 <script type="text/javascript" src="script/statustextview.js"></script>
 <script type="text/javascript" src="script/modestringview.js"></script>
@@ -108,7 +109,7 @@
           </ul>
           <ul class="nav pull-right">
             <li class="divider-vertical"></li>
-            <li><a href="#">Settings</a></li>
+            <li><a href="#" id="navbar-a-settings">Settings</a></li>
           </ul>
           <p class="navbar-text pull-right">
             <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
@@ -133,5 +134,18 @@
   </div> <!-- header -->
   <div id="map"></div>
   <div id="droneicon"></div>
+  <div id="settings-modal" class="modal hide fade">
+    <div class="modal-header">
+      <button type="botton" class="close" data-dismiss="modal">&times;</button>
+      <h3>Settings</h3>
+    </div>
+    <div class="modal-body">
+      <p>Map Provider: <select id="settings-mapproviderpicker"></select> </p>
+      <p>Zoom: <input id="settings-mapzoom" type="range" min="1" max="18"></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+  </div>
 </body>
 </html>

@@ -43,6 +43,15 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
+  var settingsView = new Mavelous.SettingsView({
+    mapProviderModel:  mmapProviderModel,
+    mapModel:          mmapModel,
+    modalToggle:       $('#navbar-a-settings'),
+    modal:             $('#settings-modal'),
+    mapProviderPicker: $('#settings-mapproviderpicker'),
+    mapZoomSlider:     $('#settings-mapzoom')
+  });
+
   setInterval(function() {
     mavlinkAPI.update();
   }, 250); 
