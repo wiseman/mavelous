@@ -98,7 +98,10 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     'audio',
     'image',
     'script',
-    'third_party'
+    'third_party',
+    'third_party/bootstrap/js',
+    'third_party/bootstrap/css',
+    'third_party/bootstrap/img',
     ]
 
   def log_request(code, size=None):

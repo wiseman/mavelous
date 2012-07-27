@@ -4,7 +4,7 @@ Mavelous
 Mavelous is a browser-based ground control station (GCS) for
 drones/UAVs/micro air vehicles.
 
-A week ago this code was an ugly hack/proof of concept.  Hacker
+A few weeks ago this code was an ugly hack/proof of concept.  Hacker
 beware.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
@@ -99,14 +99,12 @@ How to run it
 1. Connect your ArduCopter or ArduPlane to your computer with an Xbee or
    3DR Radio. Power on the vehicle.
 
-2. Start mavproxy, specifying the correct baud rate. For 3DR Radios, this is
-   usually 57600.
+2. Start mavproxy, specifying the serial port and correct data rate. For 3DR Radios, the
+   data rate is usually 57600.  For example:
 
     ```
-    $ python mavproxy.py --baud=57600
+    $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
     ```
-    If required, select the right serial port with the ```--master=``` option.
-
 
 3. At the mavproxy prompt, load the mmap module:
 
@@ -114,7 +112,7 @@ How to run it
     STABILIZE> module load mmap
     ```
 
-A web browser will open showing you the Mavelous interface.
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
 
 You'll be able to use the Mavelous interface to control Guided mode once in
 flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
@@ -150,7 +148,7 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
     GUIDED> module load mmap
     ```
 
-A web browser will open showing you the Mavelous interface.
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999
 
 
 

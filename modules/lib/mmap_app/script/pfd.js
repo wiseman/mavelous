@@ -636,6 +636,4 @@ $(function(){
 
   };
 
-  window.pfd = pfd;
-
 });
