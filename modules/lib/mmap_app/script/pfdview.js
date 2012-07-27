@@ -61,11 +61,9 @@ $(function(){
       switch(position) {
         case this.settingsModel.TOPLEFT:
           this.el.css('float', 'left');
-          console.log('pfdview float left');
           break;
         case this.settingsModel.TOPRIGHT:
           this.el.css('float', 'right');
-          console.log('pfdview float right');
           break;
         case this.settingsModel.BOTTOMLEFT:
           break;
