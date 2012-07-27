@@ -2,13 +2,15 @@ $(function(){
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.MMapSettingsView = Backbone.View.extend({
-    template: _.template($('#mapsettingsviewtemplate').html()),
+    template: _.template(
+                'Map: <select id="mapproviderpicker"></select>' +
+                'Zoom: <input id="mapzoom" type="range" min="1" max="18">'),
 
     initialize: function () {
       this.providerModel = this.options.providerModel;
       this.mapModel      = this.options.mapModel;
       this.mapModel.bind('change:zoom', this.onZoomChange, this);
-      $('#mapsettingsview').replaceWith(this.render().el);
+      $('#mapsettingsview').html(this.render().el);
       this.setupProviderDropdown();
       this.setupZoomSlider();
     },
