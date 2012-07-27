@@ -121,7 +121,6 @@ $(function(){
     },
 
     render_status: function (stat) {
-      console.log('link render '+stat);
       this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
       if (stat == this.model.UNINITIALIZED) {
         this.$el.addClass('btn-inverse');

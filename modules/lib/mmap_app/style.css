@@ -16,32 +16,37 @@ html {
     z-index: -1;
 }
 
-#header {
+#statustextview {
     background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    float:left;
     font-size: 24px;
     font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
-    width: 100%;
-    color: white;
-    padding-top: 5px;
 }
 
-#pfdwithstatus {
+#pfdblock {
+  color: white;
+  background-color: rgba(0,0,0, 0.5);
   width: 400px;
-  float: left;
 }
 
-#pfd {
+#pfdview{
     height: 280px;
     width: 400px;
-    background-color: rgba(0,0,0, 0.5);
-    float: left;
+    float: top;
 }
 
 #pfdstatus {
     width: 400px;
-    background-color: rgba(0,0,0, 0.5);
-    float: left;
+    padding-top: 10px;
+    font-size: 24px;
+    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
     position: absolute;
+}
+
+#guidealt-input {
+  margin: 7px;
+  width: 170px;
 }
 
 #droneicon {

@@ -51,6 +51,7 @@
   <!-- ADI MODULES -->
 <script type="text/javascript" src="script/pfd.js"></script>
 <script type="text/javascript" src="script/pfdview.js"></script>
+<script type="text/javascript" src="script/pfdsettings.js"></script>
 
 <script type="text/javascript" src="script/droneview.js"></script>
 
@@ -71,17 +72,8 @@
     MAV <%= mav_html %> | SERVER <%= server_html %>
 </script>
 
-<script type="text/template" id="guidealtitudeviewtemplate">
-  <div id="guidealtitudeview">
-    Guide Altitude:
-    <input id="altinput" type="range" value="20" min="0" max="200">
-    <input id="altinput_submit" type="submit" value="Update">
-    <span class="t_value" id="v_altwaypt"></span> m
-  </div>
-</script>
-
 <!-- HTML BODY-->
-<title>backbone mavelous</title>
+<title>Mavelous</title>
 </head>
 <body>
   <div class="navbar navbar-fixed-top">
@@ -111,29 +103,43 @@
       </div>
     </div>
   </div>
-  <div id="header">
-    <div id="pfdwithstatus">
+  <div id="pfdblock">
       <div id="pfdstatus">
         <center>
           <span id="pfd_modestringview"></span>
         </center>
       </div>
-      <div id="pfd"></div>
-    </div>
-    <div id="guidealtitudeview"></div>
-    <div id="statustextview"></div>
-  </div> <!-- header -->
+      <div id="pfdview"></div>
+      <div id="guidealtitudeview">
+        Guide Altitude:
+        <input id="guidealt-input" type="range" value="20" min="0" max="200">
+        <input id="guidealt-submit" type="submit" value="Update">
+        <span  id="guidealt-text"></span>
+      </div>
+  </div>
+  <div id="statustextview"></div>
   <div id="map"></div>
   <div id="droneicon"></div>
-  <div id="settings-modal" class="modal hide fade">
+  <div id="settings-modal" class="modal hide">
     <div class="modal-header">
       <button type="botton" class="close" data-dismiss="modal">&times;</button>
       <h3>Settings</h3>
     </div>
     <div class="modal-body">
-      <p>Map Provider: <select id="settings-mapproviderpicker"></select> </p>
-      <p>Zoom: <input id="settings-mapzoom" type="range" min="1" max="18"></p>
+      <h4>Map</h4><br />
+      <p>Provider <select id="settings-mapproviderpicker"></select> </p>
+      <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="18">
+        <span id="settings-mapzoom-value"></span>
+      </p>
+      <hr>
+      <h4>PFD</h4><br />
+      Position:
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn" id="settings-pfdpos-left">Left</button>
+        <button class="btn" id="settings-pfdpos-right">Right</button>
+      </div>
     </div>
+    
     <div class="modal-footer">
       <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>

@@ -3,16 +3,24 @@ $(function(){
 
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
 
+  var pfdSettingsModel = new Mavelous.PFDSettingsModel();
   var pfdView = new Mavelous.PFDView({
     mavlinkSrc: mavlinkAPI,
-    container: 'pfd'
+    settingsModel: pfdSettingsModel,
+    drawingid: 'pfdview',
+    el: $('#pfdblock')
   });
 
   var mmapModel = new Mavelous.MMapModel({ mavlinkSrc: mavlinkAPI });
   var mmapProviderModel = new Mavelous.MMapProviderModel();
 
   var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
-  var guideAltView   = new Mavelous.GuideAltitudeView({ model: guideModel });
+  var guideAltView   = new Mavelous.GuideAltitudeView({
+    model: guideModel,
+    input: $('#guidealt-input'),
+    submit: $('#guidealt-submit'),
+    text: $('#guidealt-text')
+  });
   var mapView = new Mavelous.MMapView({
     providerModel: mmapProviderModel,
     mapModel: mmapModel,
@@ -41,12 +49,18 @@ $(function(){
   });
 
   var settingsView = new Mavelous.SettingsView({
+    /* Map settings: */
     mapProviderModel:  mmapProviderModel,
     mapModel:          mmapModel,
     modalToggle:       $('#navbar-a-settings'),
     modal:             $('#settings-modal'),
     mapProviderPicker: $('#settings-mapproviderpicker'),
-    mapZoomSlider:     $('#settings-mapzoom')
+    mapZoomSlider:     $('#settings-mapzoom'),
+    mapZoomValue:      $('#settings-mapzoom-value'),
+    /* PFD settings: */
+    pfdSettingsModel:  pfdSettingsModel,
+    pfdPositionLeft:   $('#settings-pfdpos-left'),
+    pfdPositionRight:  $('#settings-pfdpos-right')
   });
 
   setInterval(function() {

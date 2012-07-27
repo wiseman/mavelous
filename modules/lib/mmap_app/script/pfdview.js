@@ -7,17 +7,23 @@ $(function(){
     pfd: null,
 
     initialize: function() {
-      var mavlinkSrc = this.options.mavlinkSrc;
+      this.el = this.options.el;
+      this.settingsModel = this.options.settingsModel;
+      this.settingsModel.bind('change', this.onSettingsChange, this);
+      this.onSettingsChange();
 
+      var mavlinkSrc = this.options.mavlinkSrc;
       // Too bad backbone doesn't pass the model to event handlers; we
       // wouldn't need to keep these handles to models.
-      this.attitude = mavlinkSrc.subscribe('ATTITUDE', this.onAttitudeChange, this);
-      this.vfrHud = mavlinkSrc.subscribe('VFR_HUD', this.onVfrHudChange, this);
+      this.attitude = mavlinkSrc.subscribe('ATTITUDE',
+          this.onAttitudeChange, this);
+      this.vfrHud = mavlinkSrc.subscribe('VFR_HUD',
+        this.onVfrHudChange, this);
       this.navControllerOutput = mavlinkSrc.subscribe(
         'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
 
       /* Create pfd object */
-      this.pfd = new Mavelous.PFD(this.options.container);
+      this.pfd = new Mavelous.PFD(this.options.drawingid);
 
       /* Set off each callback to initialize view */
       this.onAttitudeChange();
@@ -48,6 +54,27 @@ $(function(){
       if (Math.abs(aspd_error) > 0) {
         this.pfd.setTargetSpeed(this.vfrHud.get('airspeed') + aspd_error);
       }
+    },
+
+    onSettingsChange: function () {
+      var position = this.settingsModel.get('position');
+      switch(position) {
+        case this.settingsModel.TOPLEFT:
+          this.el.css('float', 'left');
+          console.log('pfdview float left');
+          break;
+        case this.settingsModel.TOPRIGHT:
+          this.el.css('float', 'right');
+          console.log('pfdview float right');
+          break;
+        case this.settingsModel.BOTTOMLEFT:
+          break;
+        case this.settingsModel.BOTTOMRIGHT:
+          break;
+        default:
+          console.log('pfdview fail');
+      }
+
     }
   });
 
