@@ -1,6 +1,12 @@
 $(function() {
   window.Mavelous = window.Mavelous || {};
+
+  Mavelous.MissionPlannerApp = new Backbone.Marionette.Application();
   
+  Mavelous.MissionPlannerApp.addRegions({
+    mainRegion: "#content"
+  });
+
   Mavelous.Waypoint = Backbone.Model.extend({
     defaults: function() {
       return {
@@ -20,36 +26,29 @@ $(function() {
     model: Mavelous.Waypoint
   });
 
-  Mavelous.WaypointView = Backbone.View.extend({
+  Mavelous.WaypointView = Backbone.Marionette.ItemView.extend({
+    template: "#waypoint-template",
+    tagName: 'tr',
+  
+    events: {
+      //'click .rank_up img': 'rankUp',
+      //'click .rank_down img': 'rankDown',
+      //'click a.disqualify': 'disqualify'
+    },
+  
+    initialize: function(){
+      this.render();
+      //this.bindTo(this.model, "change:votes", this.render);
+    }
   });
 
-  Mavelous.MissionView = Backbone.View.extend({
-    initialize: function() {
-      var self = this;
-      this.waypointViews = [];
-
-      this.collection.each(function(waypoint) {
-        console.log(this);
-        console.log(this.waypointViews);
-        console.log(this.waypointViews.push);
-        var wp = new Mavelous.WaypointView({
-          model: waypoint,
-          tagName: 'li'
-        });
-        this.waypointViews.push(wp);
-      },
-      this);
-    },
+  Mavelous.MissionView = Backbone.Marionette.CompositeView.extend({
+    tagName: "table",
+    template: "#mission-template",
+    itemView: Mavelous.WaypointView,
     
-    render: function() {
-      var self = this;
-      // Clear out this element.
-      this.$el.empty();
-
-      // Render each subview and append it to the parent view's element.
-      _(this.waypointViews).each(function(wv) {
-        self.$el.append(wv.render().el);
-      });
+    appendHtml: function(collectionView, itemView){
+      collectionView.$("tbody").append(itemView.el);
     }
   });
 });
