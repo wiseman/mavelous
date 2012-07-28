@@ -8,9 +8,11 @@ $(function(){
 
     initialize: function() {
       this.el = this.options.el;
-      this.settingsModel = this.options.settingsModel;
-      this.settingsModel.bind('change', this.onSettingsChange, this);
-      this.onSettingsChange();
+      if (this.options.settingsModel) {
+        this.settingsModel = this.options.settingsModel;
+        this.settingsModel.bind('change', this.onSettingsChange, this);
+        this.onSettingsChange();
+      }
 
       var mavlinkSrc = this.options.mavlinkSrc;
       // Too bad backbone doesn't pass the model to event handlers; we
