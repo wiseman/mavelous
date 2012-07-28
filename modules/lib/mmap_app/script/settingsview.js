@@ -28,6 +28,8 @@ $(function(){
       /* PFD Settings elements (jquery): */
       this.pfdPositionLeft  = this.options.pfdPositionLeft;
       this.pfdPositionRight = this.options.pfdPositionRight;
+      this.pfdPositionUp    = this.options.pfdPositionUp;
+      this.pfdPositionDown  = this.options.pfdPositionDown;
 
       this.setupPFDSettings();
     },
@@ -65,13 +67,45 @@ $(function(){
     setupPFDSettings: function () {
       var self = this;
       this.pfdPositionLeft.click(function(){
-        self.pfdSettingsModel.set('position', self.pfdSettingsModel.TOPLEFT);
+        if (self.pfdPositionUp.hasClass('active')){
+          self.pfdSettingsModel.set('position',
+              self.pfdSettingsModel.TOPLEFT);
+        } else {
+          self.pfdSettingsModel.set('position',
+            self.pfdSettingsModel.BOTTOMLEFT);
+        }
       });
 
       this.pfdPositionRight.click(function(){
-        self.pfdSettingsModel.set('position', self.pfdSettingsModel.TOPRIGHT);
+        if (self.pfdPositionUp.hasClass('active')){
+          self.pfdSettingsModel.set('position',
+              self.pfdSettingsModel.TOPRIGHT);
+        } else {
+          self.pfdSettingsModel.set('position',
+            self.pfdSettingsModel.BOTTOMRIGHT);
+        }
       });
 
+      this.pfdPositionUp.click(function(){
+        if (self.pfdPositionLeft.hasClass('active')){
+          self.pfdSettingsModel.set('position',
+              self.pfdSettingsModel.TOPLEFT);
+        } else {
+          self.pfdSettingsModel.set('position',
+            self.pfdSettingsModel.TOPRIGHT);
+        }
+      });
+
+      this.pfdPositionDown.click(function(){
+        if (self.pfdPositionLeft.hasClass('active')){
+          self.pfdSettingsModel.set('position',
+              self.pfdSettingsModel.BOTTOMLEFT);
+        } else {
+          self.pfdSettingsModel.set('position',
+            self.pfdSettingsModel.BOTTOMRIGHT);
+        }
+      });
+      
       this.pfdSettingsModel.bind('change', this.onPFDSettingsChange, this);
       this.onPFDSettingsChange();
     },
@@ -81,16 +115,20 @@ $(function(){
       switch(position) {
         case this.pfdSettingsModel.TOPLEFT:
           this.pfdPositionLeft.button('toggle');
+          this.pfdPositionUp.button('toggle');
           break;
         case this.pfdSettingsModel.TOPRIGHT:
           this.pfdPositionRight.button('toggle');
+          this.pfdPositionUp.button('toggle');
           break;
         case this.pfdSettingsModel.BOTTOMLEFT:
+          this.pfdPositionLeft.button('toggle');
+          this.pfdPositionDown.button('toggle');
           break;
         case this.pfdSettingsModel.BOTTOMRIGHT:
+          this.pfdPositionRight.button('toggle');
+          this.pfdPositionDown.button('toggle');
           break;
-        default:
-          console.log('pfdview fail');
       }
     }
   });

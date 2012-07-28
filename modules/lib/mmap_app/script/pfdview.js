@@ -58,19 +58,20 @@ $(function(){
 
     onSettingsChange: function () {
       var position = this.settingsModel.get('position');
+      this.el.removeClass('pfd-top pfd-bottom pfd-left pfd-right');
       switch(position) {
         case this.settingsModel.TOPLEFT:
-          this.el.css('float', 'left');
+          this.el.addClass('pfd-top pfd-left');
           break;
         case this.settingsModel.TOPRIGHT:
-          this.el.css('float', 'right');
+          this.el.addClass('pfd-top pfd-right');
           break;
         case this.settingsModel.BOTTOMLEFT:
+          this.el.addClass('pfd-bottom pfd-left');
           break;
         case this.settingsModel.BOTTOMRIGHT:
+          this.el.addClass('pfd-bottom pfd-right');
           break;
-        default:
-          console.log('pfdview fail');
       }
 
     }

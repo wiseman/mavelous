@@ -24,6 +24,24 @@ html {
     font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
 }
 
+.pfd-top{
+  position: absolute;
+  top: 40px;
+}
+
+.pfd-bottom {
+  position: absolute;
+  bottom: 0px;
+}
+
+.pfd-left {
+  left: 0px;
+}
+
+.pfd-right {
+  right: 0px;
+}
+
 #pfdblock {
   color: white;
   background-color: rgba(0,0,0, 0.5);
@@ -33,7 +51,6 @@ html {
 #pfdview{
     height: 280px;
     width: 400px;
-    float: top;
 }
 
 #pfdstatus {
@@ -41,7 +58,6 @@ html {
     padding-top: 10px;
     font-size: 24px;
     font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
-    position: absolute;
 }
 
 #guidealt-input {

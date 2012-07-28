@@ -60,7 +60,9 @@ $(function(){
     /* PFD settings: */
     pfdSettingsModel:  pfdSettingsModel,
     pfdPositionLeft:   $('#settings-pfdpos-left'),
-    pfdPositionRight:  $('#settings-pfdpos-right')
+    pfdPositionRight:  $('#settings-pfdpos-right'),
+    pfdPositionUp:     $('#settings-pfdpos-up'),
+    pfdPositionDown:   $('#settings-pfdpos-down')
   });
 
   setInterval(function() {
