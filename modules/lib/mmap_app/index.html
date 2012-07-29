@@ -65,6 +65,7 @@
 <script type="text/javascript" src="script/mmapinputhandlers.js"></script>
 
 <!-- APP INSTANCE-->
+<script type="text/javascript" src="script/router.js"></script>
 <script type="text/javascript" src="script/app.js"></script>
 
 <script type="text/template" id="gpstexttemplate">
@@ -84,8 +85,15 @@
       <div class="container">
         <a class="brand" href="#">Mavelous</a>
         <ul class="nav">
-          <li class="active"><a href="#">Overview</a></li>
-          <li><a href="/pfd.html">PFD</a></li>
+          <li id="navbar-overview" class="active">
+            <a href="#overview">Overview</a>
+          </li>
+          <li id="navbar-fullpfd">
+            <a href="#fullpfd">PFD</a>
+          </li>
+          <li id="navbar-maponly">
+            <a href="#maponly">Map</a>
+          </li>
           <li class="divider-vertical"></li>
         </ul>
         <ul class="nav pull-right">
@@ -99,7 +107,7 @@
       </div>
     </div>
   </div>
-  <div id="pfdblock">
+  <div id="pfdblock" class="pfdblock-normal">
       <div id="pfdstatus">
         <center>
           <span id="pfd_modestringview"></span>

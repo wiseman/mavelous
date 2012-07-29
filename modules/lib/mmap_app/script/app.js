@@ -65,8 +65,15 @@ $(function(){
     pfdPositionDown:   $('#settings-pfdpos-down')
   });
 
+  window.router = new Mavelous.AppRouter({
+  });
+
+  Backbone.history.start();
+  router.navigate('overview');
+
   setInterval(function() {
     mavlinkAPI.update();
   }, 100); 
+
 
 });

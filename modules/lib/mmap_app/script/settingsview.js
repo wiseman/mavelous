@@ -4,14 +4,12 @@ $(function(){
   Mavelous.SettingsView = Backbone.View.extend({
     initialize: function () {
       var self = this;
-      /* Settings pane elements (jquery): */
-      this.modal       = this.options.modal;
+      /* Setup settings pane elements (jquery) */
       this.modalToggle = this.options.modalToggle;
-
-      this.modalToggle.click(function () {
+      this.modal       = this.options.modal;
+      this.modalToggle.click(function() {
         self.modal.modal('toggle');
       });
-
       /* Map models: */
       this.mapProviderModel = this.options.mapProviderModel;
       this.mapModel         = this.options.mapModel;
