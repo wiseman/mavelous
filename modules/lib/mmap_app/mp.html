@@ -22,12 +22,27 @@
 
 <script type="text/javascript">
 $(function() {
-  var mission = new Mavelous.Mission([
-    {command: 'CMD_NAV_TAKEOFF', x: 1, y: 0, z: 0},
-    {command: 'CMD_NAV_WAYPOINT', x: 1, y: 0, z: 5},
-    {command: 'CMD_NAV_WAYPOINT', x: 5, y: 5, z: 5},
-    {command: 'CMD_NAV_LAND', x: 5, y: 5, z: 0}
-  ]);
+  var mission = new Mavelous.Mission([{
+    command: 'CMD_NAV_TAKEOFF',
+    x: 34.092047,
+    y: -118.267136,
+    z: 20.0
+  }, {
+    command: 'CMD_NAV_WAYPOINT',
+    x: 34.095387,
+    y: -118.266792,
+    z: 20
+  }, {
+    command: 'CMD_NAV_WAYPOINT',
+    x: 34.096383,
+    y: -118.267565,
+    z: 20
+  }, {
+    command: 'CMD_NAV_WAYPOINT',
+    x: 34.104911,
+    y: -118.267479,
+    z: 20
+  }]);
 
   Mavelous.MissionPlannerApp.addInitializer(function(options){
     var missionView = new Mavelous.MissionView({
