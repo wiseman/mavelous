@@ -12,7 +12,7 @@ $(function() {
 
       maxTapTime: 250,
       maxTapDistance: 30,
-      maxDoubleTapDelay: 350,
+      maxDoubleTapDelay: 400,
       locations: {},
       taps: [],
       wasPinching: false,
@@ -86,11 +86,13 @@ $(function() {
       },
 
       touchStartMachine: function(e) {
+          //Mavelous.serverLog('touchStartMachine @' + new Date().getTime() + ' ms');
           this.updateTouches(e);
           return MM.cancelEvent(e);
       },
 
       touchMoveMachine: function(e) {
+          //Mavelous.serverLog('touchMoveMachine @' + new Date().getTime() + ' ms');
           switch (e.touches.length) {
           case 1:
               this.onPanning(e.touches[0]);
@@ -105,6 +107,7 @@ $(function() {
 
       touchEndMachine: function(e) {
           var now = new Date().getTime();
+          //Mavelous.serverLog('touchEndMachine @' + new Date().getTime() + ' ms');
           // round zoom if we're done pinching
           if (e.touches.length === 0 && this.wasPinching) {
               this.onPinched(this.lastPinchCenter);
@@ -118,6 +121,7 @@ $(function() {
               // or if it was consumed by pinching already
               // just skip to the next one
               if (!loc || loc.wasPinch) {
+                  //Mavelous.serverLog('touchEndMachine: diacarded because !loc || wasPinch');
                   continue;
               }
 
@@ -129,6 +133,7 @@ $(function() {
               time = now - loc.time,
               travel = MM.Point.distance(pos, loc.startPos);
               if (travel > this.maxTapDistance) {
+                  //Mavelous.serverLog('touchEndMachine: discarded due to travel: ' + travel);
                   // we will to assume that the drag has been handled separately
               } else if (time > this.maxTapTime) {
                   // close in space, but not in time: a hold
@@ -165,6 +170,7 @@ $(function() {
 
       // Handle a tap event - mainly watch for a doubleTap
       onTap: function(tap) {
+          //Mavelous.serverLog('onTap: tap.time:' + tap.time + ' ms @' + new Date().getTime() + ' ms');
           if (this.taps.length &&
               (tap.time - this.taps[0].time) < this.maxDoubleTapDelay) {
               this.onDoubleTap(tap);
@@ -177,6 +183,7 @@ $(function() {
       // Handle a double tap by telling the drone to fly to the tapped
       // location.
       onDoubleTap: function(tap) {
+        //Mavelous.serverLog('onDoubleTap: tap.time:' + tap.time + ' ms @' + new Date().getTime() + ' ms');
         var target = this.map.pointLocation(new MM.Point(tap.x, tap.y));
         this.guideModel.setTarget(target);
       },

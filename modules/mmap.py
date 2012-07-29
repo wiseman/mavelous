@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 import webbrowser
@@ -114,6 +115,11 @@ def init(module_context):
   """initialise module"""
   global g_module_context
   g_module_context = module_context
+  # FIXME: Someday mavproxy should be changed to set logging level and
+  # format via command line options and environment variables.
+  logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s:%(levelname)s:%(module)s:%(lineno)d: %(message)s')
   state = module_state()
   g_module_context.mmap_state = state
   state.server = mmap_server.start_server(

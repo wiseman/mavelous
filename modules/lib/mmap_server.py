@@ -1,6 +1,7 @@
 import BaseHTTPServer
 import cgi
 import json
+import logging
 import os
 import os.path
 import re
@@ -104,15 +105,21 @@ class Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     'third_party/bootstrap/img',
     ]
 
-  def log_request(code, size=None):
+  def log_request(self, code, size=None):
     pass
 
   def do_POST(self):
+    scheme, host, path, params, query, frag = urlparse.urlparse(self.path)
     # Expects a JSON string in the body.
     content_len = int(self.headers.getheader('content-length'))
     post_body = self.rfile.read(content_len)
-    command = json.loads(post_body)
-    self.server.module_state.command(command)
+    body_obj = json.loads(post_body)
+    if self.path.find('jslog') >= 0:
+      # Logging from client side.
+      logging.info('jslog: %s' % (body_obj,))
+    else:
+      # Otherwise assume it's a command.
+      self.server.module_state.command(body_obj)
     self.send_response(200)
     self.end_headers()
 
