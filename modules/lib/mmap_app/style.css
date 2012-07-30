@@ -73,6 +73,7 @@ html {
     left: 45%;
     height: 100px;
     width: 150px;
+    pointer-events: none;
 }
 
 .controls {
