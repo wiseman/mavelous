@@ -7,7 +7,9 @@ $(function(){
     pfd: null,
 
     initialize: function() {
-      this.el = this.options.el;
+      this.blockel = this.options.blockel;
+      this.statel  = this.options.statel;
+      this.pfdel   = $('#' + this.options.drawingid);
       if (this.options.settingsModel) {
         this.settingsModel = this.options.settingsModel;
         this.settingsModel.bind('change', this.onSettingsChange, this);
@@ -59,24 +61,74 @@ $(function(){
     },
 
     onSettingsChange: function () {
-      var position = this.settingsModel.get('position');
-      this.el.removeClass('pfd-top pfd-bottom pfd-left pfd-right');
+      var settings = this.settingsModel.toJSON();
+      this.setPosition(settings.position);
+      this.setSize(settings.size);
+    },
+
+    setPosition: function (position) {
+      this.blockel.removeClass('pfd-top pfd-bottom pfd-left pfd-right');
       switch(position) {
         case this.settingsModel.TOPLEFT:
-          this.el.addClass('pfd-top pfd-left');
+          this.blockel.addClass('pfd-top pfd-left');
           break;
         case this.settingsModel.TOPRIGHT:
-          this.el.addClass('pfd-top pfd-right');
+          this.blockel.addClass('pfd-top pfd-right');
           break;
         case this.settingsModel.BOTTOMLEFT:
-          this.el.addClass('pfd-bottom pfd-left');
+          this.blockel.addClass('pfd-bottom pfd-left');
           break;
         case this.settingsModel.BOTTOMRIGHT:
-          this.el.addClass('pfd-bottom pfd-right');
+          this.blockel.addClass('pfd-bottom pfd-right');
           break;
       }
+    }, 
 
+    classFromSize: function (size) {
+      switch(size) {
+        case this.settingsModel.STANDARD:
+          return 'medium';
+          break;
+        case this.settingsModel.FULLSCREEN:
+          return 'full';
+          break;
+        case this.settingsModel.SMALL:
+          return 'small';
+          break;
+      }
+    },
+
+    setSize: function (size) {
+      var self = this;
+      var pfdel = this.pfdel;
+      var block = this.blockel;
+      var stat  = this.statel;
+      if (size == this.settingsModel.HIDDEN) {
+        block.hide();
+      } else {
+        if (block.is(':hidden')){
+          block.show();
+        }
+        var sizes = [ 'medium', 'small', 'full'];
+        /* Remove all */
+        _.each(sizes, function (size) {
+          var pfdsize = 'pfd-' + size;
+          var pfdviewsize = 'pfdview-' + size;
+          block.removeClass(pfdsize);
+          stat.removeClass(pfdsize);
+          pfdel.removeClass(pfdsize);
+          pfdel.removeClass(pfdviewsize);
+        });
+        var newsize = this.classFromSize(size);
+        var pfdsize = 'pfd-' + newsize;
+        var pfdviewsize = 'pfdview-' + newsize;
+        block.addClass(pfdsize);
+        stat.addClass(pfdsize);
+        pfdel.addClass(pfdsize);
+        pfdel.addClass(pfdviewsize);
+      } 
     }
   });
+
 
 });

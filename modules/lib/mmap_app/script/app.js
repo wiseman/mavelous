@@ -8,7 +8,8 @@ $(function(){
     mavlinkSrc: mavlinkAPI,
     settingsModel: pfdSettingsModel,
     drawingid: 'pfdview',
-    el: $('#pfdblock')
+    blockel: $('#pfdblock'),
+    statel: $('#pfdstatus')
   });
 
   var mmapModel = new Mavelous.MMapModel({ mavlinkSrc: mavlinkAPI });
@@ -66,6 +67,7 @@ $(function(){
   });
 
   window.router = new Mavelous.AppRouter({
+    pfdSettingsModel: pfdSettingsModel
   });
 
   Backbone.history.start();

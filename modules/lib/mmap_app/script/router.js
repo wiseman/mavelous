@@ -4,13 +4,7 @@ $(function(){
   Mavelous.AppRouter = Backbone.Router.extend({
 
     initialize: function (options) {
-      if (options.pfdSettingsModel) {
-        this.pfdSettingsModel = options.pfdSettingsModel;
-      }
-
-      if (options.pfdBlock) {
-        this.pfdBlock = options.pfdBlock;
-      }
+      this.pfdSettingsModel = options.pfdSettingsModel;
 
       var navbar = {};
       _.each(this.routes, function (g, route) {
@@ -32,17 +26,17 @@ $(function(){
     /* Route implementations: */
     overview: function () {
       this.setnavbar('overview');
-      console.log('router overview');
+      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.STANDARD });
     },
 
     fullpfd: function () {
       this.setnavbar('fullpfd');
-      console.log('router fullpfd');
+      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.FULLSCREEN });
     },
 
     maponly: function () {
       this.setnavbar('maponly');
-      console.log('router maponly');
+      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.HIDDEN });
     },
 
     /* Make navbar only show selected item: */
