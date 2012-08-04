@@ -61,6 +61,10 @@ html {
   width: 170px;
 }
 
+.droneicon-hide {
+  background-image: none !important;
+}
+
 #droneicon {
     background-image: url('image/drone-sm.png');
     background-repeat: no-repeat;

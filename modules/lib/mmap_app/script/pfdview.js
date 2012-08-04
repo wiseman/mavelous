@@ -98,6 +98,13 @@ $(function(){
 
     setSize: function (size) {
       var block = this.blockel;
+
+      if (size == this.settingsModel.FULLSCREEN) {
+        $('#droneicon').addClass('droneicon-hide');
+      } else if ($('#droneicon').hasClass('droneicon-hide')){
+        $('#droneicon').removeClass('droneicon-hide');
+      }
+
       if (size == this.settingsModel.HIDDEN) {
         block.hide();
       } else {
