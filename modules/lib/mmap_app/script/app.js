@@ -76,7 +76,14 @@ $(function(){
   });
 
   Backbone.history.start();
-  router.navigate('overview');
+
+  if ($(window).width() > 767) {
+    /* On the desktop, default to overview */
+    router.navigate('overview', {trigger: true});
+  } else {
+    /* On tablets and phones, default to map only */
+    router.navigate('maponly', {trigger: true});
+  }
 
   setInterval(function() {
     mavlinkAPI.update();
