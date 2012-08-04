@@ -563,7 +563,11 @@ $(function(){
       this.layer.add(this.targetSpeedDisplay);
 
     },
-    
+
+    setSize: function (width, height) {
+      this.stage.setSize(width, height);
+      this.stage.setScale(width/200, width/200);
+    },
 
     setSpeed: function(speed) {
       var spdTxt = 'ERR';

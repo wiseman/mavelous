@@ -113,6 +113,10 @@ $(function(){
                   .height(h);
         this.blockel.width(w);
         this.statel.width(w);
+
+        /* Set PFD size by resulting dimensions of this.pfdel */
+        this.pfd.setSize(this.pfdel.width(), this.pfdel.height());
+      }
     }
   });
 
