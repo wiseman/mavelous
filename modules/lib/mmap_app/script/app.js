@@ -49,6 +49,11 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
+  var modeStringButotn = new Mavelous.ModeStringButton({
+    mavlinkSrc: mavlinkAPI,
+    el: $('#navbar-btn-mode')
+  });
+
   var settingsView = new Mavelous.SettingsView({
     /* Map settings: */
     mapProviderModel:  mmapProviderModel,
