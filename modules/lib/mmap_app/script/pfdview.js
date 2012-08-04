@@ -5,16 +5,12 @@ $(function(){
   Mavelous.PFDView = Backbone.View.extend({
 
     pfd: null,
+    settingToDimension: {},
 
     initialize: function() {
       this.blockel = this.options.blockel;
       this.statel  = this.options.statel;
       this.pfdel   = $('#' + this.options.drawingid);
-      if (this.options.settingsModel) {
-        this.settingsModel = this.options.settingsModel;
-        this.settingsModel.bind('change', this.onSettingsChange, this);
-        this.onSettingsChange();
-      }
 
       var mavlinkSrc = this.options.mavlinkSrc;
       // Too bad backbone doesn't pass the model to event handlers; we
@@ -28,6 +24,22 @@ $(function(){
 
       /* Create pfd object */
       this.pfd = new Mavelous.PFD(this.options.drawingid);
+
+      /* Connect to settings model */
+      if (this.options.settingsModel) {
+        this.settingsModel = this.options.settingsModel;
+        this.settingToDimension[this.settingsModel.STANDARD] =
+          { height: function () { return '280px'; }
+          , width: function () { return '400px'; } };
+        this.settingToDimension[this.settingsModel.FULLSCREEN] =
+          { height: function () { return $(window).height() - 120; }
+          , width: function () { return $(window).width();} };
+        this.settingToDimension[this.settingsModel.SMALL] =
+          { height: function () { return '140px'; }
+          , width: function () { return '200px'; } };
+        this.settingsModel.bind('change', this.onSettingsChange, this);
+        this.onSettingsChange();
+      }
 
       /* Set off each callback to initialize view */
       this.onAttitudeChange();
@@ -84,49 +96,23 @@ $(function(){
       }
     }, 
 
-    classFromSize: function (size) {
-      switch(size) {
-        case this.settingsModel.STANDARD:
-          return 'medium';
-          break;
-        case this.settingsModel.FULLSCREEN:
-          return 'full';
-          break;
-        case this.settingsModel.SMALL:
-          return 'small';
-          break;
-      }
-    },
-
     setSize: function (size) {
-      var self = this;
-      var pfdel = this.pfdel;
       var block = this.blockel;
-      var stat  = this.statel;
       if (size == this.settingsModel.HIDDEN) {
         block.hide();
       } else {
+        /* Take care of show if hidden */
         if (block.is(':hidden')){
           block.show();
         }
-        var sizes = [ 'medium', 'small', 'full'];
-        /* Remove all */
-        _.each(sizes, function (size) {
-          var pfdsize = 'pfd-' + size;
-          var pfdviewsize = 'pfdview-' + size;
-          block.removeClass(pfdsize);
-          stat.removeClass(pfdsize);
-          pfdel.removeClass(pfdsize);
-          pfdel.removeClass(pfdviewsize);
-        });
-        var newsize = this.classFromSize(size);
-        var pfdsize = 'pfd-' + newsize;
-        var pfdviewsize = 'pfdview-' + newsize;
-        block.addClass(pfdsize);
-        stat.addClass(pfdsize);
-        pfdel.addClass(pfdsize);
-        pfdel.addClass(pfdviewsize);
-      } 
+
+        /* Set element sizes by css class. */
+        var dim = this.settingToDimension[size];
+        var w = dim.width(); var h = dim.height();
+        this.pfdel.width(w)
+                  .height(h);
+        this.blockel.width(w);
+        this.statel.width(w);
     }
   });
 

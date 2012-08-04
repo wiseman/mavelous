@@ -42,31 +42,6 @@ html {
   right: 0px;
 }
 
-.pfd-medium {
-  width: 400px;
-}
-
-.pfdview-medium {
-  height: 280px;
-}
-
-.pfd-small {
-  width: 200px;
-}
-
-.pfdview-small {
-  height: 140px;
-}
-
-.pfd-full {
-  width: 100%;
-}
-
-.pfdview-full {
-  height: 100%;
-}
-
-
 #pfdblock {
   color: white;
   background-color: rgba(0,0,0, 0.5);
