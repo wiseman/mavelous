@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import threading
 import webbrowser
 
 import mavlinkv10
@@ -27,7 +28,7 @@ class MetaMessage(object):
     return d
 
 
-class message_memo(object):
+class MessageMemo(object):
   def __init__(self):
     self._d = dict({})
     self.time = 0
@@ -59,16 +60,56 @@ class message_memo(object):
     else:
       return False
 
+class LinkStateThread(threading.Thread):
+  def __init__(self, parent, module_context):
+    self._running_flag = False
+    self.parent = parent
+    self.module_context = module_context
+    self.stop = threading.Event()
+    threading.Thread.__init__(self, target=self.run_method)
+    self.daemon = True
 
-class module_state(object):
-  def __init__(self):
+  def run_method(self):
+    try:
+      while (not self.stop.wait(1)):
+        self.update_meta_linkquality()
+    finally:
+      self._running_flag = False
+
+  def terminate(self):
+    print "terminating metalinkquality!"
+    self.stop.set()
+
+  def update_meta_linkquality(self):
+    master = self.module_context.mav_master[0]
+    d = { "master_in": 
+            self.module_context.status.counters['MasterIn'][0]
+        , "master_out": 
+            self.module_context.status.counters['MasterOut']
+        , "mav_loss": master.mav_loss
+        , "packet_loss": master.packet_loss()
+        }
+    msg = MetaMessage(msg_type='META_LINKQUALITY',data=d)
+    self.parent.messages.insert_message(msg) 
+
+
+class ModuleState(object):
+  def __init__(self, module_context):
     self.client_waypoint = None
     self.client_waypoint_seq = 0
     self.wp_change_time = 0
     self.waypoints = []
     self.fence_change_time = 0
     self.server = None
-    self.messages = message_memo()
+    self.messages = MessageMemo()
+    self.module_context = module_context
+    self.linkstatethread = LinkStateThread(self, module_context);
+    self.linkstatethread.start()
+
+  def terminate(self):
+    print "mmap module state terminate"
+    self.server.terminate()
+    self.linkstatethread.terminate()
 
   def command(self, command):
     # First draft, assumes the command has a location and we want to
@@ -91,11 +132,11 @@ class module_state(object):
     current = 2
     autocontinue = 0
     msg = mavlinkv10.MAVLink_mission_item_message(
-      g_module_context.status.target_system,
-      g_module_context.status.target_component,
+      self.module_context.status.target_system,
+      self.module_context.status.target_component,
       seq, frame, cmd, current, autocontinue, param1, param2, param3, param4,
       x, y, z)
-    g_module_context.queue_message(msg)
+    self.module_context.queue_message(msg)
     msg = MetaMessage(msg_type='META_WAYPOINT',
         data={'waypoint': {'lat': x, 'lon': y, 'alt': z }})
     self.messages.insert_message(msg)
@@ -120,7 +161,7 @@ def init(module_context):
   logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s:%(levelname)s:%(module)s:%(lineno)d: %(message)s')
-  state = module_state()
+  state = ModuleState(module_context)
   g_module_context.mmap_state = state
   state.server = mmap_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
@@ -129,8 +170,10 @@ def init(module_context):
 
 def unload():
   """unload module"""
+  print "mmap module unload"
   global g_module_context
-  g_module_context.mmap_state.server.terminate()
+  g_module_context.mmap_state.terminate()
+
 
 
 def mavlink_packet(m):
