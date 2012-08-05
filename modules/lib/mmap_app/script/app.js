@@ -59,6 +59,10 @@ $(function(){
     el: $('#navbar-btn-battery')
   });
 
+  var linkQualityView = new Mavelous.LinkQualityView({
+    mavlinkSrc: mavlinkAPI
+  });
+
   var settingsView = new Mavelous.SettingsView({
     /* Map settings: */
     mapProviderModel:  mmapProviderModel,
