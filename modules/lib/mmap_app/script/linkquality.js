@@ -20,15 +20,22 @@ $(function(){
 
     onChange: function () {
       var latest = this.link.toJSON();
+      if (!latest) return;
       var compare = this.history[this.current];
       this.history[this.current] = latest;
       this.current = (this.current + 1) % this.period;
-      if (latest && compare) {
+      if (compare) {
         var delta = { master_in: latest.master_in - compare.master_in
                     , master_out: latest.master_out - compare.master_out
                     , mav_loss: latest.mav_loss - compare.mav_loss
                     , period: this.period };
-        console.log(delta.master_in);
+        this.render(delta);
+      } else { /* History has not filled up yet. */
+        compare = this.history[0]
+        var delta = { master_in: latest.master_in - compare.master_in
+                    , master_out: latest.master_out - compare.master_out
+                    , mav_loss: latest.mav_loss - compare.mav_loss
+                    , period: this.current - 1 };
         this.render(delta);
       }
     },
