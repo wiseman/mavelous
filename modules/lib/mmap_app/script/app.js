@@ -49,9 +49,14 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
-  var modeStringButotn = new Mavelous.ModeStringButton({
+  var modeStringButton = new Mavelous.ModeStringButton({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-mode')
+  });
+
+  var batteryButton = new Mavelous.BatteryButton({
+    mavlinkSrc: mavlinkAPI,
+    el: $('#navbar-btn-battery')
   });
 
   var settingsView = new Mavelous.SettingsView({
