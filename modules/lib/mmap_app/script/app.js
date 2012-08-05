@@ -60,7 +60,8 @@ $(function(){
   });
 
   var linkQualityView = new Mavelous.LinkQualityView({
-    mavlinkSrc: mavlinkAPI
+    mavlinkSrc: mavlinkAPI,
+    el: $('#navbar-btn-link')
   });
 
   var settingsView = new Mavelous.SettingsView({
