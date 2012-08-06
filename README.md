@@ -72,9 +72,8 @@ Why
 ---
 
 Portability.  Controlling a drone with an iPad is kind of awesome, and
-there are currently no ground control stations for amateur drones that
-can run on an iPhone or iPad--Mavelous can (at least the front end
-can).
+there are currently no open-source ground control stations that can
+run on an iPhone or iPad--Mavelous can (at least the front end can).
 
 The most popular ArduCopter GCS, [APM Mission
 Planner](http://code.google.com/p/ardupilot-mega/wiki/Mission), is
