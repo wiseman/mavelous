@@ -76,7 +76,10 @@ $(function(){
     },
 
     updatePopoverData: function () {
-      var visible = this.stat.get('satellites_visible').toString();
+      var stat = this.stat.toJSON();
+      if (!('satellites_visible' in stat)) return;
+      var visible = stat.satellites_visible.toString();
+
       var lat = (this.gps.get('lat') / 10e6).toFixed(7);
       var lon = (this.gps.get('lon') / 10e6).toFixed(7);
       this.$el.attr('data-content', 'Satellites: ' + visible +
