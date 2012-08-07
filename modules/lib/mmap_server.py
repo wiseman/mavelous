@@ -6,24 +6,24 @@ import types
 
 from cherrypy import wsgiserver
 import flask
-import werkzeug
+from werkzeug import wsgi
 
 app = flask.Flask(__name__)
 
 DOC_DIR = os.path.join(os.path.dirname(__file__), 'mmap_app')
 
-app.wsgi_app = werkzeug.SharedDataMiddleware(app.wsgi_app, {
-    '/': DOC_DIR
-    })
+app.wsgi_app = wsgi.SharedDataMiddleware(
+  app.wsgi_app,
+  {'/': DOC_DIR})
 
 
 @app.route('/')
-def index():
+def index_view():
   return flask.redirect('/index.html')
 
 
 @app.route('/mavlink/<msgtypes>')
-def mavlink(msgtypes):
+def mavlink_view(msgtypes):
   mtypes = msgtypes.split('+')
   msgs = app.module_state.messages
   results = {}
@@ -38,12 +38,11 @@ def mavlink(msgtypes):
 
 
 @app.route('/command', methods=['POST'])
-def command():
+def command_handler():
   # FIXME: I couldn't figure out how to get jquery to send a
   # Content-Type: application/json, which would have let us use
   # request.json.  And for some reason the data is in the key name.
   body_obj = json.loads(flask.request.form.keys()[0])
-  print body_obj
   app.module_state.command(body_obj)
   return 'OK'
 
@@ -72,7 +71,7 @@ def response_dict_for_message(msg, time, index):
 def start_server(address, port, module_state):
   dispatcher = wsgiserver.WSGIPathInfoDispatcher({'/': app})
   server = wsgiserver.CherryPyWSGIServer(
-    ('0.0.0.0', 9999),
+    (address, port),
     dispatcher)
   server_thread = threading.Thread(target=server.start)
   server_thread.daemon = True
