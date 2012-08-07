@@ -32,8 +32,7 @@ Mavelous depends on [CherryPy](http://www.cherrypy.org/) and
 [Flask](http://flask.pocoo.org/), which can be easily installed with
 `easy_install` or `pip`:
 
-    pip install cherrypy
-    pip install flask
+    $ pip install flask cherrypy
 
 
 Architecture
