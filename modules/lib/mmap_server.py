@@ -56,17 +56,6 @@ def nul_terminate(s):
     return s
 
 
-def response_for_message(self, t, n, msg):
-  mdict = msg.to_dict()
-  for key, value in mdict.items():
-    if isinstance(value, types.StringTypes):
-      mdict[key] = nul_terminate(value)
-  resp = {'time_usec': t,
-          'index': n,
-          'msg': mdict}
-  return resp
-
-
 def response_dict_for_message(msg, time, index):
   mdict = msg.to_dict()
   for key, value in mdict.items():
