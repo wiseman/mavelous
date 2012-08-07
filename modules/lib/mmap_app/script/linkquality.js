@@ -39,26 +39,28 @@ $(function(){
       }
     },
 
+    renderDiff: function ( latest, compare , period ) { 
+      console.log(latest.mav_loss);
+      var delta = { master_in: latest.master_in - compare.master_in
+                  , master_out: latest.master_out - compare.master_out
+                  , mav_loss: latest.mav_loss - compare.mav_loss
+                  , period: period };
+      return this.renderStatString(delta);
+    },
+
     renderPopoverContent: function () {
       var latest = this.link.toJSON();
       if (!latest) return;
       var compare = this.history[this.current];
       this.history[this.current] = latest;
-      this.current = (this.current + 1) % this.period;
+      this.current++;
       if (compare) {
-        var delta = { master_in: latest.master_in - compare.master_in
-                    , master_out: latest.master_out - compare.master_out
-                    , mav_loss: latest.mav_loss - compare.mav_loss
-                    , period: this.period };
-        return this.renderStatString(delta);
-      } else { /* History has not filled up yet. */
-        compare = this.history[0]
-        var delta = { master_in: latest.master_in - compare.master_in
-                    , master_out: latest.master_out - compare.master_out
-                    , mav_loss: latest.mav_loss - compare.mav_loss
-                    , period: this.current + 1 };
-        return this.renderStatString(delta);
+        var res = this.renderDiff(latest, compare, this.period);
+      } else {
+        var res = this.renderDiff(latest, this.history[0], this.current);
       }
+      this.current = this.current % this.period;
+      return res;
     },
 
     renderStatString: function (l) {
