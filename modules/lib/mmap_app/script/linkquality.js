@@ -12,9 +12,9 @@ $(function(){
         placement: 'bottom',
         title: "Link Statistics",
         trigger: 'manual',
-        content: $.proxy(this.renderPopoverContent, this)
+        content: _.bind(this.renderPopoverContent, this)
       });
-      this.$el.click($.proxy(this.buttonClick, this));
+      this.$el.click(_.bind(this.buttonClick, this));
     },
 
     history: [],

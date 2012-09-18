@@ -49,6 +49,11 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
+  var radioButtons1 = new Mavelous.StatusButtons({
+    mavlinkSrc: mavlinkAPI,
+    commStatusModel: commStatusModel
+  });
+
   var modeStringButton = new Mavelous.ModeStringButton({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-mode')
