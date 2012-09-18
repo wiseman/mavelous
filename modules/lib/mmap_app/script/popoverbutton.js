@@ -73,7 +73,7 @@ $(function(){
         this.model.bind('change', this.onChange, this);
       } else if (this.options.mavlinkMsg) {
         this.mavlink = this.options.mavlinkSrc.subscribe(
-          this.options.mavlinkMsg, this.onChange, this);
+                         this.options.mavlinkMsg, this.onChange, this);
       }
     },
     onChange: function () {

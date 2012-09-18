@@ -93,17 +93,17 @@ $(function(){
         new Mavelous.PopoverButtonView({
           el: $('#navbar-btn-1'),
           mavlinkSrc: opts.mavlinkSrc,
-          mavlinkMsg: 'META_LINKQUALITY',
+          mavlinkMsg: 'META_LINKQUALITY', /* placeholder */
           popoverRender: function () { return 'radio 1' }
         }),
         new Mavelous.PopoverButtonView({
           el: $('#navbar-btn-2'),
           mavlinkSrc: opts.mavlinkSrc,
-          mavlinkMsg: 'META_LINKQUALITY',
+          mavlinkMsg: 'META_LINKQUALITY', /* placeholder */
           popoverRender: function () { return 'radio 2' }
         }),
         new commStatusPopoverButton({
-          el: $('#navbar-btn-3'),
+          el: $('#navbar-btn-link'),
           commStatusModel: opts.commStatusModel,
           mavlinkSrc: opts.mavlinkSrc,
           mavlinkMsg: 'META_LINKQUALITY',

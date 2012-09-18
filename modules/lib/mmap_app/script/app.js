@@ -31,10 +31,6 @@ $(function(){
   var commStatusModel = new Mavelous.CommStatusModel({
     mavlinkSrc: mavlinkAPI
   });
-  var commStatusButtonView = new Mavelous.CommStatusButtonView({
-    model: commStatusModel,
-    el: $('#navbar-btn-link')
-  });
 
   var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
 
@@ -62,11 +58,6 @@ $(function(){
   var batteryButton = new Mavelous.BatteryButton({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-battery')
-  });
-
-  var linkQualityView = new Mavelous.LinkQualityView({
-    mavlinkSrc: mavlinkAPI,
-    el: $('#navbar-btn-link')
   });
 
   var settingsView = new Mavelous.SettingsView({
