@@ -30,19 +30,17 @@ $(function(){
   });
 
   Mavelous.GpsButtonView = Backbone.View.extend({
-    
     initialize: function() {
       var mavlink = this.options.mavlinkSrc;
-      this.$el = this.options.el;
       this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS, this);
       this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus , this);
-      this.$el.popover({
-        animation: false,
-        placement: "bottom",
-        title: "GPS Details"
-      });
     },
-    
+
+    registerPopover: function (p) {
+      this.popover = p;
+      this.popover.on('selected', this.renderPopover, this);
+    },
+
     renderFixType: function(fix_type) {
       this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
       if (fix_type >= 3) {
@@ -68,23 +66,25 @@ $(function(){
     onGPS: function () {
       var fix_type = this.gps.get('fix_type');
       this.renderFixType(fix_type);
-      this.updatePopoverData();
+      this.renderPopover(); /* XXX need to tie the loop properly. */
     },
 
     onStatus: function () {
-      this.updatePopoverData();
+      this.renderPopover();
     },
 
-    updatePopoverData: function () {
+    renderPopover: function () {
       var stat = this.stat.toJSON();
       if (!('satellites_visible' in stat)) return;
       var visible = stat.satellites_visible.toString();
 
       var lat = (this.gps.get('lat') / 10e6).toFixed(7);
       var lon = (this.gps.get('lon') / 10e6).toFixed(7);
-      this.$el.attr('data-content', 'Satellites: ' + visible +
+      var content =  ('Satellites: ' + visible +
           "<br /> Coordinates: " + lat + ", " + lon  );
+      if (this.popover) {
+        this.popover.trigger('content', content);
+      }
     }
-
   });
 });

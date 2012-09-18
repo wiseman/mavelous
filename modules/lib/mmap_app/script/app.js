@@ -32,8 +32,14 @@ $(function(){
     mavlinkSrc: mavlinkAPI
   });
 
-  var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
+  var commStatusButtonView = new Mavelous.CommStatusButtonView({
+    mavlinkSrc: mavlinkAPI,
+    model: commStatusModel,
+    el: $('#navbar-btn-link')
+  });
 
+  var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
+  
   var gpsButtonView = new Mavelous.GpsButtonView({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-gps')
@@ -45,9 +51,9 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
-  var radioButtons1 = new Mavelous.StatusButtons({
-    mavlinkSrc: mavlinkAPI,
-    commStatusModel: commStatusModel
+  /* Radio view controller */
+  var statusButtons = new Mavelous.StatusButtons({
+    buttons: [ gpsButtonView, commStatusButtonView ]
   });
 
   var modeStringButton = new Mavelous.ModeStringButton({

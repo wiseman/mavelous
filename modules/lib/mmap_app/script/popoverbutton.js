@@ -16,10 +16,10 @@ $(function(){
     }
   });
 
-  Mavelous.RadioButtonView = Backbone.View.extend({
+  Mavelous.RadioButtonPopoverView = Backbone.View.extend({
     initialize: function () {
       /* this.buttons :: [ SelectedModel ]*/
-      this.buttons =  _.map(this.options.buttons, /* :: [PopoverButtonView] */
+      this.buttons =  _.map(this.options.popovers , /* :: [PopoverView] */
                         _.bind(this.registerButton, this));
     },
     /* Setup a button to be backed by a selection model. */
@@ -29,9 +29,8 @@ $(function(){
       /* Temporary hack - this el's click should bind to a radio method,
        * carry along index. */
       btn.$el.click(_.bind(this.onButtonClick, this, index));
-      console.log('register btn selectedModel');
       btn.selectedModel = mdl;
-      mdl.bind('change', btn.onChange, btn);
+      mdl.bind('change', btn.onSelectedChange, btn);
       return mdl;
     },
     onButtonClick: function (btnindex) {
@@ -48,40 +47,33 @@ $(function(){
     }
   });
 
-  Mavelous.PopoverButtonView = Backbone.View.extend({
+  Mavelous.PopoverView = Backbone.View.extend({
+    deferedContent: null,
     initialize: function () {
-      /** 
-       * Extend this object with the options (subtyping).
-       * Options has an initialize as well!
-       * that will wipe out this initialize in the object scope. Luckily we
-       * won't need it again.
-       */
-      _.extend(this, this.options);
-      /* Call the subtype initialize function with the current object as
-       * the 'this' context. */
-      if (this.options.initialize) {
-        _.bind(this.options.initialize, this)();
-      }
+      _.extend(this, Backbone.Events);
+      this.$el = this.options.button.$el;
       this.$el.popover({
         animation: false,
         placement: 'bottom',
         title: this.options.title,
         trigger: 'manual',
-        content: _.bind(this.popoverRender, this)
+        content: _.bind(function () { return this.deferedContent; }, this)
       });
-      if (this.model) {
-        this.model.bind('change', this.onChange, this);
-      } else if (this.options.mavlinkMsg) {
-        this.mavlink = this.options.mavlinkSrc.subscribe(
-                         this.options.mavlinkMsg, this.onChange, this);
+      this.on('content', this.onContent, this);
+      this.options.button.registerPopover(this);
+    },
+    onSelectedChange: function () {
+      if (this.selectedModel.get('selected')) {
+        this.trigger('selected', true);
+      } else {
+        this.$el.popover('hide');
       }
     },
-    onChange: function () {
+    onContent: function (c) {
+      this.deferedContent = c;
       if ( this.selectedModel.get('selected') ) {
-        /* popover content handler will  cause this.render to be triggered */
+        /* popover content handler will return this.deferedPopoverContent */
         this.$el.popover('show');
-      } else {
-        this.$el.popover('hide')
       }
     }
   });
