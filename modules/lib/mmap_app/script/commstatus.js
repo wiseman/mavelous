@@ -82,12 +82,53 @@ $(function(){
     }
   });
 
-
+  Mavelous.PacketLossModel = Backbone.Model.extend({
+    period: 10, /* period should not be changed after initialization. */
+    defaults: function () {
+      return {
+        history: [],
+        current: -1
+      };
+    },
+    initialize: function () {
+      this.metalinkquality = this.get('mavlinkSrc').subscribe(
+          'META_LINKQUALITY', this.onMessage, this);
+    },
+    onMessage: function () {
+      var history = this.get('history');
+      var current = this.get('current');
+      var latest = this.metalinkquality.toJSON();
+      var next = (current + 1) % this.period;
+      history[next] = latest;
+      this.set('history', history);
+      this.set('current', next);
+    },
+    getDelta: function () {
+      var history = this.get('history');
+      var current = this.get('current');
+      /* current is -1 when we dont yet have info from server. */
+      if (current < 0) return;
+      var nextposition = history[(current + 1) % this.period]
+      if (nextposition) {
+        return this.diff(history[current], nextposition, this.period)
+      } else {
+        return this.diff(history[current], history[0], current)
+      }
+    },
+    diff: function (latest, compare, period)  {
+      return { master_in: latest.master_in - compare.master_in
+             , master_out: latest.master_out - compare.master_out
+             , mav_loss: latest.mav_loss - compare.mav_loss
+             , period: period };
+    }
+  });
 
   Mavelous.CommStatusButtonView = Backbone.View.extend({
     initialize: function () {
-      this.mavlink = this.options.mavlinkSrc;
-      this.model.bind('change', this.buttonRender, this);
+      this.commStatusModel = this.options.commStatusModel;
+      this.packetLossModel = this.options.packetLossModel;
+      this.commStatusModel.bind('change', this.buttonRender, this);
+      this.packetLossModel.bind('change', this.popoverRender, this);
     },
 
     registerPopover: function (p) {
@@ -96,30 +137,29 @@ $(function(){
     },
 
     buttonRender: function () {
-      /* model should be a commStatusModel */
-      var csm = this.model;
+      var csm = this.commStatusModel;
       var state = csm.toJSON();
       var server = state.server;
       var mav = state.mav;
       if ( server == csm.OK
          && mav == csm.OK ){
-        this.render_status(csm.OK);
+        this.setButton(csm.OK);
       } else if ( server == csm.UNINITIALIZED
           || mav == csm.UNINITIALIZED ){
-        this.render_status(csm.UNINITIALIZED );
+        this.setButton(csm.UNINITIALIZED );
       } else if ( server == csm.TIMED_OUT_MANY
           || mav == csm.TIMED_OUT_MANY ){
-        this.render_status(csm.TIMED_OUT_MANY);
+        this.setButton(csm.TIMED_OUT_MANY);
       } else if ( server == csm.TIMED_OUT_ONCE
           || mav == csm.TIMED_OUT_ONCE ){
-        this.render_status(csm.TIMED_OUT_ONCE);
+        this.setButton(csm.TIMED_OUT_ONCE);
       } else {
         this.rcommStatusModelender_status(csm.ERROR);
       }
     },
 
-    render_status: function(stat) {
-      var csm = this.model;
+    setButton: function(stat) {
+      var csm = this.commStatusModel;
       this.$el.removeClass('btn-success btn-danger ' +
           'btn-warning btn-inverse');
       if (stat == csm.UNINITIALIZED) {
@@ -140,37 +180,15 @@ $(function(){
       }
     },
 
-    history: [],
-    period: 10,
-    current: 0,
-
-    renderDiff: function ( latest, compare , period ) { 
-      var delta = { master_in: latest.master_in - compare.master_in
-                  , master_out: latest.master_out - compare.master_out
-                  , mav_loss: latest.mav_loss - compare.mav_loss
-                  , period: period };
-      return this.renderStatString(delta);
-    },
-
-    renderStatString: function (l) {
+    packetLossString: function (l) {
       return ("In last " + l.period + "s, " +
           l.master_in  + " packets received, " +
           l.master_out + " sent, " + l.mav_loss + " lost");
     },
 
     popoverRender: function () {
-      var latest = this.mavlink.toJSON();
-      if (!latest) return;
-      var compare = this.history[this.current];
-      this.history[this.current] = latest;
-      this.current++;
-      if (compare) {
-        var res = this.renderDiff(latest, compare, this.period);
-      } else {
-        var res = this.renderDiff(latest, this.history[0], this.current);
-      }
-      this.current = this.current % this.period;
-      this.popover.trigger('content',res);
+      var delta = this.packetLossModel.getDelta();
+      this.popover.trigger('content', this.packetLossString(delta));
     }
   });
 });

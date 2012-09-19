@@ -32,9 +32,13 @@ $(function(){
     mavlinkSrc: mavlinkAPI
   });
 
+  var packetLossModel = new Mavelous.PacketLossModel({
+    mavlinkSrc: mavlinkAPI
+  });
+
   var commStatusButtonView = new Mavelous.CommStatusButtonView({
-    mavlinkSrc: mavlinkAPI,
-    model: commStatusModel,
+    commStatusModel: commStatusModel,
+    packetLossModel: packetLossModel,
     el: $('#navbar-btn-link')
   });
 
