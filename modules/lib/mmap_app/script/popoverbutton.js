@@ -73,7 +73,7 @@ $(function(){
       this.deferedContent = c;
       if ( this.selectedModel.get('selected') ) {
         /* popover content handler will return this.deferedPopoverContent */
-        this.$el.popover('show');
+        this.$el.popover('show', function (el) { console.log(el); });
       }
     }
   });

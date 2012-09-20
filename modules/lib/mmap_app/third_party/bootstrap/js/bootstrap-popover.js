@@ -38,13 +38,17 @@
 
     constructor: Popover
 
-  , setContent: function () {
+  , setContent: function (k) {
       var $tip = this.tip()
         , title = this.getTitle()
         , content = this.getContent()
-
-      $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
-      $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
+      /* customization to use optional content function, pch (mavelous) */
+      if (typeof k == 'function') {
+        k($tip);
+      } else {
+        $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
+        $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
+      }
 
       $tip.removeClass('fade top bottom left right in')
     }
@@ -57,7 +61,6 @@
       var content
         , $e = this.$element
         , o = this.options
-
       content = $e.attr('data-content')
         || (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
 
@@ -77,13 +80,19 @@
  /* POPOVER PLUGIN DEFINITION
   * ======================= */
 
-  $.fn.popover = function (option) {
+  $.fn.popover = function (option, extra) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('popover')
         , options = typeof option == 'object' && option
       if (!data) $this.data('popover', (data = new Popover(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (typeof option == 'string') {
+        if (typeof extra == 'undefined') {
+          data[option]()
+        } else {
+          data[option](extra)
+        }
+      }
     })
   }
 

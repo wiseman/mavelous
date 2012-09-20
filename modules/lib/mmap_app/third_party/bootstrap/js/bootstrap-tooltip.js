@@ -93,7 +93,9 @@
       }, self.options.delay.hide)
     }
 
-  , show: function () {
+    /* argument k is a customization to use optional content callback
+     * pch (mavelous) */
+  , show: function (k) {
       var $tip
         , inside
         , pos
@@ -104,7 +106,7 @@
 
       if (this.hasContent() && this.enabled) {
         $tip = this.tip()
-        this.setContent()
+        this.setContent(k)
 
         if (this.options.animation) {
           $tip.addClass('fade')
