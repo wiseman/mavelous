@@ -43,10 +43,10 @@
         , title = this.getTitle()
         , content = this.getContent()
       /* customization to use optional content function, pch (mavelous) */
+      $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
       if (typeof k == 'function') {
         k($tip);
       } else {
-        $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
         $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
       }
 
