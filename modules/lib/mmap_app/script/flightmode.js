@@ -23,6 +23,16 @@ $(function () {
     },
     requestArm: function () {
       console.log('requested to arm');
+      // Send RC override:
+      // rc 3 1000, rc 4 2000
+      var data = JSON.stringify({
+        'ch3': 1000,
+        'ch4': 2000
+      });
+      console.log('POSTing ' + data);
+      $.ajax({ type: 'POST',
+               url: '/rcoverride',
+               data: data});
     },
 
     requestDisarm: function () {

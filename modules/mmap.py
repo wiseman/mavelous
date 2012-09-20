@@ -89,8 +89,8 @@ class LinkStateThread(threading.Thread):
         , "mav_loss": master.mav_loss
         , "packet_loss": master.packet_loss()
         }
-    msg = MetaMessage(msg_type='META_LINKQUALITY',data=d)
-    self.parent.messages.insert_message(msg) 
+    msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
+    self.parent.messages.insert_message(msg)
 
 
 class ModuleState(object):
@@ -103,7 +103,7 @@ class ModuleState(object):
     self.server = None
     self.messages = MessageMemo()
     self.module_context = module_context
-    self.linkstatethread = LinkStateThread(self, module_context);
+    self.linkstatethread = LinkStateThread(self, module_context)
     self.linkstatethread.start()
 
   def terminate(self):
@@ -112,24 +112,25 @@ class ModuleState(object):
     self.linkstatethread.terminate()
 
   def rcoverride(self, msg):
-    def constr(rcinput):
-        if rcinput < 1000:
-            return 1000
-        elif rcinput > 2000:
-            return 2000
-        return rcinput
+    def validate(rc_msg, key):
+      if key in rc_msg:
+        val = max(1000, min(2000, rc_msg[key]))
+      else:
+        val = 65535  # See https://github.com/mavlink/mavlink/issues/72
+      return val
 
-    msg=mavlinkv10.MAVLink_rc_channels_override_message(
+    msg = mavlinkv10.MAVLink_rc_channels_override_message(
             self.module_context.status.target_system,
             self.module_context.status.target_component,
-            constr(msg['ch1']),
-            constr(msg['ch2']),
-            constr(msg['ch3']),
-            constr(msg['ch4']),
-            constr(msg['ch5']),
-            constr(msg['ch6']),
-            constr(msg['ch7']),
-            constr(msg['ch8']))
+            validate(msg, 'ch1'),
+            validate(msg, 'ch2'),
+            validate(msg, 'ch3'),
+            validate(msg, 'ch4'),
+            validate(msg, 'ch5'),
+            validate(msg, 'ch6'),
+            validate(msg, 'ch7'),
+            validate(msg, 'ch8'))
+    self.module_context.queue_message(msg)
 
   def command(self, command):
     # First draft, assumes the command has a location and we want to
