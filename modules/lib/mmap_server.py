@@ -46,6 +46,14 @@ def guide_handler():
   app.module_state.guide(body_obj)
   return 'OK'
 
+@app.route('/command_long', methods=['POST'])
+def command_long_handler():
+  # FIXME: I couldn't figure out how to get jquery to send a
+  # Content-Type: application/json, which would have let us use
+  # request.json.  And for some reason the data is in the key name.
+  body_obj = json.loads(flask.request.form.keys()[0])
+  app.module_state.command_long(body_obj)
+  return 'OK'
 
 @app.route('/rcoverride', methods=['POST'])
 def rcoverride_handler():
