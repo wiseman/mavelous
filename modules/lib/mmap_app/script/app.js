@@ -59,9 +59,13 @@ $(function(){
   var flightModeModel = new Mavelous.FlightModeModel({
     mavlinkSrc: mavlinkAPI
   });
+  var flightCommandModel = new Mavelous.CommandLongModel({
+    mavlinkSrc: mavlinkAPI
+  });
   var flightModeButtonView = new Mavelous.FlightModeButtonView({
     el: $('#navbar-btn-mode'),
-    model: flightModeModel
+    modeModel: flightModeModel,
+    commandModel: flightCommandModel
   });
 
   /* Radio view controller */

@@ -21,7 +21,6 @@ $(function () {
       var modestring = mavutil.heartbeat.modestring(this.heartbeat);
       var armed = mavutil.heartbeat.armed(this.heartbeat);
       this.set({ armed: armed, modestring: modestring });
-      console.log(this.toJSON());
     },
     onChangeArmed: function () {
       if (this.get('armed')) {
@@ -64,6 +63,20 @@ $(function () {
     }
   });
 
+  Mavelous.CommandLongModel = Backbone.Model.extend({
+    post: function (command) {
+      if (typeof command == 'string') {
+        $.ajax({ type: 'POST',
+                 url: '/command_long',
+                 data: JSON.stringify({command: command}) });
+      } else {
+        $.ajax({ type: 'POST',
+                 url: '/command_long',
+                 data: JSON.stringify(command) });
+      }
+    }
+  });
+
   var ArmingButtonView = Backbone.View.extend({
     initialize: function () {
       this.model.on('change:armed change:arming change:disarming',
@@ -100,12 +113,23 @@ $(function () {
     }
   });
 
-      // this.armedModel = new Backbone.Model({ 'armed': false });
+  var CommandButtonView = Backbone.View.extend({
+    initialize: function () {
+      this.command = this.options.command;
+      this.$el.click(_.bind(this.onClick, this));
+    },
+    onClick: function () {
+      this.model.post(this.command);
+    }
+  });
+
   Mavelous.FlightModeButtonView = Backbone.View.extend({
 
     initialize: function () {
+      this.modeModel = this.options.modeModel;
+      this.commandModel = this.options.commandModel;
       this.$el = this.options.el;
-      this.model.on('change', this.onChange, this);
+      this.modeModel.on('change', this.onChange, this);
     },
 
     registerPopover: function (p) {
@@ -115,46 +139,52 @@ $(function () {
 
     onChange: function () {
       this.$el.removeClass('btn-success btn-warning');
-      if (this.model.get('armed')) {
+      if (this.modeModel.get('armed')) {
           this.$el.addClass('btn-success');
       } else {
           this.$el.addClass('btn-warning');
       }
-      this.$el.html(this.model.get('modestring'));
+      this.$el.html(this.modeModel.get('modestring'));
     },
 
-    popoverTitle: "Flight Mode",
+    popoverTitle: "Flight Commands",
     popoverRender: function () {
       var loiter = 
         '<a class="btn" id="flightmode-btn-loiter" href="#">Loiter</a>';
       var rtl =
         '<a class="btn" id="flightmode-btn-rtl" href="#">RTL</a>';
+      var land =
+        '<a class="btn" id="flightmode-btn-land" href="#">Land</a>';
       var arm = 
         '<p><a class="btn" id="flightmode-btn-arm" href="#">Arm</a></p>';
       if (this.popover) {
         this.popover.content(function (e) {
-          e.html(arm + '<br />' + loiter + rtl );
+          e.html(arm + '<br />' + loiter + rtl + land);
         });
 
         this.armingButtonView = new ArmingButtonView({
           el: $('#flightmode-btn-arm'),
-          model: this.model
+          model: this.modeModel
         });
 
-        $('#flightmode-btn-loiter').click(
-              _.bind(this.onButton, this, 'loiter'));
-        $('#flightmode-btn-rtl').click(
-              _.bind(this.onButton, this, 'rtl'));
-      }
-    },
+        this.loiterButtonView = new CommandButtonView({
+          el: $('#flightmode-btn-loiter'),
+          model: this.commandModel,
+          command: 'NAV_LOITER_UNLIM'
+        });
 
-    onButton: function (b) {
-      if (b == 'loiter') {
-        console.log('clicked loiter');
-      } else if (b == 'rtl') {
-        console.log('clicked rtl');
-      } else if (b == 'arm') {
-        console.log('clicked arm');
+        this.rtlButtonView = new CommandButtonView({
+          el: $('#flightmode-btn-rtl'),
+          model: this.commandModel,
+          command: 'NAV_RETURN_TO_LAUNCH'
+        });
+
+        this.landButtonView = new CommandButtonView({
+          el: $('#flightmode-btn-land'),
+          model: this.commandModel,
+          command: 'NAV_LAND'
+        });
+
       }
     }
   });
