@@ -7,6 +7,7 @@ $(function () {
       return {
         armed: false,
         arming: false,
+        disarming: false,
         modestring: 'None'
       };
     },
@@ -20,35 +21,51 @@ $(function () {
       var modestring = mavutil.heartbeat.modestring(this.heartbeat);
       var armed = mavutil.heartbeat.armed(this.heartbeat);
       this.set({ armed: armed, modestring: modestring });
+      console.log(this.toJSON());
+    },
+    onChangeArmed: function () {
+      if (this.get('armed')) {
+        if (this.get('arming')) {
+          this.set('arming', false);
+          this.post({});
+        }
+      } else {
+        if (this.get('disarming')) {
+          this.set('disarming', false);
+          this.post({});
+        }
+      }
     },
     requestArm: function () {
       console.log('requested to arm');
       // Send RC override:
       // rc 3 1000, rc 4 2000
-      var data = JSON.stringify({
+      this.post({
         'ch3': 1000,
         'ch4': 2000
       });
-      $.ajax({ type: 'POST',
-               url: '/rcoverride',
-               data: data});
+      this.set('arming', true);
     },
 
     requestDisarm: function () {
       console.log('requested to disarm');
-      var data = JSON.stringify({
+      this.post({
         'ch3': 1000,
         'ch4': 1000
       });
+      this.set('disarming', true);
+    },
+    post: function (override) {
       $.ajax({ type: 'POST',
                url: '/rcoverride',
-               data: data});
+               data: JSON.stringify(override) });
     }
   });
 
   var ArmingButtonView = Backbone.View.extend({
     initialize: function () {
-      this.model.on('change:armed', this.onChange, this);
+      this.model.on('change:armed change:arming change:disarming',
+        this.onChange, this);
       this.$el.click(_.bind(this.onClick, this));
       this.onChange();
     },
@@ -62,11 +79,21 @@ $(function () {
     onChange: function () {
       this.$el.removeClass('btn-success btn-warning');
       if (this.model.get('armed')) {
+        if (this.model.get('disarming')) {
+          this.$el.html('Disarming...');
+          this.$el.addClass('btn-warning');
+        } else {
           this.$el.html('Click to Disarm');
           this.$el.addClass('btn-warning');
+        }
       } else {
+        if (this.model.get('arming')) {
+          this.$el.html('Arming...');
+          this.$el.addClass('btn-success');
+        } else {
           this.$el.html('Click to Arm');
           this.$el.addClass('btn-success');
+        }
       }
     }
   });
