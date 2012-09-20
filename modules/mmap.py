@@ -114,10 +114,14 @@ class ModuleState(object):
   def rcoverride(self, msg):
     def validate(rc_msg, key):
       if key in rc_msg:
-        val = max(1000, min(2000, rc_msg[key]))
+        # 0 means go back to non-overridden value.
+        if rc_msg[key] == 0:
+          return 0
+        else:
+          return max(1000, min(2000, rc_msg[key]))
       else:
-        val = 65535  # See https://github.com/mavlink/mavlink/issues/72
-      return val
+        # -1 means do not change overridden value.
+        return 65535  # See https://github.com/mavlink/mavlink/issues/72
 
     msg = mavlinkv10.MAVLink_rc_channels_override_message(
             self.module_context.status.target_system,

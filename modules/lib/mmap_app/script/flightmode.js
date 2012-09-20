@@ -27,12 +27,14 @@ $(function () {
       if (this.get('armed')) {
         if (this.get('arming')) {
           this.set('arming', false);
-          this.post({});
+           /* No more override, use the radio controller's values. */
+          this.post({ch3: 0, ch4: 0});
         }
       } else {
         if (this.get('disarming')) {
           this.set('disarming', false);
-          this.post({});
+           /* No more override, use the radio controller's values. */
+          this.post({ch3: 0, ch4: 0});
         }
       }
     },
