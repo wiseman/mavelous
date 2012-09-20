@@ -98,7 +98,7 @@ $(function(){
       var history = this.get('history');
       var current = this.get('current');
       var latest = this.metalinkquality.toJSON();
-      var next = (current + 1) % this.period;
+      var next = (current + 1) % (this.period+1);
       history[next] = latest;
       this.set('history', history);
       this.set('current', next);
@@ -108,7 +108,7 @@ $(function(){
       var current = this.get('current');
       /* current is -1 when we dont yet have info from server. */
       if (current < 0) return;
-      var nextposition = history[(current + 1) % this.period]
+      var nextposition = history[(current + 1) % (this.period+1)]
       if (nextposition) {
         return this.diff(history[current], nextposition, this.period)
       } else {
