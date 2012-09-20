@@ -29,7 +29,6 @@ $(function () {
         'ch3': 1000,
         'ch4': 2000
       });
-      console.log('POSTing ' + data);
       $.ajax({ type: 'POST',
                url: '/rcoverride',
                data: data});
@@ -37,6 +36,13 @@ $(function () {
 
     requestDisarm: function () {
       console.log('requested to disarm');
+      var data = JSON.stringify({
+        'ch3': 1000,
+        'ch4': 1000
+      });
+      $.ajax({ type: 'POST',
+               url: '/rcoverride',
+               data: data});
     }
   });
 
