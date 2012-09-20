@@ -50,20 +50,22 @@ $(function(){
   });
 
   var statustextView = new Mavelous.StatustextView({ mavlinkSrc: mavlinkAPI });
+
   var modeStringView = new Mavelous.ModeStringView({
     mavlinkSrc: mavlinkAPI,
     el: $('#pfd_modestringview')
   });
 
-  /* Radio view controller */
-  var statusButtons = new Mavelous.StatusButtons({
-    buttons: [ gpsButtonView, commStatusButtonView ]
-  });
-
-  var modeStringButton = new Mavelous.ModeStringButton({
+  var flightModeButtonView = new Mavelous.FlightModeButtonView({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-mode')
   });
+
+  /* Radio view controller */
+  var statusButtons = new Mavelous.StatusButtons({
+    buttons: [ gpsButtonView, commStatusButtonView, flightModeButtonView ]
+  });
+
 
   var batteryButton = new Mavelous.BatteryButton({
     mavlinkSrc: mavlinkAPI,

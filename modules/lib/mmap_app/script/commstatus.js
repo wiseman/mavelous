@@ -188,7 +188,9 @@ $(function(){
 
     popoverRender: function () {
       var delta = this.packetLossModel.getDelta();
-      this.popover.trigger('content', this.packetLossString(delta));
+      if (this.popover) {
+        this.popover.trigger('content', this.packetLossString(delta));
+      }
     }
   });
 });
