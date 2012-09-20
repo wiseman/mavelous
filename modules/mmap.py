@@ -111,6 +111,26 @@ class ModuleState(object):
     self.server.terminate()
     self.linkstatethread.terminate()
 
+  def rcoverride(self, msg):
+    def constr(rcinput):
+        if rcinput < 1000:
+            return 1000
+        elif rcinput > 2000:
+            return 2000
+        return rcinput
+
+    msg=mavlinkv10.MAVLink_rc_channels_override_message(
+            self.module_context.status.target_system,
+            self.module_context.status.target_component,
+            constr(msg['ch1']),
+            constr(msg['ch2']),
+            constr(msg['ch3']),
+            constr(msg['ch4']),
+            constr(msg['ch5']),
+            constr(msg['ch6']),
+            constr(msg['ch7']),
+            constr(msg['ch8']))
+
   def command(self, command):
     # First draft, assumes the command has a location and we want to
     # fly to the location right now.

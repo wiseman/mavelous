@@ -46,6 +46,11 @@ def command_handler():
   app.module_state.command(body_obj)
   return 'OK'
 
+@app.route('/rcoverride', methods=['POST'])
+def rcoverride_handler():
+  body_obj = json.loads(flask.request.form.keys()[0])
+  app.module_state.rcoverride(body_obj)
+  return 'OK'
 
 def nul_terminate(s):
   nul_pos = s.find('\0')
