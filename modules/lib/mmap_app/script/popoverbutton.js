@@ -26,8 +26,6 @@ $(function(){
     registerButton: function (btn, index) {
       var mdl = new Mavelous.SelectedModel ; 
       mdl.set('index', index);
-      /* Temporary hack - this el's click should bind to a radio method,
-       * carry along index. */
       btn.$el.click(_.bind(this.onButtonClick, this, index));
       btn.selectedModel = mdl;
       mdl.bind('change', btn.onSelectedChange, btn);
