@@ -185,11 +185,14 @@ $(function(){
           l.master_in  + " packets received, " +
           l.master_out + " sent, " + l.mav_loss + " lost");
     },
-
+    popoverTitle: 'Link Info',
     popoverRender: function () {
       var delta = this.packetLossModel.getDelta();
+      var c = this.packetLossString(delta);
       if (this.popover) {
-        this.popover.trigger('content', this.packetLossString(delta));
+        this.popover.content( function ( $pcontent ) {
+          $pcontent.html(c);
+        });
       }
     }
   });

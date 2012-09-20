@@ -72,7 +72,7 @@ $(function(){
     onStatus: function () {
       this.renderPopover();
     },
-
+    popoverTitle: 'GPS Info',
     renderPopover: function () {
       var stat = this.stat.toJSON();
       if (!('satellites_visible' in stat)) return;

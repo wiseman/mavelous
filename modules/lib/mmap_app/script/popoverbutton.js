@@ -48,16 +48,15 @@ $(function(){
   });
 
   Mavelous.PopoverView = Backbone.View.extend({
-    deferedContent: null,
     initialize: function () {
       _.extend(this, Backbone.Events);
       this.$el = this.options.button.$el;
+      var t = this.options.button.popoverTitle || 'needs title to work';
       this.$el.popover({
         animation: false,
         placement: 'bottom',
-        title: this.options.title,
-        trigger: 'manual',
-        content: _.bind(function () { return this.deferedContent; }, this)
+        title: this.options.button.popoverTitle,
+        trigger: 'manual'
       });
       this.on('content', this.onContent, this);
       this.options.button.registerPopover(this);
@@ -70,11 +69,19 @@ $(function(){
       }
     },
     onContent: function (c) {
-      this.deferedContent = c;
       if ( this.selectedModel.get('selected') ) {
-        /* popover content handler will return this.deferedPopoverContent */
-        this.$el.popover('show', function (el) { console.log(el); });
+        this.$el.popover('show', function ( pel ) {
+          pel.find('.popover-content > *').html(c);
+        });
       }
+    },
+    element: function (k) {
+      if ( this.selectedModel.get('selected') ) {
+        this.$el.popover('show', k);
+      }
+    },
+    content: function (k) {
+      this.element(function (e) { k (e.find('.popover-content > *')) });
     }
   });
 });
