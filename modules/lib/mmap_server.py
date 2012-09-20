@@ -37,13 +37,13 @@ def mavlink_view(msgtypes):
   return flask.jsonify(results)
 
 
-@app.route('/command', methods=['POST'])
-def command_handler():
+@app.route('/guide', methods=['POST'])
+def guide_handler():
   # FIXME: I couldn't figure out how to get jquery to send a
   # Content-Type: application/json, which would have let us use
   # request.json.  And for some reason the data is in the key name.
   body_obj = json.loads(flask.request.form.keys()[0])
-  app.module_state.command(body_obj)
+  app.module_state.guide(body_obj)
   return 'OK'
 
 

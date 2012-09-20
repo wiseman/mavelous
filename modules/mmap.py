@@ -132,7 +132,7 @@ class ModuleState(object):
             validate(msg, 'ch8'))
     self.module_context.queue_message(msg)
 
-  def command(self, command):
+  def guide(self, command):
     # First draft, assumes the command has a location and we want to
     # fly to the location right now.
     seq = 0
