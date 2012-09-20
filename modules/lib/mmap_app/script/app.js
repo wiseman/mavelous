@@ -56,9 +56,12 @@ $(function(){
     el: $('#pfd_modestringview')
   });
 
+  var flightModeModel = new Mavelous.FlightModeModel({
+    mavlinkSrc: mavlinkAPI
+  });
   var flightModeButtonView = new Mavelous.FlightModeButtonView({
-    mavlinkSrc: mavlinkAPI,
-    el: $('#navbar-btn-mode')
+    el: $('#navbar-btn-mode'),
+    model: flightModeModel
   });
 
   /* Radio view controller */

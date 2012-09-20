@@ -49,11 +49,14 @@ $(function(){
     initialize: function () {
       _.extend(this, Backbone.Events);
       this.$el = this.options.button.$el;
-      var t = this.options.button.popoverTitle || 'needs title to work';
+      // XXX Bug: if you don't provide a popoverTitle in the button view
+      // the whole popover won't work. 
+      var t = this.options.button.popoverTitle;
+      if (typeof t == 'undefined') t = 'need a popoverTitle in button view!';
       this.$el.popover({
         animation: false,
         placement: 'bottom',
-        title: this.options.button.popoverTitle,
+        title: t,
         trigger: 'manual'
       });
       this.on('content', this.onContent, this);

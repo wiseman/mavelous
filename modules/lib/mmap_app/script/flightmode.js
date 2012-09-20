@@ -2,13 +2,65 @@
 $(function () {
   window.Mavelous = window.Mavelous || {};
 
+  Mavelous.FlightModeModel = Backbone.Model.extend({
+    defaults: function () {
+      return {
+        armed: false,
+        arming: false,
+        modestring: 'None'
+      };
+    },
+    initialize: function () {
+      var mavlinkSrc = this.get('mavlinkSrc');
+      this.heartbeat = mavlinkSrc.subscribe('HEARTBEAT',
+                            this.onHeartbeat , this);
+      this.on('change:armed', this.onChangeArmed, this);
+    },
+    onHeartbeat: function () {
+      var modestring = mavutil.heartbeat.modestring(this.heartbeat);
+      var armed = mavutil.heartbeat.armed(this.heartbeat);
+      this.set({ armed: armed, modestring: modestring });
+    },
+    requestArm: function () {
+      console.log('requested to arm');
+    },
+
+    requestDisarm: function () {
+      console.log('requested to disarm');
+    }
+  });
+
+  var ArmingButtonView = Backbone.View.extend({
+    initialize: function () {
+      this.model.on('change:armed', this.onChange, this);
+      this.$el.click(_.bind(this.onClick, this));
+      this.onChange();
+    },
+    onClick: function () {
+      if (this.model.get('armed')) {
+        this.model.requestDisarm();
+      } else {
+        this.model.requestArm();
+      }
+    },
+    onChange: function () {
+      this.$el.removeClass('btn-success btn-warning');
+      if (this.model.get('armed')) {
+          this.$el.html('Click to Disarm');
+          this.$el.addClass('btn-warning');
+      } else {
+          this.$el.html('Click to Arm');
+          this.$el.addClass('btn-success');
+      }
+    }
+  });
+
+      // this.armedModel = new Backbone.Model({ 'armed': false });
   Mavelous.FlightModeButtonView = Backbone.View.extend({
 
     initialize: function () {
-      var mavlinkSrc = this.options.mavlinkSrc;
       this.$el = this.options.el;
-      this.heartbeat = mavlinkSrc.subscribe('HEARTBEAT',
-                            this.onHeartbeat , this);
+      this.model.on('change', this.onChange, this);
     },
 
     registerPopover: function (p) {
@@ -16,30 +68,48 @@ $(function () {
       this.popover.on('selected', this.popoverRender, this);
     },
 
-    onHeartbeat : function () {
-      var modestring = mavutil.heartbeat.modestring(this.heartbeat);
-      var armed = mavutil.heartbeat.armed(this.heartbeat);
-      if (modestring) {
-        this.$el.removeClass('btn-success btn-warning');
-        if (armed) {
+    onChange: function () {
+      this.$el.removeClass('btn-success btn-warning');
+      if (this.model.get('armed')) {
           this.$el.addClass('btn-success');
-        } else {
+      } else {
           this.$el.addClass('btn-warning');
-        }
-        this.$el.html(modestring);
       }
+      this.$el.html(this.model.get('modestring'));
     },
 
+    popoverTitle: "Flight Mode",
     popoverRender: function () {
       var loiter = 
         '<a class="btn" id="flightmode-btn-loiter" href="#">Loiter</a>';
       var rtl =
         '<a class="btn" id="flightmode-btn-rtl" href="#">RTL</a>';
       var arm = 
-        '<a class="btn" id="flightmode-btn-arm" href="#">Arm</a>';
+        '<p><a class="btn" id="flightmode-btn-arm" href="#">Arm</a></p>';
       if (this.popover) {
-        // disable temporarily - this content is not useful.
-        // this.popover.trigger('content', loiter + rtl + arm);
+        this.popover.content(function (e) {
+          e.html(arm + '<br />' + loiter + rtl );
+        });
+
+        this.armingButtonView = new ArmingButtonView({
+          el: $('#flightmode-btn-arm'),
+          model: this.model
+        });
+
+        $('#flightmode-btn-loiter').click(
+              _.bind(this.onButton, this, 'loiter'));
+        $('#flightmode-btn-rtl').click(
+              _.bind(this.onButton, this, 'rtl'));
+      }
+    },
+
+    onButton: function (b) {
+      if (b == 'loiter') {
+        console.log('clicked loiter');
+      } else if (b == 'rtl') {
+        console.log('clicked rtl');
+      } else if (b == 'arm') {
+        console.log('clicked arm');
       }
     }
   });
