@@ -82,6 +82,16 @@ $(function(){
       var lon = (this.gps.get('lon') / 10e6).toFixed(7);
       var content =  ('Satellites: ' + visible +
           "<br /> Coordinates: " + lat + ", " + lon  );
+
+      var eph = this.gps.get('eph');
+      if (typeof eph != 'undefined' && eph != 65535) {
+        content += ("<br />HDOP: " + (eph / 100).toFixed(2) + "m");
+      }
+      var epv = this.gps.get('epv');
+      if (typeof epv != 'undefined' && epv != 65535) {
+        content += ("<br />VDOP: " + (epv / 100).toFixed(2) + "m");
+      }
+
       if (this.popover) {
         this.popover.trigger('content', content);
       }
