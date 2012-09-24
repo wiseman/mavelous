@@ -1,10 +1,10 @@
 Mavelous
 ========
 
-Mavelous is a browser-based ground control station (GCS) for
-drones/UAVs/micro air vehicles.
+Mavelous is an open source browser-based ground control station (GCS)
+for drones/UAVs/micro air vehicles.
 
-A few weeks ago this code was an ugly hack/proof of concept.  Hacker
+Not long ago this code was an ugly hack/proof of concept.  Hacker
 beware.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
@@ -25,26 +25,96 @@ ArduCopter:
 http://www.youtube.com/watch?v=QNql3n4C8iA
 
 
-Requirements
+Installation
 ------------
 
-Mavelous depends on [mavlink](https://github.com/mavlink/mavlink),
+Mavelous is written in Python, and it depends on
+[mavlink](https://github.com/mavlink/mavlink),
 [CherryPy](http://www.cherrypy.org/) and
 [Flask](http://flask.pocoo.org/).
 
-To install mavlink, you must clone its git repository into the same
-directory that contains the mavelous direcotory:
+First clone the mavelous and mavlink repositories:
 
 ```
 $ cd src
 $ git clone git@github.com:mavlink/mavlink.git
-$ ls
-mavelous/ mavlink/
+$ git clone git@github.com:wiseman/mavelous.git
 ```
 
-CherryPy and Flask can be installed with with `easy_install` or `pip`:
+Then install CherryPy and Flask.  The easiest way is with
+[pip](http://www.pip-installer.org/en/latest/index.html):
 
-    $ pip install flask cherrypy
+```
+$ pip install flask cherrypy
+```
+
+
+How to run it
+-------------
+
+### With a real drone
+
+1. Connect your ArduCopter or ArduPlane to your computer with an Xbee or
+   3DR Radio. Power on the vehicle.
+
+2. Start mavproxy, specifying the serial port and data rate. On Linux,
+   the serial port is probably named something like `/dev/tty/USB0` or
+   `/dev/tty/USB1`.  For 3DR Radios, the data rate is usually 57600.
+   For example:
+
+    ```
+    $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
+    ```
+
+3. At the mavproxy prompt, load the mmap module:
+
+    ```
+    STABILIZE> module load mmap
+    ```
+
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
+
+You'll be able to use the Mavelous interface to control Guided mode once in
+flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
+
+### Software in the loop simulation ArduCopter
+
+1. Compile the ArduCopter firmware for Software in the loop similation (SITL).
+   You'll need to use the ardupilot-mega project's Makefile build system:
+   see detals on the [ardupilot-mega wiki](http://code.google.com/p/ardupilot-mega/wiki/BuildingWithMake).
+
+   ```
+   $ make sitl
+   ```
+2. Run the ArduCopter executable in desktop mode.  For example:
+
+    ```
+    $ ~/ardupilot-mega/tmp/ArduCopter.build/ArduCopter.elf -H 20
+    ```
+   On some systems, this directory will be found at `/tmp/ArduCopter.build/`
+
+2. Start the simulated multicopter.  For example:
+
+    ```
+    $ python ~/ardupilot-mega/Tools/autotest/pysim/sim_multicopter.py \
+      --frame=+ --rate=400 --home=34.092047,-118.267136,20,0 --wind=6,45,.3
+    ```
+
+3. Start mavproxy:
+
+    ```
+    $ python mavproxy.py --master=tcp:127.0.0.1:5760 --out=127.0.0.1:14550 \
+      --aircraft=test.ArduCopter --sitl=127.0.0.1:5501 --out=127.0.0.1:19550 \
+      --quadcopter --streamrate=5
+    ```
+
+4. At the mavproxy prompt, load the mmap module:
+
+    ```
+    GUIDED> module load mmap
+    ```
+
+A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999
 
 
 Architecture
@@ -112,73 +182,6 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iph
 "Mavelous in an iPhone browser")
 
 
-How to run it
--------------
-
-### With a real drone
-
-1. Connect your ArduCopter or ArduPlane to your computer with an Xbee or
-   3DR Radio. Power on the vehicle.
-
-2. Start mavproxy, specifying the serial port and correct data rate. For 3DR Radios, the
-   data rate is usually 57600.  For example:
-
-    ```
-    $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
-    ```
-
-3. At the mavproxy prompt, load the mmap module:
-
-    ```
-    STABILIZE> module load mmap
-    ```
-
-A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
-
-You'll be able to use the Mavelous interface to control Guided mode once in
-flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
-
-### Software in the loop simulation ArduCopter
-
-1. Compile the ArduCopter firmware for Software in the loop similation (SITL).
-   You'll need to use the ardupilot-mega project's Makefile build system:
-   see detals on the [ardupilot-mega wiki](http://code.google.com/p/ardupilot-mega/wiki/BuildingWithMake).
-
-   ```
-   $ make sitl
-   ```
-2. Run the ArduCopter executable in desktop mode.  For example:
-
-    ```
-    $ ~/ardupilot-mega/tmp/ArduCopter.build/ArduCopter.elf -H 20
-    ```
-   On some systems, this directory will be found at `/tmp/ArduCopter.build/`
-
-2. Start the simulated multicopter.  For example:
-
-    ```
-    $ python ~/ardupilot-mega/Tools/autotest/pysim/sim_multicopter.py \
-      --frame=+ --rate=400 --home=34.092047,-118.267136,20,0 --wind=6,45,.3
-    ```
-
-3. Start mavproxy:
-
-    ```
-    $ python mavproxy.py --master=tcp:127.0.0.1:5760 --out=127.0.0.1:14550 \
-      --aircraft=test.ArduCopter --sitl=127.0.0.1:5501 --out=127.0.0.1:19550 \
-      --quadcopter --streamrate=5
-    ```
-
-4. At the mavproxy prompt, load the mmap module:
-
-    ```
-    GUIDED> module load mmap
-    ```
-
-A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999
-
-
-
 Feature status
 --------------
 
@@ -206,6 +209,7 @@ Mailing list
 There is a public [mailing list](https://groups.google.com/group/mavelous)
 for Mavelous users and developers.
 
+
 Acknowledgments
 ------------
 
@@ -219,6 +223,7 @@ Mavelous uses open source code from the following projects:
 [Underscore.js](http://documentcloud.github.com/underscore/),
 [Kinetic.js](http://www.kineticjs.com/),
 and others.
+
 
 License
 -------
