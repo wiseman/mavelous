@@ -63,6 +63,7 @@ How to run it
    For example:
 
     ```
+    $ cd src/mavelous
     $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
     ```
 
