@@ -28,9 +28,21 @@ http://www.youtube.com/watch?v=QNql3n4C8iA
 Requirements
 ------------
 
-Mavelous depends on [CherryPy](http://www.cherrypy.org/) and
-[Flask](http://flask.pocoo.org/), which can be easily installed with
-`easy_install` or `pip`:
+Mavelous depends on [mavlink](https://github.com/mavlink/mavlink),
+[CherryPy](http://www.cherrypy.org/) and
+[Flask](http://flask.pocoo.org/).
+
+To install mavlink, you must clone its git repository into the same
+directory that contains the mavelous direcotory:
+
+```
+$ cd src
+$ git clone git@github.com:mavlink/mavlink.git
+$ ls
+mavelous/ mavlink/
+```
+
+CherryPy and Flask can be installed with with `easy_install` or `pip`:
 
     $ pip install flask cherrypy
 
