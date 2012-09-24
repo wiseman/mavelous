@@ -82,7 +82,7 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
 
 1. Compile the ArduCopter firmware for Software in the loop similation (SITL).
    You'll need to use the ardupilot-mega project's Makefile build system:
-   see detals on the [ardupilot-mega wiki](http://code.google.com/p/ardupilot-mega/wiki/BuildingWithMake).
+   see details on the [ardupilot-mega wiki](http://code.google.com/p/ardupilot-mega/wiki/BuildingWithMake).
 
    ```
    $ make sitl
