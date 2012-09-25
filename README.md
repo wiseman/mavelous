@@ -58,8 +58,8 @@ How to run it
    3DR Radio. Power on the vehicle.
 
 2. Start mavproxy, specifying the serial port and data rate. On Linux,
-   the serial port is probably named something like `/dev/tty/USB0` or
-   `/dev/tty/USB1`.  For 3DR Radios, the data rate is usually 57600.
+   the serial port is probably named something like `/dev/ttyUSB0` or
+   `/dev/ttyUSB1`.  For 3DR Radios, the data rate is usually 57600.
    For example:
 
     ```
