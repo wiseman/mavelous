@@ -179,6 +179,42 @@ class ModuleState(object):
               0, # param6
               0) # param7
       self.module_context.queue_message(msg)
+    elif m['command'] == 'COMPONENT_ARM_DISARM':
+      # First, decode component, a required field
+      if 'component' not in m:
+        return
+      if m['component'] == 'default':
+        component = self.module_context.status.target_component 
+      elif m['component'] == 'SYSTEM_CONTROL':
+        component = mavlinkv10.MAV_COMP_ID_SYSTEM_CONTROL
+      elif type(m['component']) == int:
+        component = m['component']
+      else:
+        return
+      # then find the value of param1 from the field 'setting':
+      if 'setting' not in m:
+        return
+      if m['setting'] == 0 or m['setting'] == 'DISARM':
+        param1 = 0
+      elif m['setting'] == 1 or m['setting'] == 'ARM':
+        param1 = 1
+      else:
+        return
+      # finally form a message
+      msg = mavlinkv10.MAVLink_command_long_message(
+              self.module_context.status.target_system,    # target_system
+              component, # target_component
+              mavlinkv10.MAV_CMD_COMPONENT_ARM_DISARM,  # command
+              0, # confirmation
+              param1, # param1
+              0, # param2
+              0, # param3
+              0, # param4
+              0, # param5
+              0, # param6
+              0) # param7
+      print msg
+      self.module_context.queue_message(msg)
 
   def guide(self, command):
     # First draft, assumes the command has a location and we want to
