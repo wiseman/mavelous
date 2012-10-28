@@ -1,5 +1,7 @@
+import logging
 import os
 import sys
+import threading
 import webbrowser
 
 import mavlinkv10
@@ -26,7 +28,7 @@ class MetaMessage(object):
     return d
 
 
-class message_memo(object):
+class MessageMemo(object):
   def __init__(self):
     self._d = dict({})
     self.time = 0
@@ -58,18 +60,127 @@ class message_memo(object):
     else:
       return False
 
+class LinkStateThread(threading.Thread):
+  def __init__(self, parent, module_context):
+    self._running_flag = False
+    self.parent = parent
+    self.module_context = module_context
+    self.stop = threading.Event()
+    threading.Thread.__init__(self, target=self.run_method)
+    self.daemon = True
 
-class module_state(object):
-  def __init__(self):
+  def run_method(self):
+    try:
+      while (not self.stop.wait(1)):
+        self.update_meta_linkquality()
+    finally:
+      self._running_flag = False
+
+  def terminate(self):
+    print "terminating metalinkquality!"
+    self.stop.set()
+
+  def update_meta_linkquality(self):
+    master = self.module_context.mav_master[0]
+    d = { "master_in": 
+            self.module_context.status.counters['MasterIn'][0]
+        , "master_out": 
+            self.module_context.status.counters['MasterOut']
+        , "mav_loss": master.mav_loss
+        , "packet_loss": master.packet_loss()
+        }
+    msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
+    self.parent.messages.insert_message(msg)
+
+
+class ModuleState(object):
+  def __init__(self, module_context):
     self.client_waypoint = None
     self.client_waypoint_seq = 0
     self.wp_change_time = 0
     self.waypoints = []
     self.fence_change_time = 0
     self.server = None
-    self.messages = message_memo()
+    self.messages = MessageMemo()
+    self.module_context = module_context
+    self.linkstatethread = LinkStateThread(self, module_context)
+    self.linkstatethread.start()
 
-  def command(self, command):
+  def terminate(self):
+    print "mmap module state terminate"
+    self.server.terminate()
+    self.linkstatethread.terminate()
+
+  def rcoverride(self, msg):
+    def validate(rc_msg, key):
+      if key in rc_msg:
+        # 0 means go back to non-overridden value.
+        if rc_msg[key] == 0:
+          return 0
+        else:
+          return max(1000, min(2000, rc_msg[key]))
+      else:
+        # -1 means do not change overridden value.
+        return 65535  # See https://github.com/mavlink/mavlink/issues/72
+
+    msg = mavlinkv10.MAVLink_rc_channels_override_message(
+            self.module_context.status.target_system,
+            self.module_context.status.target_component,
+            validate(msg, 'ch1'),
+            validate(msg, 'ch2'),
+            validate(msg, 'ch3'),
+            validate(msg, 'ch4'),
+            validate(msg, 'ch5'),
+            validate(msg, 'ch6'),
+            validate(msg, 'ch7'),
+            validate(msg, 'ch8'))
+    self.module_context.queue_message(msg)
+
+  def command_long(self, m):
+    if m['command'] == 'NAV_LOITER_UNLIM':
+      msg = mavlinkv10.MAVLink_command_long_message(
+              self.module_context.status.target_system,    # target_system
+              self.module_context.status.target_component, # target_component
+              mavlinkv10.MAV_CMD_NAV_LOITER_UNLIM,  # command
+              0, # confirmation
+              0, # param1
+              0, # param2
+              0, # param3
+              0, # param4
+              0, # param5
+              0, # param6
+              0) # param7
+      self.module_context.queue_message(msg)
+    elif m['command'] == 'NAV_RETURN_TO_LAUNCH':
+      msg = mavlinkv10.MAVLink_command_long_message(
+              self.module_context.status.target_system,    # target_system
+              self.module_context.status.target_component, # target_component
+              mavlinkv10.MAV_CMD_NAV_RETURN_TO_LAUNCH,  # command
+              0, # confirmation
+              0, # param1
+              0, # param2
+              0, # param3
+              0, # param4
+              0, # param5
+              0, # param6
+              0) # param7
+      self.module_context.queue_message(msg)
+    elif m['command'] == 'NAV_LAND':
+      msg = mavlinkv10.MAVLink_command_long_message(
+              self.module_context.status.target_system,    # target_system
+              self.module_context.status.target_component, # target_component
+              mavlinkv10.MAV_CMD_NAV_LAND,  # command
+              0, # confirmation
+              0, # param1
+              0, # param2
+              0, # param3
+              0, # param4
+              0, # param5
+              0, # param6
+              0) # param7
+      self.module_context.queue_message(msg)
+
+  def guide(self, command):
     # First draft, assumes the command has a location and we want to
     # fly to the location right now.
     seq = 0
@@ -90,11 +201,11 @@ class module_state(object):
     current = 2
     autocontinue = 0
     msg = mavlinkv10.MAVLink_mission_item_message(
-      g_module_context.status.target_system,
-      g_module_context.status.target_component,
+      self.module_context.status.target_system,
+      self.module_context.status.target_component,
       seq, frame, cmd, current, autocontinue, param1, param2, param3, param4,
       x, y, z)
-    g_module_context.queue_message(msg)
+    self.module_context.queue_message(msg)
     msg = MetaMessage(msg_type='META_WAYPOINT',
         data={'waypoint': {'lat': x, 'lon': y, 'alt': z }})
     self.messages.insert_message(msg)
@@ -114,7 +225,12 @@ def init(module_context):
   """initialise module"""
   global g_module_context
   g_module_context = module_context
-  state = module_state()
+  # FIXME: Someday mavproxy should be changed to set logging level and
+  # format via command line options and environment variables.
+  logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s:%(levelname)s:%(module)s:%(lineno)d: %(message)s')
+  state = ModuleState(module_context)
   g_module_context.mmap_state = state
   state.server = mmap_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
@@ -123,8 +239,10 @@ def init(module_context):
 
 def unload():
   """unload module"""
+  print "mmap module unload"
   global g_module_context
-  g_module_context.mmap_state.server.terminate()
+  g_module_context.mmap_state.terminate()
+
 
 
 def mavlink_packet(m):

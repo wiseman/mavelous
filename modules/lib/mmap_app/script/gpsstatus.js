@@ -28,4 +28,73 @@ $(function(){
     }
 
   });
+
+  Mavelous.GpsButtonView = Backbone.View.extend({
+    initialize: function() {
+      var mavlink = this.options.mavlinkSrc;
+      this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS, this);
+      this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus , this);
+    },
+
+    registerPopover: function (p) {
+      this.popover = p;
+      this.popover.on('selected', this.renderPopover, this);
+    },
+
+    renderFixType: function(fix_type) {
+      this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
+      if (fix_type >= 3) {
+        /* 3D Fix */
+        this.$el.addClass('btn-success');
+        this.$el.html('GPS: 3D');
+      } else if (fix_type == 2) {
+        /* 2D Fix */
+        this.$el.addClass('btn-warning');
+        this.$el.html('GPS: 2D');
+      } else if (fix_type = 1) {
+        /* Nofix */
+        this.$el.addClass('btn-danger');
+        this.$el.html('GPS: No Lock');
+      } else {
+        /* NO GPS */
+        this.$el.addClass('btn-inverse');
+        this.$el.html('GPS: None');
+      }
+      return this;
+    },
+
+    onGPS: function () {
+      var fix_type = this.gps.get('fix_type');
+      this.renderFixType(fix_type);
+      this.renderPopover(); /* XXX need to tie the loop properly. */
+    },
+
+    onStatus: function () {
+      this.renderPopover();
+    },
+    popoverTitle: 'GPS Info',
+    renderPopover: function () {
+      var stat = this.stat.toJSON();
+      if (!('satellites_visible' in stat)) return;
+      var visible = stat.satellites_visible.toString();
+
+      var lat = (this.gps.get('lat') / 10e6).toFixed(7);
+      var lon = (this.gps.get('lon') / 10e6).toFixed(7);
+      var content =  ('Satellites: ' + visible +
+          "<br /> Coordinates: " + lat + ", " + lon  );
+
+      var eph = this.gps.get('eph');
+      if (typeof eph != 'undefined' && eph != 65535) {
+        content += ("<br />HDOP: " + (eph / 100).toFixed(2) + "m");
+      }
+      var epv = this.gps.get('epv');
+      if (typeof epv != 'undefined' && epv != 65535) {
+        content += ("<br />VDOP: " + (epv / 100).toFixed(2) + "m");
+      }
+
+      if (this.popover) {
+        this.popover.trigger('content', content);
+      }
+    }
+  });
 });

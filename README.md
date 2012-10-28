@@ -25,6 +25,16 @@ ArduCopter:
 http://www.youtube.com/watch?v=QNql3n4C8iA
 
 
+Requirements
+------------
+
+Mavelous depends on [CherryPy](http://www.cherrypy.org/) and
+[Flask](http://flask.pocoo.org/), which can be easily installed with
+`easy_install` or `pip`:
+
+    $ pip install flask cherrypy
+
+
 Architecture
 ------------
 
@@ -72,9 +82,8 @@ Why
 ---
 
 Portability.  Controlling a drone with an iPad is kind of awesome, and
-there are currently no ground control stations for amateur drones that
-can run on an iPhone or iPad--Mavelous can (at least the front end
-can).
+there are currently no open-source ground control stations that can
+run on an iPhone or iPad--Mavelous can (at least the front end can).
 
 The most popular ArduCopter GCS, [APM Mission
 Planner](http://code.google.com/p/ardupilot-mega/wiki/Mission), is
@@ -117,15 +126,21 @@ A web browser will open showing you the Mavelous interface, or you can point a b
 You'll be able to use the Mavelous interface to control Guided mode once in
 flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
 
-### Software in the loop simulation with ardupilot-mega
+### Software in the loop simulation ArduCopter
 
-1. Compile the ardupilot-mega firmware.
+1. Compile the ArduCopter firmware for Software in the loop similation (SITL).
+   You'll need to use the ardupilot-mega project's Makefile build system:
+   see detals on the [ardupilot-mega wiki](http://code.google.com/p/ardupilot-mega/wiki/BuildingWithMake).
 
-2. Start the firmware in desktop mode.  For example:
+   ```
+   $ make sitl
+   ```
+2. Run the ArduCopter executable in desktop mode.  For example:
 
     ```
     $ ~/ardupilot-mega/tmp/ArduCopter.build/ArduCopter.elf -H 20
     ```
+   On some systems, this directory will be found at `/tmp/ArduCopter.build/`
 
 2. Start the simulated multicopter.  For example:
 
@@ -187,6 +202,7 @@ The Mavelous backend is based on [Mavproxy](https://github.com/tridge/MAVProxy),
 Mavelous uses open source code from the following projects: 
 [Modestmaps.js](https://github.com/stamen/modestmaps-js/),
 [Backbone.js](http://backbonejs.org/),
+[Bootstrap](http://twitter.github.com/bootstrap/),
 [jQuery](http://jquery.com/),
 [Underscore.js](http://documentcloud.github.com/underscore/),
 [Kinetic.js](http://www.kineticjs.com/),

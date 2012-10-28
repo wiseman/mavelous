@@ -33,6 +33,7 @@ $(function(){
     15: 'GUIDED',
     16: 'INITIALIZING'
   };
+  window.mavutil.arduPlaneFlightModes = arduPlaneFlightModes;
 
   var arduCopterFlightModes = {
     0: 'STABILIZE',
@@ -48,7 +49,15 @@ $(function(){
     10: 'OF_LOITER',
     11: 'APPROACH'
   };
-  
+  window.mavutil.arduCopterFlightModes = arduCopterFlightModes;
+ 
+  window.mavutil.heartbeat.mavtype = function (msg) {
+    var type = msg.get('type');
+    if (type == MAV_TYPE_QUADROTOR) return "ArduCopter";
+    if (type == MAV_TYPE_FIXED_WING) return "ArduPlane";
+    return "unknown";
+  }
+
   window.mavutil.heartbeat.modestring = function (msg) {
     var base_mode = msg.get('base_mode');
     var type = msg.get('type');

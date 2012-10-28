@@ -16,7 +16,11 @@ $(function () {
       clearTimeout(this.timeout);
       var el = this.$el;
       el.html(this.statusText.get('text'));
-      this.timeout = setTimeout(function () { el.html(''); }, 4000);
+      el.css('padding',10);
+      this.timeout = setTimeout(function () {
+        el.html(''); 
+        el.css('padding',0);
+      }, 4000);
     }
 
   });

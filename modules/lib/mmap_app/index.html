@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap.css" />
+  <style>
+    body {
+      padding-top: 40px;
+    }
+  </style>
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
 <!-- JQUERY -->
@@ -9,7 +17,13 @@
 <script type="text/javascript" src="third_party/jquery.color.js"></script>
 
 <!-- BOOTSTRAP -->
-<script type="text/javascript" src="third_party/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-collapse.js"></script>
 
 <!-- BACKBONE -->
 <script type="text/javascript" src="third_party/underscore-1.3.3.js"></script>
@@ -24,31 +38,37 @@
 <script type="text/javascript" src="script/bluemarble.js"></script>
 
 <!-- APP MODULES -->
+<script type="text/javascript" src="script/util.js"></script>
   <!-- MAVLINK MESSAGES -->
 <script type="text/javascript" src="script/mavutil.js"></script>
 <script type="text/javascript" src="script/gpsstatus.js"></script>
+<script type="text/javascript" src="script/batterystatus.js"></script>
+<script type="text/javascript" src="script/statustextview.js"></script>
+<script type="text/javascript" src="script/modestringview.js"></script>
+<script type="text/javascript" src="script/flightmode.js"></script>
   <!-- MAVELOUS SPECIFIC MODULES -->
 <script type="text/javascript" src="script/mavlinkapi.js"></script>
 <script type="text/javascript" src="script/guidemodel.js"></script>
 <script type="text/javascript" src="script/guideview.js"></script>
 <script type="text/javascript" src="script/commstatus.js"></script>
-
-<script type="text/javascript" src="script/statustextview.js"></script>
-<script type="text/javascript" src="script/modestringview.js"></script>
+<script type="text/javascript" src="script/settingsview.js"></script>
+<script type="text/javascript" src="script/popoverbutton.js"></script>
+<script type="text/javascript" src="script/navbarbuttons.js"></script>
   <!-- ADI MODULES -->
 <script type="text/javascript" src="script/pfd.js"></script>
 <script type="text/javascript" src="script/pfdview.js"></script>
+<script type="text/javascript" src="script/pfdsettings.js"></script>
 
 <script type="text/javascript" src="script/droneview.js"></script>
 
   <!-- MMAP MODULES -->
 <script type="text/javascript" src="script/mmapmodel.js"></script>
 <script type="text/javascript" src="script/mmapprovider.js"></script>
-<script type="text/javascript" src="script/mmapsettingsview.js"></script>
 <script type="text/javascript" src="script/mmapview.js"></script>
 <script type="text/javascript" src="script/mmapinputhandlers.js"></script>
 
 <!-- APP INSTANCE-->
+<script type="text/javascript" src="script/router.js"></script>
 <script type="text/javascript" src="script/app.js"></script>
 
 <script type="text/template" id="gpstexttemplate">
@@ -59,42 +79,84 @@
     MAV <%= mav_html %> | SERVER <%= server_html %>
 </script>
 
-<script type="text/template" id="guidealtitudeviewtemplate">
-  <div id="guidealtitudeview">
-    Guide Altitude:
-    <input id="altinput" type="range" value="20" min="0" max="200">
-    <input id="altinput_submit" type="submit" value="Update">
-    <span class="t_value" id="v_altwaypt"></span> m
-  </div>
-</script>
-
-<script type="text/template" id="mapsettingsviewtemplate">
-  <div id="mapsettingsview">
-    Map: <select id="mapproviderpicker"></select>
-    Zoom: <input id="mapzoom" type="range" min="1" max="18">
-  </div>
-</script> 
-
 <!-- HTML BODY-->
-<title>backbone mavelous</title>
+<title>Mavelous</title>
 </head>
 <body>
-  <div id="header">
-    <div id="pfdwithstatus">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="#">Mavelous</a>
+        <ul class="nav">
+          <li id="navbar-overview" class="hidden-phone">
+            <a href="#overview">Overview</a>
+          </li>
+          <li id="navbar-fullpfd">
+            <a href="#fullpfd">PFD</a>
+          </li>
+          <li id="navbar-maponly">
+            <a href="#maponly">Map</a>
+          </li>
+          <li class="divider-vertical"></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li><a href="#" id="navbar-a-settings">Settings</a></li>
+        </ul>
+        <p class="navbar-text pull-right">
+          <a class="btn" id="navbar-btn-mode" href="#">Mode</a>
+          <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
+          <a class="btn" id="navbar-btn-link" href="#">Link</a>
+          <a class="btn" id="navbar-btn-battery" href="#">Batt</a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div id="pfdblock">
       <div id="pfdstatus">
         <center>
           <span id="pfd_modestringview"></span>
         </center>
       </div>
-      <div id="pfd"></div>
-    </div>
-    <span class="telemetry" id="gpstextview"></span> |
-    <span class="telemetry" id="commstatustextview"></span>
-    <div id="mapsettingsview"></div>
-    <div id="guidealtitudeview"></div>
-    <div id="statustextview"></div>
-  </div> <!-- header -->
+      <div id="pfdview"></div>
+      <div id="guidealtitudeview">
+        Guide Altitude:
+        <input id="guidealt-input" type="range" value="20" min="0" max="200">
+        <input id="guidealt-submit" type="submit" value="Update">
+        <span  id="guidealt-text"></span>
+      </div>
+  </div>
+  <div id="statustextview"></div>
   <div id="map"></div>
   <div id="droneicon"></div>
+  <div id="settings-modal" class="modal hide">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3>Settings</h3>
+    </div>
+    <div class="modal-body">
+      <h4>Map</h4><br />
+      <p>Provider <select id="settings-mapproviderpicker"></select> </p>
+      <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="18">
+        <span id="settings-mapzoom-value"></span>
+      </p>
+      <hr>
+      <h4>PFD</h4><br />
+      Position:
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn" id="settings-pfdpos-left">Left</button>
+        <button class="btn" id="settings-pfdpos-right">Right</button>
+      </div>
+      <br />
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn" id="settings-pfdpos-up">Top</button>
+        <button class="btn" id="settings-pfdpos-down">Bottom</button>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+  </div>
 </body>
 </html>

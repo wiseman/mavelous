@@ -1,13 +1,6 @@
 body {
     width: 100%;
     margin: 0px 0px 0px 0px;
-    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
-    font-size: 24px;
-}
-
-select {
-    font-family: 'Droid Sans Mono', Courier, Courier News, monospace !important;
-    font-size: 20px !important;
 }
 
 html {
@@ -23,29 +16,53 @@ html {
     z-index: -1;
 }
 
-#header {
+#statustextview {
     background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
     color: white;
+    float:left;
+    font-size: 24px;
+    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
 }
 
-#pfdwithstatus {
-  width: 400px;
-  float: left;
+.pfd-top{
+  position: absolute;
+  top: 40px;
 }
 
-#pfd {
-    height: 280px;
-    width: 400px;
-    background-color: rgba(0,0,0, 0.5);
-    float: left;
+.pfd-bottom {
+  position: absolute;
+  bottom: 0px;
+}
+
+.pfd-left {
+  left: 0px;
+}
+
+.pfd-right {
+  right: 0px;
+}
+
+#pfdblock {
+  color: white;
+  background-color: rgba(0,0,0, 0.5);
+}
+
+#pfdview{
 }
 
 #pfdstatus {
-    width: 400px;
-    background-color: rgba(0,0,0, 0.5);
-    float: left;
-    position: absolute;
+    padding-top: 10px;
+    font-size: 24px;
+    font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
+}
+
+#guidealt-input {
+  margin: 7px;
+  width: 170px;
+}
+
+.droneicon-hide {
+  background-image: none !important;
 }
 
 #droneicon {
@@ -56,6 +73,7 @@ html {
     left: 45%;
     height: 100px;
     width: 150px;
+    pointer-events: none;
 }
 
 .controls {

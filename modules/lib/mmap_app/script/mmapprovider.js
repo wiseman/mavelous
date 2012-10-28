@@ -2,9 +2,8 @@
 $(function(){
   window.Mavelous = window.Mavelous || {};
 
-  var bingKey = 'Anmc0b2q6140lnPvAj5xANM1rvF1A4CvVtr6H2VJvQcdnDvc8NL' + 
-                '-I2C49owIe9xC';
-
+  /* bing api key registered by pat. Basic/public website  */
+  var bingKey = 'AnFxXUB376BgaEQMj947c43V45ipmMvdcoY-TAE4-Y23mu1yFLHF0k2BMJP-MU1B';
   Mavelous.MMapProviderModel = Backbone.Model.extend({
 
     defaults: function () {

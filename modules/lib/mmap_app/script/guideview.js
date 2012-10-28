@@ -3,36 +3,30 @@ $(function(){
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.GuideAltitudeView = Backbone.View.extend({
-    template: _.template($('#guidealtitudeviewtemplate').html()),
 
     initialize: function () {
       var self = this;
-      /* First, render the template so we have the elements we expect in DOM. */
-      $('#guidealtitudeview').replaceWith(this.renderTemplate().el);
+      this.input  = this.options.input;
+      this.submit = this.options.submit;
+      this.text   = this.options.text;
 
       /* render just updates the DOM via jQuery. */
       this.model.bind('change', this.render, this);
       this.render();
 
-      $('#altinput').change(function () {
-        self.model.set({ alt : $('#altinput').val() });
+      this.input.change(function () {
+        self.model.set({ alt : self.input.val() });
       });
 
-      $('#altinput_submit').click(function() {
-        console.log('altinput_submit');
+      this.submit.click(function() {
         self.model.send();
       });
-    },
-
-    renderTemplate: function () {
-      this.$el.html(this.template({})); 
-      return this;
     },
     
     render: function () {
       var mdl = this.model.toJSON();
-      $('#v_altwaypt').html(mdl.alt);
-      $('#altinput').val(mdl.alt);
+      this.text.html(mdl.alt.toString() + " m");
+      this.input.val(mdl.alt);
       return this;
     }
   });

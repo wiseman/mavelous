@@ -563,7 +563,18 @@ $(function(){
       this.layer.add(this.targetSpeedDisplay);
 
     },
-    
+
+    setSize: function (width, height) {
+      var aspect = width / height;
+      var w, h = 0;
+      if (aspect > (4/3)) { 
+        w = 4/3 * height; h = height;
+      } else {
+        w = width; h = 3/4 * width;
+      }
+      this.stage.setSize(w,h);
+      this.stage.setScale(w/200,w/200);
+    },
 
     setSpeed: function(speed) {
       var spdTxt = 'ERR';
