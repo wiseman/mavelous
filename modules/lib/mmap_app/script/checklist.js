@@ -3,6 +3,8 @@ goog.provide('mavelous.Mission');
 goog.provide('mavelous.Waypoint');
 goog.provide('mavelous.WaypointType');
 goog.provide('mavelous.ui');
+goog.provide('mavelous.ui.Input');
+goog.provide('mavelous.ui.Label');
 goog.provide('mavelous.ui.Mission');
 goog.provide('mavelous.ui.MissionRenderer');
 goog.provide('mavelous.ui.WaypointRenderer');
@@ -11,6 +13,7 @@ goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.Event');
+goog.require('goog.ui.BidiInput');
 goog.require('goog.ui.Checkbox');
 goog.require('goog.ui.Checkbox.State');
 goog.require('goog.ui.Container');
@@ -144,6 +147,7 @@ mavelous.ui.WaypointRenderer.prototype.createDom = function(waypoint) {
   waypoint.setElementInternal(el);
 
   var dom = waypoint.getDomHelper();
+  var waypointModel = waypoint.getModel();
 
   var isItemChecked = waypoint.isItemChecked();
   var checkboxState = isItemChecked ?
@@ -153,20 +157,25 @@ mavelous.ui.WaypointRenderer.prototype.createDom = function(waypoint) {
 
   var typeSelect = new goog.ui.Select(
     null, null, goog.ui.FlatMenuButtonRenderer.getInstance(), dom);
+  var selectedItem = null;
   for (var waypointType in mavelous.WaypointType) {
-    typeSelect.addItem(new goog.ui.MenuItem(waypointType));
+    var menuItem = new goog.ui.MenuItem(waypointType);
+    typeSelect.addItem(menuItem);
+    if (waypointType == waypointModel.getTypeName()) {
+      selectedItem = menuItem;
+    }
   }
-  typeSelect.setSelectedIndex(0);
+  if (selectedItem) {
+    typeSelect.setSelectedItem(selectedItem);
+  }
   waypoint.addChild(typeSelect, true);
 
-  var waypointModel = waypoint.getModel();
-  var labelText = ' ';
   for (var fieldName in waypointModel.getFields()) {
-    console.log(waypoint);
-    labelText += ', ' + fieldName + ': ' + waypointModel.getFieldValue(fieldName);
+    waypoint.addChild(new mavelous.ui.Label(fieldName), true);
+    var value = waypointModel.getFieldValue(fieldName);
+    var input = new mavelous.ui.Input(value);
+    waypoint.addChild(input, true);
   }
-  var label = new mavelous.ui.Label(labelText);
-  waypoint.addChild(label, true /* opt_render */);
 
   waypoint.setChecked(isItemChecked);
 
@@ -354,6 +363,7 @@ goog.inherits(mavelous.ui.Waypoint, goog.ui.Control);
  */
 mavelous.ui.Waypoint.prototype.getModel;
 
+
 /** @return {boolean} Whether it's checked. */
 mavelous.ui.Waypoint.prototype.isItemChecked = function() {
   return this.getModel().checked;
@@ -423,11 +433,32 @@ mavelous.ui.Label.prototype.createDom = function() {
 
 /** @inheritDoc */
 mavelous.ui.Label.prototype.decorateInternal = function(element) {
-  console.log('DecorateInternaling');
-
   goog.base(this, 'decorateInternal', element);
   this.labelText_ = element.firstChild.nodeValue;
   goog.dom.classes.add(element, mavelous.ui.Label.CSS_CLASS);
+};
+
+
+/**
+ * @constructor
+ * @extends {goog.ui.BidiInput}
+ */
+mavelous.ui.Input = function(value) {
+  goog.base(this);
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.value_ = goog.isDef(value) ? value : '';
+};
+goog.inherits(mavelous.ui.Input, goog.ui.BidiInput);
+
+/** @inheritDoc */
+mavelous.ui.Input.prototype.createDom = function() {
+  this.setElementInternal(
+    this.getDomHelper().createDom('input', {'type': 'text', 'value': this.value_}));
+  this.init_();
 };
 
 
