@@ -39,10 +39,10 @@ Number of checked items: <span id="num-checked"></span><br>
 
 <script>
 var mission = new mavelous.Mission([
-  new mavelous.Waypoint('1', mavelous.WaypointType.TAKEOFF, {z: 100}),
-  new mavelous.Waypoint('2', mavelous.WaypointType.WAYPOINT, {x: 10, y: 4, z: 10, p1: 5.0, p2: 5.0, p4: 0.0}),
-  new mavelous.Waypoint('3', mavelous.WaypointType.CONDITION_YAW, {p1: 180, p2: 5.0, p3: 1, p4: 0}),
-  new mavelous.Waypoint('4', mavelous.WaypointType.LAND)
+  new mavelous.MissionItem('1', mavelous.MissionItemType.TAKEOFF, {z: 100}),
+  new mavelous.MissionItem('2', mavelous.MissionItemType.WAYPOINT, {x: 10, y: 4, z: 10, p1: 5.0, p2: 5.0, p4: 0.0}),
+  new mavelous.MissionItem('3', mavelous.MissionItemType.CONDITION_YAW, {p1: 180, p2: 5.0, p3: 1, p4: 0}),
+  new mavelous.MissionItem('4', mavelous.MissionItemType.LAND)
   ]);
 
 // Rendering example.
