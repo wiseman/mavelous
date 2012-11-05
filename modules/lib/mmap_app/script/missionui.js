@@ -124,7 +124,7 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
 
 
 /**
- * A control that displays a ChecklistItem.
+ * A control that displays a MissionItem.
  * @param {mavelous.MissionItem} item The item to display.
  * @param {mavelous.ui.MissionitemRenderer} renderer The renderer to use.
  * @constructor
@@ -169,7 +169,7 @@ mavelous.ui.MissionItem.prototype.enterDocument = function() {
 };
 
 /**
- * Update the internal ChecklistItem when the checked state of the checkbox
+ * Update the internal MissionItem when the checked state of the checkbox
  * changes.
  * @param {goog.events.Event} e The event.
  * @private
@@ -270,53 +270,53 @@ mavelous.ui.MissionRenderer.prototype.getCssClass = function() {
 };
 
 /**
- * @param {mavelous.ui.Mission} checklistContainer The container.
+ * @param {mavelous.ui.Mission} missionContainer The container.
  * @return {Element} The new element.
  */
-mavelous.ui.MissionRenderer.prototype.createDom = function(checklistContainer) {
-  var el = goog.base(this, 'createDom', checklistContainer);
-  checklistContainer.setElementInternal(el);
+mavelous.ui.MissionRenderer.prototype.createDom = function(missionContainer) {
+  var el = goog.base(this, 'createDom', missionContainer);
+  missionContainer.setElementInternal(el);
 
-  var checklist = checklistContainer.getModel();
-  var items = checklist.getItems();
+  var mission = missionContainer.getModel();
+  var items = mission.getItems();
   goog.array.forEach(items, function(item) {
     var control = new mavelous.ui.MissionItem(item);
-    checklistContainer.addChild(control, true /* opt_render */);
+    missionContainer.addChild(control, true /* opt_render */);
   });
 
   return el;
 };
 
 /**
- * @param {mavelous.ui.Mission} checklistContainer
+ * @param {mavelous.ui.Mission} missionContainer
  * @param {Element} element Element to decorate.
  * @return {Element} Decorated element.
  */
 mavelous.ui.MissionRenderer.prototype.decorate = function(
-    checklistContainer, element) {
+    missionContainer, element) {
   console.log('Decorating');
-  goog.base(this, 'decorate', checklistContainer, element);
+  goog.base(this, 'decorate', missionContainer, element);
 
   var items = [];
-  checklistContainer.forEachChild(function(child) {
+  missionContainer.forEachChild(function(child) {
     items.push((/** @type {mavelous.ui.MissionItem} */ (child)).getModel());
   });
-  var checklist = new mavelous.Mission(items);
-  checklistContainer.setModel(checklist);
+  var mission = new mavelous.Mission(items);
+  missionContainer.setModel(mission);
 
   return element;
 };
 
 
 /**
- * @param {mavelous.Mission} checklist
+ * @param {mavelous.Mission} mission
  * @constructor
  * @extends {goog.ui.Container}
  */
-mavelous.ui.Mission = function(checklist) {
+mavelous.ui.Mission = function(mission) {
   goog.base(this, goog.ui.Container.Orientation.VERTICAL,
       mavelous.ui.MissionRenderer.getInstance());
-  this.setModel(checklist || null);
+  this.setModel(mission || null);
   this.setFocusable(false);
 };
 goog.inherits(mavelous.ui.Mission, goog.ui.Container);
