@@ -170,9 +170,10 @@ mavelous.ui.WaypointRenderer.prototype.createDom = function(waypoint) {
   }
   waypoint.addChild(typeSelect, true);
 
-  for (var fieldName in waypointModel.getFields()) {
-    waypoint.addChild(new mavelous.ui.Label(fieldName), true);
-    var value = waypointModel.getFieldValue(fieldName);
+  for (var field in waypointModel.getFields()) {
+    var displayName = mavelous.waypointFieldDisplayName(waypointModel.getTypeName(), field);
+    waypoint.addChild(new mavelous.ui.Label(displayName), true);
+    var value = waypointModel.getFieldValue(field);
     var input = new mavelous.ui.Input(value);
     waypoint.addChild(input, true);
   }
@@ -222,7 +223,11 @@ mavelous.makeWaypointType = function(name, opt_fields) {
     name: name,
     fields: opt_fields || {}
   };
-}
+};
+
+mavelous.waypointFieldDisplayName = function(type, field) {
+  return mavelous.WaypointType[type].fields[field];
+};
 
 /** @enum {Object} */
 mavelous.WaypointType = {
