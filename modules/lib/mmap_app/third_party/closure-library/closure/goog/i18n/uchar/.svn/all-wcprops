@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/2048/trunk/closure/goog/i18n/uchar
+END
+localnamefetcher.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2048/trunk/closure/goog/i18n/uchar/localnamefetcher.js
+END
+remotenamefetcher.js
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/2046/trunk/closure/goog/i18n/uchar/remotenamefetcher.js
+END
+namefetcher.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2048/trunk/closure/goog/i18n/uchar/namefetcher.js
+END
+localnamefetcher_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/2048/trunk/closure/goog/i18n/uchar/localnamefetcher_test.html
+END
+remotenamefetcher_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/2046/trunk/closure/goog/i18n/uchar/remotenamefetcher_test.html
+END

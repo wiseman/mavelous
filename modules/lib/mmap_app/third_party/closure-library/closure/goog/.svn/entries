@@ -1,0 +1,313 @@
+10
+
+dir
+2238
+http://closure-library.googlecode.com/svn/trunk/closure/goog
+http://closure-library.googlecode.com/svn
+
+
+
+2012-10-17T20:09:09.000000Z
+2238
+ajpalay@google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+i18n
+dir
+
+asserts
+dir
+
+webgl
+dir
+
+pubsub
+dir
+
+storage
+dir
+
+object
+dir
+
+string
+dir
+
+bootstrap
+dir
+
+messaging
+dir
+
+testing
+dir
+
+result
+dir
+
+spell
+dir
+
+dom
+dir
+
+timer
+dir
+
+cssom
+dir
+
+reflect
+dir
+
+db
+dir
+
+stats
+dir
+
+locale
+dir
+
+style
+dir
+
+gears
+dir
+
+history
+dir
+
+images
+dir
+
+deps.js
+file
+
+
+
+
+2012-11-05T21:40:16.243683Z
+3f0a8a3f0b69463122cae667cecd509c
+2012-10-17T20:09:09.000000Z
+2238
+ajpalay@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+213428
+
+functions
+dir
+
+json
+dir
+
+jsaction
+dir
+
+base_test.html
+file
+
+
+
+
+2012-11-05T21:40:16.243683Z
+8ee1808a61b39e571204e35e2dfbdad2
+2012-10-04T18:27:57.000000Z
+2215
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+34150
+
+array
+dir
+
+labs
+dir
+
+module
+dir
+
+proto2
+dir
+
+editor
+dir
+
+debug
+dir
+
+format
+dir
+
+useragent
+dir
+
+uri
+dir
+
+graphics
+dir
+
+positioning
+dir
+
+iter
+dir
+
+throttle
+dir
+
+demos
+dir
+
+tweak
+dir
+
+ui
+dir
+
+vec
+dir
+
+color
+dir
+
+disposable
+dir
+
+base.js
+file
+
+
+
+
+2012-11-05T21:40:16.243683Z
+45754c0ae54d8502ad79327f86482503
+2012-10-04T18:27:57.000000Z
+2215
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+48661
+
+net
+dir
+
+css
+dir
+
+docs
+dir
+
+math
+dir
+
+datasource
+dir
+
+crypt
+dir
+
+proto
+dir
+
+events
+dir
+
+memoize
+dir
+
+structs
+dir
+
+window
+dir
+
+fs
+dir
+
+soy
+dir
+
+date
+dir
+
+fx
+dir
+
+async
+dir
+
