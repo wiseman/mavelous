@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/labs
 http://closure-library.googlecode.com/svn
 
 
 
-2012-10-12T16:49:16.000000Z
-2227
-johnlenz@google.com
+2012-10-24T18:54:15.000000Z
+2250
+jleyba@google.com
 
 
 
@@ -25,6 +25,12 @@ johnlenz@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+testing
+dir
+
+async
+dir
 
 result
 dir
@@ -45,11 +51,5 @@ structs
 dir
 
 mock
-dir
-
-testing
-dir
-
-async
 dir
 

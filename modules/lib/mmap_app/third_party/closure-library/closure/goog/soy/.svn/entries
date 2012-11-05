@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/soy
 http://closure-library.googlecode.com/svn
 
 
 
-2011-12-19T23:47:22.000000Z
-1490
-ecattell@google.com
+2012-10-31T17:37:52.000000Z
+2262
+gboyer@google.com
 
 
 
@@ -25,6 +25,40 @@ ecattell@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+soy_test.html
+file
+
+
+
+
+2012-11-05T21:41:18.909852Z
+69e08ffc2feae19a0720de8eec5abc94
+2012-10-31T17:37:52.000000Z
+2262
+gboyer@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3860
 
 renderer.js
 file
@@ -66,11 +100,11 @@ file
 
 
 
-2012-11-05T21:40:10.835841Z
+2012-11-05T21:41:18.905852Z
 6a9625b46c73445aded290a9899c560b
-2011-06-02T18:12:20.000000Z
-993
-chrishenry@google.com
+2012-10-31T17:37:52.000000Z
+2262
+gboyer@google.com
 has-props
 
 
@@ -100,11 +134,11 @@ file
 
 
 
-2012-11-05T21:40:10.835841Z
+2012-11-05T21:41:18.909852Z
 24bf6de3c0d61698f6cc972005e0af94
-2011-06-02T01:29:12.000000Z
-992
-chrishenry@google.com
+2012-10-31T17:37:52.000000Z
+2262
+gboyer@google.com
 has-props
 
 
@@ -161,38 +195,4 @@ has-props
 
 
 2366
-
-soy_test.html
-file
-
-
-
-
-2012-11-05T21:40:10.835841Z
-69e08ffc2feae19a0720de8eec5abc94
-2011-06-02T18:12:20.000000Z
-993
-chrishenry@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3860
 

@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/object
 http://closure-library.googlecode.com/svn
 
 
 
-2012-08-08T17:51:07.000000Z
-2095
-nicksantos@google.com
+2012-10-30T00:38:19.000000Z
+2257
+johnlenz@google.com
 
 
 
@@ -32,11 +32,11 @@ file
 
 
 
-2012-11-05T21:40:00.524143Z
-7f3e419829e1078dbc31da7c52de5025
-2012-08-08T17:51:07.000000Z
-2095
-nicksantos@google.com
+2012-11-05T21:41:18.621860Z
+54281877682a85cc11b0338d5f9be144
+2012-10-30T00:38:19.000000Z
+2257
+johnlenz@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-17670
+18294
 
 object_test.html
 file

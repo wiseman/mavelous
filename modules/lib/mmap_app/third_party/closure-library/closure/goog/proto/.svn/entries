@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto
 http://closure-library.googlecode.com/svn
 
@@ -25,40 +25,6 @@ chrishenry@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-serializer_test.html
-file
-
-
-
-
-2012-11-05T21:40:00.448145Z
-943240b4f77a0f22fa6462d75892e83c
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1259
 
 proto.js
 file
@@ -127,4 +93,38 @@ has-props
 
 
 1900
+
+serializer_test.html
+file
+
+
+
+
+2012-11-05T21:40:00.448145Z
+943240b4f77a0f22fa6462d75892e83c
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1259
 

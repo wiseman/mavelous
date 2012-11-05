@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/storage
 http://closure-library.googlecode.com/svn
 
 
 
-2012-09-03T14:46:18.000000Z
-2140
-azzie@google.com
+2012-10-30T18:00:05.000000Z
+2259
+johnlenz@google.com
 
 
 
@@ -25,6 +25,74 @@ azzie@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+storage_test.html
+file
+
+
+
+
+2012-11-05T21:39:50.084449Z
+83983ca99945e758d4cf2ee6293739d5
+2012-02-17T16:54:43.000000Z
+1591
+chrishenry@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1617
+
+collectablestorage.js
+file
+
+
+
+
+2012-11-05T21:39:50.084449Z
+bb2023111708759b94bc54cded632540
+2011-05-23T21:47:25.000000Z
+960
+azzie@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3126
 
 richstorage_test.html
 file
@@ -307,11 +375,11 @@ file
 
 
 
-2012-11-05T21:39:50.084449Z
-837f8bf2f394619fdf94c502e14cb134
-2012-05-01T03:03:40.000000Z
-1793
-dfaden@google.com
+2012-11-05T21:41:18.005878Z
+81545ee37e2d3f9ca7769df5a3c54352
+2012-10-30T18:00:05.000000Z
+2259
+johnlenz@google.com
 has-props
 
 
@@ -333,7 +401,7 @@ has-props
 
 
 
-4598
+4602
 
 expiringstorage.js
 file
@@ -368,72 +436,4 @@ has-props
 
 
 4219
-
-storage_test.html
-file
-
-
-
-
-2012-11-05T21:39:50.084449Z
-83983ca99945e758d4cf2ee6293739d5
-2012-02-17T16:54:43.000000Z
-1591
-chrishenry@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1617
-
-collectablestorage.js
-file
-
-
-
-
-2012-11-05T21:39:50.084449Z
-bb2023111708759b94bc54cded632540
-2011-05-23T21:47:25.000000Z
-960
-azzie@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3126
 

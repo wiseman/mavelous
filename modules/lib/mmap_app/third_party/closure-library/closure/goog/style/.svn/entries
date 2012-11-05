@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/style
 http://closure-library.googlecode.com/svn
 
 
 
-2012-10-15T21:17:57.000000Z
-2231
-tjblasi@google.com
+2012-10-26T18:03:28.000000Z
+2254
+joonlee@google.com
 
 
 
@@ -25,74 +25,6 @@ tjblasi@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-style_quirks_test.html
-file
-
-
-
-
-2012-11-05T21:40:09.583878Z
-42c524b92d283d99a7bccfedb2c8fccc
-2012-06-22T20:33:32.000000Z
-2006
-nnaze@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-76830
-
-style_test_iframe_quirk.html
-file
-
-
-
-
-2012-11-05T21:40:09.583878Z
-1e858874248ce9bdea6916b8919c43fc
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-485
 
 style_test.html
 file
@@ -128,40 +60,6 @@ has-props
 
 78211
 
-transition.js
-file
-
-
-
-
-2012-11-05T21:40:09.591877Z
-9425787ac70b08a2b7c5e4b5fcbe31b2
-2012-10-15T21:17:57.000000Z
-2231
-tjblasi@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4744
-
 style_test_iframe_standard.html
 file
 
@@ -195,6 +93,40 @@ has-props
 
 
 501
+
+transition.js
+file
+
+
+
+
+2012-11-05T21:40:09.591877Z
+9425787ac70b08a2b7c5e4b5fcbe31b2
+2012-10-15T21:17:57.000000Z
+2231
+tjblasi@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4744
 
 bidi_test.html
 file
@@ -366,40 +298,6 @@ has-props
 
 4632
 
-bidi.js
-file
-
-
-
-
-2012-11-05T21:40:09.583878Z
-33e8c9f36d5c6e9ca1c855e7d376a44e
-2012-05-14T17:16:30.000000Z
-1860
-mschidlowsky@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6731
-
 style_test_standard.html
 file
 
@@ -433,6 +331,40 @@ has-props
 
 
 399
+
+bidi.js
+file
+
+
+
+
+2012-11-05T21:40:09.583878Z
+33e8c9f36d5c6e9ca1c855e7d376a44e
+2012-05-14T17:16:30.000000Z
+1860
+mschidlowsky@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6731
 
 cursor.js
 file
@@ -535,4 +467,72 @@ has-props
 
 
 1907
+
+style_test_iframe_quirk.html
+file
+
+
+
+
+2012-11-05T21:41:18.769856Z
+cf7df9e885b143d3c4d7ecb82966d3b6
+2012-10-26T18:03:28.000000Z
+2254
+joonlee@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+430
+
+style_quirks_test.html
+file
+
+
+
+
+2012-11-05T21:41:18.769856Z
+dbd25b1622c56ca984da62768885f806
+2012-10-26T18:03:28.000000Z
+2254
+joonlee@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+76790
 

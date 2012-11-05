@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/dom/browserrange
 http://closure-library.googlecode.com/svn
 
@@ -25,74 +25,6 @@ gboyer@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-browserrange_test.html
-file
-
-
-
-
-2012-11-05T21:39:57.588229Z
-4a9a88346a273235b90033519740e3e5
-2011-06-21T16:36:03.000000Z
-1063
-gboyer@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-25233
-
-w3crange.js
-file
-
-
-
-
-2012-11-05T21:39:57.588229Z
-d73b57525f0549aa8d4ab667403daf2a
-2012-05-24T23:29:42.000000Z
-1912
-chrishenry@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-11226
 
 ierange.js
 file
@@ -297,4 +229,72 @@ has-props
 
 
 3181
+
+browserrange_test.html
+file
+
+
+
+
+2012-11-05T21:39:57.588229Z
+4a9a88346a273235b90033519740e3e5
+2011-06-21T16:36:03.000000Z
+1063
+gboyer@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+25233
+
+w3crange.js
+file
+
+
+
+
+2012-11-05T21:39:57.588229Z
+d73b57525f0549aa8d4ab667403daf2a
+2012-05-24T23:29:42.000000Z
+1912
+chrishenry@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11226
 

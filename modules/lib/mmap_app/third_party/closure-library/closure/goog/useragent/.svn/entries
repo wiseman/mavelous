@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/useragent
 http://closure-library.googlecode.com/svn
 
 
 
-2012-05-11T21:46:33.000000Z
-1854
-nicksantos@google.com
+2012-10-23T18:48:41.000000Z
+2244
+joonlee@google.com
 
 
 
@@ -25,210 +25,6 @@ nicksantos@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-adobereader.js
-file
-
-
-
-
-2012-11-05T21:39:47.704519Z
-b02c8784e08df4b92b03985c30f23b01
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2755
-
-useragent.js
-file
-
-
-
-
-2012-11-05T21:39:47.704519Z
-b4cb3cae28b67a2f28f45eb66a21fb7c
-2012-05-11T21:46:33.000000Z
-1854
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-14322
-
-flash.js
-file
-
-
-
-
-2012-11-05T21:39:47.704519Z
-28e73d3f84f40271b4a1ca28d25b7093
-2012-01-27T23:46:49.000000Z
-1551
-nicksnyder@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4644
-
-picasa.js
-file
-
-
-
-
-2012-11-05T21:39:47.704519Z
-877eca3ba65a61dd232bde48e97f006c
-2012-01-04T13:41:02.000000Z
-1499
-dskloet@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3952
-
-iphoto.js
-file
-
-
-
-
-2012-11-05T21:39:47.704519Z
-55678578eb3c2ab17b6f02b54d652519
-2012-01-04T13:41:02.000000Z
-1499
-dskloet@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2539
-
-jscript_test.html
-file
-
-
-
-
-2012-11-05T21:39:47.700519Z
-1b14ce46b1b5e6b9277be93b46889d6b
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1362
 
 product_test.html
 file
@@ -400,17 +196,17 @@ has-props
 
 4773
 
-flash_test.html
+useragent_quirks_test.html
 file
 
 
 
 
-2012-11-05T21:39:47.700519Z
-0b12a7a5618f195a32d6528d0db77088
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
+2012-11-05T21:41:17.749886Z
+b28b6f64306126f46d88d99b8b8e02e3
+2012-10-23T18:48:41.000000Z
+2244
+joonlee@google.com
 has-props
 
 
@@ -432,19 +228,19 @@ has-props
 
 
 
-977
+631
 
-useragent_test.html
+platform.js
 file
 
 
 
 
 2012-11-05T21:39:47.700519Z
-a42f25a976456cede90a237f7280b6e0
-2012-02-22T19:41:21.000000Z
-1598
-nnaze@google.com
+74460c752bbedb834696b3c47adf9fab
+2011-07-23T01:45:10.000000Z
+1147
+joonlee@google.com
 has-props
 
 
@@ -466,7 +262,7 @@ has-props
 
 
 
-11004
+2271
 
 adobereader_test.html
 file
@@ -502,16 +298,16 @@ has-props
 
 990
 
-platform.js
+useragent_test.html
 file
 
 
 
 
-2012-11-05T21:39:47.700519Z
-74460c752bbedb834696b3c47adf9fab
-2011-07-23T01:45:10.000000Z
-1147
+2012-11-05T21:41:17.749886Z
+7264015d1cf9378af79e54285bcda112
+2012-10-23T18:48:41.000000Z
+2244
 joonlee@google.com
 has-props
 
@@ -534,5 +330,243 @@ has-props
 
 
 
-2271
+11267
+
+flash_test.html
+file
+
+
+
+
+2012-11-05T21:39:47.700519Z
+0b12a7a5618f195a32d6528d0db77088
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+977
+
+flash.js
+file
+
+
+
+
+2012-11-05T21:39:47.704519Z
+28e73d3f84f40271b4a1ca28d25b7093
+2012-01-27T23:46:49.000000Z
+1551
+nicksnyder@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4644
+
+useragent.js
+file
+
+
+
+
+2012-11-05T21:41:17.749886Z
+2d82996e77a3461389bea14aac150d64
+2012-10-23T18:48:41.000000Z
+2244
+joonlee@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14545
+
+adobereader.js
+file
+
+
+
+
+2012-11-05T21:39:47.704519Z
+b02c8784e08df4b92b03985c30f23b01
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2755
+
+picasa.js
+file
+
+
+
+
+2012-11-05T21:39:47.704519Z
+877eca3ba65a61dd232bde48e97f006c
+2012-01-04T13:41:02.000000Z
+1499
+dskloet@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3952
+
+iphoto.js
+file
+
+
+
+
+2012-11-05T21:39:47.704519Z
+55678578eb3c2ab17b6f02b54d652519
+2012-01-04T13:41:02.000000Z
+1499
+dskloet@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2539
+
+jscript_test.html
+file
+
+
+
+
+2012-11-05T21:39:47.700519Z
+1b14ce46b1b5e6b9277be93b46889d6b
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1362
 

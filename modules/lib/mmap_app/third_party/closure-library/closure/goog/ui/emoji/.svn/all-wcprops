@@ -1,43 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 46
-/svn/!svn/ver/1896/trunk/closure/goog/ui/emoji
-END
-fast_nonprogressive_emojipicker_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 87
-/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/fast_nonprogressive_emojipicker_test.html
-END
-emojipicker_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 67
-/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/emojipicker_test.html
-END
-spriteinfo_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 66
-/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/spriteinfo_test.html
-END
-emojipaletterenderer.js
-K 25
-svn:wc:ra_dav:version-url
-V 70
-/svn/!svn/ver/1896/trunk/closure/goog/ui/emoji/emojipaletterenderer.js
-END
-popupemojipicker_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 72
-/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/popupemojipicker_test.html
-END
-fast_progressive_emojipicker_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 84
-/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/fast_progressive_emojipicker_test.html
+/svn/!svn/ver/2243/trunk/closure/goog/ui/emoji
 END
 emojipicker.js
 K 25
@@ -74,4 +38,40 @@ K 25
 svn:wc:ra_dav:version-url
 V 66
 /svn/!svn/ver/1302/trunk/closure/goog/ui/emoji/popupemojipicker.js
+END
+fast_nonprogressive_emojipicker_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/fast_nonprogressive_emojipicker_test.html
+END
+emojipicker_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2243/trunk/closure/goog/ui/emoji/emojipicker_test.html
+END
+spriteinfo_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/spriteinfo_test.html
+END
+emojipaletterenderer.js
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/1896/trunk/closure/goog/ui/emoji/emojipaletterenderer.js
+END
+popupemojipicker_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/popupemojipicker_test.html
+END
+fast_progressive_emojipicker_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/!svn/ver/850/trunk/closure/goog/ui/emoji/fast_progressive_emojipicker_test.html
 END

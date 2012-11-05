@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/css/editor
 http://closure-library.googlecode.com/svn
 
@@ -25,74 +25,6 @@ bills@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-linkdialog.css
-file
-
-
-
-
-2012-11-05T21:40:08.939897Z
-d4616d6e5296809bc91a2b8ebc6761d8
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-737
-
-dialog.css
-file
-
-
-
-
-2012-11-05T21:40:08.939897Z
-fc1834f3fd16f430b5da60f5b114036d
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1103
 
 bubble.css
 file
@@ -161,4 +93,72 @@ has-props
 
 
 1830
+
+linkdialog.css
+file
+
+
+
+
+2012-11-05T21:40:08.939897Z
+d4616d6e5296809bc91a2b8ebc6761d8
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+737
+
+dialog.css
+file
+
+
+
+
+2012-11-05T21:40:08.939897Z
+fc1834f3fd16f430b5da60f5b114036d
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1103
 

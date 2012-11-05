@@ -1,15 +1,15 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/iter
 http://closure-library.googlecode.com/svn
 
 
 
-2012-06-13T21:10:44.000000Z
-1977
-chrishenry@google.com
+2012-10-25T20:22:34.000000Z
+2251
+johnlenz@google.com
 
 
 
@@ -32,11 +32,11 @@ file
 
 
 
-2012-11-05T21:40:00.300150Z
-bffaad300d3c230162d7a021aead580e
-2012-06-13T21:10:44.000000Z
-1977
-chrishenry@google.com
+2012-11-05T21:41:18.617860Z
+9f19e54a7e38ca4f64adcdf286152ee7
+2012-10-25T20:22:34.000000Z
+2251
+johnlenz@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-21370
+21831
 
 iter_test.html
 file

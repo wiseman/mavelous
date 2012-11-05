@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/stats
 http://closure-library.googlecode.com/svn
 
@@ -25,40 +25,6 @@ jdanz@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-basicstat_test.html
-file
-
-
-
-
-2012-11-05T21:40:09.431882Z
-38facd977bc6f8d38ddc667d630feb1f
-2011-07-13T16:25:27.000000Z
-1117
-jdanz@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5201
 
 basicstat.js
 file
@@ -93,4 +59,38 @@ has-props
 
 
 8033
+
+basicstat_test.html
+file
+
+
+
+
+2012-11-05T21:40:09.431882Z
+38facd977bc6f8d38ddc667d630feb1f
+2011-07-13T16:25:27.000000Z
+1117
+jdanz@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5201
 

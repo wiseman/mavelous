@@ -1,10 +1,19 @@
+<!--
+To test this, do
+
+  cd mavelous/modules/lib/mmap_app
+  python -m SimpleHTTPServer
+
+Then go to http://127.0.0.1:8000/mission.html
+-->
+
 <html>
 <head>
-  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/common.css">
-  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/checkbox.css">
-  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/menu.css">
-  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/menuitem.css">
-  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/flatmenubutton.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/common.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/checkbox.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/menu.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/menuitem.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/flatmenubutton.css">
   <style>
 .example-checklist-item-checked {
   text-decoration: line-through;
@@ -18,8 +27,11 @@
 Number of event listeners: <span id="listener-count"></span><br>
 Number of checked items: <span id="num-checked"></span><br>
 
-<script src="../../../../../closure-library/closure/goog/base.js"></script>
-<script src="mission-deps.js"></script>
+<script src="third_party/closure-library/closure/goog/base.js"></script>
+<script src="script/mission-deps.js"></script>
+<!--
+<script src="script/mission-compiled.js"></script>
+-->
 <script>
   goog.require('mavelous');
   goog.require('mavelous.ui');

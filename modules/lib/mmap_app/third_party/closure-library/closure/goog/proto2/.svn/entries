@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/proto2
 http://closure-library.googlecode.com/svn
 
@@ -25,142 +25,6 @@ nicksantos@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-descriptor_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-6d4cb4b7b614182ef3e4a68e5e58b567
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1384
-
-pbliteserializer.js
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-3c220a14c247370a820fae3a9a1ee7ef
-2012-05-30T18:03:43.000000Z
-1926
-chrishenry@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5329
-
-fielddescriptor_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-012fc6321bf34c53808a478b5194bee5
-2012-09-13T18:32:44.000000Z
-2164
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3322
-
-serializer.js
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-74e16d445a01118491792578c63cc7da
-2012-05-10T22:08:30.000000Z
-1847
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4661
 
 message_test.html
 file
@@ -230,40 +94,6 @@ has-props
 
 1652
 
-textformatserializer_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-b2dd004de3e7d729804c2d6fd2c623b6
-2012-05-16T20:56:37.000000Z
-1879
-nnaze@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-487
-
 descriptor.js
 file
 
@@ -297,6 +127,40 @@ has-props
 
 
 5343
+
+textformatserializer_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+b2dd004de3e7d729804c2d6fd2c623b6
+2012-05-16T20:56:37.000000Z
+1879
+nnaze@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+487
 
 test.pb.js
 file
@@ -332,40 +196,6 @@ has-props
 
 70767
 
-lazydeserializer.js
-file
-
-
-
-
-2012-11-05T21:40:05.651993Z
-6ebc50fbf6db66b8e0ccd01c46dfa14f
-2011-09-27T00:20:47.000000Z
-1302
-bmccann@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2240
-
 fielddescriptor.js
 file
 
@@ -399,6 +229,40 @@ has-props
 
 
 7499
+
+lazydeserializer.js
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+6ebc50fbf6db66b8e0ccd01c46dfa14f
+2011-09-27T00:20:47.000000Z
+1302
+bmccann@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2240
 
 message.js
 file
@@ -468,40 +332,6 @@ has-props
 
 20054
 
-objectserializer_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.655993Z
-b1559e21a41deb69474545b8d9cdd003
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-13550
-
 textformatserializer.js
 file
 
@@ -535,6 +365,40 @@ has-props
 
 
 27361
+
+objectserializer_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.655993Z
+b1559e21a41deb69474545b8d9cdd003
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13550
 
 package_test.pb.js
 file
@@ -671,4 +535,140 @@ has-props
 
 
 16308
+
+descriptor_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+6d4cb4b7b614182ef3e4a68e5e58b567
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1384
+
+serializer.js
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+74e16d445a01118491792578c63cc7da
+2012-05-10T22:08:30.000000Z
+1847
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4661
+
+fielddescriptor_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+012fc6321bf34c53808a478b5194bee5
+2012-09-13T18:32:44.000000Z
+2164
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3322
+
+pbliteserializer.js
+file
+
+
+
+
+2012-11-05T21:40:05.651993Z
+3c220a14c247370a820fae3a9a1ee7ef
+2012-05-30T18:03:43.000000Z
+1926
+chrishenry@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5329
 

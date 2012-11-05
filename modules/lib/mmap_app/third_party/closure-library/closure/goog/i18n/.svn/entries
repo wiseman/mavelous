@@ -1,7 +1,7 @@
 10
 
 dir
-2238
+2267
 http://closure-library.googlecode.com/svn/trunk/closure/goog/i18n
 http://closure-library.googlecode.com/svn
 
@@ -25,6 +25,176 @@ aharon@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+bidiformatter.js
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+e13157766cb5da36e813ddd30a727456
+2012-07-26T09:07:34.000000Z
+2058
+aharon@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+19732
+
+numberformat.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+cc5b72078f60a75dd11916f47117299e
+2012-06-19T23:34:09.000000Z
+1996
+kuzmin@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+26198
+
+ordinalrules.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+ef555122100da8eaa11bb9e79bccfee1
+2012-07-23T01:47:44.000000Z
+2051
+davidday@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+14592
+
+charpickerdata.js
+file
+
+
+
+
+2012-11-05T21:40:05.080010Z
+48e91b9e4bfe04c919acc71b354d8937
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+113743
+
+pluralrules.js
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+cf05ff4e163df29b7ff82fa35f72ef3b
+2012-07-23T01:47:44.000000Z
+2051
+davidday@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20799
 
 datetimepatterns.js
 file
@@ -94,14 +264,48 @@ has-props
 
 22716
 
-mime_test.html
+currency_test.html
 file
 
 
 
 
 2012-11-05T21:40:05.084009Z
-78368b91c6b90451c1ece8bca9617c88
+59715662d3857636f0036d8e6f72de5b
+2011-11-07T17:56:39.000000Z
+1374
+shanjian@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6845
+
+timezone_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+f88fb198379c7f4629f806508132ee68
 2011-04-12T20:35:47.000000Z
 850
 diegosalas@google.com
@@ -126,7 +330,41 @@ has-props
 
 
 
-1488
+7374
+
+currencycodemap.js
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+adf3bb528e7dd638655a830d7ce9bad3
+2011-12-13T22:20:28.000000Z
+1472
+ccalabro@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4311
 
 messageformat_test.html
 file
@@ -196,417 +434,6 @@ has-props
 
 2185
 
-uchar
-dir
-
-numberformat_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-ab5712183f0203d061948ad9e679fab8
-2012-06-19T23:34:09.000000Z
-1996
-kuzmin@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-21583
-
-numberformatsymbolsext.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-ba04db084321b3d17a5fe7188a6c6d89
-2012-05-01T21:18:35.000000Z
-1798
-shanjian@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-212934
-
-bidiformatter.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-e13157766cb5da36e813ddd30a727456
-2012-07-26T09:07:34.000000Z
-2058
-aharon@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-19732
-
-charlistdecompressor.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-e037b500cb89f164219340f206f3e9aa
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5231
-
-datetimeformat.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-6ea646f462388efaaa6be9a83ee9e7ae
-2012-06-12T21:56:21.000000Z
-1970
-roozbeh@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-24333
-
-bidi.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-5f61fce1485dbc323002f8d3e16a3a44
-2012-06-25T10:34:41.000000Z
-2011
-davinci@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-26724
-
-pluralrules.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-cf05ff4e163df29b7ff82fa35f72ef3b
-2012-07-23T01:47:44.000000Z
-2051
-davidday@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-20799
-
-currency_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-59715662d3857636f0036d8e6f72de5b
-2011-11-07T17:56:39.000000Z
-1374
-shanjian@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6845
-
-timezone_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-f88fb198379c7f4629f806508132ee68
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7374
-
-bidiformatter_test.html
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-75057dcc62aa1ad7a06961a4e1e04fd7
-2012-07-26T09:07:34.000000Z
-2058
-aharon@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-15596
-
-currencycodemap.js
-file
-
-
-
-
-2012-11-05T21:40:05.084009Z
-adf3bb528e7dd638655a830d7ce9bad3
-2011-12-13T22:20:28.000000Z
-1472
-ccalabro@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4311
-
-datetimesymbolsext.js
-file
-
-
-
-
-2012-11-05T21:40:05.088009Z
-b26d489a8c04c59aa43f095c7676c4c8
-2012-06-12T21:56:21.000000Z
-1970
-roozbeh@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-722219
-
 charlistdecompressor_test.html
 file
 
@@ -675,84 +502,19 @@ has-props
 
 35541
 
-mime.js
-file
-
-
-
-
-2012-11-05T21:40:05.088009Z
-d2d7b7284ef9f8d765977301f0f292eb
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3533
+uchar
+dir
 
-uchar_test.html
+numberformatsymbolsext.js
 file
 
 
 
 
-2012-11-05T21:40:05.088009Z
-1628511891b7842187ed79e5ad218052
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1661
-
-currency.js
-file
-
-
-
-
-2012-11-05T21:40:05.088009Z
-4b519d51a8db377569c9779f1f09c539
-2011-11-07T17:56:39.000000Z
-1374
+2012-11-05T21:40:05.084009Z
+ba04db084321b3d17a5fe7188a6c6d89
+2012-05-01T21:18:35.000000Z
+1798
 shanjian@google.com
 has-props
 
@@ -775,41 +537,7 @@ has-props
 
 
 
-13132
-
-timezone.js
-file
-
-
-
-
-2012-11-05T21:40:05.088009Z
-6dde9466fddc3d1303c759a86b93cf81
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-11496
+212934
 
 datetimeformat_test.html
 file
@@ -845,40 +573,6 @@ has-props
 
 24963
 
-messageformat.js
-file
-
-
-
-
-2012-11-05T21:40:05.088009Z
-9008edcbb977d0a8508d8aed68bd9aa9
-2012-07-25T02:41:22.000000Z
-2055
-davidday@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-24822
-
 graphemebreak.js
 file
 
@@ -913,17 +607,17 @@ has-props
 
 7347
 
-datetimepatternsext.js
+messageformat.js
 file
 
 
 
 
 2012-11-05T21:40:05.088009Z
-5e0fdca37cf63e08632140cda1121cde
-2012-04-10T21:43:44.000000Z
-1728
-shanjian@google.com
+9008edcbb977d0a8508d8aed68bd9aa9
+2012-07-25T02:41:22.000000Z
+2055
+davidday@google.com
 has-props
 
 
@@ -945,7 +639,7 @@ has-props
 
 
 
-208067
+24822
 
 bidi_test.html
 file
@@ -981,17 +675,17 @@ has-props
 
 18997
 
-numberformat.js
+datetimepatternsext.js
 file
 
 
 
 
 2012-11-05T21:40:05.088009Z
-cc5b72078f60a75dd11916f47117299e
-2012-06-19T23:34:09.000000Z
-1996
-kuzmin@google.com
+5e0fdca37cf63e08632140cda1121cde
+2012-04-10T21:43:44.000000Z
+1728
+shanjian@google.com
 has-props
 
 
@@ -1013,7 +707,41 @@ has-props
 
 
 
-26198
+208067
+
+charlistdecompressor.js
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+e037b500cb89f164219340f206f3e9aa
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5231
 
 uchar.js
 file
@@ -1049,17 +777,17 @@ has-props
 
 51502
 
-ordinalrules.js
+datetimeformat.js
 file
 
 
 
 
-2012-11-05T21:40:05.088009Z
-ef555122100da8eaa11bb9e79bccfee1
-2012-07-23T01:47:44.000000Z
-2051
-davidday@google.com
+2012-11-05T21:40:05.084009Z
+6ea646f462388efaaa6be9a83ee9e7ae
+2012-06-12T21:56:21.000000Z
+1970
+roozbeh@google.com
 has-props
 
 
@@ -1081,7 +809,7 @@ has-props
 
 
 
-14592
+24333
 
 datetimesymbols.js
 file
@@ -1117,17 +845,17 @@ has-props
 
 171657
 
-charpickerdata.js
+bidi.js
 file
 
 
 
 
-2012-11-05T21:40:05.080010Z
-48e91b9e4bfe04c919acc71b354d8937
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
+2012-11-05T21:40:05.084009Z
+5f61fce1485dbc323002f8d3e16a3a44
+2012-06-25T10:34:41.000000Z
+2011
+davinci@google.com
 has-props
 
 
@@ -1149,7 +877,7 @@ has-props
 
 
 
-113743
+26724
 
 numberformatsymbols.js
 file
@@ -1184,4 +912,276 @@ has-props
 
 
 78868
+
+mime_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+78368b91c6b90451c1ece8bca9617c88
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1488
+
+bidiformatter_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+75057dcc62aa1ad7a06961a4e1e04fd7
+2012-07-26T09:07:34.000000Z
+2058
+aharon@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+15596
+
+datetimesymbolsext.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+b26d489a8c04c59aa43f095c7676c4c8
+2012-06-12T21:56:21.000000Z
+1970
+roozbeh@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+722219
+
+mime.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+d2d7b7284ef9f8d765977301f0f292eb
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3533
+
+numberformat_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.084009Z
+ab5712183f0203d061948ad9e679fab8
+2012-06-19T23:34:09.000000Z
+1996
+kuzmin@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+21583
+
+uchar_test.html
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+1628511891b7842187ed79e5ad218052
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1661
+
+timezone.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+6dde9466fddc3d1303c759a86b93cf81
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+11496
+
+currency.js
+file
+
+
+
+
+2012-11-05T21:40:05.088009Z
+4b519d51a8db377569c9779f1f09c539
+2011-11-07T17:56:39.000000Z
+1374
+shanjian@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+13132
 
