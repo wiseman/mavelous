@@ -26,40 +26,41 @@ $(function () {
       if (this.get('armed')) {
         if (this.get('arming')) {
           this.set('arming', false);
-           /* No more override, use the radio controller's values. */
-          this.post({ch3: 0, ch4: 0});
         }
       } else {
         if (this.get('disarming')) {
           this.set('disarming', false);
-           /* No more override, use the radio controller's values. */
-          this.post({ch3: 0, ch4: 0});
         }
       }
     },
     requestArm: function () {
       console.log('requested to arm');
-      // Send RC override:
-      // rc 3 1000, rc 4 2000
-      this.post({
-        'ch3': 1000,
-        'ch4': 2000
-      });
+      this.postArmRequest();
       this.set('arming', true);
     },
 
     requestDisarm: function () {
       console.log('requested to disarm');
-      this.post({
-        'ch3': 1000,
-        'ch4': 1000
-      });
+      this.postDisarmRequest();
       this.set('disarming', true);
     },
-    post: function (override) {
+    postArmRequest: function () {
       $.ajax({ type: 'POST',
-               url: '/rcoverride',
-               data: JSON.stringify(override) });
+               url: '/command_long',
+               data: JSON.stringify({
+                  command: 'COMPONENT_ARM_DISARM',
+                  component: 'SYSTEM_CONTROL',
+                  setting: 'ARM',
+               })});
+    },
+    postDisarmRequest: function () {
+      $.ajax({ type: 'POST',
+               url: '/command_long',
+               data: JSON.stringify({
+                  command: 'COMPONENT_ARM_DISARM',
+                  component: 'SYSTEM_CONTROL',
+                  setting: 'DISARM',
+               })});
     }
   });
 
