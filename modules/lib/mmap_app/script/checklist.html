@@ -1,0 +1,55 @@
+<html>
+<head>
+  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/checkbox.css">
+  <style>
+.example-checklist-item-checked {
+  text-decoration: line-through;
+  color: #777;
+}
+  </style>
+</head>
+<body>
+<div id="checklist"></div>
+
+Number of event listeners: <span id="listener-count"></span><br>
+Number of checked items: <span id="num-checked"></span><br>
+
+<script src="../../../../../closure-library/closure/goog/base.js"></script>
+<script src="checklist-deps.js"></script>
+<script>
+  goog.require('mavelous');
+  goog.require('mavelous.ui');
+</script>
+
+<script>
+var checklist = new mavelous.Mission([
+ new mavelous.Waypoint('1', mavelous.WaypointType.TAKEOFF, true),
+ new mavelous.Waypoint('2', mavelous.WaypointType.WAYPOINT, true),
+ new mavelous.Waypoint('3', mavelous.WaypointType.CONDITION_YAW, false),
+ new mavelous.Waypoint('4', mavelous.WaypointType.LAND, true)
+ ]);
+
+console.log(checklist.getItems()[0].getFields()[0]);
+
+// Rendering example.
+var container = new mavelous.ui.Mission(checklist);
+container.render(goog.dom.getElement('checklist'));  
+
+var updateListenerCount = function() {
+  goog.dom.getElement('listener-count').innerHTML =
+      goog.events.getTotalListenerCount();
+};
+var updateNumChecked = function(e) {
+  goog.dom.getElement('num-checked').innerHTML =
+      e.target.getModel().getNumChecked();
+};
+
+goog.events.listen(container,
+    mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED,
+    updateNumChecked);
+
+updateListenerCount();
+</script>
+<body>
+
+</body>
