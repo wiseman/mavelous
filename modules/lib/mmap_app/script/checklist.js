@@ -17,28 +17,40 @@ goog.require('goog.ui.Container');
 goog.require('goog.ui.ContainerRenderer');
 goog.require('goog.ui.Control');
 goog.require('goog.ui.ControlRenderer');
+goog.require('goog.ui.FlatMenuButtonRenderer');
+goog.require('goog.ui.Select');
 goog.require('goog.ui.registry');
 
 
 /** @enum {string} */
 mavelous.Error = {
-  INVALID_WAYPOINT_TYPE: 'Invalid waypoint type'
+  INVALID_WAYPOINT_TYPE: 'Invalid waypoint type',
+  INVALID_FIELD_NAME: 'Invalid waypoint field name'
 };
 
 
 /**
  * @param {string} id The ID.
  * @param {mavelous.WaypointType} type The type.
- * @param {boolean} checked Checked/unchecked.
+ * @param {object} opt_values Field values.
  * @constructor
  */
-mavelous.Waypoint = function(id, type, checked) {
+mavelous.Waypoint = function(id, type, opt_values) {
   if (!(type in goog.object.transpose(mavelous.WaypointType))) {
     throw Error(mavelous.Error.INVALID_WAYPOINT_TYPE + ' ' + type);
   }
   this.id = id;
   this.type = type;
-  this.checked = checked;
+  this.checked = true;
+  this.fieldValues = {};
+
+  var fields = this.getFields();
+  for (var i = 0; i < fields.length; i++) {
+    this.setFieldValue(fields[i], null);
+  }
+  for (var fieldName in opt_values) {
+    this.setFieldValue(fieldName, opt_values[fieldName]);
+  }
 };
 
 
@@ -46,9 +58,26 @@ mavelous.Waypoint = function(id, type, checked) {
  * @return {Array.<string>} The field names.
  */
 mavelous.Waypoint.prototype.getFields = function() {
-  var keys = goog.object.getKeys(this.type);
-  goog.array.remove(keys, 'name');
-  return keys;
+  return this.type.fields;
+};
+
+
+mavelous.Waypoint.prototype.getFieldValue = function(fieldName) {
+  this.checkFieldName_(fieldName);
+  return this.fieldValues[fieldName];
+};
+
+
+mavelous.Waypoint.prototype.setFieldValue = function(fieldName, fieldValue) {
+  this.checkFieldName_(fieldName);
+  this.fieldValues[fieldName] = fieldValue;
+};
+
+
+mavelous.Waypoint.prototype.checkFieldName_ = function(fieldName) {
+  if (!this.type.fields.hasOwnProperty(fieldName)) {
+    throw Error(mavelous.Error.INVALID_FIELD_NAME + ' ' + fieldName);
+  }
 };
 
 
@@ -96,7 +125,7 @@ goog.inherits(mavelous.ui.WaypointRenderer, goog.ui.ControlRenderer);
 goog.addSingletonGetter(mavelous.ui.WaypointRenderer);
 
 /** @type {string} */
-mavelous.ui.WaypointRenderer.CSS_CLASS = 'example-checklist-item';
+mavelous.ui.WaypointRenderer.CSS_CLASS = 'mavelous-waypoint';
 
 /** @inheritDoc */
 mavelous.ui.WaypointRenderer.prototype.getCssClass = function() {
@@ -115,20 +144,28 @@ mavelous.ui.WaypointRenderer.prototype.createDom = function(waypoint) {
   waypoint.setElementInternal(el);
 
   var dom = waypoint.getDomHelper();
+
   var isItemChecked = waypoint.isItemChecked();
   var checkboxState = isItemChecked ?
       goog.ui.Checkbox.State.CHECKED : goog.ui.Checkbox.State.UNCHECKED;
   var checkbox = new goog.ui.Checkbox(checkboxState, dom);
   waypoint.addChild(checkbox, true /* opt_render */);
 
-  var name = waypoint.getTypeName();
-  var fields = waypoint.getFields();
-  var label = new mavelous.ui.Label(name);
-  // if (fields.length == 0) {
-  //   label = new mavelous.ui.Label('');
-  // } else {
-  //   label = new mavelous.ui.Label(waypoint.getFields().join());
-  // }
+  var typeSelect = new goog.ui.Select(
+    null, null, goog.ui.FlatMenuButtonRenderer.getInstance(), dom);
+  for (var waypointType in mavelous.WaypointType) {
+    typeSelect.addItem(new goog.ui.MenuItem(waypointType));
+  }
+  typeSelect.setSelectedIndex(0);
+  waypoint.addChild(typeSelect, true);
+
+  var waypointModel = waypoint.getModel();
+  var labelText = ' ';
+  for (var fieldName in waypointModel.getFields()) {
+    console.log(waypoint);
+    labelText += ', ' + fieldName + ': ' + waypointModel.getFieldValue(fieldName);
+  }
+  var label = new mavelous.ui.Label(labelText);
   waypoint.addChild(label, true /* opt_render */);
 
   waypoint.setChecked(isItemChecked);
@@ -143,6 +180,7 @@ mavelous.ui.WaypointRenderer.prototype.createDom = function(waypoint) {
  */
 mavelous.ui.WaypointRenderer.prototype.decorate = function(
     waypoint, element) {
+  console.log('Decorating');
   goog.base(this, 'decorate', waypoint, element);
 
   var checkbox = new goog.ui.Checkbox();
@@ -170,129 +208,120 @@ mavelous.ui.WaypointRenderer.prototype.decorate = function(
 };
 
 
+mavelous.makeWaypointType = function(name, opt_fields) {
+  return {
+    name: name,
+    fields: opt_fields || {}
+  };
+}
+
 /** @enum {Object} */
 mavelous.WaypointType = {
-  WAYPOINT: {
-    name: 'WAYPOINT',
-    p1: 'Delay',
-    p2: 'Hit rad',
-    p4: 'Yaw ang',
-    x: 'Lat',
-    y: 'Lon',
-    z: 'Alt'
-  },
-  LOITER_UNLIM: {
-    name: 'LOITER_UNLIM',
-    x: 'Lat',
-    y: 'Lat',
-    z: 'Alt'
-  },
-  LOITER_TURNS: {
-    nane: 'LOITER_TURNS',
-    p1: 'Turns',
-    x: 'Lat',
-    y: 'Lon',
-    z: 'Alt'
-  },
-  LOITER_TIME: {
-    name: 'LOITER_TIME',
-    p1: 'Time (s)',
-    p3: 'Rad',
-    p4: 'Yaw per'
-  },
-  RETURN_TO_LAUNCH: {
-    name: 'RETURN_TO_LAUNCH'
-  },
-  LAND: {
-    name: 'LAND'
-  },
-  TAKEOFF: {
-    name: 'TAKEOFF',
-    z: 'Alt'
-  },
-  ROI: {
-    name: 'ROI',
-    x: 'Lat',
-    y: 'Lon',
-    z: 'Alt'
-  },
-  PATHPLANNING: {
-    name: 'PATHPLANNING'
-  },
-  CONDITION_DELAY: {
-    name: 'CONDITION_DELAY',
-    p1: 'Time (s)'
-  },
-  CONDITION_CHANGE_ALT: {
-    name: 'CONDITION_CHANGE_ALT',
-    p1: 'Rate (cm/s)',
-    z: 'Alt'
-  },
-  CONDITION_DISTANCE: {
-    name: 'CONDITION_DISTANCE',
-    p1: 'Dist (m)'
-  },
-  CONDITION_YAW: {
-    name: 'CONDITION_YAW',
-    p1: 'Deg',
-    p2: 'Sec',
-    p3: 'Dir (1=CW)',
-    p4: 'Rel/abs'
-  },
-  DO_SET_MODE: {
-    name: 'DO_SET_MODE'
-  },
-  DO_JUMP: {
-    name: 'DO_JUMP',
-    p1: 'Waypoint #',
-    p2: 'Repeat #'
-  },
-  DO_CHANGE_SPEED: {
-    name: 'DO_CHANGE_SPEED',
-    p1: 'Speed (m/s)'
-  },
-  DO_SET_HOME: {
-    name: 'DO_SET_HOME',
-    p1: 'Current (1)/Spec (0)'
-  },
-  DO_SET_PARAMETER: {
-    name: 'DO_SET_PARAMETER',
-    p1: '#',
-    p2: 'Value'
-  },
-  DO_SET_RELAY: {
-    name: 'DO_SET_RELAY',
-    p1: 'Off (0)/on (1)'
-  },
-  DO_REPEAT_RELAY: {
-    name: 'DO_REPEAT_RELAY',
-    p2: 'Repeat #',
-    p3: 'Delay (s)'
-  },
-  DO_SET_SERVO: {
-    name: 'DO_SET_SERVO',
-    p1: 'Serial #',
-    p2: 'PWM'
-  },
-  DO_REPEAT_SERVO: {
-    name: 'DO_REPEAT_SERVO',
-    p1: 'Serial #',
-    p2: 'PWM',
-    p3: 'Repeat #',
-    p4: 'Delay (s)'
-  },
-  DO_DIGICAM_CONFIGURE: {
-    name: 'DO_DIGICAM_CONFIGURE'
-  },
-  DO_DIGICAM_CONTROL: {
-    name: 'DO_DIGICAM_CONTROL'
-  },
-  DO_MOUNT_CONFIGURE: {
-    name: 'DO_MOUNT_CONFIGURE'
-  },
-  DO_MOUNT_CONTROL: {
-    name: 'DO_MOUNT_CONTROL'
-  }
+  WAYPOINT: mavelous.makeWaypointType(
+    'WAYPOINT', {
+      p1: 'Delay',
+      p2: 'Hit rad',
+      p4: 'Yaw ang',
+      x: 'Lat',
+      y: 'Lon',
+      z: 'Alt'
+    }),
+  LOITER_UNLIM: mavelous.makeWaypointType(
+    'LOITER_UNLIM', {
+      x: 'Lat',
+      y: 'Lat',
+      z: 'Alt'
+    }),
+  LOITER_TURNS: mavelous.makeWaypointType(
+    'LOITER_TURNS', {
+      p1: 'Turns',
+      x: 'Lat',
+      y: 'Lon',
+      z: 'Alt'
+    }),
+  LOITER_TIME: mavelous.makeWaypointType(
+    'LOITER_TIME', {
+      p1: 'Time (s)',
+      p3: 'Rad',
+      p4: 'Yaw per'
+    }),
+  RETURN_TO_LAUNCH: mavelous.makeWaypointType('RETURN_TO_LAUNCH'),
+  LAND: mavelous.makeWaypointType('LAND'),
+  TAKEOFF: mavelous.makeWaypointType(
+    'TAKEOFF', {
+      z: 'Alt'
+    }),
+  ROI: mavelous.makeWaypointType(
+    'ROI', {
+      x: 'Lat',
+      y: 'Lon',
+      z: 'Alt'
+    }),
+  PATHPLANNING: mavelous.makeWaypointType('PATHPLANNING'),
+  CONDITION_DELAY: mavelous.makeWaypointType(
+    'CONDITION_DELAY', {
+      p1: 'Time (s)'
+    }),
+  CONDITION_CHANGE_ALT: mavelous.makeWaypointType(
+    'CONDITION_CHANGE_ALT', {
+      p1: 'Rate (cm/s)',
+      z: 'Alt'
+    }),
+  CONDITION_DISTANCE: mavelous.makeWaypointType(
+    'CONDITION_DISTANCE', {
+      p1: 'Dist (m)'
+    }),
+  CONDITION_YAW: mavelous.makeWaypointType(
+    'CONDITION_YAW', {
+      p1: 'Deg',
+      p2: 'Sec',
+      p3: 'Dir (1=CW)',
+      p4: 'Rel/abs'
+    }),
+  DO_SET_MODE: mavelous.makeWaypointType('DO_SET_MODE'),
+  DO_JUMP: mavelous.makeWaypointType(
+    'DO_JUMP', {
+      p1: 'Waypoint #',
+      p2: 'Repeat #'
+    }),
+  DO_CHANGE_SPEED: mavelous.makeWaypointType(
+    'DO_CHANGE_SPEED', {
+      p1: 'Speed (m/s)'
+    }),
+  DO_SET_HOME: mavelous.makeWaypointType(
+    'DO_SET_HOME', {
+      p1: 'Current (1)/Spec (0)'
+    }),
+  DO_SET_PARAMETER: mavelous.makeWaypointType(
+    'DO_SET_PARAMETER', {
+      p1: '#',
+      p2: 'Value'
+    }),
+  DO_SET_RELAY: mavelous.makeWaypointType(
+    'DO_SET_RELAY', {
+      p1: 'Off (0)/on (1)'
+    }),
+  DO_REPEAT_RELAY: mavelous.makeWaypointType(
+    'DO_REPEAT_RELAY', {
+      p2: 'Repeat #',
+      p3: 'Delay (s)'
+    }),
+  DO_SET_SERVO: mavelous.makeWaypointType(
+    'DO_SET_SERVO', {
+      p1: 'Serial #',
+      p2: 'PWM'
+    }),
+  DO_REPEAT_SERVO: mavelous.makeWaypointType(
+    'DO_REPEAT_SERVO', {
+      p1: 'Serial #',
+      p2: 'PWM',
+      p3: 'Repeat #',
+      p4: 'Delay (s)'
+    }),
+  DO_DIGICAM_CONFIGURE: mavelous.makeWaypointType('DO_DIGICAM_CONFIGURE'),
+  DO_DIGICAM_CONTROL: mavelous.makeWaypointType('DO_DIGICAM_CONTROL'),
+  DO_MOUNT_CONFIGURE: mavelous.makeWaypointType('DO_MOUNT_CONFIGURE'),
+  DO_MOUNT_CONTROL: mavelous.makeWaypointType('DO_MOUNT_CONTROL')
 };
 
 
@@ -330,15 +359,6 @@ mavelous.ui.Waypoint.prototype.isItemChecked = function() {
   return this.getModel().checked;
 };
 
-/** @return {string} The item text. */
-mavelous.ui.Waypoint.prototype.getFields = function() {
-  return this.getModel().getFields();
-};
-
-/** @return {string} The item text. */
-mavelous.ui.Waypoint.prototype.getTypeName = function() {
-  return this.getModel().getTypeName();
-};
 
 /** @inheritDoc */
 mavelous.ui.Waypoint.prototype.enterDocument = function() {
@@ -403,6 +423,8 @@ mavelous.ui.Label.prototype.createDom = function() {
 
 /** @inheritDoc */
 mavelous.ui.Label.prototype.decorateInternal = function(element) {
+  console.log('DecorateInternaling');
+
   goog.base(this, 'decorateInternal', element);
   this.labelText_ = element.firstChild.nodeValue;
   goog.dom.classes.add(element, mavelous.ui.Label.CSS_CLASS);
@@ -452,6 +474,7 @@ mavelous.ui.MissionRenderer.prototype.createDom = function(checklistContainer) {
  */
 mavelous.ui.MissionRenderer.prototype.decorate = function(
     checklistContainer, element) {
+  console.log('Decorating');
   goog.base(this, 'decorate', checklistContainer, element);
 
   var items = [];

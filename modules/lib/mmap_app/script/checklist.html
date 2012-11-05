@@ -1,6 +1,10 @@
 <html>
 <head>
+  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/common.css">
   <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/checkbox.css">
+  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/menu.css">
+  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/menuitem.css">
+  <link rel="stylesheet" href="../../../../../closure-library/closure/goog/css/flatmenubutton.css">
   <style>
 .example-checklist-item-checked {
   text-decoration: line-through;
@@ -23,13 +27,12 @@ Number of checked items: <span id="num-checked"></span><br>
 
 <script>
 var checklist = new mavelous.Mission([
- new mavelous.Waypoint('1', mavelous.WaypointType.TAKEOFF, true),
- new mavelous.Waypoint('2', mavelous.WaypointType.WAYPOINT, true),
- new mavelous.Waypoint('3', mavelous.WaypointType.CONDITION_YAW, false),
- new mavelous.Waypoint('4', mavelous.WaypointType.LAND, true)
- ]);
-
-console.log(checklist.getItems()[0].getFields()[0]);
+  new mavelous.Waypoint('1', mavelous.WaypointType.TAKEOFF, {z: 100}),
+  new mavelous.Waypoint('2', mavelous.WaypointType.WAYPOINT),
+  new mavelous.Waypoint('3', mavelous.WaypointType.CONDITION_YAW),
+  new mavelous.Waypoint('4', mavelous.WaypointType.LAND)
+  ]);
+console.log(checklist.getItems()[0]);
 
 // Rendering example.
 var container = new mavelous.ui.Mission(checklist);
