@@ -127,6 +127,7 @@ mavelous.missionItemFieldDisplayName = function(type, field) {
   return mavelous.MissionItemType[type].fields[field];
 };
 
+
 /** @enum {dict} */
 mavelous.MissionItemType = {
   WAYPOINT: mavelous.makeMissionItemType_(

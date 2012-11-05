@@ -354,9 +354,12 @@ mavelous.ui.Mission.EventType = {
   CHECKED_COUNT_CHANGED: goog.events.getUniqueId('checked-count-changed')
 };
 
-goog.ui.registry.setDefaultRenderer(mavelous.ui.Mission,
-    mavelous.ui.MissionRenderer);
+goog.ui.registry.setDefaultRenderer(
+  mavelous.ui.Mission,
+  mavelous.ui.MissionRenderer);
 
-goog.ui.registry.setDecoratorByClassName(mavelous.ui.MissionRenderer.CSS_CLASS,
-    function() { return new mavelous.ui.Mission(); })
+goog.ui.registry.setDecoratorByClassName(
+  mavelous.ui.MissionRenderer.CSS_CLASS,
+  function() { return new mavelous.ui.Mission(); });
+
 
