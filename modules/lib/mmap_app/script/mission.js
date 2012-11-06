@@ -13,10 +13,11 @@ mavelous.Error = {
 };
 
 
+
 /**
  * @param {string} id The ID.
  * @param {mavelous.MissionItemType} type The type.
- * @param {object} opt_values Field values.
+ * @param {object=} opt_values Field values.
  * @constructor
  */
 mavelous.MissionItem = function(id, type, opt_values) {
@@ -24,14 +25,9 @@ mavelous.MissionItem = function(id, type, opt_values) {
     throw Error(mavelous.Error.INVALID_MISSION_ITEM_TYPE + ' ' + type);
   }
   this.id = id;
-  this.type = type;
+  this.type_ = type;
   this.checked = true;
-  this.fieldValues = {};
-
-  var fields = this.getFields();
-  for (var i = 0; i < fields.length; i++) {
-    this.setFieldValue(fields[i], null);
-  }
+  this.initializeFieldValues_();
   for (var fieldName in opt_values) {
     this.setFieldValue(fieldName, opt_values[fieldName]);
   }
@@ -39,10 +35,41 @@ mavelous.MissionItem = function(id, type, opt_values) {
 
 
 /**
+ * @private
+ */
+mavelous.MissionItem.prototype.initializeFieldValues_ = function() {
+  this.fieldValues = {};
+  var fields = this.getFields();
+  console.log('Initializing fields for type ' + this.type_.name);
+  for (var i = 0; i < fields.length; i++) {
+    console.log('Nulling field ' + fields[i]);
+    this.setFieldValue(fields[i], null);
+  }
+};
+
+
+/**
+ * @param {mavelous.MissionItemType} type The new type.
+ */
+mavelous.MissionItem.prototype.setType = function(type) {
+  console.log('Setting type to:');
+  console.log(type);
+  console.log(goog.object.getValues(mavelous.MissionItemType));
+  goog.asserts.assert(
+    goog.array.contains(goog.object.getValues(mavelous.MissionItemType), type),
+    'Not a mavelous.MissionItemType: ' + type);
+  console.log('Setting type to:');
+  console.log(type);
+  this.type_ = type;
+  this.initializeFieldValues_();
+};
+
+
+/**
  * @return {Array.<string>} The field names.
  */
 mavelous.MissionItem.prototype.getFields = function() {
-  return this.type.fields;
+  return this.type_.fields;
 };
 
 /**
@@ -68,7 +95,7 @@ mavelous.MissionItem.prototype.setFieldValue = function(fieldName, fieldValue) {
  * @private
  */
 mavelous.MissionItem.prototype.checkFieldName_ = function(fieldName) {
-  if (!this.type.fields.hasOwnProperty(fieldName)) {
+  if (!this.type_.fields.hasOwnProperty(fieldName)) {
     throw Error(mavelous.Error.INVALID_FIELD_NAME + ' ' + fieldName);
   }
 };
@@ -77,7 +104,7 @@ mavelous.MissionItem.prototype.checkFieldName_ = function(fieldName) {
  * @return {mavelous.MisionItemType} The mission item type.
  */
 mavelous.MissionItem.prototype.getTypeName = function() {
-  return this.type.name;
+  return this.type_.name;
 };
 
 

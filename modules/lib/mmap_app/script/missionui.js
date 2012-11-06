@@ -23,6 +23,8 @@ goog.require('mavelous.Mission');
 goog.require('mavelous.MissionItem');
 goog.require('mavelous.MissionItemType');
 
+
+
 /**
  * @constructor
  * @extends {goog.ui.ControlRenderer}
@@ -33,13 +35,16 @@ mavelous.ui.MissionItemRenderer = function() {
 goog.inherits(mavelous.ui.MissionItemRenderer, goog.ui.ControlRenderer);
 goog.addSingletonGetter(mavelous.ui.MissionItemRenderer);
 
+
 /** @type {string} */
 mavelous.ui.MissionItemRenderer.CSS_CLASS = 'mavelous-missionitem';
+
 
 /** @inheritDoc */
 mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
 };
+
 
 /**
  * @param {mavelous.ui.MissionItem} missionItem  The item.
@@ -72,13 +77,33 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
       selectedItem = menuItem;
     }
   }
+  goog.events.listen(
+    typeSelect, goog.ui.Component.EventType.ACTION,
+    function(e) {
+      console.log(e);
+      this.changeMissionItemType(e.target.getValue());
+    },
+    false,
+    missionItem);
   if (selectedItem) {
     typeSelect.setSelectedItem(selectedItem);
   }
   missionItem.addChild(typeSelect, true);
   goog.dom.classes.add(typeSelect.getElement(), 'mavelous-missionitem-field');
+  this.populateFields(missionItem);
+  missionItem.setChecked(isItemChecked);
+  return el;
+};
 
+
+/**
+ * @param {mavelous.MissionItem} missionItem The mission item.
+ */
+mavelous.ui.MissionItemRenderer.prototype.populateFields = function(
+  missionItem) {
+  var missionItemModel = missionItem.getModel();
   for (var field in missionItemModel.getFields()) {
+    console.log('Adding ' + field);
     var displayName = mavelous.missionItemFieldDisplayName(
       missionItemModel.getTypeName(), field);
     var label = new mavelous.ui.Label(displayName);
@@ -89,11 +114,12 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
     missionItem.addChild(input, true);
     input.setSupportedState(goog.ui.Component.State.FOCUSED, true);
     goog.dom.classes.add(input.getElement(), 'mavelous-missionitem-field');
+    missionItem.addField(label);
+    missionItem.addField(input);
   }
 
-  missionItem.setChecked(isItemChecked);
-  return el;
 };
+
 
 /**
  * @param {mavelous.ui.MissionItem} missionItem  The item.
@@ -112,7 +138,7 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
   var label = new mavelous.ui.Label();
   missionItem.addChild(label);
   label.decorate(goog.dom.getNextElementSibling(checkbox.getElement()));
-  missionItem.getModel().type = label.getLabelText();
+  missionItem.getModel().setType(label.getLabelText());
 
   // Note that the following approach would not have worked because using
   // goog.ui.decorate() creates a checkbox that is already in the document, so
@@ -127,6 +153,7 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
 
   return element;
 };
+
 
 
 /**
@@ -147,16 +174,55 @@ mavelous.ui.MissionItem = function(item, renderer) {
             text: '',
             checked: false};
   }
-
+  this.fields = new Array();
   this.setModel(item);
 };
 goog.inherits(mavelous.ui.MissionItem, goog.ui.Control);
+
 
 /**
  * @return {!mavelous.MissionItem} The model.
  * @override
  */
 mavelous.ui.MissionItem.prototype.getModel;
+
+
+/**
+ * @param {goog.ui.Control} field The field control to add.
+ */
+mavelous.ui.MissionItem.prototype.addField = function(field) {
+  this.fields.push(field);
+};
+
+
+/**
+ * @param {mavelous.MissionItemType} itemType The mission item type.
+ */
+mavelous.ui.MissionItem.prototype.changeMissionItemType = function(itemType) {
+  console.log('changeMissionItemType to ' + itemType);
+  this.getModel().setType(mavelous.MissionItemType[itemType]);
+  console.log('BEFORE:');
+  this.forEachChild(function(child) {
+    console.log(child);
+  });
+  for (var i = 0; i < this.fields.length; i++) {
+    console.log('Removing child #' + i);
+    this.removeChild(this.fields[i], false);
+    this.fields[i].dispose();
+  }
+  goog.array.clear(this.fields);
+  console.log('AFTER REMOVAL:');
+  this.forEachChild(function(child) {
+    console.log(child);
+  });
+  this.getRenderer().populateFields(this);
+  console.log('AFTER POPULATING:');
+  this.forEachChild(function(child) {
+    console.log(child);
+  });
+  console.log('# children: ' + this.getChildCount());
+  console.log(this);
+};
 
 
 /** @return {boolean} Whether it's checked. */
@@ -195,29 +261,32 @@ goog.ui.registry.setDecoratorByClassName(
   function() { return new mavelous.ui.MissionItem(); });
 
 
+
 /**
  * This is a simple component that displays some inline text.
- * @param {string=} labelText The label text.
+ * @param {string=} opt_labelText The label text.
  * @constructor
  * @extends {goog.ui.Component}
  */
-mavelous.ui.Label = function(labelText) {
+mavelous.ui.Label = function(opt_labelText) {
   goog.base(this);
 
   /**
    * @type {string}
    * @private
    */
-  this.labelText_ = goog.isDef(labelText) ? labelText : '';
+  this.labelText_ = goog.isDef(opt_labelText) ? opt_labelText : '';
 };
 goog.inherits(mavelous.ui.Label, goog.ui.Component);
 
 mavelous.ui.Label.CSS_CLASS = 'example-label';
 
-/** @return {string} */
+
+/** @return {string} The label text.*/
 mavelous.ui.Label.prototype.getLabelText = function() {
   return this.labelText_;
 };
+
 
 /** @inheritDoc */
 mavelous.ui.Label.prototype.createDom = function() {
@@ -227,6 +296,7 @@ mavelous.ui.Label.prototype.createDom = function() {
   this.decorateInternal(el);
 };
 
+
 /** @inheritDoc */
 mavelous.ui.Label.prototype.decorateInternal = function(element) {
   goog.base(this, 'decorateInternal', element);
@@ -235,7 +305,9 @@ mavelous.ui.Label.prototype.decorateInternal = function(element) {
 };
 
 
+
 /**
+ * @param {string} value The initial value.
  * @constructor
  * @extends {goog.ui.Control}
  */
@@ -250,12 +322,14 @@ mavelous.ui.Input = function(value) {
 };
 goog.inherits(mavelous.ui.Input, goog.ui.Control);
 
+
 /** @inheritDoc */
 mavelous.ui.Input.prototype.createDom = function() {
   this.setElementInternal(
     this.getDomHelper().createDom('input', {'type': 'text', 'size': '5', 'value': this.value_}));
   goog.style.setUnselectable(this.getElement(), false, true);
 };
+
 
 
 /**
@@ -268,13 +342,16 @@ mavelous.ui.MissionRenderer = function() {
 goog.inherits(mavelous.ui.MissionRenderer, goog.ui.ContainerRenderer);
 goog.addSingletonGetter(mavelous.ui.MissionRenderer);
 
+
 /** @type {string} */
 mavelous.ui.MissionRenderer.CSS_CLASS = 'mavelous-mission';
+
 
 /** @inheritDoc */
 mavelous.ui.MissionRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionRenderer.CSS_CLASS;
 };
+
 
 /**
  * @param {mavelous.ui.Mission} missionContainer The container.
@@ -294,8 +371,9 @@ mavelous.ui.MissionRenderer.prototype.createDom = function(missionContainer) {
   return el;
 };
 
+
 /**
- * @param {mavelous.ui.Mission} missionContainer
+ * @param {mavelous.ui.Mission} missionContainer The container.
  * @param {Element} element Element to decorate.
  * @return {Element} Decorated element.
  */
@@ -313,6 +391,7 @@ mavelous.ui.MissionRenderer.prototype.decorate = function(
 
   return element;
 };
+
 
 /**
  * @inheritDoc
@@ -335,7 +414,7 @@ goog.ui.ContainerRenderer.prototype.initializeDom = function(container) {
 
 
 /**
- * @param {mavelous.Mission} mission
+ * @param {mavelous.Mission} mission The mission.
  * @constructor
  * @extends {goog.ui.Container}
  */
@@ -347,11 +426,13 @@ mavelous.ui.Mission = function(mission) {
 };
 goog.inherits(mavelous.ui.Mission, goog.ui.Container);
 
+
 /**
- * @return {mavelous.Mission}
+ * @return {mavelous.Mission} The model.
  * @override
  */
 mavelous.ui.Mission.prototype.getModel;
+
 
 /** @inheritDoc */
 mavelous.ui.Mission.prototype.enterDocument = function() {
@@ -359,8 +440,9 @@ mavelous.ui.Mission.prototype.enterDocument = function() {
   //goog.style.setUnselectable(this.getElement(), true, false);
 };
 
+
 /**
- * @param {goog.events.Event} e
+ * @param {goog.events.Event} e The event.
  * @private
  */
 // mavelous.ui.Mission.prototype.onCheckChange_ = function(e) {
@@ -385,5 +467,3 @@ goog.ui.registry.setDefaultRenderer(
 goog.ui.registry.setDecoratorByClassName(
   mavelous.ui.MissionRenderer.CSS_CLASS,
   function() { return new mavelous.ui.Mission(); });
-
-
