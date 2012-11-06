@@ -41,12 +41,17 @@ mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
 };
 
+/**
+ * @param {mavelous.ui.MissionItem} container The container.
+ * @param {goog.ui.Control} control The control to add.
+ * @param {boolean} opt_render Whether to render.
+ */
 mavelous.ui.MissionItemRenderer.prototype.addChildCell = function(
-  container, child, opt_render) {
+  container, control, opt_render) {
   var td = new goog.ui.Control();
   td.setElementInternal(goog.dom.createDom('td'));
   opt_render = opt_render || false;
-  td.addChild(child, opt_render);
+  td.addChild(control, opt_render);
   container.addChild(td, opt_render);
 };
 
@@ -88,7 +93,8 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
   this.addChildCell(missionItem, typeSelect, true);
 
   for (var field in missionItemModel.getFields()) {
-    var displayName = mavelous.missionItemFieldDisplayName(missionItemModel.getTypeName(), field);
+    var displayName = mavelous.missionItemFieldDisplayName(
+      missionItemModel.getTypeName(), field);
     this.addChildCell(missionItem, new mavelous.ui.Label(displayName), true);
     var value = missionItemModel.getFieldValue(field);
     var input = new mavelous.ui.Input(value);
@@ -121,7 +127,7 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
 
   // Note that the following approach would not have worked because using
   // goog.ui.decorate() creates a checkbox that is already in the document, so
-  // it cannot be added to missioniTem because it is not in the document yet,
+  // it cannot be added to missionItem because it is not in the document yet,
   // as it is in the process of being decorated. In this case, decorate() must
   // be called after addChild(), as demonstrated in the working code earlier.
   //
@@ -143,9 +149,9 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
  */
 mavelous.ui.MissionItem = function(item, renderer) {
   goog.base(this, null /* content */, renderer);
-  this.setSupportedState(goog.ui.Component.State.CHECKED, true);
-  this.setAutoStates(goog.ui.Component.State.CHECKED, false);
-  this.setSupportedState(goog.ui.Component.State.FOCUSED, false);
+  //this.setSupportedState(goog.ui.Component.State.CHECKED, true);
+  //this.setAutoStates(goog.ui.Component.State.CHECKED, false);
+  //this.setSupportedState(goog.ui.Component.State.FOCUSED, false);
 
   if (!item) {
     item = {id: 'temp-' + goog.ui.IdGenerator.getInstance().getNextUniqueId(),
@@ -171,13 +177,13 @@ mavelous.ui.MissionItem.prototype.isItemChecked = function() {
 
 
 /** @inheritDoc */
-mavelous.ui.MissionItem.prototype.enterDocument = function() {
-  goog.base(this, 'enterDocument');
-  var checkbox = this.getChildAt(0);
-  this.getHandler().listen(checkbox,
-      [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
-      this.onCheckChange_);
-};
+// mavelous.ui.MissionItem.prototype.enterDocument = function() {
+//   goog.base(this, 'enterDocument');
+//   var checkbox = this.getChildAt(0);
+//   this.getHandler().listen(checkbox,
+//       [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
+//       this.onCheckChange_);
+// };
 
 /**
  * Update the internal MissionItem when the checked state of the checkbox
@@ -185,11 +191,11 @@ mavelous.ui.MissionItem.prototype.enterDocument = function() {
  * @param {goog.events.Event} e The event.
  * @private
  */
-mavelous.ui.MissionItem.prototype.onCheckChange_ = function(e) {
-  var isChecked = (e.type == goog.ui.Component.EventType.CHECK);
-  this.getModel().checked = isChecked;
-  this.setChecked(isChecked);
-};
+// mavelous.ui.MissionItem.prototype.onCheckChange_ = function(e) {
+//   var isChecked = (e.type == goog.ui.Component.EventType.CHECK);
+//   this.getModel().checked = isChecked;
+//   this.setChecked(isChecked);
+// };
 
 goog.ui.registry.setDefaultRenderer(mavelous.ui.MissionItem,
     mavelous.ui.MissionItemRenderer);
@@ -288,7 +294,7 @@ mavelous.ui.MissionRenderer.prototype.createDom = function(missionContainer) {
   var el = missionContainer.getDomHelper().createDom(
     'table',
     this.getClassNames(missionContainer).join(' '));
-  var el = goog.base(this, 'createDom', missionContainer);
+  //var el = goog.base(this, 'createDom', missionContainer);
   missionContainer.setElementInternal(el);
 
   var mission = missionContainer.getModel();
@@ -342,31 +348,31 @@ goog.inherits(mavelous.ui.Mission, goog.ui.Container);
 mavelous.ui.Mission.prototype.getModel;
 
 /** @inheritDoc */
-mavelous.ui.Mission.prototype.enterDocument = function() {
-  goog.base(this, 'enterDocument');
-  this.getHandler().listen(this,
-      [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
-      this.onCheckChange_);
-};
+// mavelous.ui.Mission.prototype.enterDocument = function() {
+//   goog.base(this, 'enterDocument');
+//   // this.getHandler().listen(this,
+//   //     [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
+//   //     this.onCheckChange_);
+// };
 
 /**
  * @param {goog.events.Event} e
  * @private
  */
-mavelous.ui.Mission.prototype.onCheckChange_ = function(e) {
-  // The mavelous.ui.Mission class chooses to keep CHECK and UNCHECK events to
-  // itself by preventing such events from bubbling upward. Instead, it expects
-  // clients to listen to its custom CHECKED_COUNT_CHANGED events for updates.
-  e.stopPropagation();
-  this.dispatchEvent(new goog.events.Event(
-      mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED, this));
-};
+// mavelous.ui.Mission.prototype.onCheckChange_ = function(e) {
+//   // The mavelous.ui.Mission class chooses to keep CHECK and UNCHECK events to
+//   // itself by preventing such events from bubbling upward. Instead, it expects
+//   // clients to listen to its custom CHECKED_COUNT_CHANGED events for updates.
+//   e.stopPropagation();
+//   this.dispatchEvent(new goog.events.Event(
+//       mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED, this));
+// };
 
 
 /** @enum {string} */
-mavelous.ui.Mission.EventType = {
-  CHECKED_COUNT_CHANGED: goog.events.getUniqueId('checked-count-changed')
-};
+// mavelous.ui.Mission.EventType = {
+//   CHECKED_COUNT_CHANGED: goog.events.getUniqueId('checked-count-changed')
+// };
 
 goog.ui.registry.setDefaultRenderer(
   mavelous.ui.Mission,

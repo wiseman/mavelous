@@ -53,14 +53,14 @@ var updateListenerCount = function() {
   goog.dom.getElement('listener-count').innerHTML =
       goog.events.getTotalListenerCount();
 };
-var updateNumChecked = function(e) {
-  goog.dom.getElement('num-checked').innerHTML =
-      e.target.getModel().getNumChecked();
-};
+// var updateNumChecked = function(e) {
+//   goog.dom.getElement('num-checked').innerHTML =
+//       e.target.getModel().getNumChecked();
+// };
 
-goog.events.listen(container,
-    mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED,
-    updateNumChecked);
+// goog.events.listen(container,
+//     mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED,
+//     updateNumChecked);
 
 updateListenerCount();
 </script>
