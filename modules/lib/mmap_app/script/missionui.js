@@ -87,11 +87,11 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
     var value = missionItemModel.getFieldValue(field);
     var input = new mavelous.ui.Input(value);
     missionItem.addChild(input, true);
+    input.setSupportedState(goog.ui.Component.State.FOCUSED, true);
     goog.dom.classes.add(input.getElement(), 'mavelous-missionitem-field');
   }
 
   missionItem.setChecked(isItemChecked);
-
   return el;
 };
 
@@ -166,13 +166,14 @@ mavelous.ui.MissionItem.prototype.isItemChecked = function() {
 
 
 /** @inheritDoc */
-// mavelous.ui.MissionItem.prototype.enterDocument = function() {
-//   goog.base(this, 'enterDocument');
-//   var checkbox = this.getChildAt(0);
-//   this.getHandler().listen(checkbox,
-//       [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
-//       this.onCheckChange_);
-// };
+mavelous.ui.MissionItem.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  var checkbox = this.getChildAt(0);
+  this.getHandler().listen(checkbox,
+      [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
+      this.onCheckChange_);
+  this.setAllowTextSelection(true);
+};
 
 /**
  * Update the internal MissionItem when the checked state of the checkbox
@@ -236,7 +237,7 @@ mavelous.ui.Label.prototype.decorateInternal = function(element) {
 
 /**
  * @constructor
- * @extends {goog.ui.BidiInput}
+ * @extends {goog.ui.Control}
  */
 mavelous.ui.Input = function(value) {
   goog.base(this);
@@ -247,13 +248,13 @@ mavelous.ui.Input = function(value) {
    */
   this.value_ = goog.isDef(value) ? value : '';
 };
-goog.inherits(mavelous.ui.Input, goog.ui.BidiInput);
+goog.inherits(mavelous.ui.Input, goog.ui.Control);
 
 /** @inheritDoc */
 mavelous.ui.Input.prototype.createDom = function() {
   this.setElementInternal(
-    this.getDomHelper().createDom('input', {'type': 'text', 'value': this.value_}));
-  this.init_();
+    this.getDomHelper().createDom('input', {'type': 'text', 'size': '5', 'value': this.value_}));
+  goog.style.setUnselectable(this.getElement(), false, true);
 };
 
 
@@ -313,6 +314,25 @@ mavelous.ui.MissionRenderer.prototype.decorate = function(
   return element;
 };
 
+/**
+ * @inheritDoc
+ */
+goog.ui.ContainerRenderer.prototype.initializeDom = function(container) {
+  var elem = container.getElement();
+
+  // IE doesn't support outline:none, so we have to use the hideFocus property.
+  if (goog.userAgent.IE) {
+    elem.hideFocus = true;
+  }
+
+  // Set the ARIA role.
+  var ariaRole = this.getAriaRole();
+  if (ariaRole) {
+    goog.dom.a11y.setRole(elem, ariaRole);
+  }
+};
+
+
 
 /**
  * @param {mavelous.Mission} mission
@@ -334,12 +354,10 @@ goog.inherits(mavelous.ui.Mission, goog.ui.Container);
 mavelous.ui.Mission.prototype.getModel;
 
 /** @inheritDoc */
-// mavelous.ui.Mission.prototype.enterDocument = function() {
-//   goog.base(this, 'enterDocument');
-//   // this.getHandler().listen(this,
-//   //     [goog.ui.Component.EventType.CHECK, goog.ui.Component.EventType.UNCHECK],
-//   //     this.onCheckChange_);
-// };
+mavelous.ui.Mission.prototype.enterDocument = function() {
+  goog.base(this, 'enterDocument');
+  //goog.style.setUnselectable(this.getElement(), true, false);
+};
 
 /**
  * @param {goog.events.Event} e
