@@ -41,12 +41,23 @@ mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
 };
 
+mavelous.ui.MissionItemRenderer.prototype.addChildCell = function(
+  container, child, opt_render) {
+  var td = new goog.ui.Control();
+  td.setElementInternal(goog.dom.createDom('td'));
+  opt_render = opt_render || false;
+  td.addChild(child, opt_render);
+  container.addChild(td, opt_render);
+};
+
 /**
  * @param {mavelous.ui.MissionItem} missionItem  The item.
  * @return {Element}  The new UI element.
  */
 mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
-  var el = goog.base(this, 'createDom', missionItem);
+  var el = missionItem.getDomHelper().createDom(
+    'tr',
+    this.getClassNames(missionItem).join(' '));
   // Admittedly, this violates the protected visibility of setElementInternal(),
   // but missionItem needs to have a DOM before its addChild() method can be
   // invoked later in this method.
@@ -59,7 +70,7 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
   var checkboxState = isItemChecked ?
       goog.ui.Checkbox.State.CHECKED : goog.ui.Checkbox.State.UNCHECKED;
   var checkbox = new goog.ui.Checkbox(checkboxState, dom);
-  missionItem.addChild(checkbox, true /* opt_render */);
+  this.addChildCell(missionItem, checkbox, true /* opt_render */);
 
   var typeSelect = new goog.ui.Select(
     null, null, goog.ui.FlatMenuButtonRenderer.getInstance(), dom);
@@ -74,14 +85,14 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
   if (selectedItem) {
     typeSelect.setSelectedItem(selectedItem);
   }
-  missionItem.addChild(typeSelect, true);
+  this.addChildCell(missionItem, typeSelect, true);
 
   for (var field in missionItemModel.getFields()) {
     var displayName = mavelous.missionItemFieldDisplayName(missionItemModel.getTypeName(), field);
-    missionItem.addChild(new mavelous.ui.Label(displayName), true);
+    this.addChildCell(missionItem, new mavelous.ui.Label(displayName), true);
     var value = missionItemModel.getFieldValue(field);
     var input = new mavelous.ui.Input(value);
-    missionItem.addChild(input, true);
+    this.addChildCell(missionItem, input, true);
   }
 
   missionItem.setChecked(isItemChecked);
@@ -274,6 +285,9 @@ mavelous.ui.MissionRenderer.prototype.getCssClass = function() {
  * @return {Element} The new element.
  */
 mavelous.ui.MissionRenderer.prototype.createDom = function(missionContainer) {
+  var el = missionContainer.getDomHelper().createDom(
+    'table',
+    this.getClassNames(missionContainer).join(' '));
   var el = goog.base(this, 'createDom', missionContainer);
   missionContainer.setElementInternal(el);
 
