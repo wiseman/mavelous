@@ -80,7 +80,6 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
   goog.events.listen(
     typeSelect, goog.ui.Component.EventType.ACTION,
     function(e) {
-      console.log(e);
       this.changeMissionItemType(e.target.getValue());
     },
     false,
@@ -103,7 +102,6 @@ mavelous.ui.MissionItemRenderer.prototype.populateFields = function(
   missionItem) {
   var missionItemModel = missionItem.getModel();
   for (var field in missionItemModel.getFields()) {
-    console.log('Adding ' + field);
     var displayName = mavelous.missionItemFieldDisplayName(
       missionItemModel.getTypeName(), field);
     var label = new mavelous.ui.Label(displayName);
@@ -199,29 +197,13 @@ mavelous.ui.MissionItem.prototype.addField = function(field) {
  * @param {mavelous.MissionItemType} itemType The mission item type.
  */
 mavelous.ui.MissionItem.prototype.changeMissionItemType = function(itemType) {
-  console.log('changeMissionItemType to ' + itemType);
   this.getModel().setType(mavelous.MissionItemType[itemType]);
-  console.log('BEFORE:');
-  this.forEachChild(function(child) {
-    console.log(child);
-  });
   for (var i = 0; i < this.fields.length; i++) {
-    console.log('Removing child #' + i);
     this.removeChild(this.fields[i], false);
     this.fields[i].dispose();
   }
   goog.array.clear(this.fields);
-  console.log('AFTER REMOVAL:');
-  this.forEachChild(function(child) {
-    console.log(child);
-  });
   this.getRenderer().populateFields(this);
-  console.log('AFTER POPULATING:');
-  this.forEachChild(function(child) {
-    console.log(child);
-  });
-  console.log('# children: ' + this.getChildCount());
-  console.log(this);
 };
 
 
@@ -379,7 +361,6 @@ mavelous.ui.MissionRenderer.prototype.createDom = function(missionContainer) {
  */
 mavelous.ui.MissionRenderer.prototype.decorate = function(
     missionContainer, element) {
-  console.log('Decorating');
   goog.base(this, 'decorate', missionContainer, element);
 
   var items = [];

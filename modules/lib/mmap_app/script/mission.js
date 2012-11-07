@@ -40,9 +40,7 @@ mavelous.MissionItem = function(id, type, opt_values) {
 mavelous.MissionItem.prototype.initializeFieldValues_ = function() {
   this.fieldValues = {};
   var fields = this.getFields();
-  console.log('Initializing fields for type ' + this.type_.name);
   for (var i = 0; i < fields.length; i++) {
-    console.log('Nulling field ' + fields[i]);
     this.setFieldValue(fields[i], null);
   }
 };
@@ -52,14 +50,9 @@ mavelous.MissionItem.prototype.initializeFieldValues_ = function() {
  * @param {mavelous.MissionItemType} type The new type.
  */
 mavelous.MissionItem.prototype.setType = function(type) {
-  console.log('Setting type to:');
-  console.log(type);
-  console.log(goog.object.getValues(mavelous.MissionItemType));
   goog.asserts.assert(
     goog.array.contains(goog.object.getValues(mavelous.MissionItemType), type),
     'Not a mavelous.MissionItemType: ' + type);
-  console.log('Setting type to:');
-  console.log(type);
   this.type_ = type;
   this.initializeFieldValues_();
 };
