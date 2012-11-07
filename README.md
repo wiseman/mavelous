@@ -120,7 +120,7 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
     GUIDED> module load mmap
     ```
 
-A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
+    A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
 
 5. Take off.  Soon, arducopter may support automated take-off.  Until then:
 
