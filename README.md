@@ -48,6 +48,11 @@ Then install CherryPy and Flask.  The easiest way is with
 $ pip install flask cherrypy
 ```
 
+You will also need to install a python libarary that mavproxy depends on:
+
+```
+$ pip install pyserial
+```
 
 How to run it
 -------------
