@@ -20,11 +20,10 @@ mavelous.Error = {
  * @param {object=} opt_values Field values.
  * @constructor
  */
-mavelous.MissionItem = function(id, type, opt_values) {
+mavelous.MissionItem = function(type, opt_values) {
   if (!(type in goog.object.transpose(mavelous.MissionItemType))) {
     throw Error(mavelous.Error.INVALID_MISSION_ITEM_TYPE + ' ' + type);
   }
-  this.id = id;
   this.type_ = type;
   this.checked = true;
   this.initializeFieldValues_();

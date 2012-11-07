@@ -46,9 +46,6 @@ input.mavelous-missionitem-field {
 <body>
 <div id="mission"></div>
 
-Number of event listeners: <span id="listener-count"></span><br>
-Number of checked items: <span id="num-checked"></span><br>
-
 <script src="third_party/closure-library/closure/goog/base.js"></script>
 <script src="script/mission-deps.js"></script>
 <!--
@@ -61,30 +58,16 @@ Number of checked items: <span id="num-checked"></span><br>
 
 <script>
 var mission = new mavelous.Mission([
-  new mavelous.MissionItem('1', mavelous.MissionItemType.TAKEOFF, {z: 100}),
-  new mavelous.MissionItem('2', mavelous.MissionItemType.WAYPOINT, {x: 10, y: 4, z: 10, p1: 5.0, p2: 5.0, p4: 0.0}),
-  new mavelous.MissionItem('3', mavelous.MissionItemType.CONDITION_YAW, {p1: 180, p2: 5.0, p3: 1, p4: 0}),
-  new mavelous.MissionItem('4', mavelous.MissionItemType.LAND)
+  new mavelous.MissionItem(mavelous.MissionItemType.TAKEOFF, {z: 100}),
+  new mavelous.MissionItem(mavelous.MissionItemType.WAYPOINT, {x: 10, y: 4, z: 10, p1: 5.0, p2: 5.0, p4: 0.0}),
+  new mavelous.MissionItem(mavelous.MissionItemType.CONDITION_YAW, {p1: 180, p2: 5.0, p3: 1, p4: 0}),
+  new mavelous.MissionItem(mavelous.MissionItemType.LAND)
   ]);
 
 // Rendering example.
 var container = new mavelous.ui.Mission(mission);
 container.render(goog.dom.getElement('mission'));  
 
-var updateListenerCount = function() {
-  goog.dom.getElement('listener-count').innerHTML =
-      goog.events.getTotalListenerCount();
-};
-// var updateNumChecked = function(e) {
-//   goog.dom.getElement('num-checked').innerHTML =
-//       e.target.getModel().getNumChecked();
-// };
-
-// goog.events.listen(container,
-//     mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED,
-//     updateNumChecked);
-
-updateListenerCount();
 </script>
 <body>
 
