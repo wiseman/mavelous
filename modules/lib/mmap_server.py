@@ -46,6 +46,7 @@ def guide_handler():
   app.module_state.guide(body_obj)
   return 'OK'
 
+
 @app.route('/command_long', methods=['POST'])
 def command_long_handler():
   # FIXME: I couldn't figure out how to get jquery to send a
@@ -55,10 +56,17 @@ def command_long_handler():
   app.module_state.command_long(body_obj)
   return 'OK'
 
+
 @app.route('/rcoverride', methods=['POST'])
 def rcoverride_handler():
   body_obj = json.loads(flask.request.form.keys()[0])
   app.module_state.rcoverride(body_obj)
+  return 'OK'
+
+
+@app.route('/get_mission', methods=['POST'])
+def get_mission_handler():
+  app.module_state.get_mission()
   return 'OK'
 
 
