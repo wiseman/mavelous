@@ -38,7 +38,7 @@ class MessageMemo(object):
     if mtype == "GPS_RAW_INT":
       self.time = m.time_usec
     if mtype in self._d:
-      (oldtime, n, oldm) = self._d[mtype]
+      (unused_oldtime, n, unused_oldm) = self._d[mtype]
       self._d[mtype] = (self.time, n + 1, m)
     else:
       self._d[mtype] = (self.time, 0, m)
@@ -59,6 +59,7 @@ class MessageMemo(object):
       return True
     else:
       return False
+
 
 class LinkStateThread(threading.Thread):
   def __init__(self, parent, module_context):
@@ -82,13 +83,12 @@ class LinkStateThread(threading.Thread):
 
   def update_meta_linkquality(self):
     master = self.module_context.mav_master[0]
-    d = { "master_in": 
-            self.module_context.status.counters['MasterIn'][0]
-        , "master_out": 
-            self.module_context.status.counters['MasterOut']
-        , "mav_loss": master.mav_loss
-        , "packet_loss": master.packet_loss()
-        }
+    d = {
+      "master_in": self.module_context.status.counters['MasterIn'][0],
+      "master_out": self.module_context.status.counters['MasterOut'],
+      "mav_loss": master.mav_loss,
+      "packet_loss": master.packet_loss()
+      }
     msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
     self.parent.messages.insert_message(msg)
 
@@ -124,67 +124,67 @@ class ModuleState(object):
         return 65535  # See https://github.com/mavlink/mavlink/issues/72
 
     msg = mavlinkv10.MAVLink_rc_channels_override_message(
-            self.module_context.status.target_system,
-            self.module_context.status.target_component,
-            validate(msg, 'ch1'),
-            validate(msg, 'ch2'),
-            validate(msg, 'ch3'),
-            validate(msg, 'ch4'),
-            validate(msg, 'ch5'),
-            validate(msg, 'ch6'),
-            validate(msg, 'ch7'),
-            validate(msg, 'ch8'))
+      self.module_context.status.target_system,
+      self.module_context.status.target_component,
+      validate(msg, 'ch1'),
+      validate(msg, 'ch2'),
+      validate(msg, 'ch3'),
+      validate(msg, 'ch4'),
+      validate(msg, 'ch5'),
+      validate(msg, 'ch6'),
+      validate(msg, 'ch7'),
+      validate(msg, 'ch8'))
     self.module_context.queue_message(msg)
 
   def command_long(self, m):
     if m['command'] == 'NAV_LOITER_UNLIM':
       msg = mavlinkv10.MAVLink_command_long_message(
-              self.module_context.status.target_system,    # target_system
-              self.module_context.status.target_component, # target_component
-              mavlinkv10.MAV_CMD_NAV_LOITER_UNLIM,  # command
-              0, # confirmation
-              0, # param1
-              0, # param2
-              0, # param3
-              0, # param4
-              0, # param5
-              0, # param6
-              0) # param7
+        self.module_context.status.target_system,  # target_system
+        self.module_context.status.target_component,  # target_component
+        mavlinkv10.MAV_CMD_NAV_LOITER_UNLIM,  # command
+        0,  # confirmation
+        0,  # param1
+        0,  # param2
+        0,  # param3
+        0,  # param4
+        0,  # param5
+        0,  # param6
+        0)  # param7
       self.module_context.queue_message(msg)
     elif m['command'] == 'NAV_RETURN_TO_LAUNCH':
       msg = mavlinkv10.MAVLink_command_long_message(
-              self.module_context.status.target_system,    # target_system
-              self.module_context.status.target_component, # target_component
-              mavlinkv10.MAV_CMD_NAV_RETURN_TO_LAUNCH,  # command
-              0, # confirmation
-              0, # param1
-              0, # param2
-              0, # param3
-              0, # param4
-              0, # param5
-              0, # param6
-              0) # param7
+        self.module_context.status.target_system,  # target_system
+        self.module_context.status.target_component,  # target_component
+        mavlinkv10.MAV_CMD_NAV_RETURN_TO_LAUNCH,  # command
+        0,  # confirmation
+        0,  # param1
+        0,  # param2
+        0,  # param3
+        0,  # param4
+        0,  # param5
+        0,  # param6
+        0)  # param7
       self.module_context.queue_message(msg)
     elif m['command'] == 'NAV_LAND':
       msg = mavlinkv10.MAVLink_command_long_message(
-              self.module_context.status.target_system,    # target_system
-              self.module_context.status.target_component, # target_component
-              mavlinkv10.MAV_CMD_NAV_LAND,  # command
-              0, # confirmation
-              0, # param1
-              0, # param2
-              0, # param3
-              0, # param4
-              0, # param5
-              0, # param6
-              0) # param7
+        self.module_context.status.target_system,    # target_system
+        self.module_context.status.target_component,  # target_component
+        mavlinkv10.MAV_CMD_NAV_LAND,  # command
+        0,  # confirmation
+        0,  # param1
+        0,  # param2
+        0,  # param3
+        0,  # param4
+        0,  # param5
+        0,  # param6
+        0)  # param7
       self.module_context.queue_message(msg)
     elif m['command'] == 'COMPONENT_ARM_DISARM':
       # First, decode component, a required field
       if 'component' not in m:
         return
       if m['component'] == 'default':
-        component = self.module_context.status.target_component 
+        component = self.module_context.status.target_component
       elif m['component'] == 'SYSTEM_CONTROL':
         component = mavlinkv10.MAV_COMP_ID_SYSTEM_CONTROL
       elif type(m['component']) == int:
@@ -202,17 +202,17 @@ class ModuleState(object):
         return
       # finally form a message
       msg = mavlinkv10.MAVLink_command_long_message(
-              self.module_context.status.target_system,    # target_system
-              component, # target_component
-              mavlinkv10.MAV_CMD_COMPONENT_ARM_DISARM,  # command
-              0, # confirmation
-              param1, # param1
-              0, # param2
-              0, # param3
-              0, # param4
-              0, # param5
-              0, # param6
-              0) # param7
+        self.module_context.status.target_system,  # target_system
+        component,  # target_component
+        mavlinkv10.MAV_CMD_COMPONENT_ARM_DISARM,  # command
+        0,  # confirmation
+        param1,  # param1
+        0,  # param2
+        0,  # param3
+        0,  # param4
+        0,  # param5
+        0,  # param6
+        0)  # param7
       print msg
       self.module_context.queue_message(msg)
 
@@ -229,7 +229,7 @@ class ModuleState(object):
     # Expects float, but json sometimes decodes to int:
     x = float(command['location']['lat'])
     y = float(command['location']['lon'])
-    z = float(command['location']['alt']) 
+    z = float(command['location']['alt'])
     self.client_waypoint = command['location']
     self.client_waypoint_seq += 1
     # APM specific current value, 2 means this is a "guided mode"
@@ -242,8 +242,9 @@ class ModuleState(object):
       seq, frame, cmd, current, autocontinue, param1, param2, param3, param4,
       x, y, z)
     self.module_context.queue_message(msg)
-    msg = MetaMessage(msg_type='META_WAYPOINT',
-        data={'waypoint': {'lat': x, 'lon': y, 'alt': z }})
+    msg = MetaMessage(
+      msg_type='META_WAYPOINT',
+      data={'waypoint': {'lat': x, 'lon': y, 'alt': z}})
     self.messages.insert_message(msg)
 
 
@@ -278,7 +279,6 @@ def unload():
   print "mmap module unload"
   global g_module_context
   g_module_context.mmap_state.terminate()
-
 
 
 def mavlink_packet(m):
