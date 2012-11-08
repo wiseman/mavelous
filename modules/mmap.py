@@ -216,6 +216,12 @@ class ModuleState(object):
       print msg
       self.module_context.queue_message(msg)
 
+  def get_mission(self):
+    msg = mavlinkv10.MAVLink_mission_request_list_message(
+      self.module_context.status.target_system,
+      self.module_context.status.target_component)
+    self.module_context.queue_message(msg)
+
   def guide(self, command):
     # First draft, assumes the command has a location and we want to
     # fly to the location right now.
