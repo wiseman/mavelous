@@ -9,7 +9,7 @@ import mavlinkv10
 # FIXME: Please.
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.realpath(__file__)), 'lib'))
-import mmap_server
+import mavelous_server
 
 
 logger = logging.getLogger(__name__)
@@ -110,7 +110,7 @@ class ModuleState(object):
     self.linkstatethread.start()
 
   def terminate(self):
-    logger.info('mmap module state terminate')
+    logger.info('mavelous module state terminate')
     self.server.terminate()
     self.linkstatethread.terminate()
 
@@ -259,7 +259,7 @@ class ModuleState(object):
 
 def name():
   """Returns the module name."""
-  return 'mmap'
+  return 'mavelous'
 
 
 def description():
@@ -277,8 +277,8 @@ def init(module_context):
     level=logging.INFO,
     format='%(asctime)s:%(levelname)s:%(module)s:%(lineno)d: %(message)s')
   state = ModuleState(module_context)
-  g_module_context.mmap_state = state
-  state.server = mmap_server.start_server(
+  g_module_context.mavelous_state = state
+  state.server = mavelous_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
   webbrowser.open('http://127.0.0.1:9999/', autoraise=True)
 
@@ -288,9 +288,9 @@ def unload():
 
   Called by mavproxy.
   """
-  logger.info('mmap module unload')
+  logger.info('mavelous module unload')
   global g_module_context
-  g_module_context.mmap_state.terminate()
+  g_module_context.mavelous_state.terminate()
 
 
 def mavlink_packet(m):
@@ -299,7 +299,7 @@ def mavlink_packet(m):
   Called by mavproxy.
   """
   global g_module_context
-  state = g_module_context.mmap_state
+  state = g_module_context.mavelous_state
   state.messages.insert_message(m)
   # if the waypoints have changed, redisplay
   if state.wp_change_time != g_module_context.status.wploader.last_change:

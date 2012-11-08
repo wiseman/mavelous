@@ -10,7 +10,7 @@ from werkzeug import wsgi
 
 app = flask.Flask(__name__)
 
-DOC_DIR = os.path.join(os.path.dirname(__file__), 'mmap_app')
+DOC_DIR = os.path.join(os.path.dirname(__file__), 'mavelous_web')
 
 app.wsgi_app = wsgi.SharedDataMiddleware(
   app.wsgi_app,
