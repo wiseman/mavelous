@@ -9,9 +9,9 @@
 // Requirements:
 //   * Kineticjs
 
-$(function(){
+$(function() {
   window.Mavelous = window.Mavelous || {};
-  
+
   // The artificial horizon is implemented as a Kinetic Shape subclass.
 
   Mavelous.ArtificialHorizon = Kinetic.Shape.extend({
@@ -24,12 +24,12 @@ $(function(){
       lineColor: '#ffffff',
       planeColor: 'black'
     });
-    
+
     this.shapeType = 'ArtificialHorizon';
     this.radius = Math.min(config.width, config.height) / 2.0;
     this.pitch = 0;
     this.roll = 0;
-        
+
     config.drawFunc = function() {
       var horizon = this.getHorizon_(this.pitch);
       var context = this.getContext();
@@ -49,7 +49,7 @@ $(function(){
       context.rect(-width / 2, -height / 2, width, height);
       context.clip();
 
-      context.rotate(this.roll);
+      context.rotate(-this.roll);
 
       // Draw the ground.
       context.fillStyle = this.attrs.groundColor;
@@ -71,7 +71,7 @@ $(function(){
       context.moveTo(-width / 2, horizon);
       context.lineTo(width / 2, horizon);
       context.stroke();
-      
+
       // Draw the pitch ladder.
       this.drawRung_(30, width * 0.3);
       this.drawRung_(25, width * 0.05);
@@ -119,7 +119,7 @@ $(function(){
       context.lineTo(10, -1);
       context.lineTo(5, 5);
       context.stroke();
-      
+
       context.restore();
     };
 
@@ -170,7 +170,7 @@ $(function(){
     var height = this.attrs.height;
     var width = this.attrs.width;
     context.save();
-    
+
     context.lineWidth = 1;
     context.strokeStyle = this.attrs.lineColor;
     var horizon = this.getHorizon_(this.pitch + offset * Math.PI / 180);
@@ -183,7 +183,7 @@ $(function(){
     context.moveTo(-scaleWidth / 2, horizon);
     context.lineTo(scaleWidth / 2, horizon);
     context.stroke();
-    
+
     context.restore();
   },
 
@@ -222,7 +222,7 @@ $(function(){
         var width = this.attrs.width;
         var height = this.attrs.height;
         canvas.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-        
+
         // Draw a clipping rect.
         canvas.beginPath();
         canvas.rect(0, 0, this.attrs.width, this.attrs.height);
@@ -306,7 +306,7 @@ $(function(){
           }));
         }
       }
-      
+
       // Instantaneous speed text
       this.inst = new Kinetic.Text({
         x: 0,
@@ -365,12 +365,12 @@ $(function(){
   };
   // end of speed tape
   // --------------------
- 
+
   Mavelous.AltTape = function (parent, layer, origin) {
     this.init(parent,layer,origin);
 
   };
- 
+
   Mavelous.AltTape.prototype = {
       // --------------------
       // altitude tape
@@ -425,7 +425,7 @@ $(function(){
           }));
         }
       }
-      
+
       // Instantaneous speed text
       this.inst = new Kinetic.Text({
         x: 7,
@@ -483,14 +483,14 @@ $(function(){
       };
     }
   };
-  
+
   Mavelous.PFD = function(container) {
     this.init(container);
   };
 
   Mavelous.PFD.prototype = {
     containerElement: null,
-    
+
     makeGroup: function(items, config) {
       var group = new Kinetic.Group(config);
       for (var i = 0; i < items.length; i++) {
@@ -535,7 +535,7 @@ $(function(){
         skyColor: this.options.skyColor
       });
       this.layer.add(this.attitudeIndicator);
-      
+
       this.speedTape = new Mavelous.SpeedTape(this, this.layer, {x:0, y:15});
       this.altitudeTape = new Mavelous.AltTape(this, this.layer, {x:170, y:15});
 
@@ -550,7 +550,7 @@ $(function(){
         fontFamily: this.options.fontFamily,
         textFill: this.options.bugColor});
       this.layer.add(this.targetAltitudeDisplay);
-      
+
       // Target speed
       this.targetSpeedDisplay = new Kinetic.Text({
         x: 0,
@@ -567,7 +567,7 @@ $(function(){
     setSize: function (width, height) {
       var aspect = width / height;
       var w, h = 0;
-      if (aspect > (4/3)) { 
+      if (aspect > (4/3)) {
         w = 4/3 * height; h = height;
       } else {
         w = width; h = 3/4 * width;
@@ -579,7 +579,7 @@ $(function(){
     setSpeed: function(speed) {
       var spdTxt = 'ERR';
       if (speed !== null && speed !== undefined) {
-        spdTxt = speed.toString(); 
+        spdTxt = speed.toString();
       }
       if (spdTxt.length > 3) {
         spdTxt = spdTxt.substring(0, 3);
