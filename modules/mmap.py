@@ -11,6 +11,9 @@ sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.realpath(__file__)), 'lib'))
 import mmap_server
 
+
+logger = logging.getLogger(__name__)
+
 g_module_context = None
 
 
@@ -35,7 +38,7 @@ class MessageMemo(object):
 
   def insert_message(self, m):
     mtype = m.get_type().upper()
-    if mtype == "GPS_RAW_INT":
+    if mtype == 'GPS_RAW_INT':
       self.time = m.time_usec
     if mtype in self._d:
       (unused_oldtime, n, unused_oldm) = self._d[mtype]
@@ -78,16 +81,16 @@ class LinkStateThread(threading.Thread):
       self._running_flag = False
 
   def terminate(self):
-    print "terminating metalinkquality!"
+    logger.info('Terminating metalinkquality')
     self.stop.set()
 
   def update_meta_linkquality(self):
     master = self.module_context.mav_master[0]
     d = {
-      "master_in": self.module_context.status.counters['MasterIn'][0],
-      "master_out": self.module_context.status.counters['MasterOut'],
-      "mav_loss": master.mav_loss,
-      "packet_loss": master.packet_loss()
+      'master_in': self.module_context.status.counters['MasterIn'][0],
+      'master_out': self.module_context.status.counters['MasterOut'],
+      'mav_loss': master.mav_loss,
+      'packet_loss': master.packet_loss()
       }
     msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
     self.parent.messages.insert_message(msg)
@@ -107,7 +110,7 @@ class ModuleState(object):
     self.linkstatethread.start()
 
   def terminate(self):
-    print "mmap module state terminate"
+    logger.info('mmap module state terminate')
     self.server.terminate()
     self.linkstatethread.terminate()
 
@@ -213,7 +216,7 @@ class ModuleState(object):
         0,  # param5
         0,  # param6
         0)  # param7
-      print msg
+      logger.info(msg)
       self.module_context.queue_message(msg)
 
   def get_mission(self):
@@ -255,17 +258,17 @@ class ModuleState(object):
 
 
 def name():
-  """return module name"""
+  """Returns the module name."""
   return 'mmap'
 
 
 def description():
-  """return module description"""
+  """Returns the module description."""
   return 'modest map display'
 
 
 def init(module_context):
-  """initialise module"""
+  """Initialise module."""
   global g_module_context
   g_module_context = module_context
   # FIXME: Someday mavproxy should be changed to set logging level and
@@ -281,14 +284,20 @@ def init(module_context):
 
 
 def unload():
-  """unload module"""
-  print "mmap module unload"
+  """Unload module.
+
+  Called by mavproxy.
+  """
+  logger.info('mmap module unload')
   global g_module_context
   g_module_context.mmap_state.terminate()
 
 
 def mavlink_packet(m):
-  """handle an incoming mavlink packet"""
+  """Handle an incoming mavlink packet.
+
+  Called by mavproxy.
+  """
   global g_module_context
   state = g_module_context.mmap_state
   state.messages.insert_message(m)
