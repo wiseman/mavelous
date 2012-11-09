@@ -1,3 +1,4 @@
+import collections
 import logging
 import os
 import sys
@@ -117,6 +118,7 @@ class ModuleState(object):
     self.fence_change_time = 0
     self.server = None
     self._message_memo = MessageMemo()
+    self._message_handlers = collections.defaultdict(list)
     self.module_context = module_context
     self.linkstatethread = LinkStateThread(self, module_context)
     self.linkstatethread.start()
@@ -129,6 +131,17 @@ class ModuleState(object):
   def handle_message(self, message):
     """Processes an incoming Mavlink mssage."""
     self._message_memo.add_message(message)
+    message_type = message.get_type()
+    if message_type in self._message_handlers:
+      logger.info('Calling handlers for message %s', message)
+      for handler in self._message_handlers[message_type]:
+        handler(self, message)
+
+  def add_message_handler(self, message_type, handler):
+    self._message_handlers[message_type].append(handler)
+
+  def remove_message_handler(self, message_type, handler):
+    self._message_handlers[message_type].remove(handler)
 
   def get_messages(self, message_types=None):
     """Gets the most recent messages of each type.
@@ -247,10 +260,19 @@ class ModuleState(object):
       logger.info(msg)
       self.module_context.queue_message(msg)
 
-  def get_mission(self):
+  def get_wp_count(self):
     msg = mavlinkv10.MAVLink_mission_request_list_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component)
+    self.module_context.queue_message(msg)
+
+  def get_wp(self, index):
+    logger.info('get_wp')
+    msg = mavlinkv10.MAVLink_mission_request_message(
+      self.module_context.status.target_system,
+      self.module_context.status.target_component,
+      index)
+    logger.info('get_wp about to queue')
     self.module_context.queue_message(msg)
 
   def guide(self, command):
@@ -327,7 +349,7 @@ def mavlink_packet(m):
   Called by mavproxy.
   """
   global g_module_context
-  logger.info(m)
+  #logger.info(m)
   state = g_module_context.mavelous_state
   state.handle_message(m)
   # if the waypoints have changed, redisplay

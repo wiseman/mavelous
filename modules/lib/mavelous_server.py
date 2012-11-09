@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import os.path
 import threading
@@ -7,6 +8,8 @@ import types
 from cherrypy import wsgiserver
 import flask
 from werkzeug import wsgi
+
+logger = logging.getLogger(__name__)
 
 app = flask.Flask(__name__)
 
@@ -64,10 +67,53 @@ def rcoverride_handler():
   return 'OK'
 
 
+class MissionMessageHandler(object):
+  def __init__(self):
+    self.mission_item_count = None
+    self.waiting_for_wp_num = None
+    self.mission_items = []
+    self.complete = False
+    self.condvar = threading.Condition()
+
+  def __call__(self, state, message):
+    logger.info('%s got %s, %s', self, state, message)
+    message_type = message.get_type()
+    if message_type == 'MISSION_COUNT':
+      self.mission_item_count = message.count
+      self.waiting_for_wp_num = message.count - 1
+      state.add_message_handler('MISSION_ITEM', self)
+    else:
+      self.mission_items.append(message)
+      if self.waiting_for_wp_num == 0:
+        with self.condvar:
+          logger.info('Complete')
+          self.complete = True
+          self.condvar.notifyAll()
+          return
+      else:
+        self.waiting_for_wp_num -= 1
+    logger.info('Requesting WP #%s', self.waiting_for_wp_num)
+    state.get_wp(self.waiting_for_wp_num)
+
+  def wait(self):
+    with self.condvar:
+      while not self.complete:
+        self.condvar.wait()
+
+  def results(self):
+    results = [m.to_dict() for m in sorted(
+        self.mission_items, key=lambda x: x.seq)]
+    logger.info('%s', results)
+    return results
+
+
 @app.route('/get_mission', methods=['POST'])
 def get_mission_handler():
-  app.module_state.get_mission()
-  return 'OK'
+  handler = MissionMessageHandler()
+  app.module_state.add_message_handler('MISSION_COUNT', handler)
+  app.module_state.get_wp_count()
+  handler.wait()
+  return flask.jsonify(results=handler.results())
 
 
 def nul_terminate(s):
