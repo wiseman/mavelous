@@ -32,36 +32,48 @@ class MetaMessage(object):
 
 
 class MessageMemo(object):
+  """Mavlink message memory.
+
+  Keeps track of the most recent Mavlink message of each type.
+
+  All operations are threadsafe.
+  """
   def __init__(self):
-    self._d = dict({})
-    self.time = 0
+    # Messages is keyed by message type, contains entries of the form
+    # (time, sequence_#, message).
+    self._messages = dict({})
+    self._time = 0
+    self._lock = threading.Lock()
 
-  def insert_message(self, m):
-    mtype = m.get_type().upper()
-    if mtype == 'GPS_RAW_INT':
-      self.time = m.time_usec
-    if mtype in self._d:
-      (unused_oldtime, n, unused_oldm) = self._d[mtype]
-      self._d[mtype] = (self.time, n + 1, m)
-    else:
-      self._d[mtype] = (self.time, 0, m)
+  def add_message(self, message):
+    """Adds a message to the memo."""
+    with self._lock:
+      message_type = message.get_type().upper()
+      if message_type == 'GPS_RAW_INT':
+        # Our idea of time comes from the GPS_RAW_INT message.
+        self._time = message.time_usec
+      if message_type in self._messages:
+        (unused_oldtime, n, unused_oldm) = self._messages[message_type]
+        self._messages[message_type] = (self._time, n + 1, message)
+      else:
+        self._messages[message_type] = (self._time, 0, message)
 
-  def get_message(self, mt):
-    mtype = mt.upper()  # arg is case insensitive
-    if mtype in self._d:
-      return self._d[mtype]
-    else:
-      return None
+  def get_messages(self, message_types=None):
+    """Gets messages from the memo.
 
-  def message_types(self):
-    return self._d.keys()
+    Args:
+      message_types: If specified, should be a sequence of message types to
+          return.  If unspecified, all messages will be returned.
 
-  def has_message(self, mt):
-    mtype = mt.upper()
-    if mtype in self._d:
-      return True
-    else:
-      return False
+    Returns:
+      A collection of message entries of the form (time, seq #, message).
+    """
+    with self._lock:
+      if message_types is None:
+        return self._messages.values()
+      else:
+        msgs = self._messages
+        return [msgs[t.upper()] for t in message_types if t.upper() in msgs]
 
 
 class LinkStateThread(threading.Thread):
@@ -93,7 +105,7 @@ class LinkStateThread(threading.Thread):
       'packet_loss': master.packet_loss()
       }
     msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
-    self.parent.messages.insert_message(msg)
+    self.parent.handle_message(msg)
 
 
 class ModuleState(object):
@@ -104,7 +116,7 @@ class ModuleState(object):
     self.waypoints = []
     self.fence_change_time = 0
     self.server = None
-    self.messages = MessageMemo()
+    self._message_memo = MessageMemo()
     self.module_context = module_context
     self.linkstatethread = LinkStateThread(self, module_context)
     self.linkstatethread.start()
@@ -113,6 +125,22 @@ class ModuleState(object):
     logger.info('mavelous module state terminate')
     self.server.terminate()
     self.linkstatethread.terminate()
+
+  def handle_message(self, message):
+    """Processes an incoming Mavlink mssage."""
+    self._message_memo.add_message(message)
+
+  def get_messages(self, message_types=None):
+    """Gets the most recent messages of each type.
+
+    Args:
+      message_types: If specified, should be a sequence of message types to
+          return.  If unspecified, all messages will be returned.
+
+    Returns:
+      A collection of message entries of the form (time, seq #, message).
+    """
+    return self._message_memo.get_messages(message_types=message_types)
 
   def rcoverride(self, msg):
     def validate(rc_msg, key):
@@ -254,7 +282,7 @@ class ModuleState(object):
     msg = MetaMessage(
       msg_type='META_WAYPOINT',
       data={'waypoint': {'lat': x, 'lon': y, 'alt': z}})
-    self.messages.insert_message(msg)
+    self.handle_message(msg)
 
 
 def name():
@@ -299,8 +327,9 @@ def mavlink_packet(m):
   Called by mavproxy.
   """
   global g_module_context
+  logger.info(m)
   state = g_module_context.mavelous_state
-  state.messages.insert_message(m)
+  state.handle_message(m)
   # if the waypoints have changed, redisplay
   if state.wp_change_time != g_module_context.status.wploader.last_change:
     state.wp_change_time = g_module_context.status.wploader.last_change

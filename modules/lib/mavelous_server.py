@@ -24,16 +24,16 @@ def index_view():
 
 @app.route('/mavlink/<msgtypes>')
 def mavlink_view(msgtypes):
-  mtypes = msgtypes.split('+')
-  msgs = app.module_state.messages
+  # Treat '*' as a wildcard.
+  if msgtypes == '*':
+    message_types = None
+  else:
+    message_types = msgtypes.split('+')
   results = {}
-  # Treat * as a wildcard.
-  if mtypes == ['*']:
-    mtypes = msgs.message_types()
-  for mtype in mtypes:
-    if msgs.has_message(mtype):
-      (t, n, m) = msgs.get_message(mtype)
-      results[mtype] = response_dict_for_message(m, t, n)
+  for (time, seq_num, message) in app.module_state.get_messages(
+    message_types=message_types):
+    results[message.get_type()] = response_dict_for_message(
+      message, time, seq_num)
   return flask.jsonify(results)
 
 
