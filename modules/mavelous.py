@@ -134,7 +134,10 @@ class ModuleState(object):
     message_type = message.get_type()
     if message_type in self._message_handlers:
       logger.info('Calling handlers for message %s', message)
-      for handler in self._message_handlers[message_type]:
+      # Make a copy before iterating in case a handler calls
+      # remove_handler.
+      handlers = self._message_handlers[message_type][:]
+      for handler in handlers:
         handler(self, message)
 
   def add_message_handler(self, message_type, handler):

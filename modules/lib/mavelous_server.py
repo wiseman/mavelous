@@ -70,30 +70,25 @@ def rcoverride_handler():
 class MissionMessageHandler(object):
   def __init__(self):
     self.mission_item_count = None
-    self.waiting_for_wp_num = None
     self.mission_items = []
     self.complete = False
     self.condvar = threading.Condition()
 
   def __call__(self, state, message):
-    logger.info('%s got %s, %s', self, state, message)
     message_type = message.get_type()
     if message_type == 'MISSION_COUNT':
-      self.mission_item_count = message.count
-      self.waiting_for_wp_num = message.count - 1
       state.add_message_handler('MISSION_ITEM', self)
+      self.mission_item_count = message.count
+      for i in range(message.count):
+        state.get_wp(i)
     else:
       self.mission_items.append(message)
-      if self.waiting_for_wp_num == 0:
+      if len(self.mission_items) == self.mission_item_count:
         with self.condvar:
-          logger.info('Complete')
           self.complete = True
+          state.remove_message_handler('MISSION_COUNT', self)
+          state.remove_message_handler('MISSION_ITEM', self)
           self.condvar.notifyAll()
-          return
-      else:
-        self.waiting_for_wp_num -= 1
-    logger.info('Requesting WP #%s', self.waiting_for_wp_num)
-    state.get_wp(self.waiting_for_wp_num)
 
   def wait(self):
     with self.condvar:
@@ -103,7 +98,6 @@ class MissionMessageHandler(object):
   def results(self):
     results = [m.to_dict() for m in sorted(
         self.mission_items, key=lambda x: x.seq)]
-    logger.info('%s', results)
     return results
 
 
