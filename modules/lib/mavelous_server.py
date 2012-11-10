@@ -20,6 +20,10 @@ app.wsgi_app = wsgi.SharedDataMiddleware(
   {'/': DOC_DIR})
 
 
+class Error(Exception):
+  pass
+
+
 @app.route('/')
 def index_view():
   return flask.redirect('/index.html')
@@ -69,36 +73,48 @@ def rcoverride_handler():
 
 class MissionMessageHandler(object):
   def __init__(self):
-    self.mission_item_count = None
-    self.mission_items = []
-    self.complete = False
-    self.condvar = threading.Condition()
+    self._mission_item_count = None
+    self._mission_items = []
+    self._complete = False
+    self._condvar = threading.Condition()
 
   def __call__(self, state, message):
-    message_type = message.get_type()
-    if message_type == 'MISSION_COUNT':
-      state.add_message_handler('MISSION_ITEM', self)
-      self.mission_item_count = message.count
-      for i in range(message.count):
-        state.get_wp(i)
-    else:
-      self.mission_items.append(message)
-      if len(self.mission_items) == self.mission_item_count:
-        with self.condvar:
-          self.complete = True
+    """Called by mavelous.ModuleState to handle messages.
+
+    Expects to get one MISSION_COUNT message, then multiple
+    MISSION_ITEM messages.
+    """
+    with self._condvar:
+      message_type = message.get_type()
+      if message_type == 'MISSION_COUNT':
+        state.add_message_handler('MISSION_ITEM', self)
+        self._mission_item_count = message.count
+        # Spam all our waypoint request messages to reduce overall
+        # latency. Works in SITL, needs to be tested in the real thing.
+        for i in range(message.count):
+          state.get_wp(i)
+      elif message_type == 'MISSION_ITEM':
+        self._mission_items.append(message)
+        if len(self._mission_items) == self._mission_item_count:
+          # We're done; clean up.
+          self._complete = True
           state.remove_message_handler('MISSION_COUNT', self)
           state.remove_message_handler('MISSION_ITEM', self)
-          self.condvar.notifyAll()
+          self._condvar.notifyAll()
+      else:
+        raise Error('Unexpected message type %s', message)
 
   def wait(self):
-    with self.condvar:
-      while not self.complete:
-        self.condvar.wait()
+    with self._condvar:
+      while not self._complete:
+        self._condvar.wait()
 
   def results(self):
-    results = [m.to_dict() for m in sorted(
-        self.mission_items, key=lambda x: x.seq)]
-    return results
+    self.wait()
+    with self._condvar:
+      results = [m.to_dict() for m in sorted(
+          self._mission_items, key=lambda x: x.seq)]
+      return results
 
 
 @app.route('/get_mission', methods=['POST'])
@@ -106,7 +122,6 @@ def get_mission_handler():
   handler = MissionMessageHandler()
   app.module_state.add_message_handler('MISSION_COUNT', handler)
   app.module_state.get_wp_count()
-  handler.wait()
   return flask.jsonify(results=handler.results())
 
 
