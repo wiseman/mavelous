@@ -104,16 +104,18 @@ mavelous.ui.MissionItemRenderer.prototype.populateFields = function(
   for (var field in missionItemModel.getFields()) {
     var displayName = mavelous.missionItemFieldDisplayName(
       missionItemModel.getTypeName(), field);
-    var label = new mavelous.ui.Label(displayName);
-    missionItem.addChild(label, true);
-    goog.dom.classes.add(label.getElement(), 'mavelous-missionitem-field');
-    var value = missionItemModel.getFieldValue(field);
-    var input = new mavelous.ui.Input(value);
-    missionItem.addChild(input, true);
-    input.setSupportedState(goog.ui.Component.State.FOCUSED, true);
-    goog.dom.classes.add(input.getElement(), 'mavelous-missionitem-field');
-    missionItem.addField(label);
-    missionItem.addField(input);
+    if (!goog.isNull(displayName)) {
+      var label = new mavelous.ui.Label(displayName);
+      missionItem.addChild(label, true);
+      goog.dom.classes.add(label.getElement(), 'mavelous-missionitem-field');
+      var value = missionItemModel.getFieldValue(field);
+      var input = new mavelous.ui.Input(value);
+      missionItem.addChild(input, true);
+      input.setSupportedState(goog.ui.Component.State.FOCUSED, true);
+      goog.dom.classes.add(input.getElement(), 'mavelous-missionitem-field');
+      missionItem.addField(label);
+      missionItem.addField(input);
+    }
   }
 
 };
