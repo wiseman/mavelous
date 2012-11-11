@@ -1,3 +1,4 @@
+import collections
 import logging
 import os
 import sys
@@ -9,7 +10,10 @@ import mavlinkv10
 # FIXME: Please.
 sys.path.insert(0, os.path.join(
     os.path.dirname(os.path.realpath(__file__)), 'lib'))
-import mmap_server
+import mavelous_server
+
+
+logger = logging.getLogger(__name__)
 
 g_module_context = None
 
@@ -29,36 +33,48 @@ class MetaMessage(object):
 
 
 class MessageMemo(object):
+  """Mavlink message memory.
+
+  Keeps track of the most recent Mavlink message of each type.
+
+  All operations are threadsafe.
+  """
   def __init__(self):
-    self._d = dict({})
-    self.time = 0
+    # Messages is keyed by message type, contains entries of the form
+    # (time, sequence_#, message).
+    self._messages = dict({})
+    self._time = 0
+    self._lock = threading.Lock()
 
-  def insert_message(self, m):
-    mtype = m.get_type().upper()
-    if mtype == "GPS_RAW_INT":
-      self.time = m.time_usec
-    if mtype in self._d:
-      (unused_oldtime, n, unused_oldm) = self._d[mtype]
-      self._d[mtype] = (self.time, n + 1, m)
-    else:
-      self._d[mtype] = (self.time, 0, m)
+  def add_message(self, message):
+    """Adds a message to the memo."""
+    with self._lock:
+      message_type = message.get_type().upper()
+      if message_type == 'GPS_RAW_INT':
+        # Our idea of time comes from the GPS_RAW_INT message.
+        self._time = message.time_usec
+      if message_type in self._messages:
+        (unused_oldtime, n, unused_oldm) = self._messages[message_type]
+        self._messages[message_type] = (self._time, n + 1, message)
+      else:
+        self._messages[message_type] = (self._time, 0, message)
 
-  def get_message(self, mt):
-    mtype = mt.upper()  # arg is case insensitive
-    if mtype in self._d:
-      return self._d[mtype]
-    else:
-      return None
+  def get_messages(self, message_types=None):
+    """Gets messages from the memo.
 
-  def message_types(self):
-    return self._d.keys()
+    Args:
+      message_types: If specified, should be a sequence of message types to
+          return.  If unspecified, all messages will be returned.
 
-  def has_message(self, mt):
-    mtype = mt.upper()
-    if mtype in self._d:
-      return True
-    else:
-      return False
+    Returns:
+      A collection of message entries of the form (time, seq #, message).
+    """
+    with self._lock:
+      if message_types is None:
+        return self._messages.values()
+      else:
+        msgs = self._messages
+        return [msgs[t.upper()] for t in message_types if t.upper() in msgs]
 
 
 class LinkStateThread(threading.Thread):
@@ -78,19 +94,19 @@ class LinkStateThread(threading.Thread):
       self._running_flag = False
 
   def terminate(self):
-    print "terminating metalinkquality!"
+    logger.info('Terminating metalinkquality')
     self.stop.set()
 
   def update_meta_linkquality(self):
     master = self.module_context.mav_master[0]
     d = {
-      "master_in": self.module_context.status.counters['MasterIn'][0],
-      "master_out": self.module_context.status.counters['MasterOut'],
-      "mav_loss": master.mav_loss,
-      "packet_loss": master.packet_loss()
+      'master_in': self.module_context.status.counters['MasterIn'][0],
+      'master_out': self.module_context.status.counters['MasterOut'],
+      'mav_loss': master.mav_loss,
+      'packet_loss': master.packet_loss()
       }
     msg = MetaMessage(msg_type='META_LINKQUALITY', data=d)
-    self.parent.messages.insert_message(msg)
+    self.parent.handle_message(msg)
 
 
 class ModuleState(object):
@@ -101,15 +117,46 @@ class ModuleState(object):
     self.waypoints = []
     self.fence_change_time = 0
     self.server = None
-    self.messages = MessageMemo()
+    self._message_memo = MessageMemo()
+    self._message_handlers = collections.defaultdict(list)
     self.module_context = module_context
     self.linkstatethread = LinkStateThread(self, module_context)
     self.linkstatethread.start()
 
   def terminate(self):
-    print "mmap module state terminate"
+    logger.info('mavelous module state terminate')
     self.server.terminate()
     self.linkstatethread.terminate()
+
+  def handle_message(self, message):
+    """Processes an incoming Mavlink mssage."""
+    self._message_memo.add_message(message)
+    message_type = message.get_type()
+    if message_type in self._message_handlers:
+      logger.info('Calling handlers for message %s', message)
+      # Make a copy before iterating in case a handler calls
+      # remove_handler.
+      handlers = self._message_handlers[message_type][:]
+      for handler in handlers:
+        handler(self, message)
+
+  def add_message_handler(self, message_type, handler):
+    self._message_handlers[message_type].append(handler)
+
+  def remove_message_handler(self, message_type, handler):
+    self._message_handlers[message_type].remove(handler)
+
+  def get_messages(self, message_types=None):
+    """Gets the most recent messages of each type.
+
+    Args:
+      message_types: If specified, should be a sequence of message types to
+          return.  If unspecified, all messages will be returned.
+
+    Returns:
+      A collection of message entries of the form (time, seq #, message).
+    """
+    return self._message_memo.get_messages(message_types=message_types)
 
   def rcoverride(self, msg):
     def validate(rc_msg, key):
@@ -213,13 +260,22 @@ class ModuleState(object):
         0,  # param5
         0,  # param6
         0)  # param7
-      print msg
+      logger.info(msg)
       self.module_context.queue_message(msg)
 
-  def get_mission(self):
+  def get_wp_count(self):
     msg = mavlinkv10.MAVLink_mission_request_list_message(
       self.module_context.status.target_system,
       self.module_context.status.target_component)
+    self.module_context.queue_message(msg)
+
+  def get_wp(self, index):
+    logger.info('get_wp')
+    msg = mavlinkv10.MAVLink_mission_request_message(
+      self.module_context.status.target_system,
+      self.module_context.status.target_component,
+      index)
+    logger.info('get_wp about to queue')
     self.module_context.queue_message(msg)
 
   def guide(self, command):
@@ -251,21 +307,21 @@ class ModuleState(object):
     msg = MetaMessage(
       msg_type='META_WAYPOINT',
       data={'waypoint': {'lat': x, 'lon': y, 'alt': z}})
-    self.messages.insert_message(msg)
+    self.handle_message(msg)
 
 
 def name():
-  """return module name"""
-  return 'mmap'
+  """Returns the module name."""
+  return 'mavelous'
 
 
 def description():
-  """return module description"""
+  """Returns the module description."""
   return 'modest map display'
 
 
 def init(module_context):
-  """initialise module"""
+  """Initialise module."""
   global g_module_context
   g_module_context = module_context
   # FIXME: Someday mavproxy should be changed to set logging level and
@@ -274,24 +330,31 @@ def init(module_context):
     level=logging.INFO,
     format='%(asctime)s:%(levelname)s:%(module)s:%(lineno)d: %(message)s')
   state = ModuleState(module_context)
-  g_module_context.mmap_state = state
-  state.server = mmap_server.start_server(
+  g_module_context.mavelous_state = state
+  state.server = mavelous_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
   webbrowser.open('http://127.0.0.1:9999/', autoraise=True)
 
 
 def unload():
-  """unload module"""
-  print "mmap module unload"
+  """Unload module.
+
+  Called by mavproxy.
+  """
+  logger.info('mavelous module unload')
   global g_module_context
-  g_module_context.mmap_state.terminate()
+  g_module_context.mavelous_state.terminate()
 
 
 def mavlink_packet(m):
-  """handle an incoming mavlink packet"""
+  """Handle an incoming mavlink packet.
+
+  Called by mavproxy.
+  """
   global g_module_context
-  state = g_module_context.mmap_state
-  state.messages.insert_message(m)
+  #logger.info(m)
+  state = g_module_context.mavelous_state
+  state.handle_message(m)
   # if the waypoints have changed, redisplay
   if state.wp_change_time != g_module_context.status.wploader.last_change:
     state.wp_change_time = g_module_context.status.wploader.last_change

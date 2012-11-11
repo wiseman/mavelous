@@ -72,10 +72,10 @@ How to run it
     $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
     ```
 
-3. At the mavproxy prompt, load the mmap module:
+3. At the mavproxy prompt, load the mavelous module:
 
     ```
-    STABILIZE> module load mmap
+    STABILIZE> module load mavelous
     ```
 
 A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
@@ -114,10 +114,10 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
       --quadcopter --streamrate=5
     ```
 
-4. At the mavproxy prompt, load the mmap module:
+4. At the mavproxy prompt, load the mavelous module:
 
     ```
-    GUIDED> module load mmap
+    GUIDED> module load mavelous
     ```
 
     A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
