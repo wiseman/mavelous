@@ -129,7 +129,7 @@ class ModuleState(object):
     self.linkstatethread.terminate()
 
   def handle_message(self, message):
-    """Processes an incoming Mavlink mssage."""
+    """Processes an incoming Mavlink message."""
     self._message_memo.add_message(message)
     message_type = message.get_type()
     if message_type in self._message_handlers:
@@ -141,9 +141,11 @@ class ModuleState(object):
         handler(self, message)
 
   def add_message_handler(self, message_type, handler):
+    """Registers a handler function for a Mavlink message type."""
     self._message_handlers[message_type].append(handler)
 
   def remove_message_handler(self, message_type, handler):
+    """Removed a previously registered handler function."""
     self._message_handlers[message_type].remove(handler)
 
   def get_messages(self, message_types=None):
@@ -167,8 +169,10 @@ class ModuleState(object):
         else:
           return max(1000, min(2000, rc_msg[key]))
       else:
-        # -1 means do not change overridden value.
-        return 65535  # See https://github.com/mavlink/mavlink/issues/72
+        # Mavlink defines -1 to mean do not change overridden
+        # value. Unfortunately Mavlink also defines this field to be
+        # unsigned. See https://github.com/mavlink/mavlink/issues/72
+        return 65535
 
     msg = mavlinkv10.MAVLink_rc_channels_override_message(
       self.module_context.status.target_system,
