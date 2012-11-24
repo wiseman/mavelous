@@ -75,13 +75,16 @@ $(function(){
     popoverTitle: 'GPS Info',
     renderPopover: function () {
       var stat = this.stat.toJSON();
-      if (!('satellites_visible' in stat)) return;
-      var visible = stat.satellites_visible.toString();
 
       var lat = (this.gps.get('lat') / 10e6).toFixed(7);
       var lon = (this.gps.get('lon') / 10e6).toFixed(7);
-      var content =  ('Satellites: ' + visible +
+
+      var content = "";
+      if ('satellites_visible' in stat) {
+        var visible = stat.satellites_visible.toString();
+        content += ('Satellites: ' + visible +
           "<br /> Coordinates: " + lat + ", " + lon  );
+      }
 
       var eph = this.gps.get('eph');
       if (typeof eph != 'undefined' && eph != 65535) {
