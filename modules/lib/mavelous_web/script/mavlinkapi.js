@@ -9,6 +9,9 @@ $(function(){
   Mavelous.MavlinkAPI = Backbone.Model.extend({
     initialize: function() {
       this.url = this.get('url');
+      this.gotonline = false;
+      this.online = true;
+      this.failcount = 0;
       // Table of message models, keyed by message type.
       this.messageModels = {};
     },
@@ -43,16 +46,51 @@ $(function(){
     },
 
     update: function () {
+      if (this.online) {
+        this.onlineUpdate();
+      } else {
+        this.offlineUpdate();
+      }
+    },
+
+    onlineUpdate: function () {
       $.ajax({ context: this,
                type : 'GET',
+               cache: false,
                url : this.url + _.keys(this.messageModels).join("+"),
                datatype: 'json',
-               success: this.handleMessages,
-               fail : function () {
+               success: function (data) {
+                 this.gotonline = true;
+                 this.handleMessages(data);
+               },
+               error: function () {
                  this.trigger('gotServerError');
+                 if (!this.gotonline) {
+                   this.failcount++;
+                   if (this.failcount > 5) {
+                     this.useOfflineMode();
+                   }
+                 }
                }
              });
+    },
+
+    offlineUpdate: function () {
+      this.fakevehicle.update();
+      var msgs = this.fakevehicle.requestMessages(this.messageModels);
+      this.handleMessages(msgs);
+    },
+
+    useOfflineMode: function () {
+      if (this.online && !this.gotonline) {
+        this.online = false;
+        console.log('could not contact server - switch to offline mode');
+        this.fakevehicle = new Mavelous.FakeVehicle({
+          lat: 45.5233, lon: -122.6670
+        });
+      }
     }
   });
+
 });
 

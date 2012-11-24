@@ -169,53 +169,5 @@ $(function(){
       return results;
     }
   });
-
-  // FIXME: I'm just extending Model to get the
-  // constructor/initialize() behavior and the Events mixin.  Should
-  // define an Object class that calls a constructor.
-  Mavelous.FakeMavlinkAPI = Backbone.Model.extend({
-    initialize: function() {
-      this.fakevehicle = new Mavelous.FakeVehicle({
-        lat: 45.5233, lon: -122.6670
-      });
-      // Table of message models, keyed by message type.
-      this.messageModels = {};
-    },
-
-    subscribe: function(msgType, handlerFunction, context) {
-      if (!this.messageModels[msgType]) {
-        this.messageModels[msgType] = new Mavelous.MavlinkMessage({
-          _type: msgType,
-          _index: -1});
-      }
-      var model = this.messageModels[msgType];
-      model.bind('change', handlerFunction, context);
-      return model;
-    },
-
-    handleMessages: function(msgEnvelopes) {
-      _.each(msgEnvelopes, this.handleMessage, this);
-    },
-
-    handleMessage: function(msg, msgType) {
-      this.trigger('gotServerResponse');
-      // Update the model if this is a new message for this type.
-      var msgModel = this.messageModels[msgType];
-      if (msgModel._index === undefined || msg.index > msgModel._index) {
-        msgModel.set({
-          _index: msg.index
-        }, {
-          silent: true
-        });
-        msgModel.set(msg.msg);
-      }
-    },
-
-    update: function () {
-      this.fakevehicle.update();
-      var msgs = this.fakevehicle.requestMessages(this.messageModels);
-      this.handleMessages(msgs);
-    }
-  });
 });
 
