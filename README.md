@@ -5,8 +5,6 @@ Mavelous is an open source browser-based ground control station (GCS)
 for drones/UAVs/micro air vehicles.
 
 [Try the online demo](http://moreproductive.org/mavelous_web/).
-Not long ago this code was an ugly hack/proof of concept.  Hacker
-beware.
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
 1.0 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
