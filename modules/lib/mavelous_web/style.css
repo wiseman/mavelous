@@ -19,7 +19,7 @@ html {
 #statustextview {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    float:left;
+    float: right;
     font-size: 24px;
     font-family: 'Droid Sans Mono', Courier, Courier News, monospace;
 }

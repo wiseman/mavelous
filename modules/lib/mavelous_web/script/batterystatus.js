@@ -19,13 +19,15 @@ $(function(){
       } else if (remaining < 20) {
         this.setButton('btn-danger',
           remaining.toFixed(0) + '% ' + voltage.toFixed(1) + 'v');
+      } else if (remaining === undefined) {
+        this.setButton('btn-inverse', "Unknown");
       } else {
         this.setButton('btn-success', remaining.toFixed(0) + '%');
       }
     },
 
     setButton: function (c, text) {
-      this.$el.removeClass('btn-success btn-warning btn-danger');
+      this.$el.removeClass('btn-success btn-warning btn-danger btn-inverse');
       this.$el.addClass(c);
       this.$el.html('Batt: ' + text);
     }

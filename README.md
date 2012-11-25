@@ -4,8 +4,7 @@ Mavelous
 Mavelous is an open source browser-based ground control station (GCS)
 for drones/UAVs/micro air vehicles.
 
-Not long ago this code was an ugly hack/proof of concept.  Hacker
-beware.
+[Try the online demo](http://moreproductive.org/mavelous_web/).
 
 Mavelous can be used with any vehicle that speaks the [MAVLink
 1.0 protocol](http://qgroundcontrol.org/mavlink/start).  It has been
@@ -56,6 +55,20 @@ $ pip install pyserial
 
 How to run it
 -------------
+
+### Online Demo
+
+The [online demo](http://moreproductive.org/mavelous_web/) of Mavelous runs
+completely within the browser. The simulated drone is very low fidelity
+and simply follows a fixed path. It will not respond to navigation commands
+such as guided mode.
+
+You can also run the demo on your own machine by opening the html page in your
+browser via the filesystem. The `index.html` file can be found at:
+
+  ```
+  mavelous/modules/lib/mavelous_web/index.html
+  ```
 
 ### With a real drone
 
