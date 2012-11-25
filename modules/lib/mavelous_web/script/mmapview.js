@@ -7,15 +7,19 @@ $(function(){
 
       this.windowModel = this.options.windowModel;
 
+      var inputProxy = new Mavelous.MMapInputProxy({
+        windowModel: this.windowModel
+      });
+
       /* Setup instance variables: */
       var template = 'http://{S}tile.openstreetmap.org/{Z}/{X}/{Y}.png';
       var subdomains = [ '', 'a.', 'b.', 'c.' ];
       this.mapLayer = new MM.TemplatedLayer(template, subdomains);
 
-      var inputhandlers = [ new Mavelous.MouseHandler()
-                          , new Mavelous.TouchHandler() ];
+      var inputhandlers = [ new Mavelous.MouseHandler(inputProxy)
+                          , new Mavelous.TouchHandler(inputProxy) ];
 
-      this.map = new MM.Map('map', this.mapLayer, null, inputhandlers)
+      this.map = new MM.Map('map', this.mapLayer, null, inputhandlers);
 
       this.windowModel.bind('change:zoom', this.onZoomChange, this);
       this.windowModel.bind('change', this.onWindowChange , this);
