@@ -2,7 +2,7 @@
 $(function(){
     window.Mavelous = window.Mavelous || {};
 
-    Mavelous.MouseWheelHandler = function() {
+    Mavelous.MouseWheelHandler = function(action) {
         var handler = {},
             map,
             _zoomDiv,
@@ -26,10 +26,10 @@ $(function(){
             var point = MM.getMousePoint(e, map);
 
             if (Math.abs(delta) > 0 && (timeSince > 200) && !precise) {
-                map.zoomByAbout(delta > 0 ? 1 : -1, point);
+                action.zoomByAbout(delta > 0 ? 1 : -1, point);
                 prevTime = new Date().getTime();
             } else if (precise) {
-                map.zoomByAbout(delta * 0.001, point);
+                action.zoomByAbout(delta * 0.001, point);
             }
 
             // Cancel the event so that the page doesn't scroll
@@ -38,6 +38,7 @@ $(function(){
 
         handler.init = function(x) {
             map = x;
+            action.mapContext(map);
             _zoomDiv = document.body.appendChild(document.createElement('div'));
             _zoomDiv.style.cssText = 'visibility:hidden;top:0;height:0;width:0;overflow-y:scroll';
             var innerDiv = _zoomDiv.appendChild(document.createElement('div'));
@@ -60,7 +61,7 @@ $(function(){
         return handler;
     };
 
-    Mavelous.DoubleClickHandler = function() {
+    Mavelous.DoubleClickHandler = function(action) {
         var handler = {},
             map;
 
@@ -69,12 +70,13 @@ $(function(){
             // Get the point on the map that was double-clicked
             var point = MM.getMousePoint(e, map);
             // use shift-double-click to zoom out
-            map.zoomByAbout(e.shiftKey ? -1 : 1, point);
+            action.zoomByAbout(e.shiftKey ? -1 : 1, point);
             return MM.cancelEvent(e);
         }
 
         handler.init = function(x) {
             map = x;
+            action.mapContext(map);
             MM.addEvent(map.parent, 'dblclick', doubleClick);
             return handler;
         };
@@ -87,7 +89,7 @@ $(function(){
     };
 
     // Handle the use of mouse dragging to pan the map.
-    Mavelous.DragHandler = function() {
+    Mavelous.DragHandler = function(action) {
         var handler = {},
             prevMouse,
             map;
@@ -115,7 +117,7 @@ $(function(){
 
         function mouseMove(e) {
             if (prevMouse) {
-                map.panBy(
+                action.panBy(
                     e.clientX - prevMouse.x,
                     e.clientY - prevMouse.y);
                 prevMouse.x = e.clientX;
@@ -128,6 +130,7 @@ $(function(){
 
         handler.init = function(x) {
             map = x;
+            action.mapContext(map);
             MM.addEvent(map.parent, 'mousedown', mouseDown);
             return handler;
         };
@@ -139,17 +142,18 @@ $(function(){
         return handler;
     };
 
-    Mavelous.MouseHandler = function() {
+    Mavelous.MouseHandler = function(action) {
         var handler = {},
             map,
             handlers;
 
         handler.init = function(x) {
             map = x;
+            action.mapContext(map);
             handlers = [
-                Mavelous.DragHandler().init(map),
-                Mavelous.DoubleClickHandler().init(map),
-                Mavelous.MouseWheelHandler().init(map)
+                Mavelous.DragHandler(action).init(map),
+                Mavelous.DoubleClickHandler(action).init(map),
+                Mavelous.MouseWheelHandler(action).init(map)
             ];
             return handler;
         };
@@ -163,7 +167,7 @@ $(function(){
 
         return handler;
     };
-    Mavelous.TouchHandler = function() {
+    Mavelous.TouchHandler = function(action) {
         var handler = {},
             map,
             maxTapTime = 250,
@@ -306,14 +310,14 @@ $(function(){
 
             // zoom in to a round number
             var p = new MM.Point(tap.x, tap.y);
-            map.zoomByAbout(dz, p);
+            action.zoomByAbout(dz, p);
         }
 
         // Re-transform the actual map parent's CSS transformation
         function onPanning (touch) {
             var pos = { x: touch.clientX, y: touch.clientY },
                 prev = locations[touch.identifier];
-            map.panBy(pos.x - prev.x, pos.y - prev.y);
+            action.panBy(pos.x - prev.x, pos.y - prev.y);
         }
 
         function onPinching(e) {
@@ -332,7 +336,7 @@ $(function(){
             // scale about the center of these touches
             var center = MM.Point.interpolate(p0, p1, 0.5);
 
-            map.zoomByAbout(
+            action.zoomByAbout(
                 Math.log(e.scale) / Math.LN2 -
                 Math.log(l0.scale) / Math.LN2,
                 center );
@@ -340,7 +344,7 @@ $(function(){
             // pan from the previous center of these touches
             var prevCenter = MM.Point.interpolate(l0, l1, 0.5);
 
-            map.panBy(center.x - prevCenter.x,
+            action.panBy(center.x - prevCenter.x,
                            center.y - prevCenter.y);
             wasPinching = true;
             lastPinchCenter = center;
@@ -352,14 +356,14 @@ $(function(){
             if (snapToZoom) {
                 var z = map.getZoom(), // current zoom
                     tz =Math.round(z);     // target zoom
-                map.zoomByAbout(tz - z, p);
+                action.zoomByAbout(tz - z, p);
             }
             wasPinching = false;
         }
 
         handler.init = function(x) {
             map = x;
-
+            action.mapContext(map);
             // Fail early if this isn't a touch device.
             if (!isTouchable()) return handler;
 
