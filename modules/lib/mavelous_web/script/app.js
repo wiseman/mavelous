@@ -45,12 +45,14 @@ $(function() {
     text: $('#guidealt-text')
   });
 
+  var leafletDroneIcon = new Mavelous.LeafletDroneIconModel();
   var leafletProviders = new Mavelous.LeafletProviders();
 
   var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
   var map = new Mavelous.LeafletView({ 
     vehicle: vehicle,
-    provider: leafletProviders
+    provider: leafletProviders,
+    vehicleIcon: leafletDroneIcon
   });
 
   var commStatusModel = new Mavelous.CommStatusModel({
