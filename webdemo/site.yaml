@@ -1,4 +1,4 @@
 handlers:
 - url: /(.*)
   static_files: modules/lib/mavelous_web/\1
-  upload: modules/lib/mavelous_web/\1
+  upload: modules/lib/mavelous_web/(.*)
