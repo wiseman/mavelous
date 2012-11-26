@@ -10,16 +10,20 @@ $(function(){
       this.modalToggle.click(function() {
         self.modal.modal('toggle');
       });
+      /* Leaflet map: for zoom */
+      this.map               = this.options.map;
       /* Map models: */
-      this.mapProviderModel = this.options.mapProviderModel;
-      this.mapModel         = this.options.mapModel;
+      this.mapProviderModel  = this.options.mapProviderModel;
+      this.vehicleIconModel  = this.options.vehicleIconModel;
       /* Map settings elements (jquery): */
       this.mapProviderPicker = this.options.mapProviderPicker;
       this.mapZoomSlider     = this.options.mapZoomSlider;
       this.mapZoomValue      = this.options.mapZoomValue;
+      this.vehicleIconPicker = this.options.vehicleIconPicker;
 
       this.setupMapProviderPicker();
       this.setupMapZoomSlider();
+      this.setupVehicleIconPicker();
       
       /* PFD Settings model: */
       this.pfdSettingsModel = this.options.pfdSettingsModel;
@@ -49,17 +53,28 @@ $(function(){
 
     setupMapZoomSlider: function () {
       var self = this;
-      if (this.mapModel === undefined) return;
+      if (this.map === undefined) return;
       this.mapZoomSlider.change(function() {
-        self.mapModel.setZoom(self.mapZoomSlider.val());
+        self.map.setZoom(self.mapZoomSlider.val());
       });
-      this.mapModel.bind('change:zoom', this.onZoomChange, this);
-      this.onZoomChange();
+      this.map.on('zoomend', this.onZoomChange, this);
     },
 
+    setupVehicleIconPicker: function () {
+      var self = this;
+      if (this.vehicleIconModel === undefined) return;
+      _.each( this.vehicleIconModel.icons, function (icon, name) {
+        self.vehicleIconPicker.append('<option value="' + name + '">' +
+                        icon.description + '</option>'); 
+      });
+      this.vehicleIconPicker.change( function() {
+        var newicon = self.vehicleIconPicker.val();
+        self.vehicleIconModel.set('icon', newicon);
+      });
+    },
     onZoomChange: function () {
-      this.mapZoomSlider.val(this.mapModel.get('zoom'));
-      this.mapZoomValue.html(this.mapModel.get('zoom').toString());
+      this.mapZoomSlider.val(this.map.getZoom());
+      this.mapZoomValue.html(this.map.getZoom().toString());
     },
 
     /* PFD SETTINGS ROUTINES */

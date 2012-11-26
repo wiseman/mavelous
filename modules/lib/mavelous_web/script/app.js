@@ -49,7 +49,7 @@ $(function() {
   var leafletProviders = new Mavelous.LeafletProviders();
 
   var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
-  var map = new Mavelous.LeafletView({ 
+  var mapView = new Mavelous.LeafletView({ 
     vehicle: vehicle,
     provider: leafletProviders,
     vehicleIcon: leafletDroneIcon
@@ -106,13 +106,15 @@ $(function() {
 
   var settingsView = new Mavelous.SettingsView({
     /* Map settings: */
+    map:               mapView.map,
     mapProviderModel:  leafletProviders,
-    mapModel:          undefined,
+    vehicleIconModel:  leafletDroneIcon,
     modalToggle:       $('#navbar-a-settings'),
     modal:             $('#settings-modal'),
     mapProviderPicker: $('#settings-mapproviderpicker'),
-    mapZoomSlider: $('#settings-mapzoom'),
-    mapZoomValue: $('#settings-mapzoom-value'),
+    mapZoomSlider:     $('#settings-mapzoom'),
+    mapZoomValue:      $('#settings-mapzoom-value'),
+    vehicleIconPicker: $('#settings-vehicleiconpicker'),
     /* PFD settings: */
     pfdSettingsModel: pfdSettingsModel,
     pfdPositionLeft: $('#settings-pfdpos-left'),

@@ -9,15 +9,6 @@ $(function(){
       };
     },
     icons: {
-      arduplane: {
-        description: "Generic Airplane",
-        constructor: L.Icon.extend({options: {
-            iconUrl: 'image/plane.png',
-            shadowUrl: null,
-            iconAnchor: new L.Point(36, 38),
-            iconSize: new L.Point(73, 76)
-        }})
-      },
       predatorsmall: {
         description: "Predator (small)",
         constructor: L.Icon.extend({options: {
@@ -34,6 +25,15 @@ $(function(){
             shadowUrl: null,
             iconAnchor: new L.Point(75, 50),
             iconSize: new L.Point(150, 100)
+        }})
+      },
+      arduplane: {
+        description: "Generic Airplane",
+        constructor: L.Icon.extend({options: {
+            iconUrl: 'image/plane.png',
+            shadowUrl: null,
+            iconAnchor: new L.Point(36, 38),
+            iconSize: new L.Point(73, 76)
         }})
       },
       quad: {
