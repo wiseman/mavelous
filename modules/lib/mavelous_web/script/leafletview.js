@@ -42,6 +42,7 @@ $(function(){
 
     panMapToVehicle: function () {
       var p = this.vehicleModel.get('position');
+      if (!p) return;
       if ( !this.initializedposition ) {
         this.map.setView(p, 16);
         this.initializedposition = true;
@@ -51,6 +52,7 @@ $(function(){
     updateVehicleMarker: function () {
       var p = this.vehicleModel.get('position');
       var h = this.vehicleModel.get('heading');
+      if (!p || !h) return;
       if (this.vehicleMarker === undefined) {
         this.vehicleMarker = new L.Marker(p,
             { icon: new droneMarkerTiny,
@@ -64,6 +66,7 @@ $(function(){
 
     updateVehiclePath: function () {
       var p = this.vehicleModel.get('position');
+      if (!p) return;
       if (this.vehiclePath === undefined) {
         this.vehiclePath = new L.Polyline([p], {color: 'red'});
         this.vehiclePath.addTo(this.map);

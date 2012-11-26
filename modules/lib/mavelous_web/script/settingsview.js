@@ -36,6 +36,7 @@ $(function(){
 
     setupMapProviderPicker: function () {
       var self = this;
+      if (this.mapProviderModel === undefined) return;
       _.each( this.mapProviderModel.providers, function (provider, name) {
         self.mapProviderPicker.append('<option value="' + name + '">' +
                         provider.description + '</option>'); 
@@ -48,6 +49,7 @@ $(function(){
 
     setupMapZoomSlider: function () {
       var self = this;
+      if (this.mapModel === undefined) return;
       this.mapZoomSlider.change(function() {
         self.mapModel.setZoom(self.mapZoomSlider.val());
       });

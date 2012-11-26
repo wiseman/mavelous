@@ -62,21 +62,6 @@ html {
   width: 170px;
 }
 
-.droneicon-hide {
-  background-image: none !important;
-}
-
-#droneicon {
-    background-image: url('image/drone-sm.png');
-    background-repeat: no-repeat;
-    position: absolute;
-    top: 45%;
-    left: 45%;
-    height: 100px;
-    width: 150px;
-    pointer-events: none;
-}
-
 .controls {
     float: right;
 }
