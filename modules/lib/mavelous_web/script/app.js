@@ -12,9 +12,6 @@ $(function(){
     statel: $('#pfdstatus')
   });
 
-  var mmapModel = new Mavelous.MMapModel({ mavlinkSrc: mavlinkAPI });
-  var mmapProviderModel = new Mavelous.MMapProviderModel();
-
   var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
   var guideAltView   = new Mavelous.GuideAltitudeView({
     model: guideModel,
@@ -22,11 +19,9 @@ $(function(){
     submit: $('#guidealt-submit'),
     text: $('#guidealt-text')
   });
-  var mapView = new Mavelous.MMapView({
-    providerModel: mmapProviderModel,
-    mapModel: mmapModel,
-    guideModel: guideModel
-  });
+
+  var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
+  var map = new Mavelous.LeafletView({ vehicle: vehicle });
 
   var commStatusModel = new Mavelous.CommStatusModel({
     mavlinkSrc: mavlinkAPI
@@ -42,8 +37,6 @@ $(function(){
     el: $('#navbar-btn-link')
   });
 
-  var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
-  
   var gpsButtonView = new Mavelous.GpsButtonView({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-gps')
@@ -81,8 +74,8 @@ $(function(){
 
   var settingsView = new Mavelous.SettingsView({
     /* Map settings: */
-    mapProviderModel:  mmapProviderModel,
-    mapModel:          mmapModel,
+    mapProviderModel:  undefined,
+    mapModel:          undefined,
     modalToggle:       $('#navbar-a-settings'),
     modal:             $('#settings-modal'),
     mapProviderPicker: $('#settings-mapproviderpicker'),
