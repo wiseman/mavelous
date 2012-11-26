@@ -1,0 +1,6 @@
+application: mavelousdemo
+version: master
+
+handlers:
+- url: /(.*)
+  static_files: modules/lib/mavelous_web/\1
