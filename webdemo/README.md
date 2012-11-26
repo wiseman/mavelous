@@ -15,6 +15,7 @@ http://mavelousdemo.appspot.com/ is an instance of
 [DryDrop](http://drydrop.binaryage.com), configured with the following
 settings:
 
+|Setting         |Value                                          |
 |----------------|-----------------------------------------------|
 |Pulling from    |https://github.com/wiseman/mavelous/raw/master |
 |Config file is  |webdemo/site.yaml                              |
