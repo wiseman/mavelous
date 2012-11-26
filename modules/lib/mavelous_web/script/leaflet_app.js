@@ -2,10 +2,8 @@
 $(function(){ 
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
 
-  var mmapWindow = new Mavelous.MMapWindowingModel({ mavlinkSrc: mavlinkAPI });
-  mmapWindow.set('snapToVehicle', false);
-
-  var mmap = new Mavelous.LeafletView({ windowModel: mmapWindow });
+  var lvehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
+  var map = new Mavelous.LeafletView({ vehicle: lvehicle });
 
   setInterval(function() {
     mavlinkAPI.update();
