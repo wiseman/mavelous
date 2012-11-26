@@ -62,6 +62,7 @@
 		'layer/tile/TileLayer.js',
 		'layer/tile/TileLayer.WMS.js',
 		'layer/tile/TileLayer.Canvas.js',
+		'layer/tile/Bing.js', /* Plugin from https://github.com/shramov/leaflet-plugins */
 		'layer/ImageOverlay.js',
 		'layer/Popup.js',
 
