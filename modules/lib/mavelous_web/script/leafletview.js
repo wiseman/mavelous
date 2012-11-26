@@ -24,20 +24,27 @@ $(function(){
     initialize: function () {
 
       this.vehicleModel = this.options.vehicle;
+      this.providerModel = this.options.provider;
       this.initializedposition = false;
 
-      var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png';
-
-      var cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18});
+      this.tileLayer = this.providerModel.getProvider();
       this.map = new L.Map('map', {
-        layers: [cloudmade],
+        layers: [this.tileLayer],
         zoomControl: false,
         attributionControl: false
       });
 
+      this.providerModel.bind('change', this.providerChange, this);
+
       this.vehicleModel.bind('change', this.panMapToVehicle, this);
       this.vehicleModel.bind('change', this.updateVehicleMarker, this);
       this.vehicleModel.bind('change', this.updateVehiclePath, this);
+    },
+
+    providerChange: function () {
+      this.map.removeLayer(this.tileLayer);
+      this.tileLayer = this.providerModel.getProvider();
+      this.map.addLayer(this.tileLayer);
     },
 
     panMapToVehicle: function () {
