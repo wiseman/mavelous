@@ -71,6 +71,7 @@
 		'layer/marker/Marker.js',
 		'layer/marker/Marker.Popup.js',
 		'layer/marker/Marker.Drag.js',
+    'layer/marker/Marker.Rotate.js', /* Plugin from https://github.com/shramov/leaflet-plugins */
 
 		'layer/vector/Path.js',
 		'layer/vector/Path.Popup.js',
