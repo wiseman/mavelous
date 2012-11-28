@@ -1,6 +1,14 @@
 
 $(function(){
   window.Mavelous = window.Mavelous || {};
+  var markerIcon = L.Icon.extend(
+    { options:
+      { iconUrl: 'third_party/leaflet/images/marker-icon.png'
+      , shadowUrl: 'third_party/leaflet/images/marker-shadow.png'
+      , iconAnchor: new L.Point(13,41)
+      , iconSize: new L.Point(25,41)
+      }
+    });
 
   Mavelous.LeafletView = Backbone.View.extend({
     initialize: function () {
@@ -8,14 +16,17 @@ $(function(){
       this.vehicleModel = this.options.vehicle;
       this.vehicleIconModel = this.options.vehicleIcon;;
       this.providerModel = this.options.provider;
+      this.guideModel = this.options.guideModel;
       this.initializedposition = false;
 
       this.tileLayer = this.providerModel.getProvider();
       this.map = new L.Map('map', {
         layers: [this.tileLayer],
         zoomControl: false,
+        doubleClickZoom: false,
         attributionControl: false
       });
+
 
       this.providerModel.bind('change', this.providerChange, this);
 
@@ -24,6 +35,14 @@ $(function(){
       this.vehicleModel.bind('change', this.panMapToVehicle, this);
       this.vehicleModel.bind('change', this.updateVehicleMarker, this);
       this.vehicleModel.bind('change', this.updateVehiclePath, this);
+
+      this.map.addEventListener('dblclick', this.doubleClickHandler, this);
+
+      this.guideModel.bind('change', this.updateGuideMarker, this);
+    },
+
+    doubleClickHandler: function (e) {
+      this.guideModel.setTarget({ lat: e.latlng.lat, lon: e.latlng.lng })
     },
 
     providerChange: function () {
@@ -76,6 +95,20 @@ $(function(){
       } else {
         this.vehiclePath.addLatLng(p);
       }
-    }
+    },
+
+    updateGuideMarker: function () {
+      var p = this.guideModel.toJSON();
+      var latlng = new L.LatLng(p.lat, p.lon);
+      if (!p) return;
+      if (this.guideMarker === undefined) {
+        this.guideMarker = new L.Marker(latlng,
+            { icon: new markerIcon()});
+        this.map.addLayer(this.guideMarker);
+      } else {
+        this.guideMarker.setLatLng(latlng);
+      }
+    },
+
   });
 });

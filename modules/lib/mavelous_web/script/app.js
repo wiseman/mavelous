@@ -27,7 +27,8 @@ $(function(){
   var mapView = new Mavelous.LeafletView({ 
     vehicle: vehicle,
     provider: leafletProviders,
-    vehicleIcon: leafletDroneIcon
+    vehicleIcon: leafletDroneIcon,
+    guideModel: guideModel
   });
 
   var commStatusModel = new Mavelous.CommStatusModel({
