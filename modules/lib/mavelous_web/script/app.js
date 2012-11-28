@@ -1,7 +1,19 @@
+goog.provide('mavelous.app');
 
-$(function(){ 
+goog.require('goog.Uri');
+goog.require('goog.base');
+goog.require('goog.debug.Console');
+
+$(function() {
+  var c = new goog.debug.Console();
+  c.setCapturing(true);
+
+  var uri = new goog.Uri(window.location.href);
 
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  if (goog.isDef(uri.getParameterValue('offline'))) {
+    mavlinkAPI.useOfflineMode();
+  }
 
   var pfdSettingsModel = new Mavelous.PFDSettingsModel();
   var pfdView = new Mavelous.PFDView({
@@ -16,7 +28,7 @@ $(function(){
   var mmapProviderModel = new Mavelous.MMapProviderModel();
 
   var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
-  var guideAltView   = new Mavelous.GuideAltitudeView({
+  var guideAltView = new Mavelous.GuideAltitudeView({
     model: guideModel,
     input: $('#guidealt-input'),
     submit: $('#guidealt-submit'),
@@ -43,7 +55,7 @@ $(function(){
   });
 
   var droneView = new Mavelous.DroneView({ mavlinkSrc: mavlinkAPI });
-  
+
   var gpsButtonView = new Mavelous.GpsButtonView({
     mavlinkSrc: mavlinkAPI,
     el: $('#navbar-btn-gps')
@@ -70,7 +82,7 @@ $(function(){
 
   /* Radio view controller */
   var statusButtons = new Mavelous.StatusButtons({
-    buttons: [ gpsButtonView, commStatusButtonView, flightModeButtonView ]
+    buttons: [gpsButtonView, commStatusButtonView, flightModeButtonView]
   });
 
 
@@ -81,19 +93,19 @@ $(function(){
 
   var settingsView = new Mavelous.SettingsView({
     /* Map settings: */
-    mapProviderModel:  mmapProviderModel,
-    mapModel:          mmapModel,
-    modalToggle:       $('#navbar-a-settings'),
-    modal:             $('#settings-modal'),
+    mapProviderModel: mmapProviderModel,
+    mapModel: mmapModel,
+    modalToggle: $('#navbar-a-settings'),
+    modal: $('#settings-modal'),
     mapProviderPicker: $('#settings-mapproviderpicker'),
-    mapZoomSlider:     $('#settings-mapzoom'),
-    mapZoomValue:      $('#settings-mapzoom-value'),
+    mapZoomSlider: $('#settings-mapzoom'),
+    mapZoomValue: $('#settings-mapzoom-value'),
     /* PFD settings: */
-    pfdSettingsModel:  pfdSettingsModel,
-    pfdPositionLeft:   $('#settings-pfdpos-left'),
-    pfdPositionRight:  $('#settings-pfdpos-right'),
-    pfdPositionUp:     $('#settings-pfdpos-up'),
-    pfdPositionDown:   $('#settings-pfdpos-down')
+    pfdSettingsModel: pfdSettingsModel,
+    pfdPositionLeft: $('#settings-pfdpos-left'),
+    pfdPositionRight: $('#settings-pfdpos-right'),
+    pfdPositionUp: $('#settings-pfdpos-up'),
+    pfdPositionDown: $('#settings-pfdpos-down')
   });
 
   window.router = new Mavelous.AppRouter({
@@ -112,7 +124,7 @@ $(function(){
 
   setInterval(function() {
     mavlinkAPI.update();
-  }, 100); 
+  }, 100);
 
 
 });

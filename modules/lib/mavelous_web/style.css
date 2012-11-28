@@ -1,6 +1,7 @@
 body {
     width: 100%;
     margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
 }
 
 html {
@@ -117,5 +118,23 @@ html {
     font-size: 32px;
 }
 
+.navbar-fixed-top, .navbar-fixed-bottom {
+    margin-right: 0px;
+    margin-left: 0px;
+}
 
+/* Shrink some elements on phones. */
+@media (max-width: 640px) {
+    .navbar .btn {
+        margin: 2px 2px 3px !important;
+        padding: 2px 5px 2px !important;
+    }
 
+    .navbar .nav {
+        margin: 0 5px 0 0 !important;
+    }
+
+    .divider-vertical {
+        margin: 0 4px !important;
+    }
+}

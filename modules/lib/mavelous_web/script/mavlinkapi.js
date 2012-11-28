@@ -1,4 +1,6 @@
-$(function(){
+goog.require('goog.debug.Logger');
+
+$(function() {
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.MavlinkMessage = Backbone.Model.extend({});
@@ -8,6 +10,7 @@ $(function(){
   // define an Object class that calls a constructor.
   Mavelous.MavlinkAPI = Backbone.Model.extend({
     initialize: function() {
+      this.logger_ = goog.debug.Logger.getLogger('mavelous.MavlinkAPI');
       this.url = this.get('url');
       this.gotonline = false;
       this.online = true;
@@ -45,7 +48,7 @@ $(function(){
       }
     },
 
-    update: function () {
+    update: function() {
       if (this.online) {
         this.onlineUpdate();
       } else {
@@ -53,38 +56,39 @@ $(function(){
       }
     },
 
-    onlineUpdate: function () {
-      $.ajax({ context: this,
-               type : 'GET',
-               cache: false,
-               url : this.url + _.keys(this.messageModels).join("+"),
-               datatype: 'json',
-               success: function (data) {
-                 this.gotonline = true;
-                 this.handleMessages(data);
-               },
-               error: function () {
-                 this.trigger('gotServerError');
-                 if (!this.gotonline) {
-                   this.failcount++;
-                   if (this.failcount > 5) {
-                     this.useOfflineMode();
-                   }
-                 }
-               }
-             });
+    onlineUpdate: function() {
+      $.ajax({
+        context: this,
+        type: 'GET',
+        cache: false,
+        url: this.url + _.keys(this.messageModels).join('+'),
+        datatype: 'json',
+        success: function(data) {
+          this.gotonline = true;
+          this.handleMessages(data);
+        },
+        error: function() {
+          this.trigger('gotServerError');
+          if (!this.gotonline) {
+            this.failcount++;
+            if (this.failcount > 5) {
+              this.useOfflineMode();
+            }
+          }
+        }
+      });
     },
 
-    offlineUpdate: function () {
+    offlineUpdate: function() {
       this.fakevehicle.update();
       var msgs = this.fakevehicle.requestMessages(this.messageModels);
       this.handleMessages(msgs);
     },
 
-    useOfflineMode: function () {
+    useOfflineMode: function() {
       if (this.online && !this.gotonline) {
+        this.logger_.info('Switching to offline mode');
         this.online = false;
-        console.log('could not contact server - switch to offline mode');
         this.fakevehicle = new Mavelous.FakeVehicle({
           lat: 45.5233, lon: -122.6670
         });
@@ -93,4 +97,3 @@ $(function(){
   });
 
 });
-

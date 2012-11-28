@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap.css" />
   <style>
     body {
@@ -13,6 +13,10 @@
   </style>
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
+<!-- GOOGLE CLOSURE -->
+<script src="third_party/closure-library/closure/goog/base.js"></script>
+<script src="script/mavelous-deps.js"></script>
+
 <!-- JQUERY -->
 <script type="text/javascript" src="third_party/jquery-1.7.2.js"></script>
 <script type="text/javascript" src="third_party/jquery.color.js"></script>
@@ -72,10 +76,8 @@
 
 <!-- APP INSTANCE-->
 <script type="text/javascript" src="script/router.js"></script>
-<script type="text/javascript" src="script/app.js"></script>
-
-<script type="text/template" id="gpstexttemplate">
-    GPS <%= fix_type_html %>
+<script>
+  goog.require('mavelous.app');
 </script>
 
 <script type="text/template" id="commstatustexttemplate">
@@ -89,7 +91,7 @@
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container-fluid">
-        <a class="brand" href="#">Mavelous</a>
+        <a class="brand hidden-phone" href="#">Mavelous</a>
         <ul class="nav">
           <li id="navbar-overview" class="hidden-phone">
             <a href="#overview">Overview</a>
@@ -102,16 +104,15 @@
           </li>
           <li class="divider-vertical"></li>
         </ul>
-        <ul class="nav pull-right">
-          <li class="divider-vertical"></li>
-          <li><a href="#" id="navbar-a-settings">Settings</a></li>
-        </ul>
-        <p class="navbar-text pull-right">
+        <span class="navbar-text">
           <a class="btn" id="navbar-btn-mode" href="#">Mode</a>
           <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
           <a class="btn" id="navbar-btn-link" href="#">Link</a>
           <a class="btn" id="navbar-btn-battery" href="#">Batt</a>
-        </p>
+        </span>
+        <ul class="nav pull-right">
+          <li><a href="#" id="navbar-a-settings"><i class="icon-cog icon-white"></i></a></li>
+        </ul>
       </div>
     </div>
   </div>
