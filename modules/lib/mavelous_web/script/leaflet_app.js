@@ -6,10 +6,13 @@ $(function(){
   var leafletDroneIcon = new Mavelous.LeafletDroneIconModel();
   var leafletProviders = new Mavelous.LeafletProviders();
 
+  var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
+
   var mapView = new Mavelous.LeafletView({ 
     vehicle: vehicle,
     provider: leafletProviders,
-    vehicleIcon: leafletDroneIcon
+    vehicleIcon: leafletDroneIcon,
+    guideModel: guideModel
   });
 
   setInterval(function() {
