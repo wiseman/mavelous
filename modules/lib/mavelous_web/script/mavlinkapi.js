@@ -89,7 +89,7 @@ $(function() {
         });
       } else {
         if (!goog.isDef(this.webSocket)) {
-          this.webSocket = new goog.net.WebSocket();
+          this.webSocket = new goog.net.WebSocket(false);
           goog.events.listen(
               this.webSocket, goog.net.WebSocket.EventType.OPENED,
               this.onWsOpen,
