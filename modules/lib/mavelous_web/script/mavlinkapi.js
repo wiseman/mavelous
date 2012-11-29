@@ -11,7 +11,7 @@ $(function() {
   Mavelous.MavlinkAPI = Backbone.Model.extend({
     initialize: function() {
       this.logger_ = goog.debug.Logger.getLogger('mavelous.MavlinkAPI');
-      this.url = this.get('url');
+      this.url = this.get('url') || '/mavelousapi/latest_messages';
       this.gotonline = false;
       this.online = true;
       this.failcount = 0;
@@ -20,6 +20,7 @@ $(function() {
     },
 
     subscribe: function(msgType, handlerFunction, context) {
+      this.logger_.info('subscribing to mavlink message ' + msgType);
       if (!this.messageModels[msgType]) {
         this.messageModels[msgType] = new Mavelous.MavlinkMessage({
           _type: msgType,
@@ -60,7 +61,6 @@ $(function() {
       $.ajax({
         context: this,
         type: 'GET',
-        cache: false,
         url: this.url + _.keys(this.messageModels).join('+'),
         datatype: 'json',
         success: function(data) {

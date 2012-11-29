@@ -35,7 +35,7 @@
 <script type="text/javascript">
 $(function() {
 
-  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavelousapi/latest_messages' });
   var pfdView = new Mavelous.PFDView({
     mavlinkSrc: mavlinkAPI,
     drawingid: 'pfd',

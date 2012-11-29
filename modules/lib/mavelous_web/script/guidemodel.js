@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.GuideModel = Backbone.Model.extend({
@@ -14,38 +14,42 @@ $(function(){
     initialize: function() {
       var mavlink = this.get('mavlinkSrc');
       this.metaWaypointModel = mavlink.subscribe(
-        'META_WAYPOINT', this.onMetaWaypointChange, this);
+          'META_WAYPOINT', this.onMetaWaypointChange, this);
     },
 
-    onMetaWaypointChange: function () {
+    onMetaWaypointChange: function() {
       var waypt = this.metaWaypointModel.get('waypoint');
       if (waypt) {
-        this.set({ alt: waypt.alt, lat: waypt.lat, lon: waypt.lon }); 
+        this.set({ alt: waypt.alt, lat: waypt.lat, lon: waypt.lon });
       }
     },
 
-    setTarget: function (target) {
+    setTarget: function(target) {
       this.set(target);
       this.send();
     },
 
-    send: function () {
-      var loc = { lat: this.get('lat'),
-                  lon: this.get('lon'),
-                  alt: this.get('alt') };
+    send: function() {
+      var loc = {
+        lat: this.get('lat'),
+        lon: this.get('lon'),
+        alt: this.get('alt') };
       if (loc.lat !== null && loc.lon !== null && loc.alt !== null) {
         this.sendServer(loc);
       }
     },
 
-    sendServer: function ( loc ) {
+    sendServer: function(loc) {
       var req = JSON.stringify({ command: 'FLYTO', location: loc });
       console.log(req);
-      $.ajax({ type: 'POST',
-               url: '/guide',
-               data: req 
-             });
-      }
+      $.ajax({
+        type: 'POST',
+        url: '/mavelousapi/guide',
+        data: req,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json'
+      });
+    }
   });
 
 });

@@ -5,70 +5,71 @@ import os.path
 import threading
 import types
 
-from cherrypy import wsgiserver
-import flask
-from werkzeug import wsgi
+import cherrypy
 
 logger = logging.getLogger(__name__)
 
-app = flask.Flask(__name__)
-
-DOC_DIR = os.path.join(os.path.dirname(__file__), 'mavelous_web')
-
-app.wsgi_app = wsgi.SharedDataMiddleware(
-  app.wsgi_app,
-  {'/': DOC_DIR})
+STATIC_DIR = os.path.join(os.path.dirname(__file__), 'mavelous_web')
 
 
 class Error(Exception):
   pass
 
 
-@app.route('/')
-def index_view():
-  return flask.redirect('/index.html')
+# Just redirects / to /index.html.
+class Root(object):
+  @cherrypy.expose()
+  def index(self):
+    raise cherrypy.HTTPRedirect('/index.html')
 
 
-@app.route('/mavlink/<msgtypes>')
-def mavlink_view(msgtypes):
-  # Treat '*' as a wildcard.
-  if msgtypes == '*':
-    message_types = None
-  else:
-    message_types = msgtypes.split('+')
-  results = {}
-  for (time, seq_num, message) in app.module_state.get_messages(
-    message_types=message_types):
-    results[message.get_type()] = response_dict_for_message(
-      message, time, seq_num)
-  return flask.jsonify(results)
+class MavelousApi(object):
+  def __init__(self, module_state):
+    self.module_state = module_state
 
+  @cherrypy.expose()
+  @cherrypy.tools.json_out()
+  def latest_messages(self, *msgtypes, **unused_kw_args):
+    # Treat '*' as a wildcard.
+    if not msgtypes or msgtypes[0] == '*':
+      message_types = None
+    else:
+      message_types = msgtypes[0].split('+')
+    results = {}
+    for (time, seq_num, message) in self.module_state.get_messages(
+      message_types=message_types):
+      results[message.get_type()] = response_dict_for_message(
+        message, time, seq_num)
+    return results
 
-@app.route('/guide', methods=['POST'])
-def guide_handler():
-  # FIXME: I couldn't figure out how to get jquery to send a
-  # Content-Type: application/json, which would have let us use
-  # request.json.  And for some reason the data is in the key name.
-  body_obj = json.loads(flask.request.form.keys()[0])
-  app.module_state.guide(body_obj)
-  return 'OK'
+  @cherrypy.expose()
+  def guide(self):
+    command = read_json_body()
+    self.module_state.guide(command)
+    return 'OK'
 
+  @cherrypy.expose()
+  def command_long(self):
+    # FIXME: I couldn't figure out how to get jquery to send a
+    # Content-Type: application/json, which would have let us use
+    # request.json.  And for some reason the data is in the key name.
+    command = read_json_body()
+    self.module_state.command_long(command)
+    return 'OK'
 
-@app.route('/command_long', methods=['POST'])
-def command_long_handler():
-  # FIXME: I couldn't figure out how to get jquery to send a
-  # Content-Type: application/json, which would have let us use
-  # request.json.  And for some reason the data is in the key name.
-  body_obj = json.loads(flask.request.form.keys()[0])
-  app.module_state.command_long(body_obj)
-  return 'OK'
+  @cherrypy.expose()
+  def rcoverride(self):
+    command = read_json_body()
+    self.module_state.rcoverride(command)
+    return 'OK'
 
-
-@app.route('/rcoverride', methods=['POST'])
-def rcoverride_handler():
-  body_obj = json.loads(flask.request.form.keys()[0])
-  app.module_state.rcoverride(body_obj)
-  return 'OK'
+  @cherrypy.expose()
+  @cherrypy.tools.json_out()
+  def get_mission(self):
+    handler = MissionMessageHandler()
+    self.module_state.add_message_handler('MISSION_COUNT', handler)
+    self.module_state.get_wp_count()
+    return handler.results()
 
 
 class MissionMessageHandler(object):
@@ -117,14 +118,6 @@ class MissionMessageHandler(object):
       return results
 
 
-@app.route('/get_mission', methods=['POST'])
-def get_mission_handler():
-  handler = MissionMessageHandler()
-  app.module_state.add_message_handler('MISSION_COUNT', handler)
-  app.module_state.get_wp_count()
-  return flask.jsonify(results=handler.results())
-
-
 def nul_terminate(s):
   nul_pos = s.find('\0')
   if nul_pos >= 0:
@@ -146,13 +139,27 @@ def response_dict_for_message(msg, time, index):
   return resp
 
 
+def read_json_body():
+  cl = cherrypy.request.headers['Content-Length']
+  rawbody = cherrypy.request.body.read(int(cl))
+  return json.loads(rawbody)
+
+
 def start_server(address, port, module_state):
-  dispatcher = wsgiserver.WSGIPathInfoDispatcher({'/': app})
-  server = wsgiserver.CherryPyWSGIServer(
-    (address, port),
-    dispatcher)
-  server_thread = threading.Thread(target=server.start)
-  server_thread.daemon = True
-  server_thread.start()
-  app.module_state = module_state
-  return server
+  cherrypy.config.update({
+      'server.socket_host': address,
+      'server.socket_port': port
+      })
+  # Turn off autoreload, which doesn't work for us.
+  cherrypy.engine.autoreload.unsubscribe()
+  # / serves static files
+  cherrypy.tree.mount(Root(), '/', config={
+      '/': {
+        'tools.staticdir.on': True,
+        'tools.staticdir.dir': STATIC_DIR
+        }
+      })
+  # /mavelousapi is handled by MavelousApi.
+  cherrypy.tree.mount(MavelousApi(module_state), '/mavelousapi')
+  cherrypy.engine.start()
+  return None
