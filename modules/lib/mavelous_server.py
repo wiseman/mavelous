@@ -6,6 +6,8 @@ import threading
 import types
 
 import cherrypy
+from ws4py.server import cherrypyserver
+from ws4py import websocket
 
 logger = logging.getLogger(__name__)
 
@@ -23,13 +25,24 @@ class Root(object):
     raise cherrypy.HTTPRedirect('/index.html')
 
 
+class WebSocketHandler(websocket.WebSocket):
+  def opened(self):
+    print 'WOOJJW websocket opened'
+
+  def closed(self, code, reason=None):
+    print 'WOOJJW websocket closed %s %s' % (code, reason)
+
+  def received_message(self, message):
+    msgtypes = [str(message)]
+    messages = cherrypy.request.app.root.get_latest_messages(msgtypes)
+    self.send(json.dumps(messages))
+
+
 class MavelousApi(object):
   def __init__(self, module_state):
     self.module_state = module_state
 
-  @cherrypy.expose()
-  @cherrypy.tools.json_out()
-  def latest_messages(self, *msgtypes, **unused_kw_args):
+  def get_latest_messages(self, msgtypes):
     # Treat '*' as a wildcard.
     if not msgtypes or msgtypes[0] == '*':
       message_types = None
@@ -41,6 +54,16 @@ class MavelousApi(object):
       results[message.get_type()] = response_dict_for_message(
         message, time, seq_num)
     return results
+
+  @cherrypy.expose
+  def ws(self):
+    # you can access the class instance through
+    unused_handler = cherrypy.request.ws_handler
+
+  @cherrypy.expose()
+  @cherrypy.tools.json_out()
+  def latest_messages(self, *msgtypes, **unused_kw_args):
+    return self.get_latest_messages(msgtypes)
 
   @cherrypy.expose()
   def guide(self):
@@ -152,6 +175,10 @@ def start_server(address, port, module_state):
       })
   # Turn off autoreload, which doesn't work for us.
   cherrypy.engine.autoreload.unsubscribe()
+
+  cherrypyserver.WebSocketPlugin(cherrypy.engine).subscribe()
+  cherrypy.tools.websocket = cherrypyserver.WebSocketTool()
+
   # / serves static files
   cherrypy.tree.mount(Root(), '/', config={
       '/': {
@@ -160,6 +187,11 @@ def start_server(address, port, module_state):
         }
       })
   # /mavelousapi is handled by MavelousApi.
-  cherrypy.tree.mount(MavelousApi(module_state), '/mavelousapi')
+  cherrypy.tree.mount(MavelousApi(module_state), '/mavelousapi', config={
+      '/ws': {
+        'tools.websocket.on': True,
+        'tools.websocket.handler_cls': WebSocketHandler
+        }
+      })
   cherrypy.engine.start()
   return None

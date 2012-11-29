@@ -10,9 +10,7 @@ $(function() {
 
   var uri = new goog.Uri(window.location.href);
 
-  var mavlinkAPI = new Mavelous.MavlinkAPI({
-    url: '/mavelousapi/latest_messages/'
-  });
+  var mavlinkAPI = new Mavelous.MavlinkAPI();
   if (goog.isDef(uri.getParameterValue('offline'))) {
     mavlinkAPI.useOfflineMode();
   }
