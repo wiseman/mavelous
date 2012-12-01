@@ -3,6 +3,7 @@ goog.provide('mavelous.app');
 goog.require('goog.Uri');
 goog.require('goog.base');
 goog.require('goog.debug.Console');
+goog.require('goog.net.jsloader');
 
 $(function() {
   var c = new goog.debug.Console();
@@ -11,8 +12,20 @@ $(function() {
   var uri = new goog.Uri(window.location.href);
 
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  /* If we see "offline" query parameter in the URL, enable offline
+   * mode. */
   if (goog.isDef(uri.getParameterValue('offline'))) {
     mavlinkAPI.useOfflineMode();
+  }
+
+  /* Phonegap support: If we see debug=<identifier>, load the phonegap
+   * script.  You can then debug at
+   * http://debug.phonegap.com/client/#<identifier> */
+  if (goog.isDef(uri.getParameterValue('debug'))) {
+    var phonegap_script_url = ('http://debug.phonegap.com/target/' +
+                               'target-script-min.js#' +
+                               uri.getParameterValue('debug'));
+    goog.net.jsloader.load(phonegap_script_url);
   }
 
   var pfdSettingsModel = new Mavelous.PFDSettingsModel();
