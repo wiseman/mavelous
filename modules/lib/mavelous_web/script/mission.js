@@ -51,8 +51,9 @@ mavelous.MissionItem.prototype.initializeFieldValues_ = function() {
  */
 mavelous.MissionItem.prototype.setType = function(type) {
   goog.asserts.assert(
-    goog.array.contains(goog.object.getValues(mavelous.MissionItemType), type),
-    'Not a mavelous.MissionItemType: ' + type);
+      goog.array.contains(
+      goog.object.getValues(mavelous.MissionItemType), type),
+      'Not a mavelous.MissionItemType: ' + type);
   this.type_ = type;
   this.initializeFieldValues_();
 };
@@ -184,7 +185,7 @@ mavelous.makeMissionItemType_ = function(name, cmd_id, opt_fields) {
   goog.asserts.assertNumber(cmd_id, 'cmd_id is not a number: ' + cmd_id);
   if (goog.isDef(opt_fields)) {
     goog.asserts.assertObject(
-      opt_fields, 'opt_fields is not an object: ' + opt_fields);
+        opt_fields, 'opt_fields is not an object: ' + opt_fields);
   }
   fields = {
     target_system: null,
@@ -212,109 +213,109 @@ mavelous.missionItemFieldDisplayName = function(type, field) {
 /** @enum {dict} */
 mavelous.MissionItemType = {
   WAYPOINT: mavelous.makeMissionItemType_(
-    'WAYPOINT', 16, {
-      p1: 'Delay',
-      p2: 'Hit rad',
-      p4: 'Yaw ang',
-      x: 'Lat',
-      y: 'Lon',
-      z: 'Alt'
-    }),
+      'WAYPOINT', 16, {
+        p1: 'Delay',
+        p2: 'Hit rad',
+        p4: 'Yaw ang',
+        x: 'Lat',
+        y: 'Lon',
+        z: 'Alt'
+      }),
   LOITER_UNLIM: mavelous.makeMissionItemType_(
-    'LOITER_UNLIM', 17, {
-      x: 'Lat',
-      y: 'Lat',
-      z: 'Alt'
-    }),
+      'LOITER_UNLIM', 17, {
+        x: 'Lat',
+        y: 'Lat',
+        z: 'Alt'
+      }),
   LOITER_TURNS: mavelous.makeMissionItemType_(
-    'LOITER_TURNS', 18, {
-      p1: 'Turns',
-      x: 'Lat',
-      y: 'Lon',
-      z: 'Alt'
-    }),
+      'LOITER_TURNS', 18, {
+        p1: 'Turns',
+        x: 'Lat',
+        y: 'Lon',
+        z: 'Alt'
+      }),
   LOITER_TIME: mavelous.makeMissionItemType_(
-    'LOITER_TIME', 19, {
-      p1: 'Time (s)',
-      p3: 'Rad',
-      p4: 'Yaw per'
-    }),
+      'LOITER_TIME', 19, {
+        p1: 'Time (s)',
+        p3: 'Rad',
+        p4: 'Yaw per'
+      }),
   RETURN_TO_LAUNCH: mavelous.makeMissionItemType_('RETURN_TO_LAUNCH', 20),
   LAND: mavelous.makeMissionItemType_('LAND', 21),
   TAKEOFF: mavelous.makeMissionItemType_(
-    'TAKEOFF', 22, {
-      z: 'Alt'
-    }),
+      'TAKEOFF', 22, {
+        z: 'Alt'
+      }),
   ROI: mavelous.makeMissionItemType_(
-    'ROI', 80, {
-      x: 'Lat',
-      y: 'Lon',
-      z: 'Alt'
-    }),
+      'ROI', 80, {
+        x: 'Lat',
+        y: 'Lon',
+        z: 'Alt'
+      }),
   PATHPLANNING: mavelous.makeMissionItemType_('PATHPLANNING', 81),
   CONDITION_DELAY: mavelous.makeMissionItemType_(
-    'CONDITION_DELAY', 112, {
-      p1: 'Time (s)'
-    }),
+      'CONDITION_DELAY', 112, {
+        p1: 'Time (s)'
+      }),
   CONDITION_CHANGE_ALT: mavelous.makeMissionItemType_(
-    'CONDITION_CHANGE_ALT', 113, {
-      p1: 'Rate (cm/s)',
-      z: 'Alt'
-    }),
+      'CONDITION_CHANGE_ALT', 113, {
+        p1: 'Rate (cm/s)',
+        z: 'Alt'
+      }),
   CONDITION_DISTANCE: mavelous.makeMissionItemType_(
-    'CONDITION_DISTANCE', 114, {
-      p1: 'Dist (m)'
-    }),
+      'CONDITION_DISTANCE', 114, {
+        p1: 'Dist (m)'
+      }),
   CONDITION_YAW: mavelous.makeMissionItemType_(
-    'CONDITION_YAW', 115, {
-      p1: 'Deg',
-      p2: 'Sec',
-      p3: 'Dir (1=CW)',
-      p4: 'Rel/abs'
-    }),
+      'CONDITION_YAW', 115, {
+        p1: 'Deg',
+        p2: 'Sec',
+        p3: 'Dir (1=CW)',
+        p4: 'Rel/abs'
+      }),
   DO_SET_MODE: mavelous.makeMissionItemType_('DO_SET_MODE', 176),
   DO_JUMP: mavelous.makeMissionItemType_(
-    'DO_JUMP', 177, {
-      p1: 'Missionitem #',
-      p2: 'Repeat #'
-    }),
+      'DO_JUMP', 177, {
+        p1: 'Missionitem #',
+        p2: 'Repeat #'
+      }),
   DO_CHANGE_SPEED: mavelous.makeMissionItemType_(
-    'DO_CHANGE_SPEED', 178, {
-      p1: 'Speed (m/s)'
-    }),
+      'DO_CHANGE_SPEED', 178, {
+        p1: 'Speed (m/s)'
+      }),
   DO_SET_HOME: mavelous.makeMissionItemType_(
-    'DO_SET_HOME', 179, {
-      p1: 'Current (1)/Spec (0)'
-    }),
+      'DO_SET_HOME', 179, {
+        p1: 'Current (1)/Spec (0)'
+      }),
   DO_SET_PARAMETER: mavelous.makeMissionItemType_(
-    'DO_SET_PARAMETER', 180, {
-      p1: '#',
-      p2: 'Value'
-    }),
+      'DO_SET_PARAMETER', 180, {
+        p1: '#',
+        p2: 'Value'
+      }),
   DO_SET_RELAY: mavelous.makeMissionItemType_(
-    'DO_SET_RELAY', 181, {
-      p1: 'Off (0)/on (1)'
-    }),
+      'DO_SET_RELAY', 181, {
+        p1: 'Off (0)/on (1)'
+      }),
   DO_REPEAT_RELAY: mavelous.makeMissionItemType_(
-    'DO_REPEAT_RELAY', 182, {
-      p2: 'Repeat #',
-      p3: 'Delay (s)'
-    }),
+      'DO_REPEAT_RELAY', 182, {
+        p2: 'Repeat #',
+        p3: 'Delay (s)'
+      }),
   DO_SET_SERVO: mavelous.makeMissionItemType_(
-    'DO_SET_SERVO', 183, {
-      p1: 'Serial #',
-      p2: 'PWM'
-    }),
+      'DO_SET_SERVO', 183, {
+        p1: 'Serial #',
+        p2: 'PWM'
+      }),
   DO_REPEAT_SERVO: mavelous.makeMissionItemType_(
-    'DO_REPEAT_SERVO', 184, {
-      p1: 'Serial #',
-      p2: 'PWM',
-      p3: 'Repeat #',
-      p4: 'Delay (s)'
-    }),
+      'DO_REPEAT_SERVO', 184, {
+        p1: 'Serial #',
+        p2: 'PWM',
+        p3: 'Repeat #',
+        p4: 'Delay (s)'
+      }),
   // FIXME: MAV_CMD_DO_CONTROL_VIDEO?
   DO_DIGICAM_CONFIGURE: mavelous.makeMissionItemType_(
-    'DO_DIGICAM_CONFIGURE', 202),
+      'DO_DIGICAM_CONFIGURE', 202),
   DO_DIGICAM_CONTROL: mavelous.makeMissionItemType_('DO_DIGICAM_CONTROL', 203),
   DO_MOUNT_CONFIGURE: mavelous.makeMissionItemType_('DO_MOUNT_CONFIGURE', 204),
   DO_MOUNT_CONTROL: mavelous.makeMissionItemType_('DO_MOUNT_CONTROL', 205)

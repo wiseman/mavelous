@@ -68,7 +68,7 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
   goog.dom.classes.add(checkbox.getElement(), 'mavelous-missionitem-field');
 
   var typeSelect = new goog.ui.Select(
-    null, null, goog.ui.FlatMenuButtonRenderer.getInstance(), dom);
+      null, null, goog.ui.FlatMenuButtonRenderer.getInstance(), dom);
   var selectedItem = null;
   for (var missionItemType in mavelous.MissionItemType) {
     var menuItem = new goog.ui.MenuItem(missionItemType);
@@ -78,12 +78,12 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
     }
   }
   goog.events.listen(
-    typeSelect, goog.ui.Component.EventType.ACTION,
-    function(e) {
-      this.changeMissionItemType(e.target.getValue());
-    },
-    false,
-    missionItem);
+      typeSelect, goog.ui.Component.EventType.ACTION,
+      function(e) {
+        this.changeMissionItemType(e.target.getValue());
+      },
+      false,
+      missionItem);
   if (selectedItem) {
     typeSelect.setSelectedItem(selectedItem);
   }
@@ -98,12 +98,12 @@ mavelous.ui.MissionItemRenderer.prototype.createDom = function(missionItem) {
 /**
  * @param {mavelous.MissionItem} missionItem The mission item.
  */
-mavelous.ui.MissionItemRenderer.prototype.populateFields = function(
-  missionItem) {
+mavelous.ui.MissionItemRenderer.prototype.populateFields =
+    function(missionItem) {
   var missionItemModel = missionItem.getModel();
   for (var field in missionItemModel.getFields()) {
     var displayName = mavelous.missionItemFieldDisplayName(
-      missionItemModel.getTypeName(), field);
+        missionItemModel.getTypeName(), field);
     if (!goog.isNull(displayName)) {
       var label = new mavelous.ui.Label(displayName);
       missionItem.addChild(label, true);
@@ -171,8 +171,8 @@ mavelous.ui.MissionItem = function(item, renderer) {
 
   if (!item) {
     item = {id: 'temp-' + goog.ui.IdGenerator.getInstance().getNextUniqueId(),
-            text: '',
-            checked: false};
+      text: '',
+      checked: false};
   }
   this.fields = new Array();
   this.setModel(item);
@@ -241,8 +241,8 @@ goog.ui.registry.setDefaultRenderer(mavelous.ui.MissionItem,
     mavelous.ui.MissionItemRenderer);
 
 goog.ui.registry.setDecoratorByClassName(
-  mavelous.ui.MissionItemRenderer.CSS_CLASS,
-  function() { return new mavelous.ui.MissionItem(); });
+    mavelous.ui.MissionItemRenderer.CSS_CLASS,
+    function() { return new mavelous.ui.MissionItem(); });
 
 
 
@@ -310,7 +310,7 @@ goog.inherits(mavelous.ui.Input, goog.ui.Control);
 /** @inheritDoc */
 mavelous.ui.Input.prototype.createDom = function() {
   this.setElementInternal(
-    this.getDomHelper().createDom('input', {'type': 'text', 'size': '5', 'value': this.value_}));
+      this.getDomHelper().createDom('input', {'type': 'text', 'size': '5', 'value': this.value_}));
   goog.style.setUnselectable(this.getElement(), false, true);
 };
 
@@ -444,9 +444,9 @@ mavelous.ui.Mission.prototype.enterDocument = function() {
 // };
 
 goog.ui.registry.setDefaultRenderer(
-  mavelous.ui.Mission,
-  mavelous.ui.MissionRenderer);
+    mavelous.ui.Mission,
+    mavelous.ui.MissionRenderer);
 
 goog.ui.registry.setDecoratorByClassName(
-  mavelous.ui.MissionRenderer.CSS_CLASS,
-  function() { return new mavelous.ui.Mission(); });
+    mavelous.ui.MissionRenderer.CSS_CLASS,
+    function() { return new mavelous.ui.Mission(); });

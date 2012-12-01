@@ -15,187 +15,188 @@ $(function() {
   // The artificial horizon is implemented as a Kinetic Shape subclass.
 
   Mavelous.ArtificialHorizon = Kinetic.Shape.extend({
-  init: function(config) {
-    this.setDefaultAttrs({
-      width: 100,
-      height: 100,
-      skyColor: '#72cde4',
-      groundColor: '#323232',
-      lineColor: '#ffffff',
-      planeColor: 'black'
-    });
+    init: function(config) {
+      this.setDefaultAttrs({
+        width: 100,
+        height: 100,
+        skyColor: '#72cde4',
+        groundColor: '#323232',
+        lineColor: '#ffffff',
+        planeColor: 'black'
+      });
 
-    this.shapeType = 'ArtificialHorizon';
-    this.radius = Math.min(config.width, config.height) / 2.0;
-    this.pitch = 0;
-    this.roll = 0;
+      this.shapeType = 'ArtificialHorizon';
+      this.radius = Math.min(config.width, config.height) / 2.0;
+      this.pitch = 0;
+      this.roll = 0;
 
-    config.drawFunc = function() {
-      var horizon = this.getHorizon_(this.pitch);
+      config.drawFunc = function() {
+        var horizon = this.getHorizon_(this.pitch);
+        var context = this.getContext();
+        var width = this.attrs.width;
+        var height = this.attrs.height;
+
+        context.save();
+
+        context.translate(width / 2, height / 2);
+        context.save();
+
+        // Clip everything to a box that is width x height.  We
+        // draw the ground and sky as rects that extend beyond
+        // those dimensons so that there are no gaps when they're
+        // rotated.
+        context.beginPath();
+        context.rect(-width / 2, -height / 2, width, height);
+        context.clip();
+
+        context.rotate(-this.roll);
+
+        // Draw the ground.
+        context.fillStyle = this.attrs.groundColor;
+        context.strokeStyle = this.attrs.lineColor;
+        context.lineWidth = 3;
+        context.beginPath();
+        context.rect(-width, horizon, width * 2, height);
+        context.fill();
+
+        // Draw the sky.
+        context.fillStyle = this.attrs.skyColor;
+        context.beginPath();
+        context.rect(-width, -height, width * 2, height + horizon);
+        context.fill();
+
+        // Draw the horizon line.
+        context.beginPath();
+        context.lineWidth = 1;
+        context.moveTo(-width / 2, horizon);
+        context.lineTo(width / 2, horizon);
+        context.stroke();
+
+        // Draw the pitch ladder.
+        this.drawRung_(30, width * 0.3);
+        this.drawRung_(25, width * 0.05);
+        this.drawRung_(20, width * 0.2);
+        this.drawRung_(15, width * 0.05);
+        this.drawRung_(10, width * 0.1);
+        this.drawRung_(5, width * 0.05);
+
+        // Draw the roll indicator.
+        context.beginPath();
+        var rollRadius = this.radius * 0.9;
+        context.arc(0, 0, rollRadius,
+            210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
+        context.stroke();
+        this.drawRoll_(210 * Math.PI / 180, 10, rollRadius);
+        this.drawRoll_(220 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(230 * Math.PI / 180, 10, rollRadius);
+        this.drawRoll_(240 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(250 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(260 * Math.PI / 180, 5, rollRadius);
+        //this.drawRoll_(270 * Math.PI / 180, 5, rollRadius);
+        this.drawTriangle_(270 * Math.PI / 180, 5, rollRadius, true);
+        this.drawRoll_(280 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(290 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(300 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(310 * Math.PI / 180, 10, rollRadius);
+        this.drawRoll_(320 * Math.PI / 180, 5, rollRadius);
+        this.drawRoll_(330 * Math.PI / 180, 10, rollRadius);
+
+        // Undo the roll rotation so we can draw the plane figure
+        // over the rotated elements.
+        context.restore();
+
+        this.drawTriangle_(270 * Math.PI / 180, -5, rollRadius, false);
+
+        // Draw the plane.
+        context.strokeStyle = this.attrs.planeColor;
+        context.lineWidth = 3;
+        context.beginPath();
+        context.moveTo(-30, -1);
+        context.lineTo(-10, -1);
+        context.lineTo(-5, 5);
+        context.stroke();
+        context.beginPath();
+        context.moveTo(30, -1);
+        context.lineTo(10, -1);
+        context.lineTo(5, 5);
+        context.stroke();
+
+        context.restore();
+      };
+
+      this._super(config);
+    },
+
+    drawTriangle_: function(theta, length, radius, filled) {
       var context = this.getContext();
-      var width = this.attrs.width;
-      var height = this.attrs.height;
-
+      var cos = Math.cos(theta);
+      var sin = Math.sin(theta);
+      var phi = 2 * Math.PI / 180;
       context.save();
-
-      context.translate(width / 2, height / 2);
-      context.save();
-
-      // Clip everything to a box that is width x height.  We
-      // draw the ground and sky as rects that extend beyond
-      // those dimensons so that there are no gaps when they're
-      // rotated.
-      context.beginPath();
-      context.rect(-width / 2, -height / 2, width, height);
-      context.clip();
-
-      context.rotate(-this.roll);
-
-      // Draw the ground.
-      context.fillStyle = this.attrs.groundColor;
-      context.strokeStyle = this.attrs.lineColor;
-      context.lineWidth = 3;
-      context.beginPath();
-      context.rect(-width, horizon, width * 2, height);
-      context.fill();
-
-      // Draw the sky.
-      context.fillStyle = this.attrs.skyColor;
-      context.beginPath();
-      context.rect(-width, -height, width * 2, height + horizon);
-      context.fill();
-
-      // Draw the horizon line.
-      context.beginPath();
       context.lineWidth = 1;
-      context.moveTo(-width / 2, horizon);
-      context.lineTo(width / 2, horizon);
-      context.stroke();
-
-      // Draw the pitch ladder.
-      this.drawRung_(30, width * 0.3);
-      this.drawRung_(25, width * 0.05);
-      this.drawRung_(20, width * 0.2);
-      this.drawRung_(15, width * 0.05);
-      this.drawRung_(10, width * 0.1);
-      this.drawRung_(5, width * 0.05);
-
-      // Draw the roll indicator.
+      context.strokeStyle = this.attrs.lineColor;
       context.beginPath();
-      var rollRadius = this.radius * 0.9;
-      context.arc(0, 0, rollRadius, 210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
+      context.moveTo(radius * Math.cos(theta),
+          radius * Math.sin(theta));
+      context.lineTo((radius + length) * Math.cos(theta + phi),
+          (radius + length) * Math.sin(theta + phi));
+      context.lineTo((radius + length) * Math.cos(theta - phi),
+          (radius + length) * Math.sin(theta - phi));
+      context.lineTo(radius * Math.cos(theta),
+          radius * Math.sin(theta));
       context.stroke();
-      this.drawRoll_(210 * Math.PI / 180, 10, rollRadius);
-      this.drawRoll_(220 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(230 * Math.PI / 180, 10, rollRadius);
-      this.drawRoll_(240 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(250 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(260 * Math.PI / 180, 5, rollRadius);
-      //this.drawRoll_(270 * Math.PI / 180, 5, rollRadius);
-      this.drawTriangle_(270 * Math.PI / 180, 5, rollRadius, true);
-      this.drawRoll_(280 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(290 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(300 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(310 * Math.PI / 180, 10, rollRadius);
-      this.drawRoll_(320 * Math.PI / 180, 5, rollRadius);
-      this.drawRoll_(330 * Math.PI / 180, 10, rollRadius);
-
-      // Undo the roll rotation so we can draw the plane figure
-      // over the rotated elements.
+      if (filled) {
+        context.fillStyle = this.attrs.lineColor;
+        context.fill();
+      }
       context.restore();
+    },
 
-      this.drawTriangle_(270 * Math.PI / 180, -5, rollRadius, false);
-
-      // Draw the plane.
-      context.strokeStyle = this.attrs.planeColor;
-      context.lineWidth = 3;
+    drawRoll_: function(theta, length, radius) {
+      var context = this.getContext();
+      var cos = Math.cos(theta);
+      var sin = Math.sin(theta);
+      context.save();
+      context.lineWidth = 1;
+      context.strokeStyle = this.attrs.lineColor;
       context.beginPath();
-      context.moveTo(-30, -1);
-      context.lineTo(-10, -1);
-      context.lineTo(-5, 5);
+      context.moveTo(cos * radius, sin * radius);
+      context.lineTo(cos * (radius + length), sin * (radius + length));
       context.stroke();
+      context.restore();
+    },
+
+    drawRung_: function(offset, scaleWidth) {
+      var context = this.getContext();
+      var height = this.attrs.height;
+      var width = this.attrs.width;
+      context.save();
+
+      context.lineWidth = 1;
+      context.strokeStyle = this.attrs.lineColor;
+      var horizon = this.getHorizon_(this.pitch + offset * Math.PI / 180);
       context.beginPath();
-      context.moveTo(30, -1);
-      context.lineTo(10, -1);
-      context.lineTo(5, 5);
+      context.moveTo(-scaleWidth / 2, horizon);
+      context.lineTo(scaleWidth / 2, horizon);
+      context.stroke();
+
+      horizon = this.getHorizon_(this.pitch - offset * Math.PI / 180);
+      context.moveTo(-scaleWidth / 2, horizon);
+      context.lineTo(scaleWidth / 2, horizon);
       context.stroke();
 
       context.restore();
-    };
+    },
 
-    this._super(config);
-  },
+    getHorizon_: function(pitch) {
+      return Math.sin(pitch) * this.radius;
+    },
 
-  drawTriangle_: function(theta, length, radius, filled) {
-    var context = this.getContext();
-    var cos = Math.cos(theta);
-    var sin = Math.sin(theta);
-    var phi = 2 * Math.PI / 180;
-    context.save();
-    context.lineWidth = 1;
-    context.strokeStyle = this.attrs.lineColor;
-    context.beginPath();
-    context.moveTo(radius * Math.cos(theta),
-                   radius * Math.sin(theta));
-    context.lineTo((radius + length) * Math.cos(theta + phi),
-                   (radius + length) * Math.sin(theta + phi));
-    context.lineTo((radius + length) * Math.cos(theta - phi),
-                   (radius + length) * Math.sin(theta - phi));
-    context.lineTo(radius * Math.cos(theta),
-                   radius * Math.sin(theta));
-    context.stroke();
-    if (filled) {
-      context.fillStyle = this.attrs.lineColor;
-      context.fill();
+    setPitchRoll: function(pitch, roll) {
+      this.pitch = pitch;
+      this.roll = roll;
     }
-    context.restore();
-  },
-
-  drawRoll_: function(theta, length, radius) {
-    var context = this.getContext();
-    var cos = Math.cos(theta);
-    var sin = Math.sin(theta);
-    context.save();
-    context.lineWidth = 1;
-    context.strokeStyle = this.attrs.lineColor;
-    context.beginPath();
-    context.moveTo(cos * radius, sin * radius);
-    context.lineTo(cos * (radius + length), sin * (radius + length));
-    context.stroke();
-    context.restore();
-  },
-
-  drawRung_: function(offset, scaleWidth) {
-    var context = this.getContext();
-    var height = this.attrs.height;
-    var width = this.attrs.width;
-    context.save();
-
-    context.lineWidth = 1;
-    context.strokeStyle = this.attrs.lineColor;
-    var horizon = this.getHorizon_(this.pitch + offset * Math.PI / 180);
-    context.beginPath();
-    context.moveTo(-scaleWidth/2, horizon);
-    context.lineTo(scaleWidth/2, horizon);
-    context.stroke();
-
-    horizon = this.getHorizon_(this.pitch - offset * Math.PI / 180);
-    context.moveTo(-scaleWidth / 2, horizon);
-    context.lineTo(scaleWidth / 2, horizon);
-    context.stroke();
-
-    context.restore();
-  },
-
-  getHorizon_: function(pitch) {
-    return Math.sin(pitch) * this.radius;
-  },
-
-  setPitchRoll: function(pitch, roll) {
-    this.pitch = pitch;
-    this.roll = roll;
-  }
-});
+  });
 
 
   // Like a regular group except that it draws its children with a
@@ -241,12 +242,12 @@ $(function() {
   });
 
 
-  Mavelous.SpeedTape = function (parent, layer, origin) {
-    this.init(parent,layer,origin);
+  Mavelous.SpeedTape = function(parent, layer, origin) {
+    this.init(parent, layer, origin);
   };
 
   Mavelous.SpeedTape.prototype = {
-    init: function (parent, layer, origin) {
+    init: function(parent, layer, origin) {
       // --------------------
       // Speed tape
       // The speed tape displays 3 pieces of info:
@@ -256,14 +257,14 @@ $(function() {
 
       // background
       layer.add(
-        new Kinetic.Rect({
-          x: origin.x,
-          y: origin.y,
-          width: 30,
-          height: 140,
-          stroke: parent.options.backgroundColor2,
-          fill: parent.options.backgroundColor2
-        }));
+          new Kinetic.Rect({
+            x: origin.x,
+            y: origin.y,
+            width: 30,
+            height: 140,
+            stroke: parent.options.backgroundColor2,
+            fill: parent.options.backgroundColor2
+          }));
 
       this.tape = new Kinetic.Group();
       // clipping region for moving speed ladder
@@ -319,42 +320,42 @@ $(function() {
         textFill: parent.options.fontColor
       });
       layer.add(
-        parent.makeGroup([
-          new Kinetic.Polygon({
-            points: [0, 0,
-                     25, 0,
-                     30, 10,
-                     25, 20,
-                     0, 20,
-                     0, 0],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            fill: parent.options.backgroundColor1
-          }),
-          this.inst
-        ], {
-          x: origin.x,
-          y: origin.y + 60
-        }));
+          parent.makeGroup([
+            new Kinetic.Polygon({
+              points: [0, 0,
+                25, 0,
+                30, 10,
+                25, 20,
+                0, 20,
+                0, 0],
+              stroke: parent.options.fontColor,
+              strokeWidth: 1.0,
+              fill: parent.options.backgroundColor1
+            }),
+            this.inst
+          ], {
+            x: origin.x,
+            y: origin.y + 60
+          }));
 
       // Speed bug
       this.bug = new Kinetic.Polygon({
-          x: origin.x + 31,
-          y: origin.y,
-          points: [0, 0,
-                   3, -2,
-                   5, -2,
-                   5, 2,
-                   3, 2,
-                   0, 0],
-          stroke: parent.options.bugColor,
-          fill: parent.options.bugColor,
-          strokeWidth: 1.0,
-          visible: false
-        });
+        x: origin.x + 31,
+        y: origin.y,
+        points: [0, 0,
+          3, -2,
+          5, -2,
+          5, 2,
+          3, 2,
+          0, 0],
+        stroke: parent.options.bugColor,
+        fill: parent.options.bugColor,
+        strokeWidth: 1.0,
+        visible: false
+      });
       layer.add(this.bug);
 
-      this.setBug = function (target, current) {
+      this.setBug = function(target, current) {
         var y = origin.y + 70;
         y -= target * 2;
         y += current * 2;
@@ -366,26 +367,26 @@ $(function() {
   // end of speed tape
   // --------------------
 
-  Mavelous.AltTape = function (parent, layer, origin) {
-    this.init(parent,layer,origin);
+  Mavelous.AltTape = function(parent, layer, origin) {
+    this.init(parent, layer, origin);
 
   };
 
   Mavelous.AltTape.prototype = {
-      // --------------------
-      // altitude tape
+    // --------------------
+    // altitude tape
 
-    init: function (parent, layer, origin) {
+    init: function(parent, layer, origin) {
       // background
       layer.add(
-        new Kinetic.Rect({
-          x: origin.x,
-          y: origin.y,
-          width: 30,
-          height: 140,
-          stroke: parent.options.backgroundColor2,
-          fill: parent.options.backgroundColor2
-        }));
+          new Kinetic.Rect({
+            x: origin.x,
+            y: origin.y,
+            width: 30,
+            height: 140,
+            stroke: parent.options.backgroundColor2,
+            fill: parent.options.backgroundColor2
+          }));
 
       this.tape = new Kinetic.Group();
       // clipping region for moving altitude ladder
@@ -436,23 +437,23 @@ $(function() {
         textFill: parent.options.fontColor
       });
       layer.add(
-        parent.makeGroup([
-          new Kinetic.Polygon({
-            points: [0, 10,
-                     5, 0,
-                     30, 0,
-                     30, 20,
-                     5, 20,
-                     0, 10],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            fill: parent.options.backgroundColor1
-          }),
-          this.inst
-        ], {
-          x: origin.x,
-          y: origin.y + 60
-        }));
+          parent.makeGroup([
+            new Kinetic.Polygon({
+              points: [0, 10,
+                5, 0,
+                30, 0,
+                30, 20,
+                5, 20,
+                0, 10],
+              stroke: parent.options.fontColor,
+              strokeWidth: 1.0,
+              fill: parent.options.backgroundColor1
+            }),
+            this.inst
+          ], {
+            x: origin.x,
+            y: origin.y + 60
+          }));
 
       // --------------------
       // end of alt tape
@@ -502,13 +503,16 @@ $(function() {
     init: function(container, options) {
       options = options || {};
       this.options = options;
-      this.options.fontFamily = options.fontFamily || 'monospace,Tahoma,sans-serif';
+      this.options.fontFamily = options.fontFamily ||
+          'monospace,Tahoma,sans-serif';
       this.options.fontSize = options.fontSize || 8;
       this.options.fontColor = options.fontColor || 'white';
       this.options.backgroundColor1 = options.backgroundColor1 || 'black';
-      this.options.backgroundColor2 = options.backgroundColor2 || 'rgb(60,60,60)';
+      this.options.backgroundColor2 = options.backgroundColor2 ||
+          'rgb(60,60,60)';
       this.options.bugColor = options.bugColor || 'rgb(255,0,100)';
-      this.options.highlightColor = options.highlightColor || 'rgb(255,255,255)';
+      this.options.highlightColor = options.highlightColor ||
+          'rgb(255,255,255)';
       this.options.skyColor = options.skyColor || 'rgb(114,149,179)';
       this.options.groundColor = options.groundColor || 'rgb(165,105,63)';
 
@@ -536,8 +540,10 @@ $(function() {
       });
       this.layer.add(this.attitudeIndicator);
 
-      this.speedTape = new Mavelous.SpeedTape(this, this.layer, {x:0, y:15});
-      this.altitudeTape = new Mavelous.AltTape(this, this.layer, {x:170, y:15});
+      this.speedTape = new Mavelous.SpeedTape(this, this.layer,
+          {x: 0, y: 15});
+      this.altitudeTape = new Mavelous.AltTape(this, this.layer,
+          {x: 170, y: 15});
 
       // Target altitude
       var smallFontSize = this.options.fontSize * 0.9;
@@ -564,16 +570,16 @@ $(function() {
 
     },
 
-    setSize: function (width, height) {
+    setSize: function(width, height) {
       var aspect = width / height;
       var w, h = 0;
-      if (aspect > (4/3)) {
-        w = 4/3 * height; h = height;
+      if (aspect > (4 / 3)) {
+        w = 4 / 3 * height; h = height;
       } else {
-        w = width; h = 3/4 * width;
+        w = width; h = 3 / 4 * width;
       }
-      this.stage.setSize(w,h);
-      this.stage.setScale(w/200,w/200);
+      this.stage.setSize(w, h);
+      this.stage.setScale(w / 200, w / 200);
     },
 
     setSpeed: function(speed) {

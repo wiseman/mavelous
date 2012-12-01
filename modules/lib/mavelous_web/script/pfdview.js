@@ -1,7 +1,7 @@
 
-$(function(){
+$(function() {
   window.Mavelous = window.Mavelous || {};
-  
+
   Mavelous.PFDView = Backbone.View.extend({
 
     pfd: null,
@@ -9,8 +9,8 @@ $(function(){
 
     initialize: function() {
       this.blockel = this.options.blockel;
-      this.statel  = this.options.statel;
-      this.pfdel   = $('#' + this.options.drawingid);
+      this.statel = this.options.statel;
+      this.pfdel = $('#' + this.options.drawingid);
 
       var mavlinkSrc = this.options.mavlinkSrc;
       // Too bad backbone doesn't pass the model to event handlers; we
@@ -18,9 +18,9 @@ $(function(){
       this.attitude = mavlinkSrc.subscribe('ATTITUDE',
           this.onAttitudeChange, this);
       this.vfrHud = mavlinkSrc.subscribe('VFR_HUD',
-        this.onVfrHudChange, this);
+          this.onVfrHudChange, this);
       this.navControllerOutput = mavlinkSrc.subscribe(
-        'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
+          'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
 
       /* Create pfd object */
       this.pfd = new Mavelous.PFD(this.options.drawingid);
@@ -29,14 +29,14 @@ $(function(){
       if (this.options.settingsModel) {
         this.settingsModel = this.options.settingsModel;
         this.settingToDimension[this.settingsModel.STANDARD] =
-          { height: function () { return '280px'; }
-          , width: function () { return '400px'; } };
+            { height: function() { return '280px'; }
+          , width: function() { return '400px'; } };
         this.settingToDimension[this.settingsModel.FULLSCREEN] =
-          { height: function () { return $(window).height() - 120; }
-          , width: function () { return $(window).width();} };
+            { height: function() { return $(window).height() - 120; }
+          , width: function() { return $(window).width();} };
         this.settingToDimension[this.settingsModel.SMALL] =
-          { height: function () { return '140px'; }
-          , width: function () { return '200px'; } };
+            { height: function() { return '140px'; }
+          , width: function() { return '200px'; } };
         this.settingsModel.bind('change', this.onSettingsChange, this);
         this.onSettingsChange();
       }
@@ -53,7 +53,7 @@ $(function(){
       this.pfd.draw();
     },
 
-    onVfrHudChange: function () {
+    onVfrHudChange: function() {
       var alt = this.vfrHud.get('alt');
       this.pfd.setAltitude(alt);
       var airSpeed = this.vfrHud.get('airspeed');
@@ -72,15 +72,15 @@ $(function(){
       }
     },
 
-    onSettingsChange: function () {
+    onSettingsChange: function() {
       var settings = this.settingsModel.toJSON();
       this.setPosition(settings.position);
       this.setSize(settings.size);
     },
 
-    setPosition: function (position) {
+    setPosition: function(position) {
       this.blockel.removeClass('pfd-top pfd-bottom pfd-left pfd-right');
-      switch(position) {
+      switch (position) {
         case this.settingsModel.TOPLEFT:
           this.blockel.addClass('pfd-top pfd-left');
           break;
@@ -94,14 +94,14 @@ $(function(){
           this.blockel.addClass('pfd-bottom pfd-right');
           break;
       }
-    }, 
+    },
 
-    setSize: function (size) {
+    setSize: function(size) {
       var block = this.blockel;
 
       if (size == this.settingsModel.FULLSCREEN) {
         $('#droneicon').addClass('droneicon-hide');
-      } else if ($('#droneicon').hasClass('droneicon-hide')){
+      } else if ($('#droneicon').hasClass('droneicon-hide')) {
         $('#droneicon').removeClass('droneicon-hide');
       }
 
@@ -109,7 +109,7 @@ $(function(){
         block.hide();
       } else {
         /* Take care of show if hidden */
-        if (block.is(':hidden')){
+        if (block.is(':hidden')) {
           block.show();
         }
 
