@@ -1,52 +1,52 @@
 
-$(function(){
+$(function() {
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.LeafletDroneIconModel = Backbone.Model.extend({
-    defaults: function () {
-      return { 
+    defaults: function() {
+      return {
         icon: 'predatorsmall'
       };
     },
     icons: {
       predatorsmall: {
-        description: "Predator (small)",
+        description: 'Predator (small)',
         constructor: L.Icon.extend({options: {
-            iconUrl: 'image/drone-tiny.png',
-            shadowUrl: null,
-            iconAnchor: new L.Point(37, 25),
-            iconSize: new L.Point(75, 50)
+          iconUrl: 'image/drone-tiny.png',
+          shadowUrl: null,
+          iconAnchor: new L.Point(37, 25),
+          iconSize: new L.Point(75, 50)
         }})
       },
       predator: {
-        description: "Predator",
+        description: 'Predator',
         constructor: L.Icon.extend({options: {
-            iconUrl: 'image/drone-sm.png',
-            shadowUrl: null,
-            iconAnchor: new L.Point(75, 50),
-            iconSize: new L.Point(150, 100)
+          iconUrl: 'image/drone-sm.png',
+          shadowUrl: null,
+          iconAnchor: new L.Point(75, 50),
+          iconSize: new L.Point(150, 100)
         }})
       },
       arduplane: {
-        description: "Generic Airplane",
+        description: 'Generic Airplane',
         constructor: L.Icon.extend({options: {
-            iconUrl: 'image/plane.png',
-            shadowUrl: null,
-            iconAnchor: new L.Point(36, 38),
-            iconSize: new L.Point(73, 76)
+          iconUrl: 'image/plane.png',
+          shadowUrl: null,
+          iconAnchor: new L.Point(36, 38),
+          iconSize: new L.Point(73, 76)
         }})
       },
       quad: {
-        description: "Quadcopter",
+        description: 'Quadcopter',
         constructor: L.Icon.extend({options: {
-            iconUrl: 'image/quad.png',
-            shadowUrl: null,
-            iconAnchor: new L.Point(37, 37),
-            iconSize: new L.Point(75, 75)
+          iconUrl: 'image/quad.png',
+          shadowUrl: null,
+          iconAnchor: new L.Point(37, 37),
+          iconSize: new L.Point(75, 75)
         }})
       }
     },
-    getIcon: function () {
+    getIcon: function() {
       var name = this.get('icon');
       var i = this.icons[name];
       return new i.constructor();

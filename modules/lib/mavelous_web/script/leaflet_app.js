@@ -1,5 +1,5 @@
 
-$(function(){ 
+$(function() {
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
 
   var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
@@ -8,7 +8,7 @@ $(function(){
 
   var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
 
-  var mapView = new Mavelous.LeafletView({ 
+  var mapView = new Mavelous.LeafletView({
     vehicle: vehicle,
     provider: leafletProviders,
     vehicleIcon: leafletDroneIcon,
@@ -17,6 +17,6 @@ $(function(){
 
   setInterval(function() {
     mavlinkAPI.update();
-  }, 100); 
+  }, 100);
 
 });

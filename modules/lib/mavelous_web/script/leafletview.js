@@ -1,20 +1,22 @@
 
-$(function(){
+$(function() {
+
   window.Mavelous = window.Mavelous || {};
-  var markerIcon = L.Icon.extend(
-    { options:
-      { iconUrl: 'third_party/leaflet/images/marker-icon.png'
-      , shadowUrl: 'third_party/leaflet/images/marker-shadow.png'
-      , iconAnchor: new L.Point(13,41)
-      , iconSize: new L.Point(25,41)
-      }
-    });
+
+  var markerIcon = L.Icon.extend({
+    options: {
+      iconUrl: 'third_party/leaflet/images/marker-icon.png',
+      shadowUrl: 'third_party/leaflet/images/marker-shadow.png',
+      iconAnchor: new L.Point(13, 41),
+      iconSize: new L.Point(25, 41)
+    }
+  });
 
   Mavelous.LeafletView = Backbone.View.extend({
-    initialize: function () {
+    initialize: function() {
 
       this.vehicleModel = this.options.vehicle;
-      this.vehicleIconModel = this.options.vehicleIcon;;
+      this.vehicleIconModel = this.options.vehicleIcon;
       this.providerModel = this.options.provider;
       this.guideModel = this.options.guideModel;
       this.initializedposition = false;
@@ -41,26 +43,26 @@ $(function(){
       this.guideModel.bind('change', this.updateGuideMarker, this);
     },
 
-    doubleClickHandler: function (e) {
-      this.guideModel.setTarget({ lat: e.latlng.lat, lon: e.latlng.lng })
+    doubleClickHandler: function(e) {
+      this.guideModel.setTarget({ lat: e.latlng.lat, lon: e.latlng.lng });
     },
 
-    providerChange: function () {
+    providerChange: function() {
       this.map.removeLayer(this.tileLayer);
       this.tileLayer = this.providerModel.getProvider();
       this.map.addLayer(this.tileLayer);
     },
 
-    panMapToVehicle: function () {
+    panMapToVehicle: function() {
       var p = this.vehicleModel.get('position');
       if (!p) return;
-      if ( !this.initializedposition ) {
+      if (!this.initializedposition) {
         this.map.setView(p, 16);
         this.initializedposition = true;
       }
     },
 
-    updateVehicleMarker: function () {
+    updateVehicleMarker: function() {
       var p = this.vehicleModel.get('position');
       var h = this.vehicleModel.get('heading');
       if (!p || !h) return;
@@ -75,7 +77,7 @@ $(function(){
       }
     },
 
-    vehicleIconChange: function () {
+    vehicleIconChange: function() {
       var p = this.vehicleModel.get('position');
       var h = this.vehicleModel.get('heading');
       if (!p || !h) return;
@@ -86,7 +88,7 @@ $(function(){
       this.map.addLayer(this.vehicleMarker);
     },
 
-    updateVehiclePath: function () {
+    updateVehiclePath: function() {
       var p = this.vehicleModel.get('position');
       if (!p) return;
       if (this.vehiclePath === undefined) {
@@ -97,7 +99,7 @@ $(function(){
       }
     },
 
-    updateGuideMarker: function () {
+    updateGuideMarker: function() {
       var p = this.guideModel.toJSON();
       var latlng = new L.LatLng(p.lat, p.lon);
       if (!p) return;
@@ -108,7 +110,7 @@ $(function(){
       } else {
         this.guideMarker.setLatLng(latlng);
       }
-    },
+    }
 
   });
 });

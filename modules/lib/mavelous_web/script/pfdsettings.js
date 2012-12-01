@@ -1,5 +1,5 @@
 
-$(function(){
+$(function() {
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.PFDSettingsModel = Backbone.Model.extend({
@@ -15,12 +15,12 @@ $(function(){
     HIDDEN: 3,
 
     initialize: function() {
-      this.bind('change', function(){
+      this.bind('change', function() {
         this.writeToCookie();
       });
     },
 
-    defaults: function () {
+    defaults: function() {
       var defaults = this.readFromCookie();
       if (defaults) {
         return defaults;

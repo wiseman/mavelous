@@ -1,25 +1,25 @@
 
-$(function () {
+$(function() {
   window.Mavelous = window.Mavelous || {};
 
   Mavelous.StatustextView = Backbone.View.extend({
-  
-    initialize: function () {
+
+    initialize: function() {
       var mavlinkSrc = this.options.mavlinkSrc;
       this.$el = $('#statustextview');
       this.statusText = mavlinkSrc.subscribe('STATUSTEXT',
-                            this.onStatusTextChange, this);
+          this.onStatusTextChange, this);
       this.onStatusTextChange();
     },
 
-    onStatusTextChange: function () {
+    onStatusTextChange: function() {
       clearTimeout(this.timeout);
       var el = this.$el;
       el.html(this.statusText.get('text'));
-      el.css('padding',10);
-      this.timeout = setTimeout(function () {
-        el.html(''); 
-        el.css('padding',0);
+      el.css('padding', 10);
+      this.timeout = setTimeout(function() {
+        el.html('');
+        el.css('padding', 0);
       }, 4000);
     }
 
