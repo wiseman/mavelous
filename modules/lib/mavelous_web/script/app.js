@@ -21,7 +21,8 @@ $(function() {
   }
 
   /* Check whether we're in debug mode. */
-  if (goog.isDef(uri.getParameterValue('debug'))) {
+  var debugValue = uri.getParameterValue('debug');
+  if (goog.isDef(debugValue)) {
     console.log('Enabling debug mode');
     /* ?debug with or without a value is enough to trigger fps display. */
     var fpsNode = document.getElementById('fps');
@@ -33,10 +34,13 @@ $(function() {
     /* Phonegap support: If we see debug=<identifier>, load the
      * phonegap script.  You can then debug at
      * http://debug.phonegap.com/client/#<identifier> */
-    var phonegap_script_url = ('http://debug.phonegap.com/target/' +
-                               'target-script-min.js#' +
-                               uri.getParameterValue('debug'));
-    goog.net.jsloader.load(phonegap_script_url);
+    if (debugValue.length > 0) {
+      console.log('Enabling phonegap at http://debug.phonegap.com/client/#' +
+                  debugValue);
+      var phonegap_script_url = ('http://debug.phonegap.com/target/' +
+                                 'target-script-min.js#' + debugValue);
+      goog.net.jsloader.load(phonegap_script_url);
+    }
   }
 
   var pfdSettingsModel = new Mavelous.PFDSettingsModel();
