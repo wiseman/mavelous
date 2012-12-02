@@ -123,3 +123,21 @@ html {
         margin: 0 4px !important;
     }
 }
+
+.mapoverlay-top{
+  position: absolute;
+  top: 50px;
+}
+
+.mapoverlay-bottom {
+  position: absolute;
+  bottom: 10px;
+}
+
+.mapoverlay-left {
+  left: 10px;
+}
+
+.mapoverlay-right {
+  right: 10px;
+}
