@@ -23,7 +23,7 @@ Mavelous running on an iPhone:
 browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
 "Mavelous in an iPhone browser")
 
-Here's a video of Mavelous being used in the field with an iPad to fly
+Here's a video of Mavelous being used in the field with a tablet to fly
 an ArduCopter:
 
 ![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
