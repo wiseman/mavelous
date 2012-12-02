@@ -19,6 +19,7 @@ $(function() {
       this.vehicleIconModel = this.options.vehicleIcon;
       this.providerModel = this.options.provider;
       this.guideModel = this.options.guideModel;
+      this.centeringButton = this.options.centeringButton;
       this.initializedposition = false;
 
       this.tileLayer = this.providerModel.getProvider();
@@ -34,13 +35,17 @@ $(function() {
 
       this.vehicleIconModel.bind('change', this.vehicleIconChange, this);
 
-      this.vehicleModel.bind('change', this.panMapToVehicle, this);
+      this.vehicleModel.bind('change:position', this.panMapInitially, this);
       this.vehicleModel.bind('change', this.updateVehicleMarker, this);
       this.vehicleModel.bind('change', this.updateVehiclePath, this);
 
       this.map.addEventListener('dblclick', this.doubleClickHandler, this);
 
       this.guideModel.bind('change', this.updateGuideMarker, this);
+
+      if (this.centeringButton) {
+        this.centeringButton.click(_.bind(this.panMapToVehicle, this));
+      }
     },
 
     doubleClickHandler: function(e) {
@@ -53,13 +58,19 @@ $(function() {
       this.map.addLayer(this.tileLayer);
     },
 
-    panMapToVehicle: function() {
+    panMapInitially: function() {
       var p = this.vehicleModel.get('position');
       if (!p) return;
       if (!this.initializedposition) {
         this.map.setView(p, 16);
         this.initializedposition = true;
       }
+    },
+
+    panMapToVehicle: function() {
+      var p = this.vehicleModel.get('position');
+      if (!p) return;
+      this.map.panTo(p);
     },
 
     updateVehicleMarker: function() {

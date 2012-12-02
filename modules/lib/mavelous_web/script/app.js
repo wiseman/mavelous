@@ -68,7 +68,8 @@ $(function() {
     vehicle: vehicle,
     provider: leafletProviders,
     vehicleIcon: leafletDroneIcon,
-    guideModel: guideModel
+    guideModel: guideModel,
+    centeringButton: $('#mapoverlay-btn-centermap')
   });
 
   var commStatusModel = new Mavelous.CommStatusModel({
