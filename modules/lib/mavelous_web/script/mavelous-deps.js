@@ -8,7 +8,7 @@ goog.addDependency("../../../../script/mavelous-deps.js", [], []);
 goog.addDependency("../../../../script/settingsview.js", [], []);
 goog.addDependency("../../../../script/pfdview.js", [], []);
 goog.addDependency("../../../../script/pfdsettings.js", [], []);
-goog.addDependency("../../../../script/app.js", ['mavelous.app'], ['goog.Uri', 'goog.base', 'goog.debug.Console', 'goog.net.jsloader']);
+goog.addDependency("../../../../script/app.js", ['mavelous.app'], ['goog.Uri', 'goog.base', 'goog.debug.Console', 'goog.debug.FpsDisplay', 'goog.dom', 'goog.net.jsloader']);
 goog.addDependency("../../../../script/mavutil.js", [], []);
 goog.addDependency("../../../../script/mission-compiled.js", [], []);
 goog.addDependency("../../../../script/navbarbuttons.js", [], []);

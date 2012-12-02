@@ -3,6 +3,8 @@ goog.provide('mavelous.app');
 goog.require('goog.Uri');
 goog.require('goog.base');
 goog.require('goog.debug.Console');
+goog.require('goog.debug.FpsDisplay');
+goog.require('goog.dom');
 goog.require('goog.net.jsloader');
 
 $(function() {
@@ -18,10 +20,20 @@ $(function() {
     mavlinkAPI.useOfflineMode();
   }
 
-  /* Phonegap support: If we see debug=<identifier>, load the phonegap
-   * script.  You can then debug at
-   * http://debug.phonegap.com/client/#<identifier> */
+  /* Check whether we're in debug mode. */
   if (goog.isDef(uri.getParameterValue('debug'))) {
+    console.log('Enabling debug mode');
+    alert(uri.getParameterValue('debug'));
+    /* ?debug with or without a value is enough to trigger fps display. */
+    var fpsNode = document.getElementById('fps');
+    var fpsValueNode = goog.dom.createDom('span', {id: 'fpsvalue'});
+    goog.dom.appendChild(fpsNode, fpsValueNode);
+    goog.dom.appendChild(fpsNode, goog.dom.createTextNode(' fps'));
+    new goog.debug.FpsDisplay().decorate(fpsValueNode);
+
+    /* Phonegap support: If we see debug=<identifier>, load the
+     * phonegap script.  You can then debug at
+     * http://debug.phonegap.com/client/#<identifier> */
     var phonegap_script_url = ('http://debug.phonegap.com/target/' +
                                'target-script-min.js#' +
                                uri.getParameterValue('debug'));
