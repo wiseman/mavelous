@@ -17,8 +17,15 @@ Here's a screenshot of Mavelous running in a desktop web browser:
 browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-desktop-s.jpg
 "Mavelous in a desktop browser")
 
-Here's a video of Mavelous being used in the field to fly an
-ArduCopter: 
+Mavelous running on an iPhone:
+
+![Screenshot of Mavelous running on an iPhone
+browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
+"Mavelous in an iPhone browser")
+
+Here's a video of Mavelous being used in the field with an iPad to fly
+an ArduCopter:
+
 ![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
 
 http://www.youtube.com/watch?v=QNql3n4C8iA
@@ -201,10 +208,6 @@ The goal of Mavelous is to have a highly portable GCS that can talk to
 anything that speaks the MAVLink protocol (and hopefully
 [ROS](http://www.willowgarage.com/pages/software/ros-platform)
 devices, too, some day).
-
-![Screenshot of Mavelous running on an iPhone
-browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
-"Mavelous in an iPhone browser")
 
 
 Feature status
