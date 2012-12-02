@@ -23,7 +23,6 @@ $(function() {
   /* Check whether we're in debug mode. */
   if (goog.isDef(uri.getParameterValue('debug'))) {
     console.log('Enabling debug mode');
-    alert(uri.getParameterValue('debug'));
     /* ?debug with or without a value is enough to trigger fps display. */
     var fpsNode = document.getElementById('fps');
     var fpsValueNode = goog.dom.createDom('span', {id: 'fpsvalue'});
