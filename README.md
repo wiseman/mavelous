@@ -23,7 +23,7 @@ Mavelous running on an iPhone:
 browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iphone-s.jpg
 "Mavelous in an iPhone browser")
 
-Here's a video of Mavelous being used in the field with a tablet to fly
+Here's a video of Mavelous being used in the field with an iPad to fly
 an ArduCopter:
 
 ![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
@@ -64,13 +64,14 @@ How to run it
 
 ### Online Demo
 
-The [online demo](http://moreproductive.org/mavelous_web/) of Mavelous runs
+The [online demo](http://mavelousdemo.appspot.com) of Mavelous runs
 completely within the browser. The simulated drone is very low fidelity
 and simply follows a fixed path. It will not respond to navigation commands
 such as guided mode.
 
-You can also run the demo on your own machine by opening the html page in your
-browser via the filesystem. The `index.html` file can be found at:
+You can also run the demo on your own machine by cloning the repository and
+opening the html page in your browser via the filesystem. The `index.html`
+file can be found at:
 
   ```
   mavelous/modules/lib/mavelous_web/index.html
@@ -177,6 +178,8 @@ Architecture
 Mavelous has two main parts:
 
 1. Front end.  This is the HTML application that runs in a browser.
+It uses many HTML5 features, so you'll need a reasonably modern
+browser.
 
 2. Server.  The server manages communication between the front end and
 the drone.  It has a web server that talks to the front end, and it
@@ -219,10 +222,12 @@ Currently Mavelous is capable of monitoring and guiding a drone in flight.
   flight display.
 * You can double click/tap on the map to send the drone to that location.
 * Multiple users can control the same drone.
+* Arm/Disarm, loiter, and land an ArduCopter (or other drones that obey
+  Mavlink Navigation Commands).
 
 We're working to add the following features soon:
 
-* Control auto takeoff, loiter, and landing of an ArduCopter
+* Control auto takeoff
 * Mission creation and editing
 * Offline support (map caching)
 
@@ -244,12 +249,13 @@ Acknowledgments
 The Mavelous backend is based on [Mavproxy](https://github.com/tridge/MAVProxy),a command line ground station by Andrew Tridgell.
 
 Mavelous uses open source code from the following projects: 
-[Modestmaps.js](https://github.com/stamen/modestmaps-js/),
+[Leaflet.js](http://leafletjs.com),
 [Backbone.js](http://backbonejs.org/),
 [Bootstrap](http://twitter.github.com/bootstrap/),
 [jQuery](http://jquery.com/),
 [Underscore.js](http://documentcloud.github.com/underscore/),
 [Kinetic.js](http://www.kineticjs.com/),
+[Google Closure tools](https://developers.google.com/closure/)
 and others.
 
 
@@ -260,4 +266,4 @@ Mavelous is covered by the MIT license, see the accompanying file
 LICENSE.md for details.
 
 This repository contains additional code that may be covered by other
-licenses, including jquery, MAVproxy and modest maps.
+licenses, including MAVProxy, which uses the GPL license.
