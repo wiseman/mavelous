@@ -64,12 +64,21 @@ $(function() {
   var leafletProviders = new Mavelous.LeafletProviders();
 
   var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
+
+  var panModel = new Mavelous.LeafletPanModel({
+    vehicle: vehicle
+  });
+  var panCtrl = new Mavelous.LeafletPanControlView({
+    model: panModel,
+    button: $('#mapoverlay-btn-centermap'),
+    icon: $('#mapoverlay-icon-centermap')
+  });
   var mapView = new Mavelous.LeafletView({
     vehicle: vehicle,
     provider: leafletProviders,
     vehicleIcon: leafletDroneIcon,
     guideModel: guideModel,
-    centeringButton: $('#mapoverlay-btn-centermap')
+    panModel: panModel
   });
 
   var commStatusModel = new Mavelous.CommStatusModel({

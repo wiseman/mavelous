@@ -151,7 +151,7 @@ $(function() {
       } else if (server == csm.TIMED_OUT_ONCE || mav == csm.TIMED_OUT_ONCE) {
         this.setButton(csm.TIMED_OUT_ONCE);
       } else {
-        this.rcommStatusModelender_status(csm.ERROR);
+        this.setButton(csm.ERROR);
       }
     },
 

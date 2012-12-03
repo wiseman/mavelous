@@ -19,8 +19,8 @@ $(function() {
       this.vehicleIconModel = this.options.vehicleIcon;
       this.providerModel = this.options.provider;
       this.guideModel = this.options.guideModel;
-      this.centeringButton = this.options.centeringButton;
-      this.initializedposition = false;
+      this.panModel = this.options.panModel;
+      this.initializedcenter = false;
 
       this.tileLayer = this.providerModel.getProvider();
       this.map = new L.Map('map', {
@@ -35,17 +35,15 @@ $(function() {
 
       this.vehicleIconModel.bind('change', this.vehicleIconChange, this);
 
-      this.vehicleModel.bind('change:position', this.panMapInitially, this);
+      this.panModel.bind('change:center', this.panModelChange, this);
+      this.map.on('dragstart', function() {this.panModel.cancelTracking()}, this);
+
       this.vehicleModel.bind('change', this.updateVehicleMarker, this);
       this.vehicleModel.bind('change', this.updateVehiclePath, this);
 
       this.map.addEventListener('dblclick', this.doubleClickHandler, this);
 
       this.guideModel.bind('change', this.updateGuideMarker, this);
-
-      if (this.centeringButton) {
-        this.centeringButton.click(_.bind(this.panMapToVehicle, this));
-      }
     },
 
     doubleClickHandler: function(e) {
@@ -58,26 +56,23 @@ $(function() {
       this.map.addLayer(this.tileLayer);
     },
 
-    panMapInitially: function() {
-      var p = this.vehicleModel.get('position');
-      if (!p) return;
-      if (!this.initializedposition) {
-        this.map.setView(p, 16);
-        this.initializedposition = true;
+    panModelChange: function () {
+      var center = this.panModel.get('center');
+      if (center == undefined) return;
+      if (this.initializedcenter) {
+        this.map.panTo(center);
+      } else {
+        this.map.setView(center, 16);
+        this.initializedcenter = true;
       }
     },
 
-    panMapToVehicle: function() {
-      var p = this.vehicleModel.get('position');
-      if (!p) return;
-      this.map.panTo(p);
-    },
-
     updateVehicleMarker: function() {
+      if (!this.initializedcenter) return;
       var p = this.vehicleModel.get('position');
       var h = this.vehicleModel.get('heading');
       if (!p || !h) return;
-      if (this.vehicleMarker === undefined) {
+      if (this.vehicleMarker == undefined) {
         this.vehicleMarker = new L.Marker(p,
             { icon: this.vehicleIconModel.getIcon(),
               iconAngle: h });

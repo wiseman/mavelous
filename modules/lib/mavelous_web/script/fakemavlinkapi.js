@@ -171,7 +171,7 @@ $(function() {
       var tnow = Date.now();
       var increment = (tnow - this.lastmessagetime) > 200;
       if (increment) { this.lastmessagetime = tnow; }
-      
+
       var state = this.toJSON();
       var results = {};
       _.each(msgModels, function(mdl, name) {
