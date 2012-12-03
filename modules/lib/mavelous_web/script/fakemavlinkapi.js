@@ -136,6 +136,7 @@ $(function() {
       var t = Date.now();
       this.firstupdate = t;
       this.lastupdate = t;
+      this.lastmessagetime = t;
     },
 
     update: function() {
@@ -164,13 +165,20 @@ $(function() {
     },
 
     requestMessages: function(msgModels) {
+      /* Throttle results to 5hz - give a non-error response either way,
+       * but only increment the index above the expected if its been
+       * more than 200ms since we last responded to the request. */
+      var tnow = Date.now();
+      var increment = (tnow - this.lastmessagetime) > 200;
+      if (increment) { this.lastmessagetime = tnow; }
+      
       var state = this.toJSON();
       var results = {};
       _.each(msgModels, function(mdl, name) {
         if (name in fakeHandlers) {
           var mdlidx = mdl.get('_index') || 0;
           results[name] = {
-            index: mdlidx + 1,
+            index: (increment ? (mdlidx + 1) : mdlidx),
             msg: fakeHandlers[name](state)
           };
         }

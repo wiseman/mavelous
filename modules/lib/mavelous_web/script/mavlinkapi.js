@@ -38,7 +38,8 @@ $(function() {
       this.trigger('gotServerResponse');
       // Update the model if this is a new message for this type.
       var msgModel = this.messageModels[msgType];
-      if (msgModel._index === undefined || msg.index > msgModel._index) {
+      var mdlidx = msgModel.get('_index');
+      if (mdlidx === undefined || msg.index > mdlidx) {
         msgModel.set({
           _index: msg.index
         }, {
