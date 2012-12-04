@@ -26,7 +26,7 @@ browser](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-iph
 Here's a video of Mavelous being used in the field with an iPad to fly
 an ArduCopter:
 
-![Mavelous Youtube Demo Video](https://github.com/wiseman/mavelous/raw/master/screenshots/mavelous-youtube.png "Mavelous YouTube Demo Video")
+![Mavelous Youtube Demo Video](http://www.youtube.com/watch?v=QNql3n4C8iA "Mavelous YouTube Demo Video")
 
 http://www.youtube.com/watch?v=QNql3n4C8iA
 
@@ -47,17 +47,11 @@ $ git clone https://github.com/wiseman/mavlink  # Fork required to fix bugs
 $ git clone git@github.com:wiseman/mavelous.git
 ```
 
-Then install CherryPy and Flask.  The easiest way is with
+Then install CherryPy, Flask and pyserial.  The easiest way is with
 [pip](http://www.pip-installer.org/en/latest/index.html):
 
 ```
-$ pip install cherrypy flask
-```
-
-You will also need to install a python libarary that mavproxy depends on:
-
-```
-$ pip install pyserial
+$ pip install cherrypy flask pyserial
 ```
 
 How to run it
