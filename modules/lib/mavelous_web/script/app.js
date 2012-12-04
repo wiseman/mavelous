@@ -13,7 +13,8 @@ $(function() {
 
   var uri = new goog.Uri(window.location.href);
 
-  if (uri.domain == 'mavelousdemo.appspot.com') {
+  console.log('domain = "' + uri.getDomain() + '"');
+  if (uri.getDomain() == 'mavelousdemo.appspot.com') {
     // Enable analytics in the demo page served from
     // http://mavelousdemo.appspot.com/
     console.log('Enabling analytics.');
