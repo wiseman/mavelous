@@ -13,9 +13,12 @@ $(function() {
   window.Mavelous = window.Mavelous || {};
 
   // The artificial horizon is implemented as a Kinetic Shape subclass.
+  Mavelous.ArtificialHorizon = function(config) {
+    this.initArtificialHorizon_(config);
+  };
 
-  Mavelous.ArtificialHorizon = Kinetic.Shape.extend({
-    init: function(config) {
+  Mavelous.ArtificialHorizon.prototype = {
+    initArtificialHorizon_: function(config) {
       this.setDefaultAttrs({
         width: 100,
         height: 100,
@@ -24,115 +27,108 @@ $(function() {
         lineColor: '#ffffff',
         planeColor: 'black'
       });
-
       this.shapeType = 'ArtificialHorizon';
       this.radius = Math.min(config.width, config.height) / 2.0;
       this.pitch = 0;
       this.roll = 0;
 
-      config.drawFunc = function() {
-        var horizon = this.getHorizon_(this.pitch);
-        var context = this.getContext();
-        var width = this.attrs.width;
-        var height = this.attrs.height;
-
-        context.save();
-
-        context.translate(width / 2, height / 2);
-        context.save();
-
-        // Clip everything to a box that is width x height.  We
-        // draw the ground and sky as rects that extend beyond
-        // those dimensons so that there are no gaps when they're
-        // rotated.
-        context.beginPath();
-        context.rect(-width / 2, -height / 2, width, height);
-        context.clip();
-
-        context.rotate(-this.roll);
-
-        // Draw the ground.
-        context.fillStyle = this.attrs.groundColor;
-        context.strokeStyle = this.attrs.lineColor;
-        context.lineWidth = 3;
-        context.beginPath();
-        context.rect(-width, horizon, width * 2, height);
-        context.fill();
-
-        // Draw the sky.
-        context.fillStyle = this.attrs.skyColor;
-        context.beginPath();
-        context.rect(-width, -height, width * 2, height + horizon);
-        context.fill();
-
-        // Draw the horizon line.
-        context.beginPath();
-        context.lineWidth = 1;
-        context.moveTo(-width / 2, horizon);
-        context.lineTo(width / 2, horizon);
-        context.stroke();
-
-        // Draw the pitch ladder.
-        this.drawRung_(30, width * 0.3);
-        this.drawRung_(25, width * 0.05);
-        this.drawRung_(20, width * 0.2);
-        this.drawRung_(15, width * 0.05);
-        this.drawRung_(10, width * 0.1);
-        this.drawRung_(5, width * 0.05);
-
-        // Draw the roll indicator.
-        context.beginPath();
-        var rollRadius = this.radius * 0.9;
-        context.arc(0, 0, rollRadius,
-            210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
-        context.stroke();
-        this.drawRoll_(210 * Math.PI / 180, 10, rollRadius);
-        this.drawRoll_(220 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(230 * Math.PI / 180, 10, rollRadius);
-        this.drawRoll_(240 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(250 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(260 * Math.PI / 180, 5, rollRadius);
-        //this.drawRoll_(270 * Math.PI / 180, 5, rollRadius);
-        this.drawTriangle_(270 * Math.PI / 180, 5, rollRadius, true);
-        this.drawRoll_(280 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(290 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(300 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(310 * Math.PI / 180, 10, rollRadius);
-        this.drawRoll_(320 * Math.PI / 180, 5, rollRadius);
-        this.drawRoll_(330 * Math.PI / 180, 10, rollRadius);
-
-        // Undo the roll rotation so we can draw the plane figure
-        // over the rotated elements.
-        context.restore();
-
-        this.drawTriangle_(270 * Math.PI / 180, -5, rollRadius, false);
-
-        // Draw the plane.
-        context.strokeStyle = this.attrs.planeColor;
-        context.lineWidth = 3;
-        context.beginPath();
-        context.moveTo(-30, -1);
-        context.lineTo(-10, -1);
-        context.lineTo(-5, 5);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(30, -1);
-        context.lineTo(10, -1);
-        context.lineTo(5, 5);
-        context.stroke();
-
-        context.restore();
-      };
-
-      this._super(config);
+      Kinetic.Shape.call(this, config);
+      this._setDrawFuncs();
     },
 
-    drawTriangle_: function(theta, length, radius, filled) {
-      var context = this.getContext();
+    drawFunc: function(context) {
+      var horizon = this.getHorizon_(this.pitch);
+      var width = this.attrs.width;
+      var height = this.attrs.height;
+
+      context.translate(width / 2, height / 2);
+      context.save();
+
+      // Clip everything to a box that is width x height.  We
+      // draw the ground and sky as rects that extend beyond
+      // those dimensons so that there are no gaps when they're
+      // rotated.
+      context.beginPath();
+      context.rect(-width / 2, -height / 2, width, height);
+      context.clip();
+
+      context.rotate(-this.roll);
+
+      // Draw the ground.
+      context.fillStyle = this.attrs.groundColor;
+      context.strokeStyle = this.attrs.lineColor;
+      context.lineWidth = 3;
+      context.beginPath();
+      context.rect(-width, horizon, width * 2, height);
+      context.fill();
+
+      // Draw the sky.
+      context.fillStyle = this.attrs.skyColor;
+      context.beginPath();
+      context.rect(-width, -height, width * 2, height + horizon);
+      context.fill();
+
+      // Draw the horizon line.
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(-width / 2, horizon);
+      context.lineTo(width / 2, horizon);
+      context.stroke();
+
+      // Draw the pitch ladder.
+      this.drawRung_(30, width * 0.3);
+      this.drawRung_(25, width * 0.05);
+      this.drawRung_(20, width * 0.2);
+      this.drawRung_(15, width * 0.05);
+      this.drawRung_(10, width * 0.1);
+      this.drawRung_(5, width * 0.05);
+
+      // Draw the roll indicator.
+      var rollRadius = this.radius * 0.9;
+      context.beginPath();
+      context.arc(0, 0, rollRadius,
+                  210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
+      context.stroke();
+      this.drawRoll_(context, 210 * Math.PI / 180, 10, rollRadius);
+      this.drawRoll_(context, 220 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 230 * Math.PI / 180, 10, rollRadius);
+      this.drawRoll_(context, 240 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 250 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 260 * Math.PI / 180, 5, rollRadius);
+      //this.drawRoll_(270 * Math.PI / 180, 5, rollRadius);
+      this.drawTriangle_(context, 270 * Math.PI / 180, 5, rollRadius, true);
+      this.drawRoll_(context, 280 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 290 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 300 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 310 * Math.PI / 180, 10, rollRadius);
+      this.drawRoll_(context, 320 * Math.PI / 180, 5, rollRadius);
+      this.drawRoll_(context, 330 * Math.PI / 180, 10, rollRadius);
+
+      // Undo the roll rotation so we can draw the plane figure
+      // over the rotated elements.
+      context.restore();
+
+      this.drawTriangle_(context, 270 * Math.PI / 180, -5, rollRadius, false);
+
+      // Draw the plane.
+      context.strokeStyle = this.attrs.planeColor;
+      context.lineWidth = 3;
+      context.beginPath();
+      context.moveTo(-30, -1);
+      context.lineTo(-10, -1);
+      context.lineTo(-5, 5);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(30, -1);
+      context.lineTo(10, -1);
+      context.lineTo(5, 5);
+      context.stroke();
+    },
+
+    drawTriangle_: function(context, theta, length, radius, filled) {
       var cos = Math.cos(theta);
       var sin = Math.sin(theta);
       var phi = 2 * Math.PI / 180;
-      context.save();
       context.lineWidth = 1;
       context.strokeStyle = this.attrs.lineColor;
       context.beginPath();
@@ -149,28 +145,23 @@ $(function() {
         context.fillStyle = this.attrs.lineColor;
         context.fill();
       }
-      context.restore();
     },
 
-    drawRoll_: function(theta, length, radius) {
-      var context = this.getContext();
+    drawRoll_: function(context, theta, length, radius) {
       var cos = Math.cos(theta);
       var sin = Math.sin(theta);
-      context.save();
       context.lineWidth = 1;
       context.strokeStyle = this.attrs.lineColor;
       context.beginPath();
       context.moveTo(cos * radius, sin * radius);
       context.lineTo(cos * (radius + length), sin * (radius + length));
       context.stroke();
-      context.restore();
     },
 
     drawRung_: function(offset, scaleWidth) {
       var context = this.getContext();
       var height = this.attrs.height;
       var width = this.attrs.width;
-      context.save();
 
       context.lineWidth = 1;
       context.strokeStyle = this.attrs.lineColor;
@@ -181,11 +172,10 @@ $(function() {
       context.stroke();
 
       horizon = this.getHorizon_(this.pitch - offset * Math.PI / 180);
+      context.beginPath();
       context.moveTo(-scaleWidth / 2, horizon);
       context.lineTo(scaleWidth / 2, horizon);
       context.stroke();
-
-      context.restore();
     },
 
     getHorizon_: function(pitch) {
@@ -196,50 +186,63 @@ $(function() {
       this.pitch = pitch;
       this.roll = roll;
     }
-  });
+  };
+  Kinetic.Global.extend(Mavelous.ArtificialHorizon, Kinetic.Shape);
 
 
   // Like a regular group except that it draws its children with a
   // clipping rect active.  Requires a width and height.
+  // See http://stackoverflow.com/questions/13097688/kineticjs-group-setsize300-300-not-working
 
-  Mavelous.ClippedGroup = Kinetic.Container.extend({
-    init: function(config) {
+  Mavelous.ClippedGroup = function(config) {
+    this._initGroup(config);
+  };
+
+  Mavelous.ClippedGroup.prototype = {
+    _initGroup: function(config) {
       this.nodeType = 'Group';
-      this._super(config);
+      Kinetic.Container.call(this, config);
     },
 
-    draw: function() {
-      if (this.attrs.visible) {
-        var canvas = this.getLayer().getContext();
-        canvas.save();
+    drawScene: function() {
+      if (this.isVisible()) {
+        var context = this.getLayer().getContext();
+        var attrs = this.attrs;
+
+        context.save();
+
         // FIXME: I can't see a better way of doing this in the
         // current version of Kinetic but it seems weird to apply
         // the transform and then unapply it right before the
         // children nodes apply it.
 
-        // We get the transform that is currently in effect
+        // Apply the transform that should be in effect.
         var xform = this.getAbsoluteTransform();
         var m = xform.getMatrix();
-        var width = this.attrs.width;
-        var height = this.attrs.height;
-        canvas.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+        context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
 
         // Draw a clipping rect.
-        canvas.beginPath();
-        canvas.rect(0, 0, this.attrs.width, this.attrs.height);
-        canvas.clip();
+        context.beginPath();
+        context.rect(0, 0, attrs.width, attrs.height);
+        context.clip();
 
         // Undo the transform.
         xform.invert();
         m = xform.getMatrix();
-        canvas.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+        context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
 
         // Draw children nodes.
-        this._drawChildren();
-        canvas.restore();
+        var children = this.children;
+        len = children.length;
+        for (var n = 0; n < len; n++) {
+          children[n].drawScene();
+        }
+
+        context.restore();
       }
     }
-  });
+  };
+  Kinetic.Global.extend(Mavelous.ClippedGroup, Kinetic.Container);
 
 
   Mavelous.SpeedTape = function(parent, layer, origin) {
