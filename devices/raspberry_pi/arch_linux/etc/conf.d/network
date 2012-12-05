@@ -1,0 +1,5 @@
+interface=wlan0
+address=192.168.2.1
+netmask=24
+broadcast=192.168.2.255
+gateway=192.168.2.1
