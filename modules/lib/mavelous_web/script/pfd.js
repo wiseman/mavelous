@@ -9,6 +9,9 @@
 // Requirements:
 //   * Kineticjs
 
+goog.require('goog.base');
+
+
 $(function() {
   window.Mavelous = window.Mavelous || {};
 
@@ -245,128 +248,233 @@ $(function() {
   Kinetic.Global.extend(Mavelous.ClippedGroup, Kinetic.Container);
 
 
-  Mavelous.SpeedTape = function(parent, layer, origin) {
-    this.init(parent, layer, origin);
+  Mavelous.SpeedTape = function(config) {
+    this.initSpeedTape_(config);
   };
 
   Mavelous.SpeedTape.prototype = {
-    init: function(parent, layer, origin) {
+    WIDTH: 30,
+    HEIGHT: 140,
+
+    initSpeedTape_: function(config) {
+      this.setDefaultAttrs({
+        width: this.WIDTH,
+        height: this.HEIGHT,
+        fontFamily: 'Calibri',
+        fontSize: 12,
+        fontStyle: 'normal'
+      });
+      this.speed = 0;
+      this.targetSpeed = 0;
+      this.speedText = '0';
+
+      Kinetic.Shape.call(this, config);
+      this._setDrawFuncs();
+
+      this.instantaneousPolygon = new Kinetic.Polygon({
+        points: [0, this.HEIGHT * 60 / 140,
+                 this.WIDTH * 25 / 30, this.HEIGHT * 60 / 140,
+                 this.WIDTH, this.HEIGHT / 2,
+                 this.WIDTH * 25 / 30, this.HEIGHT * 80 / 140,
+                 0, this.HEIGHT * 80 / 140,
+                 0, this.HEIGHT * 60 / 140],
+        stroke: config.fontColor,
+        strokeWidth: 1.0,
+        fill: config.instantaneousBackgroundColor
+      });
+      this.instantaneousSpeedText = new Kinetic.Text({
+        x: 0,
+        y: this.HEIGHT / 2 - config.fontSize / 2,
+        width: this.WIDTH * 23 / 30,
+        align: 'right',
+        fontSize: config.fontSize,
+        fontFamily: config.fontFamily,
+        textFill: config.fontColor,
+        text: this.speedText
+      });
+
+      this.bug = new Kinetic.Polygon({
+        x: 0,
+        y: 0,
+        points: [
+          this.WIDTH * 31 / 30, 0,
+          this.WIDTH * 34 / 30, this.HEIGHT * -2 / 140,
+          this.WIDTH * 36 / 30, this.HEIGHT * -2 / 140,
+          this.WIDTH * 36 / 30, this.HEIGHT * 2 / 140,
+          this.WIDTH * 34 / 30, this.HEIGHT * 2 / 140,
+          this.WIDTH * 31 / 30, 0],
+        stroke: config.bugColor,
+        fill: config.bugColor,
+        strokeWidth: 1.0,
+        visible: true // false
+      });
+    },
+
+    setSpeed: function(speed) {
+      this.speed = speed;
+      var spdTxt = 'ERR';
+      if (goog.isDefAndNotNull(speed)) {
+        spdTxt = speed.toString();
+      }
+      if (spdTxt.length > 3) {
+        spdTxt = spdTxt.substring(0, 3);
+        if (spdTxt.charAt(spdTxt.length - 1) == '.') {
+          spdTxt = spdTxt.substr(0, spdTxt.length - 1);
+        }
+      }
+      this.instantaneousSpeedText.setText(spdTxt);
+    },
+
+    setTargetSpeed: function(targetSpeed) {
+      this.targetSpeed = targetSpeed;
+    },
+
+    drawFunc: function(context) {
       // --------------------
       // Speed tape
       // The speed tape displays 3 pieces of info:
       //   * current speed
       //   * moving speed ladder
       //   * target speed, if set
+      var width = this.getWidth();
+      var height = this.getHeight();
 
       // background
-      layer.add(
-          new Kinetic.Rect({
-            x: origin.x,
-            y: origin.y,
-            width: 30,
-            height: 140,
-            stroke: parent.options.backgroundColor2,
-            fill: parent.options.backgroundColor2
-          }));
+      context.beginPath();
+      context.fillStyle = this.attrs.backgroundColor;
+      context.rect(0, 0, 30, 140);
+      context.closePath();
+      this.fillStroke(context);
 
-      this.tape = new Kinetic.Group();
-      // clipping region for moving speed ladder
-      layer.add(new Mavelous.ClippedGroup({
-        x: origin.x,
-        y: origin.y,
-        width: 30,
-        height: 140
-      }).add(this.tape));
+      // Draw the speed ladder.
+      var minorTickInterval = 2;
+      var majorTickInterval = 10;
+      // Find minimum multiple-of-5 speed that will be displayed.
+      var minSpeed = this.speed - this.HEIGHT / 4;
+      minSpeed = Math.ceil(minSpeed / minorTickInterval) * minorTickInterval;
+      minSpeed = Math.max(0, minSpeed);
+      var maxSpeed = this.speed + this.HEIGHT / 4;
+      maxSpeed = Math.floor(maxSpeed / minorTickInterval) * minorTickInterval;
+      var font = ('normal ' +
+                  this.attrs.fontSize * 0.9 + 'pt ' +
+                  this.attrs.fontFamily);
+      context.font = font;
+      context.fillStyle = this.attrs.fontColor;
+      context.strokeStyle = this.attrs.fontColor;
+      context.textBaseLine = 'top';
+      context.textAlign = 'right';
 
-      // moving speed ladder
-      var smallFontSize = parent.options.fontSize * 0.9;
-      var isMajorTick, y;
-      for (var spd = 0; spd <= 100; spd += 5) {
-        isMajorTick = (spd % 10 === 0);
-        y = 70 - (2 * spd);
+      var lineHeightAdjust = this.attrs.fontSize / 2;
+      for (var s = minSpeed; s <= maxSpeed; s += minorTickInterval) {
+        var isMajorTick = (s % majorTickInterval < .001 ||
+                           majorTickInterval - (s % majorTickInterval) < .001);
+        var y = this.HEIGHT / 2 + 2 * (this.speed - s);
         if (isMajorTick) {
-          this.tape.add(new Kinetic.Line({
-            points: [25, y, 30, y],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-          this.tape.add(new Kinetic.Text({
-            x: 0,
-            y: y - smallFontSize / 2,
-            width: 23,
-            align: 'right',
-            fontSize: smallFontSize,
-            fontFamily: parent.options.fontFamily,
-            textFill: parent.options.fontColor,
-            text: '' + spd
-          }));
+          context.beginPath();
+          context.moveTo(this.WIDTH * 25 / 30, y);
+          context.lineTo(this.WIDTH, y);
+          context.stroke();
+
+          var label = '' + Math.round(s);
+          context.beginPath();
+          context.fillText(
+              label,
+              this.WIDTH * 23 / 30,
+              y + lineHeightAdjust);
         } else {
-          this.tape.add(new Kinetic.Line({
-            points: [28, y, 30, y],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
+          context.beginPath();
+          context.moveTo(this.WIDTH * 28 / 30, y);
+          context.lineTo(this.WIDTH, y);
+          context.stroke();
         }
       }
 
-      // Instantaneous speed text
-      this.inst = new Kinetic.Text({
-        x: 0,
-        y: 10 - parent.options.fontSize / 2,
-        width: 23,
-        text: 'UNK',
-        align: 'right',
-        fontSize: parent.options.fontSize,
-        fontFamily: parent.options.fontFamily,
-        textFill: parent.options.fontColor
-      });
-      layer.add(
-          parent.makeGroup([
-            new Kinetic.Polygon({
-              points: [0, 0,
-                25, 0,
-                30, 10,
-                25, 20,
-                0, 20,
-                0, 0],
-              stroke: parent.options.fontColor,
-              strokeWidth: 1.0,
-              fill: parent.options.backgroundColor1
-            }),
-            this.inst
-          ], {
-            x: origin.x,
-            y: origin.y + 60
-          }));
+      // Instantaneous speed text surrounded by polygon.
+      this.instantaneousPolygon.drawFunc(context);
+      var textY = 70 - this.attrs.fontSize / 2;
+      context.translate(0, textY);
+      this.instantaneousSpeedText.drawFunc(context);
+      context.translate(0, -textY);
 
-      // Speed bug
-      this.bug = new Kinetic.Polygon({
-        x: origin.x + 31,
-        y: origin.y,
-        points: [0, 0,
-          3, -2,
-          5, -2,
-          5, 2,
-          3, 2,
-          0, 0],
-        stroke: parent.options.bugColor,
-        fill: parent.options.bugColor,
-        strokeWidth: 1.0,
-        visible: false
-      });
-      layer.add(this.bug);
+      if (goog.isDef(this.targetSpeed)) {
+        var bugY = 70;
+        bugY -= this.targetSpeed * 2;
+        bugY += this.speed * 2;
+        bugY = Math.min(162, Math.max(16, bugY));
+        context.translate(0, bugY);
+        this.bug.drawFunc(context);
+        context.translate(0, -bugY);
+      }
 
-      this.setBug = function(target, current) {
-        var y = origin.y + 70;
-        y -= target * 2;
-        y += current * 2;
-        y = Math.min(162, Math.max(16, y));
-        this.bug.setY(y);
-      };
+      // this.tape = new Kinetic.Group();
+      // // clipping region for moving speed ladder
+      // layer.add(new Mavelous.ClippedGroup({
+      //   x: origin.x,
+      //   y: origin.y,
+      //   width: 30,
+      //   height: 140
+      // }).add(this.tape));
+
+      // // moving speed ladder
+      // var smallFontSize = parent.options.fontSize * 0.9;
+      // var isMajorTick, y;
+      // for (var spd = 0; spd <= 100; spd += 5) {
+      //   isMajorTick = (spd % 10 === 0);
+      //   y = 70 - (2 * spd);
+      //   if (isMajorTick) {
+      //     this.tape.add(new Kinetic.Line({
+      //       points: [25, y, 30, y],
+      //       stroke: parent.options.fontColor,
+      //       strokeWidth: 1.0,
+      //       lineCap: 'square'
+      //     }));
+      //     this.tape.add(new Kinetic.Text({
+      //       x: 0,
+      //       y: y - smallFontSize / 2,
+      //       width: 23,
+      //       align: 'right',
+      //       fontSize: smallFontSize,
+      //       fontFamily: parent.options.fontFamily,
+      //       textFill: parent.options.fontColor,
+      //       text: '' + spd
+      //     }));
+      //   } else {
+      //     this.tape.add(new Kinetic.Line({
+      //       points: [28, y, 30, y],
+      //       stroke: parent.options.fontColor,
+      //       strokeWidth: 1.0,
+      //       lineCap: 'square'
+      //     }));
+      //   }
+      // }
+
+      // // Speed bug
+      // this.bug = new Kinetic.Polygon({
+      //   x: origin.x + 31,
+      //   y: origin.y,
+      //   points: [0, 0,
+      //     3, -2,
+      //     5, -2,
+      //     5, 2,
+      //     3, 2,
+      //     0, 0],
+      //   stroke: parent.options.bugColor,
+      //   fill: parent.options.bugColor,
+      //   strokeWidth: 1.0,
+      //   visible: false
+      // });
+      // layer.add(this.bug);
+
+      // this.setBug = function(target, current) {
+      //   var y = origin.y + 70;
+      //   y -= target * 2;
+      //   y += current * 2;
+      //   y = Math.min(162, Math.max(16, y));
+      //   this.bug.setY(y);
+      // };
     }
   };
+  Kinetic.Global.extend(Mavelous.SpeedTape, Kinetic.Shape);
   // end of speed tape
   // --------------------
 
@@ -507,7 +615,7 @@ $(function() {
       options = options || {};
       this.options = options;
       this.options.fontFamily = options.fontFamily ||
-          'monospace,Tahoma,sans-serif';
+          'Tahoma,monospace,sans-serif';
       this.options.fontSize = options.fontSize || 8;
       this.options.fontColor = options.fontColor || 'white';
       this.options.backgroundColor1 = options.backgroundColor1 || 'black';
@@ -544,10 +652,17 @@ $(function() {
       this.layer.add(this.attitudeIndicator);
 
 
-      this.speedTape = new Mavelous.SpeedTape(
-          this,
-          this.layer,
-          {x: 0, y: 15});
+      this.speedTape = new Mavelous.SpeedTape({
+        x: 0,
+        y: 15,
+        fill: this.options.backgroundColor2,
+        fontColor: this.options.fontColor,
+        fontFamily: this.options.fontFamily,
+        fontSize: this.options.fontSize,
+        instantaneousBackgroundColor: this.options.backgroundColor1,
+        bugColor: this.options.bugColor
+      });
+      this.layer.add(this.speedTape);
       this.altitudeTape = new Mavelous.AltTape(
           this,
           this.layer,
@@ -601,20 +716,16 @@ $(function() {
           spdTxt = spdTxt.substr(0, spdTxt.length - 1);
         }
       }
-      this.speedTape.inst.setText(spdTxt);
-      this.speedTape.tape.setY(speed * 2);
-      this.speedTape.setBug(this.targetSpeed, this.speed);
-      //this.layer.draw();
+      this.speedTape.setSpeed(speed, this.targetspeed);
     },
 
     setTargetSpeed: function(speed) {
       this.targetSpeed = speed;
       if (this.targetSpeed === null) {
-        this.speedTape.bug.hide();
+        this.speedTape.setTargetSpeed(null);
         this.targetSpeedDisplay.hide();
       } else {
-        this.speedTape.setBug(this.targetSpeed, this.speed);
-        this.speedTape.bug.show();
+        this.speedTape.setTargetSpeed(this.targetSpeed);
         this.targetSpeedDisplay.setText(Math.round(speed).toString());
         this.targetSpeedDisplay.show();
       }
