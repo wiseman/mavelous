@@ -5,7 +5,7 @@ The following instructions are based on this [Arch Linux RPi Image (2012-09-18)]
 
 Prerequisites:
 
-* Raspberry Pi Model B Revision 1.0 with [modifications](http://raspberrypi.stackexchange.com/questions/340/how-much-power-can-be-provided-through-usb) to allow for more power on the USB port. However, the USB dongle might also work without modifications.
+* Raspberry Pi Model B Revision 1.0 with [modifications](http://raspberrypi.stackexchange.com/questions/340/how-much-power-can-be-provided-through-usb) to allow for more power on the USB port (However, the USB dongle might also work without modifications) or Raspverry Pi Model B Revision 2.0
 * [Wifi dongle](http://www.ebay.com/itm/150Mbps-WiFi-Wireless-N-WLAN-150N-USB2-0-Adapter-Stick-Dongle-XP-Vista-Win7-/270962133521)
 
 Note:
