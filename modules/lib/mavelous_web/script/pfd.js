@@ -543,9 +543,14 @@ $(function() {
       });
       this.layer.add(this.attitudeIndicator);
 
-      this.speedTape = new Mavelous.SpeedTape(this, this.layer,
+
+      this.speedTape = new Mavelous.SpeedTape(
+          this,
+          this.layer,
           {x: 0, y: 15});
-      this.altitudeTape = new Mavelous.AltTape(this, this.layer,
+      this.altitudeTape = new Mavelous.AltTape(
+          this,
+          this.layer,
           {x: 170, y: 15});
 
       // Target altitude
@@ -598,10 +603,7 @@ $(function() {
       }
       this.speedTape.inst.setText(spdTxt);
       this.speedTape.tape.setY(speed * 2);
-
-      if (this.speedTape.bug.isVisible()) {
-        this.speedTape.setBug(this.targetSpeed, this.speed);
-      }
+      this.speedTape.setBug(this.targetSpeed, this.speed);
       //this.layer.draw();
     },
 
