@@ -98,6 +98,7 @@ Running mavelous manually
 
 To manually start mavelous, use:
 
+    $ cd /home/pi/src/mavelous/
     $ python2 mavproxy.py --master=/dev/ttyAMA0 --baud=57600 --module=mavelous
 
 Running mavelous automatically
@@ -119,8 +120,8 @@ and execute:
 
 Also, add the following to the file `/home/USERNAME/.bashrc` to start mavelous 
 
-    cd src/mavelous/
-    python2 mavproxy.py --master=/dev/ttyUSB0 --baud=57600 --module=mavelous
+    cd /home/pi/src/mavelous/
+    python2 mavproxy.py --master=/dev/ttyAMA0 --baud=57600 --module=mavelous
 
 or copy the file like this;
 
