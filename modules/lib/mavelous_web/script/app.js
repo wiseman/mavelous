@@ -1,6 +1,8 @@
 goog.provide('mavelous.app');
 
 goog.require('goog.Uri');
+goog.require('goog.async.AnimationDelay');
+goog.require('goog.async.Throttle');
 goog.require('goog.base');
 goog.require('goog.debug.Console');
 goog.require('goog.debug.FpsDisplay');
@@ -162,17 +164,21 @@ $(function() {
     router.navigate('maponly', {trigger: true});
   }
 
-  window.requestAnimFrame =
-      window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.oRequestAnimationFrame ||
-      window.msRequestAnimationFrame ||
-      function(callback) {
-        window.setTimeout(callback, 1000 / 60);
-      };
-  (function animloop() {
-    requestAnimFrame(animloop);
-    mavlinkAPI.update();
-  })();
+  // By trying to update at the maximum frame rate, but using a
+  // throttle to clamp it to a max 10 Hz update rate, we end up
+  // requesting new vehicle data and rendering it at a 10 Hz rate, or
+  // slower if the rendering isn't keeping up.
+  var MAX_UPDATES_PER_SEC = 10;
+  var animationDelay = null;
+  var updateThrottle = new goog.async.Throttle(
+      function() {
+        mavlinkAPI.update();
+        animationDelay.start();
+      },
+      1000 / MAX_UPDATES_PER_SEC);
+  animationDelay = new goog.async.AnimationDelay(
+      function() {
+        updateThrottle.fire();
+      });
+  animationDelay.start();
 });
