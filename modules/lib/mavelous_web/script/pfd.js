@@ -47,10 +47,9 @@ $(function() {
       context.translate(width / 2, height / 2);
       context.save();
 
-      // Clip everything to a box that is width x height.  We
-      // draw the ground and sky as rects that extend beyond
-      // those dimensons so that there are no gaps when they're
-      // rotated.
+      // Clip everything to a box that is width x height.  We draw the
+      // ground and sky as rects that extend beyond those dimensons so
+      // that there are no gaps when they're rotated.
       context.beginPath();
       context.rect(-width / 2, -height / 2, width, height);
       context.clip();
@@ -191,61 +190,6 @@ $(function() {
     }
   };
   Kinetic.Global.extend(Mavelous.ArtificialHorizon, Kinetic.Shape);
-
-
-  // Like a regular group except that it draws its children with a
-  // clipping rect active.  Requires a width and height.
-  // See http://stackoverflow.com/questions/13097688/kineticjs-group-setsize300-300-not-working
-
-  Mavelous.ClippedGroup = function(config) {
-    this._initGroup(config);
-  };
-
-  Mavelous.ClippedGroup.prototype = {
-    _initGroup: function(config) {
-      this.nodeType = 'Group';
-      Kinetic.Container.call(this, config);
-    },
-
-    drawScene: function() {
-      if (this.isVisible()) {
-        var context = this.getLayer().getContext();
-        var attrs = this.attrs;
-
-        context.save();
-
-        // FIXME: I can't see a better way of doing this in the
-        // current version of Kinetic but it seems weird to apply
-        // the transform and then unapply it right before the
-        // children nodes apply it.
-
-        // Apply the transform that should be in effect.
-        var xform = this.getAbsoluteTransform();
-        var m = xform.getMatrix();
-        context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-
-        // Draw a clipping rect.
-        context.beginPath();
-        context.rect(0, 0, attrs.width, attrs.height);
-        context.clip();
-
-        // Undo the transform.
-        xform.invert();
-        m = xform.getMatrix();
-        context.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
-
-        // Draw children nodes.
-        var children = this.children;
-        len = children.length;
-        for (var n = 0; n < len; n++) {
-          children[n].drawScene();
-        }
-
-        context.restore();
-      }
-    }
-  };
-  Kinetic.Global.extend(Mavelous.ClippedGroup, Kinetic.Container);
 
 
   Mavelous.Tape = function(config) {
@@ -427,73 +371,6 @@ $(function() {
         this.bug.drawFunc(context);
         context.translate(0, -bugY);
       }
-
-      // this.tape = new Kinetic.Group();
-      // // clipping region for moving speed ladder
-      // layer.add(new Mavelous.ClippedGroup({
-      //   x: origin.x,
-      //   y: origin.y,
-      //   width: 30,
-      //   height: 140
-      // }).add(this.tape));
-
-      // // moving speed ladder
-      // var smallFontSize = parent.options.fontSize * 0.9;
-      // var isMajorTick, y;
-      // for (var spd = 0; spd <= 100; spd += 5) {
-      //   isMajorTick = (spd % 10 === 0);
-      //   y = 70 - (2 * spd);
-      //   if (isMajorTick) {
-      //     this.tape.add(new Kinetic.Line({
-      //       points: [25, y, 30, y],
-      //       stroke: parent.options.fontColor,
-      //       strokeWidth: 1.0,
-      //       lineCap: 'square'
-      //     }));
-      //     this.tape.add(new Kinetic.Text({
-      //       x: 0,
-      //       y: y - smallFontSize / 2,
-      //       width: 23,
-      //       align: 'right',
-      //       fontSize: smallFontSize,
-      //       fontFamily: parent.options.fontFamily,
-      //       textFill: parent.options.fontColor,
-      //       text: '' + spd
-      //     }));
-      //   } else {
-      //     this.tape.add(new Kinetic.Line({
-      //       points: [28, y, 30, y],
-      //       stroke: parent.options.fontColor,
-      //       strokeWidth: 1.0,
-      //       lineCap: 'square'
-      //     }));
-      //   }
-      // }
-
-      // // Speed bug
-      // this.bug = new Kinetic.Polygon({
-      //   x: origin.x + 31,
-      //   y: origin.y,
-      //   points: [0, 0,
-      //     3, -2,
-      //     5, -2,
-      //     5, 2,
-      //     3, 2,
-      //     0, 0],
-      //   stroke: parent.options.bugColor,
-      //   fill: parent.options.bugColor,
-      //   strokeWidth: 1.0,
-      //   visible: false
-      // });
-      // layer.add(this.bug);
-
-      // this.setBug = function(target, current) {
-      //   var y = origin.y + 70;
-      //   y -= target * 2;
-      //   y += current * 2;
-      //   y = Math.min(162, Math.max(16, y));
-      //   this.bug.setY(y);
-      // };
     }
   };
   Kinetic.Global.extend(Mavelous.Tape, Kinetic.Shape);
@@ -504,123 +381,6 @@ $(function() {
   // end of speed tape
   // --------------------
 
-  Mavelous.AltTape = function(parent, layer, origin) {
-    this.init(parent, layer, origin);
-
-  };
-
-  Mavelous.AltTape.prototype = {
-    // --------------------
-    // altitude tape
-
-    init: function(parent, layer, origin) {
-      // background
-      layer.add(
-          new Kinetic.Rect({
-            x: origin.x,
-            y: origin.y,
-            width: 30,
-            height: 140,
-            stroke: parent.options.backgroundColor2,
-            fill: parent.options.backgroundColor2
-          }));
-
-      this.tape = new Kinetic.Group();
-      // clipping region for moving altitude ladder
-      layer.add(new Mavelous.ClippedGroup({
-        x: origin.x,
-        y: origin.y,
-        width: 30,
-        height: 140
-      }).add(this.tape));
-
-      // moving altitude ladder
-      var smallFontSize = parent.options.fontSize * 0.9;
-      for (var alt = 0; alt <= 400; alt += 1) {
-        isMajorTick = (alt % 10 === 0);
-        y = 70 - (4 * alt);
-        if (isMajorTick) {
-          this.tape.add(new Kinetic.Line({
-            points: [0, y, 5, y],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-          this.tape.add(new Kinetic.Text({
-            x: 7,
-            y: y - smallFontSize / 2,
-            fontSize: smallFontSize,
-            fontFamily: parent.options.fontFamily,
-            textFill: parent.options.fontColor,
-            text: alt.toString()
-          }));
-        } else {
-          this.tape.add(new Kinetic.Line({
-            points: [0, y, 2, y],
-            stroke: parent.options.fontColor,
-            strokeWidth: 1.0,
-            lineCap: 'square'
-          }));
-        }
-      }
-
-      // Instantaneous speed text
-      this.inst = new Kinetic.Text({
-        x: 7,
-        y: 10 - Math.round(parent.options.fontSize / 2),
-        text: 'UNK',
-        fontSize: parent.options.fontSize,
-        fontFamily: parent.options.fontFamily,
-        textFill: parent.options.fontColor
-      });
-      layer.add(
-          parent.makeGroup([
-            new Kinetic.Polygon({
-              points: [0, 10,
-                5, 0,
-                30, 0,
-                30, 20,
-                5, 20,
-                0, 10],
-              stroke: parent.options.fontColor,
-              strokeWidth: 1.0,
-              fill: parent.options.backgroundColor1
-            }),
-            this.inst
-          ], {
-            x: origin.x,
-            y: origin.y + 60
-          }));
-
-      // --------------------
-      // end of alt tape
-
-      // Altitude bug
-      this.bug = new Kinetic.Polygon({
-        x: origin.x - 1,
-        y: origin.y + 70,
-        points: [0, 0,
-                 -3, -2,
-                 -5, -2,
-                 -5, 2,
-                 -3, 2,
-                 0, 0],
-        stroke: parent.options.bugColor,
-        fill: parent.options.bugColor,
-        strokeWidth: 1.0,
-        visible: false
-      });
-      layer.add(this.bug);
-
-      this.setBug = function(target, current) {
-        var y = origin.y + 70;
-        y -= target * 4;
-        y += current * 4;
-        y = Math.min(162, Math.max(16, y));
-        this.bug.setY(y);
-      };
-    }
-  };
 
   Mavelous.PFD = function(container) {
     this.init(container);
@@ -783,7 +543,6 @@ $(function() {
     setAttitude: function(pitch, roll) {
       this.attitudeIndicator.setPitchRoll(pitch, roll);
     }
-
   };
 
 });
