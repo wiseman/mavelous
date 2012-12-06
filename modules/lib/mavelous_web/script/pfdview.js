@@ -1,3 +1,4 @@
+goog.require('Mavelous.PFD');
 
 $(function() {
   window.Mavelous = window.Mavelous || {};
