@@ -248,61 +248,68 @@ $(function() {
   Kinetic.Global.extend(Mavelous.ClippedGroup, Kinetic.Container);
 
 
-  Mavelous.SpeedTape = function(config) {
-    this.initSpeedTape_(config);
+  Mavelous.Tape = function(config) {
+    this.initTape_(config);
   };
 
-  Mavelous.SpeedTape.prototype = {
+  Mavelous.Tape.prototype = {
     WIDTH: 30,
     HEIGHT: 140,
 
-    initSpeedTape_: function(config) {
+    reflect_: function(x_pos_or_points) {
+      if (this.attrs.side === Mavelous.Tape.SIDE_RIGHT) {
+        var width = this.attrs.width;
+        if (goog.isArray(x_pos_or_points)) {
+          var len = x_pos_or_points.length;
+          for (var i = 0; i < len; i += 2) {
+            x_pos_or_points[i] = width - x_pos_or_points[i];
+          }
+        } else {
+          x_pos_or_points = width - x_pos_or_points;
+        }
+      }
+      return x_pos_or_points;
+    },
+
+    initTape_: function(config) {
       this.setDefaultAttrs({
         width: this.WIDTH,
         height: this.HEIGHT,
         fontFamily: 'Calibri',
         fontSize: 12,
-        fontStyle: 'normal'
+        fontStyle: 'normal',
+        side: Mavelous.Tape.SIDE_LEFT
       });
-      this.speed = 0;
-      this.targetSpeed = 0;
-      this.speedText = '0';
+      this.value = 0;
+      this.targetValue = null;
+      this.valueText = '0';
 
       Kinetic.Shape.call(this, config);
       this._setDrawFuncs();
 
       this.instantaneousPolygon = new Kinetic.Polygon({
-        points: [0, this.HEIGHT * 60 / 140,
-                 this.WIDTH * 25 / 30, this.HEIGHT * 60 / 140,
-                 this.WIDTH, this.HEIGHT / 2,
-                 this.WIDTH * 25 / 30, this.HEIGHT * 80 / 140,
-                 0, this.HEIGHT * 80 / 140,
-                 0, this.HEIGHT * 60 / 140],
+        points: this.reflect_(
+            [0, this.HEIGHT * 60 / 140,
+             this.WIDTH * 25 / 30, this.HEIGHT * 60 / 140,
+             this.WIDTH, this.HEIGHT / 2,
+             this.WIDTH * 25 / 30, this.HEIGHT * 80 / 140,
+             0, this.HEIGHT * 80 / 140,
+             0, this.HEIGHT * 60 / 140]),
         stroke: config.fontColor,
         strokeWidth: 1.0,
         fill: config.instantaneousBackgroundColor
-      });
-      this.instantaneousSpeedText = new Kinetic.Text({
-        x: 0,
-        y: this.HEIGHT / 2 - config.fontSize / 2,
-        width: this.WIDTH * 23 / 30,
-        align: 'right',
-        fontSize: config.fontSize,
-        fontFamily: config.fontFamily,
-        textFill: config.fontColor,
-        text: this.speedText
       });
 
       this.bug = new Kinetic.Polygon({
         x: 0,
         y: 0,
-        points: [
+        points: this.reflect_([
           this.WIDTH * 31 / 30, 0,
           this.WIDTH * 34 / 30, this.HEIGHT * -2 / 140,
           this.WIDTH * 36 / 30, this.HEIGHT * -2 / 140,
           this.WIDTH * 36 / 30, this.HEIGHT * 2 / 140,
           this.WIDTH * 34 / 30, this.HEIGHT * 2 / 140,
-          this.WIDTH * 31 / 30, 0],
+          this.WIDTH * 31 / 30, 0]),
         stroke: config.bugColor,
         fill: config.bugColor,
         strokeWidth: 1.0,
@@ -310,32 +317,33 @@ $(function() {
       });
     },
 
-    setSpeed: function(speed) {
-      this.speed = speed;
-      var spdTxt = 'ERR';
-      if (goog.isDefAndNotNull(speed)) {
-        spdTxt = speed.toString();
-      }
-      if (spdTxt.length > 3) {
-        spdTxt = spdTxt.substring(0, 3);
-        if (spdTxt.charAt(spdTxt.length - 1) == '.') {
-          spdTxt = spdTxt.substr(0, spdTxt.length - 1);
+    setValue: function(value) {
+      if (value != this.value) {
+        this.value = value;
+        var valueText = 'ERR';
+        if (goog.isDefAndNotNull(value)) {
+          valueText = value.toString();
         }
+        if (valueText.length > 3) {
+          valueText = valueText.substring(0, 3);
+          if (valueText.charAt(valueText.length - 1) == '.') {
+            valueText = valueText.substr(0, valueText.length - 1);
+          }
+        }
+        this.valueText = valueText;
       }
-      this.instantaneousSpeedText.setText(spdTxt);
     },
 
-    setTargetSpeed: function(targetSpeed) {
-      this.targetSpeed = targetSpeed;
+    setTargetValue: function(targetValue) {
+      this.targetValue = targetValue;
     },
 
     drawFunc: function(context) {
       // --------------------
-      // Speed tape
-      // The speed tape displays 3 pieces of info:
-      //   * current speed
-      //   * moving speed ladder
-      //   * target speed, if set
+      // The tape displays 3 pieces of info:
+      //   * current value
+      //   * moving value ladder
+      //   * target value, if set
       var width = this.getWidth();
       var height = this.getHeight();
 
@@ -346,15 +354,17 @@ $(function() {
       context.closePath();
       this.fillStroke(context);
 
-      // Draw the speed ladder.
-      var minorTickInterval = 2;
-      var majorTickInterval = 10;
-      // Find minimum multiple-of-5 speed that will be displayed.
-      var minSpeed = this.speed - this.HEIGHT / 4;
-      minSpeed = Math.ceil(minSpeed / minorTickInterval) * minorTickInterval;
-      minSpeed = Math.max(0, minSpeed);
-      var maxSpeed = this.speed + this.HEIGHT / 4;
-      maxSpeed = Math.floor(maxSpeed / minorTickInterval) * minorTickInterval;
+      // Draw the value tics.
+      var minorTicInterval = 2;
+      var majorTicInterval = 10;
+      var valueScale = 2;
+      // Find minimum multiple-of-minorTicInterval value that will be
+      // displayed.
+      var minValue = this.value - this.HEIGHT / 4;
+      minValue = Math.ceil(minValue / minorTicInterval) * minorTicInterval;
+      minValue = Math.max(0, minValue);
+      var maxValue = this.value + this.HEIGHT / 4;
+      maxValue = Math.floor(maxValue / minorTicInterval) * minorTicInterval;
       var font = ('normal ' +
                   this.attrs.fontSize * 0.9 + 'pt ' +
                   this.attrs.fontFamily);
@@ -362,44 +372,56 @@ $(function() {
       context.fillStyle = this.attrs.fontColor;
       context.strokeStyle = this.attrs.fontColor;
       context.textBaseLine = 'top';
-      context.textAlign = 'right';
+      if (this.attrs.side == Mavelous.Tape.SIDE_LEFT) {
+        context.textAlign = 'right';
+      } else {
+        context.textAlign = 'left';
+      }
 
       var lineHeightAdjust = this.attrs.fontSize / 2;
-      for (var s = minSpeed; s <= maxSpeed; s += minorTickInterval) {
-        var isMajorTick = (s % majorTickInterval < .001 ||
-                           majorTickInterval - (s % majorTickInterval) < .001);
-        var y = this.HEIGHT / 2 + 2 * (this.speed - s);
-        if (isMajorTick) {
+      for (var v = minValue; v <= maxValue; v += minorTicInterval) {
+        var isMajorTic = (v % majorTicInterval < .001 ||
+                          majorTicInterval - (v % majorTicInterval) < .001);
+        var y = this.HEIGHT / 2 + valueScale * (this.value - v);
+        if (isMajorTic) {
           context.beginPath();
-          context.moveTo(this.WIDTH * 25 / 30, y);
-          context.lineTo(this.WIDTH, y);
+          context.moveTo(this.reflect_(this.WIDTH * 25 / 30), y);
+          context.lineTo(this.reflect_(this.WIDTH), y);
           context.stroke();
 
-          var label = '' + Math.round(s);
+          var label = '' + Math.round(v);
           context.beginPath();
           context.fillText(
               label,
-              this.WIDTH * 23 / 30,
+              this.reflect_(this.WIDTH * 23 / 30),
               y + lineHeightAdjust);
         } else {
           context.beginPath();
-          context.moveTo(this.WIDTH * 28 / 30, y);
-          context.lineTo(this.WIDTH, y);
+          context.moveTo(this.reflect_(this.WIDTH * 28 / 30), y);
+          context.lineTo(this.reflect_(this.WIDTH), y);
           context.stroke();
         }
       }
 
-      // Instantaneous speed text surrounded by polygon.
+      // Instantaneous value text surrounded by polygon.
       this.instantaneousPolygon.drawFunc(context);
-      var textY = 70 - this.attrs.fontSize / 2;
-      context.translate(0, textY);
-      this.instantaneousSpeedText.drawFunc(context);
-      context.translate(0, -textY);
+      var textY = this.attrs.height / 2;
+      var font = ('normal ' +
+                  this.attrs.fontSize + 'pt ' +
+                  this.attrs.fontFamily);
+      context.font = font;
+      context.textBaseline = 'middle';
+      context.beginPath();
+      context.fillText(
+          this.valueText,
+          this.reflect_(this.WIDTH * 25 / 30),
+          textY);
 
-      if (goog.isDef(this.targetSpeed)) {
+      if (goog.isDefAndNotNull(this.targetValue)) {
+        var bugX = this.reflect_(0);
         var bugY = 70;
-        bugY -= this.targetSpeed * 2;
-        bugY += this.speed * 2;
+        bugY -= this.targetValue * valueScale;
+        bugY += this.value * valueScale;
         bugY = Math.min(162, Math.max(16, bugY));
         context.translate(0, bugY);
         this.bug.drawFunc(context);
@@ -474,7 +496,11 @@ $(function() {
       // };
     }
   };
-  Kinetic.Global.extend(Mavelous.SpeedTape, Kinetic.Shape);
+  Kinetic.Global.extend(Mavelous.Tape, Kinetic.Shape);
+
+  Mavelous.Tape.SIDE_LEFT = 'left';
+  Mavelous.Tape.SIDE_RIGHT = 'right';
+
   // end of speed tape
   // --------------------
 
@@ -652,7 +678,7 @@ $(function() {
       this.layer.add(this.attitudeIndicator);
 
 
-      this.speedTape = new Mavelous.SpeedTape({
+      this.speedTape = new Mavelous.Tape({
         x: 0,
         y: 15,
         fill: this.options.backgroundColor2,
@@ -663,10 +689,18 @@ $(function() {
         bugColor: this.options.bugColor
       });
       this.layer.add(this.speedTape);
-      this.altitudeTape = new Mavelous.AltTape(
-          this,
-          this.layer,
-          {x: 170, y: 15});
+      this.altitudeTape = new Mavelous.Tape({
+        x: 170,
+        y: 15,
+        fill: this.options.backgroundColor2,
+        fontColor: this.options.fontColor,
+        fontFamily: this.options.fontFamily,
+        fontSize: this.options.fontSize,
+        instantaneousBackgroundColor: this.options.backgroundColor1,
+        bugColor: this.options.bugColor,
+        side: Mavelous.Tape.SIDE_RIGHT
+      });
+      this.layer.add(this.altitudeTape);
 
       // Target altitude
       var smallFontSize = this.options.fontSize * 0.9;
@@ -706,26 +740,16 @@ $(function() {
     },
 
     setSpeed: function(speed) {
-      var spdTxt = 'ERR';
-      if (speed !== null && speed !== undefined) {
-        spdTxt = speed.toString();
-      }
-      if (spdTxt.length > 3) {
-        spdTxt = spdTxt.substring(0, 3);
-        if (spdTxt.charAt(spdTxt.length - 1) == '.') {
-          spdTxt = spdTxt.substr(0, spdTxt.length - 1);
-        }
-      }
-      this.speedTape.setSpeed(speed, this.targetspeed);
+      this.speedTape.setValue(speed);
     },
 
     setTargetSpeed: function(speed) {
       this.targetSpeed = speed;
-      if (this.targetSpeed === null) {
-        this.speedTape.setTargetSpeed(null);
+      if (speed === null) {
+        this.speedTape.setTargetValue(null);
         this.targetSpeedDisplay.hide();
       } else {
-        this.speedTape.setTargetSpeed(this.targetSpeed);
+        this.speedTape.setTargetValue(speed);
         this.targetSpeedDisplay.setText(Math.round(speed).toString());
         this.targetSpeedDisplay.show();
       }
@@ -737,23 +761,16 @@ $(function() {
     },
 
     setAltitude: function(altitude) {
-      this.altitude = altitude;
-      this.altitudeTape.inst.setText(Math.round(altitude).toString());
-      this.altitudeTape.tape.setY(altitude * 4);
-      if (this.altitudeTape.bug.isVisible()) {
-        this.altitudeTape.setBug(this.targetAltitude, this.altitude);
-      }
-      //this.layer.draw();
+      this.altitudeTape.setValue(altitude);
     },
 
     setTargetAltitude: function(altitude) {
       this.targetAltitude = altitude;
-      if (this.targetAltitude === null) {
-        this.altitudeTape.bug.hide();
+      if (altitude === null) {
+        this.altitudeTape.setTargetValue(null);
         this.targetAltitudeDisplay.hide();
       } else {
-        this.altitudeTape.setBug(this.targetAltitude, this.altitude);
-        this.altitudeTape.bug.show();
+        this.altitudeTape.setTargetValue(altitude);
         this.targetAltitudeDisplay.setText(Math.round(altitude).toString());
         this.targetAltitudeDisplay.show();
       }
