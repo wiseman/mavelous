@@ -10,6 +10,7 @@
 
 goog.require('goog.base');
 goog.provide('Mavelous.ArtificialHorizon');
+goog.provide('Mavelous.PFD');
 goog.provide('Mavelous.Tape');
 
 
@@ -413,7 +414,6 @@ Mavelous.Tape.prototype.setTargetValue = function(target) {
  * @param {Object} context The canvas to draw to.
  */
 Mavelous.Tape.prototype.drawFunc = function(context) {
-  // --------------------
   // The tape displays 3 pieces of info:
   //   * current value
   //   * moving value ladder
@@ -563,6 +563,7 @@ Mavelous.PFD.prototype.init = function(container, options) {
   this.stage.setScale(containerElt.offsetWidth / 200.0,
                       containerElt.offsetWidth / 200.0);
 
+  // Artificial horizon.
   this.attitudeIndicator = new Mavelous.ArtificialHorizon({
     x: 35, y: 20, width: 130, height: 130,
     groundColor: this.options.groundColor,
