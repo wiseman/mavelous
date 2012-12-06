@@ -107,10 +107,12 @@ $(function() {
       }
 
       if (size == this.settingsModel.HIDDEN) {
+        this.pfd.setVisible(false);
         block.hide();
       } else {
         /* Take care of show if hidden */
         if (block.is(':hidden')) {
+          this.pfd.setVisible(true);
           block.show();
         }
 

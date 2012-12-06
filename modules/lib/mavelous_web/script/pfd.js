@@ -551,6 +551,7 @@ Mavelous.PFD.prototype.init = function(container, options) {
   this.altitude = null;
   this.targetAltitude = null;
   this.flightMode = null;
+  this.visible = true;
 
   var containerElt = document.getElementById(container);
   this.stage = new Kinetic.Stage({
@@ -672,7 +673,14 @@ Mavelous.PFD.prototype.setTargetSpeed = function(speed) {
  * Draws the PFD.
  */
 Mavelous.PFD.prototype.draw = function() {
-  this.layer.draw();
+  if (this.visible) {
+    this.layer.draw();
+  }
+};
+
+
+Mavelous.PFD.prototype.setVisible = function(isVisible) {
+  this.visible = isVisible;
 };
 
 
