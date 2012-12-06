@@ -35,8 +35,9 @@ Installation
 ------------
 
 Mavelous is written in Python, and it depends on
-[mavlink](https://github.com/mavlink/mavlink) and
-[CherryPy](http://www.cherrypy.org/)
+[mavlink](https://github.com/mavlink/mavlink),
+[CherryPy](http://www.cherrypy.org/) and
+[Flask](http://flask.pocoo.org/).
 
 First clone the mavelous and mavlink repositories:
 
@@ -46,17 +47,11 @@ $ git clone https://github.com/wiseman/mavlink  # Fork required to fix bugs
 $ git clone git@github.com:wiseman/mavelous.git
 ```
 
-Then install CherryPy.  The easiest way is with
+Then install CherryPy, Flask and pyserial.  The easiest way is with
 [pip](http://www.pip-installer.org/en/latest/index.html):
 
 ```
-$ pip install cherrypy
-```
-
-You will also need to install a python libarary that mavproxy depends on:
-
-```
-$ pip install pyserial
+$ pip install cherrypy flask pyserial
 ```
 
 How to run it

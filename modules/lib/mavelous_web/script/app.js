@@ -12,7 +12,6 @@ $(function() {
   c.setCapturing(true);
 
   var uri = new goog.Uri(window.location.href);
-
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
   /* If we see "offline" query parameter in the URL, enable offline
    * mode. */

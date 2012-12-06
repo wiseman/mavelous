@@ -14,6 +14,23 @@
 <link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" href="third_party/leaflet/leaflet.css" />
 <link rel="stylesheet" type="text/css" href="style.css" />
+<!-- ANALYTICS -->
+<script>
+  if (window.location.href.indexOf('mavelousdemo.appspot.com') != -1) {
+    console.log('Enabling analytics.');
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36746049-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  }
+</script>
 <!-- GOOGLE CLOSURE -->
 <script src="third_party/closure-library/closure/goog/base.js"></script>
 <script src="script/mavelous-deps.js"></script>
@@ -131,7 +148,7 @@
   </div>
   <div id="statustextview"></div>
 
-  <div id="mapoverlay-btns" class="mapoverlay-right mapoverlay-bottom">
+  <div id="mapoverlay-btns" class="mapoverlay-right mapoverlay-top">
     <a class="btn" id="mapoverlay-btn-centermap" href="#">
       <i id="mapoverlay-icon-centermap" class="icon-screenshot icon-black"></i>
     </a>
