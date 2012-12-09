@@ -84,13 +84,7 @@ file can be found at:
 
     ```
     $ cd src/mavelous
-    $ python mavproxy.py --master=/dev/ttyUSB0 --baud=57600
-    ```
-
-3. At the mavproxy prompt, load the mavelous module:
-
-    ```
-    STABILIZE> module load mavelous
+    $ python mavproxy.py --module mavelous --master=/dev/ttyUSB0 --baud=57600
     ```
 
 A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
@@ -126,18 +120,12 @@ flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p
     ```
     $ python mavproxy.py --master=tcp:127.0.0.1:5760 --out=127.0.0.1:14550 \
       --aircraft=test.ArduCopter --sitl=127.0.0.1:5501 --out=127.0.0.1:19550 \
-      --quadcopter --streamrate=5
-    ```
-
-4. At the mavproxy prompt, load the mavelous module:
-
-    ```
-    GUIDED> module load mavelous
+      --quadcopter --streamrate=5 --module mavelous
     ```
 
     A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
 
-5. Take off.  Soon, arducopter may support automated take-off.  Until then:
+4. Take off.  Soon, arducopter may support automated take-off.  Until then:
 
     ```
     GUIDED> switch 6   # Stabilize mode
