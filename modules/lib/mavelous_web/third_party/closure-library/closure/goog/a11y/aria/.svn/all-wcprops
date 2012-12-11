@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/2361/trunk/closure/goog/a11y/aria
+END
+aria_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2355/trunk/closure/goog/a11y/aria/aria_test.html
+END
+announcer.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2355/trunk/closure/goog/a11y/aria/announcer.js
+END
+aria.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2361/trunk/closure/goog/a11y/aria/aria.js
+END
+announcer_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2355/trunk/closure/goog/a11y/aria/announcer_test.html
+END
