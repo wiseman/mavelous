@@ -49,23 +49,25 @@ goog.result.SimpleResult = function() {
    * @private
    */
   this.handlers_ = [];
+
+  // The value_ and error_ properties are initialized in the constructor to
+  // ensure that all SimpleResult instances share the same hidden class in
+  // modern JavaScript engines.
+
+  /**
+   * The 'value' of this Result.
+   * @type {*}
+   * @private
+   */
+  this.value_ = undefined;
+
+  /**
+   * The error slug for this Result.
+   * @type {*}
+   * @private
+   */
+  this.error_ = undefined;
 };
-
-
-/**
- * The 'value' of this Result.
- * @type {*}
- * @private
- */
-goog.result.SimpleResult.prototype.value_;
-
-
-/**
- * The error slug for this Result.
- * @type {*}
- * @private
- */
-goog.result.SimpleResult.prototype.error_;
 
 
 

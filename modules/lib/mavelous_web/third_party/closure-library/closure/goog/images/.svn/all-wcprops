@@ -3,30 +3,6 @@ svn:wc:ra_dav:version-url
 V 43
 /svn/!svn/ver/850/trunk/closure/goog/images
 END
-bubble_close.jpg
-K 25
-svn:wc:ra_dav:version-url
-V 60
-/svn/!svn/ver/139/trunk/closure/goog/images/bubble_close.jpg
-END
-gears_syncing.gif
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/850/trunk/closure/goog/images/gears_syncing.gif
-END
-dialog_close_box.gif
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/850/trunk/closure/goog/images/dialog_close_box.gif
-END
-toolbar_icons.gif
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/850/trunk/closure/goog/images/toolbar_icons.gif
-END
 hsv-sprite-sm.png
 K 25
 svn:wc:ra_dav:version-url
@@ -266,4 +242,28 @@ K 25
 svn:wc:ra_dav:version-url
 V 71
 /svn/!svn/ver/139/trunk/closure/goog/images/right_anchor_bubble_bot.gif
+END
+bubble_close.jpg
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/139/trunk/closure/goog/images/bubble_close.jpg
+END
+gears_syncing.gif
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/850/trunk/closure/goog/images/gears_syncing.gif
+END
+dialog_close_box.gif
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/850/trunk/closure/goog/images/dialog_close_box.gif
+END
+toolbar_icons.gif
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/850/trunk/closure/goog/images/toolbar_icons.gif
 END

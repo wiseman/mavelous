@@ -61,17 +61,14 @@
 <script type="text/javascript" src="third_party/leaflet/leaflet-include.js"></script>
 
 <!-- APP MODULES -->
-<script type="text/javascript" src="script/util.js"></script>
   <!-- MAVLINK MESSAGES -->
 <script type="text/javascript" src="script/mavutil.js"></script>
 <script type="text/javascript" src="script/gpsstatus.js"></script>
 <script type="text/javascript" src="script/batterystatus.js"></script>
 <script type="text/javascript" src="script/statustextview.js"></script>
 <script type="text/javascript" src="script/modestringview.js"></script>
-<script type="text/javascript" src="script/flightmode.js"></script>
   <!-- MAVELOUS SPECIFIC MODULES -->
 <script type="text/javascript" src="script/mavlinkapi.js"></script>
-<script type="text/javascript" src="script/fakemavlinkapi.js"></script>
 
 <script type="text/javascript" src="script/guidemodel.js"></script>
 <script type="text/javascript" src="script/guideview.js"></script>
@@ -92,10 +89,13 @@
 
 <!-- APP INSTANCE-->
 <script type="text/javascript" src="script/router.js"></script>
+<script type="text/javascript" src="script/app.js"></script>
 <script>
-  goog.require('mavelous.app');
+  $(function() {
+    var app = new Mavelous.App();
+    app.start();
+    });
 </script>
-
 <script type="text/template" id="commstatustexttemplate">
     MAV <%= mav_html %> | SERVER <%= server_html %>
 </script>

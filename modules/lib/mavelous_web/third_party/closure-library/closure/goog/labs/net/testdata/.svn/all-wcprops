@@ -3,12 +3,6 @@ svn:wc:ra_dav:version-url
 V 55
 /svn/!svn/ver/1894/trunk/closure/goog/labs/net/testdata
 END
-xhr_test_text.data
-K 25
-svn:wc:ra_dav:version-url
-V 74
-/svn/!svn/ver/1894/trunk/closure/goog/labs/net/testdata/xhr_test_text.data
-END
 xhr_test_json.data
 K 25
 svn:wc:ra_dav:version-url
@@ -20,4 +14,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 68
 /svn/!svn/ver/1894/trunk/closure/goog/labs/net/testdata/cleardot.gif
+END
+xhr_test_text.data
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1894/trunk/closure/goog/labs/net/testdata/xhr_test_text.data
 END

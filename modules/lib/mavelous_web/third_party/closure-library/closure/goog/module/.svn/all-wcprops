@@ -3,24 +3,6 @@ svn:wc:ra_dav:version-url
 V 44
 /svn/!svn/ver/2226/trunk/closure/goog/module
 END
-moduleinfo_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svn/!svn/ver/1434/trunk/closure/goog/module/moduleinfo_test.html
-END
-moduleloadcallback_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 72
-/svn/!svn/ver/850/trunk/closure/goog/module/moduleloadcallback_test.html
-END
-moduleloader.js
-K 25
-svn:wc:ra_dav:version-url
-V 60
-/svn/!svn/ver/2210/trunk/closure/goog/module/moduleloader.js
-END
 modulemanager.js
 K 25
 svn:wc:ra_dav:version-url
@@ -74,4 +56,22 @@ K 25
 svn:wc:ra_dav:version-url
 V 68
 /svn/!svn/ver/1708/trunk/closure/goog/module/modulemanager_test.html
+END
+moduleinfo_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1434/trunk/closure/goog/module/moduleinfo_test.html
+END
+moduleloadcallback_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/850/trunk/closure/goog/module/moduleloadcallback_test.html
+END
+moduleloader.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/2210/trunk/closure/goog/module/moduleloader.js
 END

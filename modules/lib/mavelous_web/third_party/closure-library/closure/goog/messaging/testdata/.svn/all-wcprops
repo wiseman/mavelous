@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 56
 /svn/!svn/ver/1434/trunk/closure/goog/messaging/testdata
 END
+portchannel_inner.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1434/trunk/closure/goog/messaging/testdata/portchannel_inner.html
+END
 portnetwork_inner.html
 K 25
 svn:wc:ra_dav:version-url
@@ -32,10 +38,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 79
 /svn/!svn/ver/1434/trunk/closure/goog/messaging/testdata/portnetwork_worker2.js
-END
-portchannel_inner.html
-K 25
-svn:wc:ra_dav:version-url
-V 79
-/svn/!svn/ver/1434/trunk/closure/goog/messaging/testdata/portchannel_inner.html
 END

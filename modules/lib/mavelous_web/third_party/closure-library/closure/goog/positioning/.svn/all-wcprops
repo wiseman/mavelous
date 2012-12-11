@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 49
 /svn/!svn/ver/2209/trunk/closure/goog/positioning
 END
+positioning_test_standard.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/850/trunk/closure/goog/positioning/positioning_test_standard.html
+END
 anchoredviewportposition_test_iframe.html
 K 25
 svn:wc:ra_dav:version-url
@@ -122,10 +128,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 69
 /svn/!svn/ver/1900/trunk/closure/goog/positioning/anchoredposition.js
-END
-positioning_test_standard.html
-K 25
-svn:wc:ra_dav:version-url
-V 79
-/svn/!svn/ver/850/trunk/closure/goog/positioning/positioning_test_standard.html
 END

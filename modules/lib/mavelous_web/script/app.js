@@ -1,24 +1,42 @@
-goog.provide('mavelous.app');
+goog.provide('Mavelous.App');
+goog.require('Mavelous.BatteryButton');
+goog.require('Mavelous.CommandLongModel');
+goog.require('Mavelous.FlightModeButtonView');
+goog.require('Mavelous.FlightModeModel');
+goog.require('Mavelous.PFD');
 
 goog.require('goog.Uri');
 goog.require('goog.async.AnimationDelay');
 goog.require('goog.async.Throttle');
-goog.require('goog.base');
 goog.require('goog.debug.Console');
 goog.require('goog.debug.FpsDisplay');
 goog.require('goog.dom');
 goog.require('goog.net.jsloader');
 
-$(function() {
+
+
+/**
+ * Mavelous App object.
+ *
+ * @constructor
+ */
+Mavelous.App = function() {
+};
+
+
+/**
+ * Initializes and starts the app.
+ */
+Mavelous.App.prototype.start = function() {
   var c = new goog.debug.Console();
   c.setCapturing(true);
 
   var uri = new goog.Uri(window.location.href);
-  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  this.mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
   /* If we see "offline" query parameter in the URL, enable offline
    * mode. */
   if (goog.isDef(uri.getParameterValue('offline'))) {
-    mavlinkAPI.useOfflineMode();
+    this.mavlinkAPI.useOfflineMode();
   }
 
   /* Check whether we're in debug mode. */
@@ -44,98 +62,103 @@ $(function() {
     }
   }
 
-  var pfdSettingsModel = new Mavelous.PFDSettingsModel();
-  var pfdView = new Mavelous.PFDView({
-    mavlinkSrc: mavlinkAPI,
-    settingsModel: pfdSettingsModel,
+  this.pfdSettingsModel = new Mavelous.PFDSettingsModel();
+  this.pfdView = new Mavelous.PFDView({
+    mavlinkSrc: this.mavlinkAPI,
+    settingsModel: this.pfdSettingsModel,
     drawingid: 'pfdview',
     blockel: $('#pfdblock'),
     statel: $('#pfdstatus')
   });
 
-  var guideModel = new Mavelous.GuideModel({ mavlinkSrc: mavlinkAPI });
-  var guideAltView = new Mavelous.GuideAltitudeView({
-    model: guideModel,
+  this.guideModel = new Mavelous.GuideModel({ mavlinkSrc: this.mavlinkAPI });
+  this.guideAltView = new Mavelous.GuideAltitudeView({
+    model: this.guideModel,
     input: $('#guidealt-input'),
     submit: $('#guidealt-submit'),
     text: $('#guidealt-text')
   });
 
-  var leafletDroneIcon = new Mavelous.LeafletDroneIconModel();
-  var leafletProviders = new Mavelous.LeafletProviders();
+  this.leafletDroneIcon = new Mavelous.LeafletDroneIconModel();
+  this.leafletProviders = new Mavelous.LeafletProviders();
 
-  var vehicle = new Mavelous.VehicleLeafletPosition({ mavlinkSrc: mavlinkAPI });
-
-  var panModel = new Mavelous.LeafletPanModel({
-    vehicle: vehicle
+  this.vehicle = new Mavelous.VehicleLeafletPosition({
+    mavlinkSrc: this.mavlinkAPI
   });
-  var panCtrl = new Mavelous.LeafletPanControlView({
-    model: panModel,
+
+  this.panModel = new Mavelous.LeafletPanModel({
+    vehicle: this.vehicle
+  });
+  this.panCtrl = new Mavelous.LeafletPanControlView({
+    model: this.panModel,
     button: $('#mapoverlay-btn-centermap'),
     icon: $('#mapoverlay-icon-centermap')
   });
-  var mapView = new Mavelous.LeafletView({
-    vehicle: vehicle,
-    provider: leafletProviders,
-    vehicleIcon: leafletDroneIcon,
-    guideModel: guideModel,
-    panModel: panModel
+  this.mapView = new Mavelous.LeafletView({
+    vehicle: this.vehicle,
+    provider: this.leafletProviders,
+    vehicleIcon: this.leafletDroneIcon,
+    guideModel: this.guideModel,
+    panModel: this.panModel
   });
 
-  var commStatusModel = new Mavelous.CommStatusModel({
-    mavlinkSrc: mavlinkAPI
+  this.commStatusModel = new Mavelous.CommStatusModel({
+    mavlinkSrc: this.mavlinkAPI
   });
 
-  var packetLossModel = new Mavelous.PacketLossModel({
-    mavlinkSrc: mavlinkAPI
+  this.packetLossModel = new Mavelous.PacketLossModel({
+    mavlinkSrc: this.mavlinkAPI
   });
 
-  var commStatusButtonView = new Mavelous.CommStatusButtonView({
-    commStatusModel: commStatusModel,
-    packetLossModel: packetLossModel,
+  this.commStatusButtonView = new Mavelous.CommStatusButtonView({
+    commStatusModel: this.commStatusModel,
+    packetLossModel: this.packetLossModel,
     el: $('#navbar-btn-link')
   });
 
-  var gpsButtonView = new Mavelous.GpsButtonView({
-    mavlinkSrc: mavlinkAPI,
+  this.gpsButtonView = new Mavelous.GpsButtonView({
+    mavlinkSrc: this.mavlinkAPI,
     el: $('#navbar-btn-gps')
   });
 
-  var statustextView = new Mavelous.StatustextView({ mavlinkSrc: mavlinkAPI });
+  this.statustextView = new Mavelous.StatustextView({
+    mavlinkSrc: this.mavlinkAPI
+  });
 
-  var modeStringView = new Mavelous.ModeStringView({
-    mavlinkSrc: mavlinkAPI,
+  this.modeStringView = new Mavelous.ModeStringView({
+    mavlinkSrc: this.mavlinkAPI,
     el: $('#pfd_modestringview')
   });
 
-  var flightModeModel = new Mavelous.FlightModeModel({
-    mavlinkSrc: mavlinkAPI
+  this.flightModeModel = new Mavelous.FlightModeModel({
+    mavlinkSrc: this.mavlinkAPI
   });
-  var flightCommandModel = new Mavelous.CommandLongModel({
-    mavlinkSrc: mavlinkAPI
+  this.flightCommandModel = new Mavelous.CommandLongModel({
+    mavlinkSrc: this.mavlinkAPI
   });
-  var flightModeButtonView = new Mavelous.FlightModeButtonView({
+  this.flightModeButtonView = new Mavelous.FlightModeButtonView({
     el: $('#navbar-btn-mode'),
-    modeModel: flightModeModel,
-    commandModel: flightCommandModel
+    modeModel: this.flightModeModel,
+    commandModel: this.flightCommandModel
   });
 
   /* Radio view controller */
-  var statusButtons = new Mavelous.StatusButtons({
-    buttons: [gpsButtonView, commStatusButtonView, flightModeButtonView]
+  this.statusButtons = new Mavelous.StatusButtons({
+    buttons: [this.gpsButtonView,
+              this.commStatusButtonView,
+              this.flightModeButtonView]
   });
 
-
-  var batteryButton = new Mavelous.BatteryButton({
-    mavlinkSrc: mavlinkAPI,
+  this.batteryButton = new Mavelous.BatteryButton({
+    mavlinkSrc: this.mavlinkAPI,
     el: $('#navbar-btn-battery')
   });
 
-  var settingsView = new Mavelous.SettingsView({
+  this.settingsView = new Mavelous.SettingsView({
     /* Map settings: */
-    map: mapView.map,
-    mapProviderModel: leafletProviders,
-    vehicleIconModel: leafletDroneIcon,
+    map: this.mapView.map,
+    mapProviderModel: this.leafletProviders,
+    vehicleIconModel: this.leafletDroneIcon,
     modalToggle: $('#navbar-a-settings'),
     modal: $('#settings-modal'),
     mapProviderPicker: $('#settings-mapproviderpicker'),
@@ -143,7 +166,7 @@ $(function() {
     mapZoomValue: $('#settings-mapzoom-value'),
     vehicleIconPicker: $('#settings-vehicleiconpicker'),
     /* PFD settings: */
-    pfdSettingsModel: pfdSettingsModel,
+    pfdSettingsModel: this.pfdSettingsModel,
     pfdPositionLeft: $('#settings-pfdpos-left'),
     pfdPositionRight: $('#settings-pfdpos-right'),
     pfdPositionUp: $('#settings-pfdpos-up'),
@@ -151,7 +174,7 @@ $(function() {
   });
 
   window.router = new Mavelous.AppRouter({
-    pfdSettingsModel: pfdSettingsModel
+    pfdSettingsModel: this.pfdSettingsModel
   });
 
   Backbone.history.start();
@@ -172,13 +195,18 @@ $(function() {
   var animationDelay = null;
   var updateThrottle = new goog.async.Throttle(
       function() {
-        mavlinkAPI.update();
+        this.mavlinkAPI.update();
         animationDelay.start();
       },
-      1000 / MAX_UPDATES_PER_SEC);
+      1000 / MAX_UPDATES_PER_SEC,
+      this);
   animationDelay = new goog.async.AnimationDelay(
       function() {
         updateThrottle.fire();
       });
   animationDelay.start();
-});
+};
+
+
+// Ensures the symbol will be visible after compiler renaming.
+goog.exportSymbol('Mavelous.App.start', Mavelous.App.start);

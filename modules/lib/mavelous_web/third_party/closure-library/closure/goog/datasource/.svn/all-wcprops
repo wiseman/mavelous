@@ -3,12 +3,6 @@ svn:wc:ra_dav:version-url
 V 48
 /svn/!svn/ver/1958/trunk/closure/goog/datasource
 END
-datasource_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 68
-/svn/!svn/ver/850/trunk/closure/goog/datasource/datasource_test.html
-END
 datamanager.js
 K 25
 svn:wc:ra_dav:version-url
@@ -74,4 +68,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 77
 /svn/!svn/ver/850/trunk/closure/goog/datasource/jsxmlhttpdatasource_test.html
+END
+datasource_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/850/trunk/closure/goog/datasource/datasource_test.html
 END

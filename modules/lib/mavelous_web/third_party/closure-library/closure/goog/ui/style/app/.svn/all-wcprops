@@ -3,12 +3,6 @@ svn:wc:ra_dav:version-url
 V 50
 /svn/!svn/ver/1958/trunk/closure/goog/ui/style/app
 END
-menubuttonrenderer_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svn/!svn/ver/850/trunk/closure/goog/ui/style/app/menubuttonrenderer_test.html
-END
 buttonrenderer.js
 K 25
 svn:wc:ra_dav:version-url
@@ -38,4 +32,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 87
 /svn/!svn/ver/850/trunk/closure/goog/ui/style/app/primaryactionbuttonrenderer_test.html
+END
+menubuttonrenderer_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/850/trunk/closure/goog/ui/style/app/menubuttonrenderer_test.html
 END

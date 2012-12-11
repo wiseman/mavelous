@@ -1,3 +1,5 @@
+goog.require('Mavelous.FakeVehicle');
+
 goog.require('goog.debug.Logger');
 
 $(function() {

@@ -3,12 +3,6 @@ svn:wc:ra_dav:version-url
 V 50
 /svn/!svn/ver/1987/trunk/closure/goog/labs/structs
 END
-map_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/1653/trunk/closure/goog/labs/structs/map_test.html
-END
 multimap.js
 K 25
 svn:wc:ra_dav:version-url
@@ -32,4 +26,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 69
 /svn/!svn/ver/1673/trunk/closure/goog/labs/structs/multimap_test.html
+END
+map_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1653/trunk/closure/goog/labs/structs/map_test.html
 END

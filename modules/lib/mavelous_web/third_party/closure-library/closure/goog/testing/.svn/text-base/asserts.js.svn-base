@@ -278,6 +278,7 @@ var assertThrows = function(a, opt_b) {
  * @param {!(string|Function)} a The assertion comment or the function to call.
  * @param {!Function=} opt_b The function to call (if the first argument of
  *     {@code assertNotThrows} was the comment).
+ * @return {*} The return value of the function.
  * @throws {goog.testing.JsUnitException} If the assertion failed.
  */
 var assertNotThrows = function(a, opt_b) {
@@ -288,7 +289,7 @@ var assertNotThrows = function(a, opt_b) {
       'Argument passed to assertNotThrows is not a function');
 
   try {
-    func();
+    return func();
   } catch (e) {
     comment = comment ? (comment + '\n') : '';
     comment += 'A non expected exception was thrown from function passed to ' +
@@ -936,6 +937,19 @@ var assertEvaluatesToFalse = function(a, opt_b) {
 
 
 /**
+ * Compares two HTML snippets.
+ *
+ * Take extra care if attributes are involved. {@code assertHTMLEquals}'s
+ * implementation isn't prepared for complex cases. For example, the following
+ * comparisons erroneously fail:
+ * <pre>
+ * assertHTMLEquals('<a href="x" target="y">', '<a target="y" href="x">');
+ * assertHTMLEquals('<div classname="a b">', '<div classname="b a">');
+ * assertHTMLEquals('<input disabled>', '<input disabled="disabled">');
+ * </pre>
+ *
+ * When in doubt, use {@code goog.testing.dom.assertHtmlMatches}.
+ *
  * @param {*} a The expected value (2 args) or the debug message (3 args).
  * @param {*} b The actual value (2 args) or the expected value (3 args).
  * @param {*=} opt_c The actual value (3 args only).

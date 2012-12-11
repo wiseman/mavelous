@@ -3,6 +3,36 @@ svn:wc:ra_dav:version-url
 V 42
 /svn/!svn/ver/2130/trunk/closure/goog/math
 END
+box.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1900/trunk/closure/goog/math/box.js
+END
+math.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/850/trunk/closure/goog/math/math.js
+END
+exponentialbackoff_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/1136/trunk/closure/goog/math/exponentialbackoff_test.html
+END
+rect.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1908/trunk/closure/goog/math/rect.js
+END
+vec2.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/1926/trunk/closure/goog/math/vec2.js
+END
 exponentialbackoff.js
 K 25
 svn:wc:ra_dav:version-url
@@ -176,34 +206,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 56
 /svn/!svn/ver/850/trunk/closure/goog/math/long_test.html
-END
-box.js
-K 25
-svn:wc:ra_dav:version-url
-V 49
-/svn/!svn/ver/1900/trunk/closure/goog/math/box.js
-END
-math.js
-K 25
-svn:wc:ra_dav:version-url
-V 49
-/svn/!svn/ver/850/trunk/closure/goog/math/math.js
-END
-exponentialbackoff_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 71
-/svn/!svn/ver/1136/trunk/closure/goog/math/exponentialbackoff_test.html
-END
-rect.js
-K 25
-svn:wc:ra_dav:version-url
-V 50
-/svn/!svn/ver/1908/trunk/closure/goog/math/rect.js
-END
-vec2.js
-K 25
-svn:wc:ra_dav:version-url
-V 50
-/svn/!svn/ver/1926/trunk/closure/goog/math/vec2.js
 END

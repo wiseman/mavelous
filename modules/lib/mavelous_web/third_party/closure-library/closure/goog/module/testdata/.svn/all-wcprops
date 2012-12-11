@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 53
 /svn/!svn/ver/2108/trunk/closure/goog/module/testdata
 END
+modA_1.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/2108/trunk/closure/goog/module/testdata/modA_1.js
+END
 modB_1.js
 K 25
 svn:wc:ra_dav:version-url
@@ -14,10 +20,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 63
 /svn/!svn/ver/2108/trunk/closure/goog/module/testdata/modA_2.js
-END
-modA_1.js
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svn/!svn/ver/2108/trunk/closure/goog/module/testdata/modA_1.js
 END

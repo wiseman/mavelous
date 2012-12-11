@@ -3,24 +3,6 @@ svn:wc:ra_dav:version-url
 V 47
 /svn/!svn/ver/2244/trunk/closure/goog/useragent
 END
-iphoto.js
-K 25
-svn:wc:ra_dav:version-url
-V 57
-/svn/!svn/ver/1499/trunk/closure/goog/useragent/iphoto.js
-END
-jscript_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/850/trunk/closure/goog/useragent/jscript_test.html
-END
-product_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svn/!svn/ver/1603/trunk/closure/goog/useragent/product_test.html
-END
 platform_test.html
 K 25
 svn:wc:ra_dav:version-url
@@ -98,4 +80,22 @@ K 25
 svn:wc:ra_dav:version-url
 V 57
 /svn/!svn/ver/1499/trunk/closure/goog/useragent/picasa.js
+END
+iphoto.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1499/trunk/closure/goog/useragent/iphoto.js
+END
+jscript_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/850/trunk/closure/goog/useragent/jscript_test.html
+END
+product_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1603/trunk/closure/goog/useragent/product_test.html
 END

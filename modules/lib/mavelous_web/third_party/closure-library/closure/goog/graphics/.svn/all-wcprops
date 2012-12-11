@@ -3,6 +3,18 @@ svn:wc:ra_dav:version-url
 V 46
 /svn/!svn/ver/1968/trunk/closure/goog/graphics
 END
+paths.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/850/trunk/closure/goog/graphics/paths.js
+END
+vmlgraphics.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1901/trunk/closure/goog/graphics/vmlgraphics.js
+END
 svggraphics.js
 K 25
 svn:wc:ra_dav:version-url
@@ -164,16 +176,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 70
 /svn/!svn/ver/1472/trunk/closure/goog/graphics/strokeandfillelement.js
-END
-paths.js
-K 25
-svn:wc:ra_dav:version-url
-V 54
-/svn/!svn/ver/850/trunk/closure/goog/graphics/paths.js
-END
-vmlgraphics.js
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/1901/trunk/closure/goog/graphics/vmlgraphics.js
 END

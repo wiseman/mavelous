@@ -1,31 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 45
-/svn/!svn/ver/2185/trunk/closure/goog/net/xpc
-END
-nativemessagingtransport.js
-K 25
-svn:wc:ra_dav:version-url
-V 73
-/svn/!svn/ver/2184/trunk/closure/goog/net/xpc/nativemessagingtransport.js
-END
-crosspagechannelrole.js
-K 25
-svn:wc:ra_dav:version-url
-V 69
-/svn/!svn/ver/1122/trunk/closure/goog/net/xpc/crosspagechannelrole.js
-END
-frameelementmethodtransport.js
-K 25
-svn:wc:ra_dav:version-url
-V 76
-/svn/!svn/ver/2184/trunk/closure/goog/net/xpc/frameelementmethodtransport.js
-END
-iframepollingtransport.js
-K 25
-svn:wc:ra_dav:version-url
-V 71
-/svn/!svn/ver/2184/trunk/closure/goog/net/xpc/iframepollingtransport.js
+/svn/!svn/ver/2294/trunk/closure/goog/net/xpc
 END
 crosspagechannel_test.html
 K 25
@@ -80,4 +56,28 @@ K 25
 svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/2185/trunk/closure/goog/net/xpc/crosspagechannel.js
+END
+nativemessagingtransport.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/2294/trunk/closure/goog/net/xpc/nativemessagingtransport.js
+END
+crosspagechannelrole.js
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/1122/trunk/closure/goog/net/xpc/crosspagechannelrole.js
+END
+frameelementmethodtransport.js
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/2184/trunk/closure/goog/net/xpc/frameelementmethodtransport.js
+END
+iframepollingtransport.js
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/2184/trunk/closure/goog/net/xpc/iframepollingtransport.js
 END

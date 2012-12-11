@@ -8,7 +8,6 @@
  *   KineticJS 4.1
  */
 
-goog.require('goog.base');
 goog.provide('Mavelous.ArtificialHorizon');
 goog.provide('Mavelous.PFD');
 goog.provide('Mavelous.Tape');
@@ -19,14 +18,12 @@ goog.provide('Mavelous.Tape');
  * Renders an artifical horizon with sky/ground and pitch and roll
  * ladders.
  *
- * @param {Object} config
- * config {Number} config.width width.
- * config {Number} config.height height.
- * config {String} config.skyColor The color of the sky.
- * config {String} config.groundColor The color of the ground.
- * config {String} config.lineColor The color of the horizon line,
- *     pitch ladder and roll ladder.
- * config {String} config.planeColor The color of the wings.
+ * @param {{width: Number=,
+ *          height: Number=,
+ *          skyColor: String=,
+ *          groundColor: String=,
+ *          lineColor: String=,
+ *          planeColor: String=}=}
  * @constructor
  */
 Mavelous.ArtificialHorizon = function(config) {

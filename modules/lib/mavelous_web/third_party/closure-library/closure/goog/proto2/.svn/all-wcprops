@@ -1,7 +1,43 @@
 K 25
 svn:wc:ra_dav:version-url
 V 44
-/svn/!svn/ver/2164/trunk/closure/goog/proto2
+/svn/!svn/ver/2325/trunk/closure/goog/proto2
+END
+textformatserializer.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2268/trunk/closure/goog/proto2/textformatserializer.js
+END
+objectserializer_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/850/trunk/closure/goog/proto2/objectserializer_test.html
+END
+proto_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1045/trunk/closure/goog/proto2/proto_test.html
+END
+package_test.pb.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/913/trunk/closure/goog/proto2/package_test.pb.js
+END
+pbliteserializer_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/1840/trunk/closure/goog/proto2/pbliteserializer_test.html
+END
+objectserializer.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1926/trunk/closure/goog/proto2/objectserializer.js
 END
 descriptor_test.html
 K 25
@@ -9,11 +45,11 @@ svn:wc:ra_dav:version-url
 V 64
 /svn/!svn/ver/850/trunk/closure/goog/proto2/descriptor_test.html
 END
-pbliteserializer.js
+serializer.js
 K 25
 svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/1926/trunk/closure/goog/proto2/pbliteserializer.js
+V 58
+/svn/!svn/ver/1847/trunk/closure/goog/proto2/serializer.js
 END
 fielddescriptor_test.html
 K 25
@@ -21,17 +57,17 @@ svn:wc:ra_dav:version-url
 V 70
 /svn/!svn/ver/2164/trunk/closure/goog/proto2/fielddescriptor_test.html
 END
-serializer.js
+pbliteserializer.js
 K 25
 svn:wc:ra_dav:version-url
-V 58
-/svn/!svn/ver/1847/trunk/closure/goog/proto2/serializer.js
+V 64
+/svn/!svn/ver/1926/trunk/closure/goog/proto2/pbliteserializer.js
 END
 message_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 62
-/svn/!svn/ver/1650/trunk/closure/goog/proto2/message_test.html
+/svn/!svn/ver/2325/trunk/closure/goog/proto2/message_test.html
 END
 util.js
 K 25
@@ -57,63 +93,27 @@ svn:wc:ra_dav:version-url
 V 55
 /svn/!svn/ver/1650/trunk/closure/goog/proto2/test.pb.js
 END
-lazydeserializer.js
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/1302/trunk/closure/goog/proto2/lazydeserializer.js
-END
 fielddescriptor.js
 K 25
 svn:wc:ra_dav:version-url
 V 63
 /svn/!svn/ver/2164/trunk/closure/goog/proto2/fielddescriptor.js
 END
+lazydeserializer.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1302/trunk/closure/goog/proto2/lazydeserializer.js
+END
 message.js
 K 25
 svn:wc:ra_dav:version-url
 V 55
-/svn/!svn/ver/2164/trunk/closure/goog/proto2/message.js
+/svn/!svn/ver/2325/trunk/closure/goog/proto2/message.js
 END
 textformatserializer_test.js
 K 25
 svn:wc:ra_dav:version-url
 V 73
 /svn/!svn/ver/1887/trunk/closure/goog/proto2/textformatserializer_test.js
-END
-objectserializer_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 70
-/svn/!svn/ver/850/trunk/closure/goog/proto2/objectserializer_test.html
-END
-textformatserializer.js
-K 25
-svn:wc:ra_dav:version-url
-V 68
-/svn/!svn/ver/1926/trunk/closure/goog/proto2/textformatserializer.js
-END
-package_test.pb.js
-K 25
-svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/913/trunk/closure/goog/proto2/package_test.pb.js
-END
-proto_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 60
-/svn/!svn/ver/1045/trunk/closure/goog/proto2/proto_test.html
-END
-objectserializer.js
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/1926/trunk/closure/goog/proto2/objectserializer.js
-END
-pbliteserializer_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 71
-/svn/!svn/ver/1840/trunk/closure/goog/proto2/pbliteserializer_test.html
 END

@@ -1,25 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 55
-/svn/!svn/ver/2259/trunk/closure/goog/storage/mechanism
-END
-iterablemechanism_test.js
-K 25
-svn:wc:ra_dav:version-url
-V 81
-/svn/!svn/ver/2140/trunk/closure/goog/storage/mechanism/iterablemechanism_test.js
-END
-iterablemechanism.js
-K 25
-svn:wc:ra_dav:version-url
-V 75
-/svn/!svn/ver/960/trunk/closure/goog/storage/mechanism/iterablemechanism.js
-END
-html5webstorage.js
-K 25
-svn:wc:ra_dav:version-url
-V 74
-/svn/!svn/ver/2140/trunk/closure/goog/storage/mechanism/html5webstorage.js
+/svn/!svn/ver/2320/trunk/closure/goog/storage/mechanism
 END
 ieuserdata_test.html
 K 25
@@ -91,7 +73,7 @@ mechanismfactory.js
 K 25
 svn:wc:ra_dav:version-url
 V 75
-/svn/!svn/ver/1493/trunk/closure/goog/storage/mechanism/mechanismfactory.js
+/svn/!svn/ver/2320/trunk/closure/goog/storage/mechanism/mechanismfactory.js
 END
 mechanism_test.js
 K 25
@@ -110,4 +92,22 @@ K 25
 svn:wc:ra_dav:version-url
 V 85
 /svn/!svn/ver/2140/trunk/closure/goog/storage/mechanism/html5sessionstorage_test.html
+END
+iterablemechanism_test.js
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/2140/trunk/closure/goog/storage/mechanism/iterablemechanism_test.js
+END
+iterablemechanism.js
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/960/trunk/closure/goog/storage/mechanism/iterablemechanism.js
+END
+html5webstorage.js
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/2140/trunk/closure/goog/storage/mechanism/html5webstorage.js
 END

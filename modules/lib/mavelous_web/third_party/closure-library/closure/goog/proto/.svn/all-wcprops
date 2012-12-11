@@ -3,6 +3,12 @@ svn:wc:ra_dav:version-url
 V 43
 /svn/!svn/ver/1943/trunk/closure/goog/proto
 END
+serializer.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1943/trunk/closure/goog/proto/serializer.js
+END
 serializer_test.html
 K 25
 svn:wc:ra_dav:version-url
@@ -14,10 +20,4 @@ K 25
 svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/1472/trunk/closure/goog/proto/proto.js
-END
-serializer.js
-K 25
-svn:wc:ra_dav:version-url
-V 57
-/svn/!svn/ver/1943/trunk/closure/goog/proto/serializer.js
 END

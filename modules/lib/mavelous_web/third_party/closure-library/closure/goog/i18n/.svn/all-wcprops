@@ -1,7 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 42
-/svn/!svn/ver/2058/trunk/closure/goog/i18n
+/svn/!svn/ver/2345/trunk/closure/goog/i18n
+END
+charlistdecompressor.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/850/trunk/closure/goog/i18n/charlistdecompressor.js
 END
 uchar.js
 K 25
@@ -54,8 +60,8 @@ END
 mime.js
 K 25
 svn:wc:ra_dav:version-url
-V 49
-/svn/!svn/ver/850/trunk/closure/goog/i18n/mime.js
+V 50
+/svn/!svn/ver/2276/trunk/closure/goog/i18n/mime.js
 END
 numberformat_test.html
 K 25
@@ -73,7 +79,7 @@ currency.js
 K 25
 svn:wc:ra_dav:version-url
 V 54
-/svn/!svn/ver/1374/trunk/closure/goog/i18n/currency.js
+/svn/!svn/ver/2345/trunk/closure/goog/i18n/currency.js
 END
 timezone.js
 K 25
@@ -123,17 +129,17 @@ svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/922/trunk/closure/goog/i18n/datetimeparse_test.html
 END
-currency_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/1374/trunk/closure/goog/i18n/currency_test.html
-END
 timezone_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 60
 /svn/!svn/ver/850/trunk/closure/goog/i18n/timezone_test.html
+END
+currency_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1374/trunk/closure/goog/i18n/currency_test.html
 END
 currencycodemap.js
 K 25
@@ -141,17 +147,17 @@ svn:wc:ra_dav:version-url
 V 61
 /svn/!svn/ver/1472/trunk/closure/goog/i18n/currencycodemap.js
 END
-messageformat_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 66
-/svn/!svn/ver/2055/trunk/closure/goog/i18n/messageformat_test.html
-END
 graphemebreak_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/850/trunk/closure/goog/i18n/graphemebreak_test.html
+END
+messageformat_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2055/trunk/closure/goog/i18n/messageformat_test.html
 END
 charlistdecompressor_test.html
 K 25
@@ -177,23 +183,17 @@ svn:wc:ra_dav:version-url
 V 67
 /svn/!svn/ver/1970/trunk/closure/goog/i18n/datetimeformat_test.html
 END
+graphemebreak.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2307/trunk/closure/goog/i18n/graphemebreak.js
+END
 messageformat.js
 K 25
 svn:wc:ra_dav:version-url
 V 59
 /svn/!svn/ver/2055/trunk/closure/goog/i18n/messageformat.js
-END
-graphemebreak.js
-K 25
-svn:wc:ra_dav:version-url
-V 58
-/svn/!svn/ver/850/trunk/closure/goog/i18n/graphemebreak.js
-END
-bidi_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 57
-/svn/!svn/ver/1825/trunk/closure/goog/i18n/bidi_test.html
 END
 datetimepatternsext.js
 K 25
@@ -201,9 +201,9 @@ svn:wc:ra_dav:version-url
 V 65
 /svn/!svn/ver/1728/trunk/closure/goog/i18n/datetimepatternsext.js
 END
-charlistdecompressor.js
+bidi_test.html
 K 25
 svn:wc:ra_dav:version-url
-V 65
-/svn/!svn/ver/850/trunk/closure/goog/i18n/charlistdecompressor.js
+V 57
+/svn/!svn/ver/1825/trunk/closure/goog/i18n/bidi_test.html
 END

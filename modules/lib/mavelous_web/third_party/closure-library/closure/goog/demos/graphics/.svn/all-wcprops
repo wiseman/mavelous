@@ -3,24 +3,6 @@ svn:wc:ra_dav:version-url
 V 52
 /svn/!svn/ver/1869/trunk/closure/goog/demos/graphics
 END
-tiger.html
-K 25
-svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/850/trunk/closure/goog/demos/graphics/tiger.html
-END
-subpixel.html
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svn/!svn/ver/850/trunk/closure/goog/demos/graphics/subpixel.html
-END
-tigerdata.js
-K 25
-svn:wc:ra_dav:version-url
-V 65
-/svn/!svn/ver/1472/trunk/closure/goog/demos/graphics/tigerdata.js
-END
 basicelements.html
 K 25
 svn:wc:ra_dav:version-url
@@ -50,4 +32,22 @@ K 25
 svn:wc:ra_dav:version-url
 V 72
 /svn/!svn/ver/1869/trunk/closure/goog/demos/graphics/modifyelements.html
+END
+tiger.html
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/850/trunk/closure/goog/demos/graphics/tiger.html
+END
+subpixel.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/850/trunk/closure/goog/demos/graphics/subpixel.html
+END
+tigerdata.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1472/trunk/closure/goog/demos/graphics/tigerdata.js
 END

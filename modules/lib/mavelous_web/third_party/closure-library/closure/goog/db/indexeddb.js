@@ -122,7 +122,7 @@ goog.db.IndexedDb.prototype.createObjectStore = function(name, opt_params) {
     return new goog.db.ObjectStore(this.db_.createObjectStore(
         name, opt_params));
   } catch (ex) {
-    throw new goog.db.Error(ex.code, 'creating object store ' + name);
+    throw goog.db.Error.create(ex, 'creating object store ' + name);
   }
 };
 
@@ -138,7 +138,7 @@ goog.db.IndexedDb.prototype.deleteObjectStore = function(name) {
   try {
     this.db_.deleteObjectStore(name);
   } catch (ex) {
-    throw new goog.db.Error(ex.code, 'deleting object store ' + name);
+    throw goog.db.Error.create(ex, 'deleting object store ' + name);
   }
 };
 
@@ -165,10 +165,18 @@ goog.db.IndexedDb.prototype.setVersion = function(version) {
     d.callback(new goog.db.Transaction(ev.target.result));
   };
   request.onerror = function(ev) {
-    d.errback(new goog.db.Error(ev.target.errorCode, 'setting version'));
+    // If a version change is blocked, onerror and onblocked may both fire.
+    // Check d.hasFired() to avoid an AlreadyCalledError.
+    if (!d.hasFired()) {
+      d.errback(new goog.db.Error(ev.target.errorCode, 'setting version'));
+    }
   };
   request.onblocked = function(ev) {
-    d.errback(new goog.db.Error.VersionChangeBlockedError());
+    // If a version change is blocked, onerror and onblocked may both fire.
+    // Check d.hasFired() to avoid an AlreadyCalledError.
+    if (!d.hasFired()) {
+      d.errback(new goog.db.Error.VersionChangeBlockedError());
+    }
   };
   return d;
 };
@@ -188,8 +196,13 @@ goog.db.IndexedDb.prototype.setVersion = function(version) {
  */
 goog.db.IndexedDb.prototype.createTransaction = function(storeNames, opt_mode) {
   try {
-    return new goog.db.Transaction(this.db_.transaction(storeNames, opt_mode));
+    // IndexedDB on Chrome 22+ requires that opt_mode not be passed rather than
+    // be explicitly passed as undefined.
+    var transaction = opt_mode ?
+        this.db_.transaction(storeNames, opt_mode) :
+        this.db_.transaction(storeNames);
+    return new goog.db.Transaction(transaction);
   } catch (err) {
-    throw new goog.db.Error(err.code, 'creating transaction');
+    throw goog.db.Error.create(err, 'creating transaction');
   }
 };
