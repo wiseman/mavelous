@@ -9,9 +9,15 @@ goog.require('goog.debug.Logger');
 
 /**
  * A mavlink message.
+ *
+ * @param {{_type: {String}, _index: {Number}}} attrs The message attributes.
  * @constructor
+ * @extends {Backbone.Model}
  */
-Mavelous.MavlinkMessage = Backbone.Model.extend({});
+Mavelous.MavlinkMessage = function(attrs) {
+  goog.base(this, attrs);
+};
+goog.inherits(Mavelous.MavlinkMessage, Backbone.Model);
 
 
 
@@ -19,94 +25,150 @@ Mavelous.MavlinkMessage = Backbone.Model.extend({});
  * Fetches the most recent mavlink messages of interest from the
  * server.
  *
+ * @param {{url: {String}}} attrs Attributes.
  * @constructor
+ * @extends {Backbone.Model}
  */
-Mavelous.MavlinkAPI = Backbone.Model.extend({
-  initialize: function() {
-    this.logger_ = goog.debug.Logger.getLogger('mavelous.MavlinkAPI');
-    this.url = this.get('url');
-    this.gotonline = false;
-    this.online = true;
-    this.failcount = 0;
-    // Table of message models, keyed by message type.
-    this.messageModels = {};
-  },
+Mavelous.MavlinkAPI = function(attrs) {
+  goog.base(this, attrs);
+};
+goog.inherits(Mavelous.MavlinkAPI, Backbone.Model);
 
-  subscribe: function(msgType, handlerFunction, context) {
-    if (!this.messageModels[msgType]) {
-      this.messageModels[msgType] = new Mavelous.MavlinkMessage({
-        _type: msgType,
-        _index: -1});
-    }
-    var model = this.messageModels[msgType];
-    model.bind('change', handlerFunction, context);
-    return model;
-  },
 
-  handleMessages: function(msgEnvelopes) {
-    _.each(msgEnvelopes, this.handleMessage, this);
-  },
+/**
+ * @inheritDoc
+ */
+Mavelous.MavlinkAPI.prototype.initialize = function() {
+  /** @type {goog.debug.Logger} */
+  this.logger_ = goog.debug.Logger.getLogger('mavelous.MavlinkAPI');
+  /** @type {String} */
+  this.url = this.get('url');
+  /** @type {boolean} */
+  this.gotonline = false;
+  /** @type {boolean} */
+  this.online = true;
+  /** @type {Number} */
+  this.failcount = 0;
+  // Table of message models, keyed by message type.
+  /** @type {Object.<String, Mavelous.MavlinkMessage>} */
+  this.messageModels = {};
+  /** @type {?Mavelous.FakeVehicle} */
+  this.fakevehicle = null;
+};
 
-  handleMessage: function(msg, msgType) {
-    this.trigger('gotServerResponse');
-    // Update the model if this is a new message for this type.
-    var msgModel = this.messageModels[msgType];
-    var mdlidx = msgModel.get('_index');
-    if (mdlidx === undefined || msg.index > mdlidx) {
-      msgModel.set({
-        _index: msg.index
-      }, {
-        silent: true
-      });
-      msgModel.set(msg.msg);
-    }
-  },
 
-  update: function() {
-    if (this.online) {
-      this.onlineUpdate();
-    } else {
-      this.offlineUpdate();
-    }
-  },
+/**
+ * Registers a handler for a mavlink message type.
+ *
+ * @param {String} msgType The type of message.
+ * @param {function(Object)} handlerFunction The message handler function.
+ * @param {Object} context Specifies the object which |this| should
+ *     point to when the function is run.
+ * @return {Backbone.Model} The message model.
+ */
+Mavelous.MavlinkAPI.prototype.subscribe = function(
+    msgType, handlerFunction, context) {
+  if (!this.messageModels[msgType]) {
+    this.messageModels[msgType] = new Mavelous.MavlinkMessage({
+      _type: msgType,
+      _index: -1});
+  }
+  var model = this.messageModels[msgType];
+  model.bind('change', handlerFunction, context);
+  return model;
+};
 
-  onlineUpdate: function() {
-    $.ajax({
-      context: this,
-      type: 'GET',
-      cache: false,
-      url: this.url + _.keys(this.messageModels).join('+'),
-      datatype: 'json',
-      success: function(data) {
-        this.gotonline = true;
-        this.handleMessages(data);
-      },
-      error: function() {
-        this.trigger('gotServerError');
-        if (!this.gotonline) {
-          this.failcount++;
-          if (this.failcount > 5) {
-            this.useOfflineMode();
-          }
+
+/**
+ * Handles an array of incoming mavlink messages.
+ * @param {Array.<Object>} msgEnvelopes The messages.
+ */
+Mavelous.MavlinkAPI.prototype.handleMessages = function(msgEnvelopes) {
+  _.each(msgEnvelopes, this.handleMessage, this);
+};
+
+
+/**
+ * Handles an incoming message.
+ *
+ * @param {Object} msg The JSON mavlink message.
+ * @param {String} msgType The message type.
+ */
+Mavelous.MavlinkAPI.prototype.handleMessage = function(msg, msgType) {
+  this.trigger('gotServerResponse');
+  // Update the model if this is a new message for this type.
+  var msgModel = this.messageModels[msgType];
+  var mdlidx = msgModel.get('_index');
+  if (mdlidx === undefined || msg.index > mdlidx) {
+    msgModel.set({
+      _index: msg.index
+    }, {
+      silent: true
+    });
+    msgModel.set(msg.msg);
+  }
+};
+
+
+/**
+ * Gets the latest mavlink messages from the server (or from the fake
+ * model, if we're offline).
+ */
+Mavelous.MavlinkAPI.prototype.update = function() {
+  if (this.online) {
+    this.onlineUpdate();
+  } else {
+    this.offlineUpdate();
+  }
+};
+
+
+/**
+ * Gets the latest mavlink messages from the server.
+ */
+Mavelous.MavlinkAPI.prototype.onlineUpdate = function() {
+  $.ajax({
+    context: this,
+    type: 'GET',
+    cache: false,
+    url: this.url + _.keys(this.messageModels).join('+'),
+    datatype: 'json',
+    success: function(data) {
+      this.gotonline = true;
+      this.handleMessages(data);
+    },
+    error: function() {
+      this.trigger('gotServerError');
+      if (!this.gotonline) {
+        this.failcount++;
+        if (this.failcount > 5) {
+          this.useOfflineMode();
         }
       }
-    });
-  },
-
-  offlineUpdate: function() {
-    this.fakevehicle.update();
-    var msgs = this.fakevehicle.requestMessages(this.messageModels);
-    this.handleMessages(msgs);
-  },
-
-  useOfflineMode: function() {
-    if (this.online && !this.gotonline) {
-      this.logger_.info('Switching to offline mode');
-      this.online = false;
-      this.fakevehicle = new Mavelous.FakeVehicle({
-        lat: 45.5233, lon: -122.6670
-      });
     }
-  }
-});
+  });
+};
 
+
+/**
+ * Gets the latest fake messages if we're in offline mode.
+ */
+Mavelous.MavlinkAPI.prototype.offlineUpdate = function() {
+  this.fakevehicle.update();
+  var msgs = this.fakevehicle.requestMessages(this.messageModels);
+  this.handleMessages(msgs);
+};
+
+
+/**
+ * Switches to offline mode.
+ */
+Mavelous.MavlinkAPI.prototype.useOfflineMode = function() {
+  if (this.online && !this.gotonline) {
+    this.logger_.info('Switching to offline mode');
+    this.online = false;
+    this.fakevehicle = new Mavelous.FakeVehicle({
+      lat: 45.5233, lon: -122.6670
+    });
+  }
+};
