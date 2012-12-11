@@ -1,8 +1,10 @@
 goog.provide('Mavelous.App');
+
 goog.require('Mavelous.BatteryButton');
 goog.require('Mavelous.CommandLongModel');
 goog.require('Mavelous.FlightModeButtonView');
 goog.require('Mavelous.FlightModeModel');
+goog.require('Mavelous.MavlinkAPI');
 goog.require('Mavelous.PFD');
 
 goog.require('goog.Uri');

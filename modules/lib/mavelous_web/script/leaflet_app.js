@@ -1,3 +1,5 @@
+goog.require('Mavelous.MavlinkAPI');
+
 
 $(function() {
   var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
