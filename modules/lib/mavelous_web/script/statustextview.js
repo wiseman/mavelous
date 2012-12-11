@@ -6,11 +6,12 @@ goog.provide('Mavelous.StatustextView');
  * Displays STATUSTEXT messages.
  * @param {{text: {String}}} attrs The model attributes.
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.StatustextView = function(attrs) {
   goog.base(this, attrs);
 };
-goog.inherits(Mavelous.MavlinkMessage, Backbone.Model);
+goog.inherits(Mavelous.StatustextView, Backbone.View);
 
 
 /**
@@ -30,7 +31,7 @@ Mavelous.StatustextView.prototype.initialize = function() {
 /**
  * Updates status text.
  */
-Mavelous.onStatusTextChange.prototype.onStatusTextChange = function() {
+Mavelous.StatustextView.prototype.onStatusTextChange = function() {
   clearTimeout(this.timeout);
   var el = this.$el;
   el.html(this.statusText.get('text'));
