@@ -3,7 +3,6 @@ import logging
 import os
 import sys
 import threading
-import webbrowser
 
 import mavlinkv10
 
@@ -337,7 +336,7 @@ def init(module_context):
   g_module_context.mavelous_state = state
   state.server = mavelous_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
-  webbrowser.open('http://127.0.0.1:9999/', autoraise=True)
+  print 'Mavekous is running at http://localhost:9999'
 
 
 def unload():

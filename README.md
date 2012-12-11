@@ -87,7 +87,7 @@ file can be found at:
     $ python mavproxy.py --module mavelous --master=/dev/ttyUSB0 --baud=57600
     ```
 
-A web browser will open showing you the Mavelous interface, or you can point a browser to http://localhost:9999.
+You can then point at browser at http://localhost:9999.
 
 You'll be able to use the Mavelous interface to control Guided mode once in
 flight. Find out more about guided mode on [ArduCopter](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode).
