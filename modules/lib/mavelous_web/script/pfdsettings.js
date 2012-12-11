@@ -42,14 +42,14 @@ Mavelous.PFDSettingsModel = Backbone.Model.extend({
   readFromCookie: function() {
     var cookieData = $.cookie('pfdSettings');
     if (cookieData) {
-      console.log('cookieData');
-      console.log(cookieData);
+      window.console.log('cookieData');
+      window.console.log(cookieData);
       try {
         return goog.json.parse(cookieData);
       }
       catch (error) {
-        console.warn('Unable to parse pfdSettings cookie data:');
-        console.warn(cookieData);
+        window.console.warn('Unable to parse pfdSettings cookie data:');
+        window.console.warn(cookieData);
         return null;
       }
     } else {
@@ -59,8 +59,8 @@ Mavelous.PFDSettingsModel = Backbone.Model.extend({
 
   writeToCookie: function() {
     var settings = goog.json.serialize(this.toJSON());
-    console.log('writeToCookie:');
-    console.log(settings);
+    window.console.log('writeToCookie:');
+    window.console.log(settings);
     $.cookie('pfdSettings', settings);
   }
 });
