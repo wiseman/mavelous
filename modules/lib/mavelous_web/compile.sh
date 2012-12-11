@@ -9,6 +9,8 @@ python $CLOSURE_LIBRARY_DIR/closure/bin/build/closurebuilder.py \
   --namespace="Mavelous.App" \
   --output_mode=compiled \
   --compiler_flags="--compilation_level=SIMPLE_OPTIMIZATIONS" \
+  --compiler_flags="--summary_detail_level=3" \
+  --compiler_flags="--warning_level=VERBOSE" \
   --compiler_jar=/home/jwiseman/home/bin/closure-compiler.jar \
   > script/mavelous-compiled.js
 
