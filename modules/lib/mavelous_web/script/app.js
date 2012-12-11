@@ -1,11 +1,23 @@
 goog.provide('Mavelous.App');
 
 goog.require('Mavelous.BatteryButton');
+goog.require('Mavelous.CommStatusButtonView');
+goog.require('Mavelous.CommStatusModel');
 goog.require('Mavelous.CommandLongModel');
 goog.require('Mavelous.FlightModeButtonView');
 goog.require('Mavelous.FlightModeModel');
+goog.require('Mavelous.GpsButtonView');
+goog.require('Mavelous.GuideAltitudeView');
+goog.require('Mavelous.GuideModel');
 goog.require('Mavelous.MavlinkAPI');
+goog.require('Mavelous.ModeStringView');
 goog.require('Mavelous.PFD');
+goog.require('Mavelous.PFDSettingsModel');
+goog.require('Mavelous.PFDView');
+goog.require('Mavelous.PacketLossModel');
+goog.require('Mavelous.SettingsView');
+goog.require('Mavelous.StatusButtons');
+goog.require('Mavelous.StatustextView');
 
 goog.require('goog.Uri');
 goog.require('goog.async.AnimationDelay');
@@ -145,11 +157,9 @@ Mavelous.App.prototype.start = function() {
   });
 
   /* Radio view controller */
-  this.statusButtons = new Mavelous.StatusButtons({
-    buttons: [this.gpsButtonView,
-              this.commStatusButtonView,
-              this.flightModeButtonView]
-  });
+  this.statusButtons = Mavelous.StatusButtons(
+      [this.gpsButtonView, this.commStatusButtonView, this.flightModeButtonView]
+      );
 
   this.batteryButton = new Mavelous.BatteryButton({
     mavlinkSrc: this.mavlinkAPI,

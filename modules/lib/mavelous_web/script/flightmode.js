@@ -2,6 +2,8 @@ goog.provide('Mavelous.CommandLongModel');
 goog.provide('Mavelous.FlightModeButtonView');
 goog.provide('Mavelous.FlightModeModel');
 
+goog.require('Mavelous.util');
+
 
 
 /**
@@ -26,8 +28,8 @@ Mavelous.FlightModeModel = Backbone.Model.extend({
   },
 
   onHeartbeat: function() {
-    var modestring = mavutil.heartbeat.modestring(this.heartbeat);
-    var armed = mavutil.heartbeat.armed(this.heartbeat);
+    var modestring = Mavelous.util.heartbeat.modestring(this.heartbeat);
+    var armed = Mavelous.util.heartbeat.armed(this.heartbeat);
     this.set({ armed: armed, modestring: modestring });
   },
 

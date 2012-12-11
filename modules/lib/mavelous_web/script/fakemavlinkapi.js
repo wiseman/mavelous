@@ -1,5 +1,7 @@
 goog.provide('Mavelous.FakeVehicle');
 
+goog.require('goog.math');
+
 
 
 /**
@@ -38,9 +40,9 @@ Mavelous.FakeVehicle = Backbone.Model.extend({
     var c = this.toJSON();
     /* multiplied by a constant which is more or less eyeballed... */
     var deltaalt = (2 * dt * c.velocity *
-                    Math.sin(Mavelous.FakeVehicle.deg2rad(c.pitch)));
+                    Math.sin(goog.math.toRadians(c.pitch)));
     var deltahead = (4 * dt * c.velocity *
-                     Math.sin(Mavelous.FakeVehicle.deg2rad(c.roll)));
+                     Math.sin(goog.math.toRadians(c.roll)));
 
     this.set({
       lat: newposition.lat,
@@ -81,34 +83,14 @@ Mavelous.FakeVehicle = Backbone.Model.extend({
 
 
 /**
- * Converts degrees to radians.
- * @param {Number} deg Degrees.
- * @return {Number} Radians.
- */
-Mavelous.FakeVehicle.deg2rad = function(deg) {
-  return deg * Math.PI / 180.0;
-};
-
-
-/**
- * Converts radians to degrees.
- * @param {Number} rad Radians.
- * @return {Number} Degrees.
- */
-Mavelous.FakeVehicle.rad2deg = function(rad) {
-  return rad * 180.0 / Math.PI;
-};
-
-
-/**
  * Creates a fake attitude object.
  * @param {Object} state Vehicle state.
  * @return {Object} Attitude.
  */
 Mavelous.FakeVehicle.fakeAttitude = function(state) {
   return {
-    pitch: Mavelous.FakeVehicle.deg2rad(state.pitch),
-    roll: Mavelous.FakeVehicle.deg2rad(state.roll)
+    pitch: goog.math.toRadians(state.pitch),
+    roll: goog.math.toRadians(state.roll)
   };
 };
 
@@ -255,9 +237,9 @@ Mavelous.FakeVehicle.fakeHandlers = {
  */
 Mavelous.FakeVehicle.nextposition = function(model, dt) {
   var R = 6371; // earth's mean radius in km
-  var lat1 = Mavelous.FakeVehicle.deg2rad(model.get('lat'));
-  var lon1 = Mavelous.FakeVehicle.deg2rad(model.get('lon'));
-  var brng = Mavelous.FakeVehicle.deg2rad(model.get('heading'));
+  var lat1 = goog.math.toRadians(model.get('lat'));
+  var lon1 = goog.math.toRadians(model.get('lon'));
+  var brng = goog.math.toRadians(model.get('heading'));
   var d = (model.get('velocity') * dt) / 1000; // m to km
 
   var lat2 = Math.asin(Math.sin(lat1) * Math.cos(d / R) +
@@ -270,7 +252,7 @@ Mavelous.FakeVehicle.nextposition = function(model, dt) {
 
   if (isNaN(lat2) || isNaN(lon2)) return null;
   return {
-    lat: Mavelous.FakeVehicle.rad2deg(lat2),
-    lon: Mavelous.FakeVehicle.rad2deg(lon2)
+    lat: goog.math.toDegrees(lat2),
+    lon: goog.math.toDegrees(lon2)
   };
 };

@@ -1,5 +1,11 @@
 goog.provide('Mavelous.BatteryButton');
 
+
+
+/**
+ * Battery status button.
+ * @constructor
+ */
 Mavelous.BatteryButton = Backbone.View.extend({
 
   initialize: function() {
