@@ -1,5 +1,6 @@
 goog.provide('Mavelous.GuideModel');
 
+goog.require('goog.json');
 
 
 Mavelous.GuideModel = Backbone.Model.extend({
@@ -42,7 +43,7 @@ Mavelous.GuideModel = Backbone.Model.extend({
   },
 
   sendServer: function(loc) {
-    var req = JSON.stringify({ command: 'FLYTO', location: loc });
+    var req = goog.json.serialize({ command: 'FLYTO', location: loc });
     console.log(req);
     $.ajax({
       type: 'POST',

@@ -4,6 +4,8 @@ goog.provide('Mavelous.FlightModeModel');
 
 goog.require('Mavelous.util');
 
+goog.require('goog.json');
+
 
 
 /**
@@ -61,7 +63,7 @@ Mavelous.FlightModeModel = Backbone.Model.extend({
     $.ajax({
       type: 'POST',
       url: '/command_long',
-      data: JSON.stringify({
+      data: goog.json.serialize({
         command: 'COMPONENT_ARM_DISARM',
         component: 'SYSTEM_CONTROL',
         setting: 'ARM'
@@ -72,7 +74,7 @@ Mavelous.FlightModeModel = Backbone.Model.extend({
     $.ajax({
       type: 'POST',
       url: '/command_long',
-      data: JSON.stringify({
+      data: goog.json.serialize({
         command: 'COMPONENT_ARM_DISARM',
         component: 'SYSTEM_CONTROL',
         setting: 'DISARM'
@@ -92,13 +94,13 @@ Mavelous.CommandLongModel = Backbone.Model.extend({
       $.ajax({
         type: 'POST',
         url: '/command_long',
-        data: JSON.stringify({command: command})
+        data: goog.json.serialize({command: command})
       });
     } else {
       $.ajax({
         type: 'POST',
         url: '/command_long',
-        data: JSON.stringify(command)
+        data: goog.json.serialize(command)
       });
     }
   }

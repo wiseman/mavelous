@@ -64,7 +64,7 @@ Mavelous.MavlinkAPI.prototype.initialize = function() {
  * @param {function(Object)} handlerFunction The message handler function.
  * @param {Object} context Specifies the object which |this| should
  *     point to when the function is run.
- * @return {Backbone.Model} The message model.
+ * @return {Mavelous.MavlinkMessage} The message model.
  */
 Mavelous.MavlinkAPI.prototype.subscribe = function(
     msgType, handlerFunction, context) {

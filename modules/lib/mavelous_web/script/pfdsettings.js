@@ -1,5 +1,7 @@
 goog.provide('Mavelous.PFDSettingsModel');
 
+goog.require('goog.json');
+
 
 
 /**
@@ -43,7 +45,7 @@ Mavelous.PFDSettingsModel = Backbone.Model.extend({
       console.log('cookieData');
       console.log(cookieData);
       try {
-        return JSON.parse(cookieData);
+        return goog.json.parse(cookieData);
       }
       catch (error) {
         console.warn('Unable to parse pfdSettings cookie data:');
@@ -56,7 +58,7 @@ Mavelous.PFDSettingsModel = Backbone.Model.extend({
   },
 
   writeToCookie: function() {
-    var settings = JSON.stringify(this.toJSON());
+    var settings = goog.json.serialize(this.toJSON());
     console.log('writeToCookie:');
     console.log(settings);
     $.cookie('pfdSettings', settings);
