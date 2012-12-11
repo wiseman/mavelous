@@ -132,7 +132,7 @@ Mavelous.util.heartbeat.modestring = function(msg) {
  * @return {boolean} True if the vehicle is armed.
  */
 Mavelous.util.heartbeat.armed = function(msg) {
-  base_mode = msg.get('base_mode');
+  var base_mode = msg.get('base_mode');
   if (base_mode == null) return null;
   if (base_mode & Mavelous.util.MavModeFlag.SAFETY_ARMED) {
     return true;

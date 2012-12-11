@@ -185,7 +185,7 @@ Mavelous.App.prototype.start = function() {
     pfdPositionDown: $('#settings-pfdpos-down')
   });
 
-  window.router = new Mavelous.AppRouter({
+  this.router = new Mavelous.AppRouter({
     pfdSettingsModel: this.pfdSettingsModel
   });
 
@@ -193,10 +193,10 @@ Mavelous.App.prototype.start = function() {
 
   if ($(window).width() > 767) {
     /* On the desktop, default to overview */
-    router.navigate('overview', {trigger: true});
+    this.router.navigate('overview', {trigger: true});
   } else {
     /* On tablets and phones, default to map only */
-    router.navigate('maponly', {trigger: true});
+    this.router.navigate('maponly', {trigger: true});
   }
 
   // By trying to update at the maximum frame rate, but using a
