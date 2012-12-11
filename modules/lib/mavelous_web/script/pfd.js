@@ -18,12 +18,7 @@ goog.provide('Mavelous.Tape');
  * Renders an artifical horizon with sky/ground and pitch and roll
  * ladders.
  *
- * @param {{width: Number=,
- *          height: Number=,
- *          skyColor: String=,
- *          groundColor: String=,
- *          lineColor: String=,
- *          planeColor: String=}=}
+ * @param {{width: ?Number, height: ?Number, skyColor: ?String, groundColor: ?String, lineColor: ?String, planeColor: ?String}=} config
  * @constructor
  */
 Mavelous.ArtificialHorizon = function(config) {
