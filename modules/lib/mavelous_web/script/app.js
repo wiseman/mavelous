@@ -11,6 +11,10 @@ goog.require('Mavelous.GpsButtonView');
 goog.require('Mavelous.GuideAltitudeView');
 goog.require('Mavelous.GuideModel');
 goog.require('Mavelous.LeafletDroneIconModel');
+goog.require('Mavelous.LeafletPanControlView');
+goog.require('Mavelous.LeafletPanModel');
+goog.require('Mavelous.LeafletProviders');
+goog.require('Mavelous.LeafletView');
 goog.require('Mavelous.MavlinkAPI');
 goog.require('Mavelous.ModeStringView');
 goog.require('Mavelous.PFD');
@@ -20,6 +24,7 @@ goog.require('Mavelous.PacketLossModel');
 goog.require('Mavelous.SettingsView');
 goog.require('Mavelous.StatusButtons');
 goog.require('Mavelous.StatustextView');
+goog.require('Mavelous.VehicleLeafletPosition');
 
 goog.require('goog.Uri');
 goog.require('goog.async.AnimationDelay');

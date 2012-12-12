@@ -65,7 +65,7 @@ Mavelous.SettingsView.prototype.setupMapProviderPicker = function() {
   if (this.mapProviderModel === undefined) {
     return;
   }
-  _.each(this.mapProviderModel.providers, function(provider, name) {
+  _.each(Mavelous.LeafletProviders.Providers, function(provider, name) {
     self.mapProviderPicker.append('<option value="' + name + '">' +
                                   provider.description + '</option>');
   });

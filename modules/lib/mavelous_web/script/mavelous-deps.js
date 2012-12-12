@@ -3,13 +3,13 @@ goog.addDependency("../../../../script/batterystatus.js", ['Mavelous.BatteryButt
 goog.addDependency("../../../../script/statustextview.js", ['Mavelous.StatustextView'], []);
 goog.addDependency("../../../../script/mission-deps.js", [], []);
 goog.addDependency("../../../../script/flightmode.js", ['Mavelous.CommandLongModel', 'Mavelous.FlightModeButtonView', 'Mavelous.FlightModeModel'], ['Mavelous.util', 'goog.json']);
-goog.addDependency("../../../../script/leafletproviders.js", [], []);
+goog.addDependency("../../../../script/leafletproviders.js", ['Mavelous.LeafletProviders'], []);
 goog.addDependency("../../../../script/mavelous-deps.js", [], []);
 goog.addDependency("../../../../script/pfd-compiled.js", [], []);
 goog.addDependency("../../../../script/settingsview.js", ['Mavelous.SettingsView'], ['Mavelous.PFDSettingsModel']);
 goog.addDependency("../../../../script/pfdview.js", ['Mavelous.PFDView'], ['Mavelous.PFD', 'Mavelous.PFDSettingsModel']);
 goog.addDependency("../../../../script/pfdsettings.js", ['Mavelous.PFDSettingsModel'], ['goog.json']);
-goog.addDependency("../../../../script/app.js", ['Mavelous.App'], ['Mavelous.AppRouter', 'Mavelous.BatteryButton', 'Mavelous.CommStatusButtonView', 'Mavelous.CommStatusModel', 'Mavelous.CommandLongModel', 'Mavelous.FlightModeButtonView', 'Mavelous.FlightModeModel', 'Mavelous.GpsButtonView', 'Mavelous.GuideAltitudeView', 'Mavelous.GuideModel', 'Mavelous.LeafletDroneIconModel', 'Mavelous.MavlinkAPI', 'Mavelous.ModeStringView', 'Mavelous.PFD', 'Mavelous.PFDSettingsModel', 'Mavelous.PFDView', 'Mavelous.PacketLossModel', 'Mavelous.SettingsView', 'Mavelous.StatusButtons', 'Mavelous.StatustextView', 'goog.Uri', 'goog.async.AnimationDelay', 'goog.async.Throttle', 'goog.debug.Console', 'goog.debug.FpsDisplay', 'goog.dom', 'goog.net.jsloader']);
+goog.addDependency("../../../../script/app.js", ['Mavelous.App'], ['Mavelous.AppRouter', 'Mavelous.BatteryButton', 'Mavelous.CommStatusButtonView', 'Mavelous.CommStatusModel', 'Mavelous.CommandLongModel', 'Mavelous.FlightModeButtonView', 'Mavelous.FlightModeModel', 'Mavelous.GpsButtonView', 'Mavelous.GuideAltitudeView', 'Mavelous.GuideModel', 'Mavelous.LeafletDroneIconModel', 'Mavelous.LeafletPanControlView', 'Mavelous.LeafletPanModel', 'Mavelous.LeafletProviders', 'Mavelous.LeafletView', 'Mavelous.MavlinkAPI', 'Mavelous.ModeStringView', 'Mavelous.PFD', 'Mavelous.PFDSettingsModel', 'Mavelous.PFDView', 'Mavelous.PacketLossModel', 'Mavelous.SettingsView', 'Mavelous.StatusButtons', 'Mavelous.StatustextView', 'Mavelous.VehicleLeafletPosition', 'goog.Uri', 'goog.async.AnimationDelay', 'goog.async.Throttle', 'goog.debug.Console', 'goog.debug.FpsDisplay', 'goog.dom', 'goog.net.jsloader']);
 goog.addDependency("../../../../script/mavutil.js", ['Mavelous.util'], ['goog.object']);
 goog.addDependency("../../../../script/mission-compiled.js", [], []);
 goog.addDependency("../../../../script/navbarbuttons.js", ['Mavelous.StatusButtons'], ['Mavelous.PopoverView', 'Mavelous.RadioButtonPopoverView']);
@@ -19,11 +19,11 @@ goog.addDependency("../../../../script/popoverbutton.js", ['Mavelous.PopoverView
 goog.addDependency("../../../../script/mission.js", ['mavelous', 'mavelous.Mission', 'mavelous.MissionItem', 'mavelous.MissionItemType'], ['goog.array', 'goog.asserts', 'goog.object']);
 goog.addDependency("../../../../script/modestringview.js", ['Mavelous.ModeStringView'], ['Mavelous.util']);
 goog.addDependency("../../../../script/leaflet_app.js", [], ['Mavelous.LeafletDroneIconModel', 'Mavelous.MavlinkAPI']);
-goog.addDependency("../../../../script/leafletview.js", [], []);
+goog.addDependency("../../../../script/leafletview.js", ['Mavelous.LeafletView'], []);
 goog.addDependency("../../../../script/mavlinkapi.js", ['Mavelous.MavlinkAPI', 'Mavelous.MavlinkMessage'], ['Mavelous.FakeVehicle', 'goog.debug.Logger']);
 goog.addDependency("../../../../script/guideview.js", ['Mavelous.GuideAltitudeView'], []);
 goog.addDependency("../../../../script/framerate.js", ['Mavelous.RateMeter'], ['goog.events.EventTarget']);
-goog.addDependency("../../../../script/vehicleleafletposition.js", [], []);
+goog.addDependency("../../../../script/vehicleleafletposition.js", ['Mavelous.VehicleLeafletPosition'], []);
 goog.addDependency("../../../../script/mavelous-compiled.js", [], []);
 goog.addDependency("../../../../script/fakemavlinkapi.js", ['Mavelous.FakeVehicle'], ['goog.math']);
 goog.addDependency("../../../../script/pfd.js", ['Mavelous.ArtificialHorizon', 'Mavelous.PFD', 'Mavelous.Tape'], []);
@@ -31,4 +31,4 @@ goog.addDependency("../../../../script/guidemodel.js", ['Mavelous.GuideModel'], 
 goog.addDependency("../../../../script/missionui.js", ['mavelous.ui', 'mavelous.ui.Input', 'mavelous.ui.Label', 'mavelous.ui.Mission', 'mavelous.ui.MissionItemRenderer', 'mavelous.ui.MissionRenderer'], ['goog.dom', 'goog.events', 'goog.events.Event', 'goog.ui.BidiInput', 'goog.ui.Checkbox', 'goog.ui.Checkbox.State', 'goog.ui.Container', 'goog.ui.ContainerRenderer', 'goog.ui.Control', 'goog.ui.ControlRenderer', 'goog.ui.FlatMenuButtonRenderer', 'goog.ui.Select', 'goog.ui.registry', 'mavelous.Mission', 'mavelous.MissionItem', 'mavelous.MissionItemType']);
 goog.addDependency("../../../../script/commstatus.js", ['Mavelous.CommStatusButtonView', 'Mavelous.CommStatusModel', 'Mavelous.PacketLossModel'], []);
 goog.addDependency("../../../../script/router.js", ['Mavelous.AppRouter'], []);
-goog.addDependency("../../../../script/leafletpanmodel.js", [], []);
+goog.addDependency("../../../../script/leafletpanmodel.js", ['Mavelous.LeafletPanControlView', 'Mavelous.LeafletPanModel'], []);
