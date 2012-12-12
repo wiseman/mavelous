@@ -58,7 +58,7 @@ Mavelous.PFDSettingsModel.prototype.defaults = function() {
   if (defaults) {
     return {
       position: defaults.position || Mavelous.PFDPositions.TOPLEFT,
-      size: defaults.size || Mavelous.PFDSizes.PFDSizes.STANDARD
+      size: defaults.size || Mavelous.PFDSizes.STANDARD
     };
   } else {
     return {
