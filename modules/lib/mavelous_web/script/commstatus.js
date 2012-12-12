@@ -6,6 +6,7 @@ goog.provide('Mavelous.PacketLossModel');
 
 /**
  * Communication status Backbone model.
+ * @param {Object} properties The model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -54,12 +55,18 @@ Mavelous.CommStatusModel.prototype.initialize = function() {
 };
 
 
+/**
+ * Handles HEARTBEAT mavlink messages.
+ */
 Mavelous.CommStatusModel.prototype.onHeartbeat = function() {
-  this.set('mav', this.OK);
+  this.set('mav', Mavelous.CommStatusModel.State.OK);
   this.resetHeartbeatTimeout();
 };
 
 
+/**
+ * Resets the HEARTBEAT watchdog timer.
+ */
 Mavelous.CommStatusModel.prototype.resetHeartbeatTimeout = function() {
   var self = this;
   clearTimeout(this.heartbeatTimeout);
@@ -71,11 +78,15 @@ Mavelous.CommStatusModel.prototype.resetHeartbeatTimeout = function() {
 };
 
 
+/**
+ * Fires if we haven't received a HEARTBEAT message in
+ * HEARTBEAT_TIMEOUT_INTERVAL ms.
+ */
 Mavelous.CommStatusModel.prototype.onHeartbeatTimeout = function() {
   var mavstat = this.get('mav');
-  if (mavstat == Mavelous.CommStatusModel.State.OK) {
+  if (mavstat === Mavelous.CommStatusModel.State.OK) {
     this.set('mav', Mavelous.CommStatusModel.State.TIMED_OUT_ONCE);
-  } else if (mavstat == Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
+  } else if (mavstat === Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
     this.set('mav', Mavelous.CommStatusModel.State.TIMED_OUT_MANY);
   }
   /* Do nothing if uninitialized. */
@@ -83,17 +94,26 @@ Mavelous.CommStatusModel.prototype.onHeartbeatTimeout = function() {
 };
 
 
+/**
+ * Called if we get any non-error response from the server.
+ */
 Mavelous.CommStatusModel.prototype.onServerSuccess = function() {
-  this.set('server', this.OK);
+  this.set('server', Mavelous.CommStatusModel.State.OK);
   this.resetServerTimeout();
 };
 
 
+/**
+ * Called if we get a server error.
+ */
 Mavelous.CommStatusModel.prototype.onServerError = function() {
-  this.set('server', this.ERROR);
+  this.set('server', Mavelous.CommStatusModel.State.ERROR);
 };
 
 
+/**
+ * Resets the server comm watchdog timer.
+ */
 Mavelous.CommStatusModel.prototype.resetServerTimeout = function() {
   var self = this;
   clearTimeout(this.serverTimeout);
@@ -103,11 +123,14 @@ Mavelous.CommStatusModel.prototype.resetServerTimeout = function() {
 };
 
 
+/**
+ * Fires if the server comm watchdog timer fires.
+ */
 Mavelous.CommStatusModel.prototype.onServerTimeout = function() {
   var serverstat = this.get('server');
-  if (serverstat == Mavelous.CommStatusModel.State.OK) {
+  if (serverstat === Mavelous.CommStatusModel.State.OK) {
     this.set('server', Mavelous.CommStatusModel.State.TIMED_OUT_ONCE);
-  } else if (serverstat == Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
+  } else if (serverstat === Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
     this.set('server', Mavelous.CommStatusModel.State.TIMED_OUT_MANY);
   }
   /* Do nothing if there is an error or uninitialized. */
@@ -118,6 +141,7 @@ Mavelous.CommStatusModel.prototype.onServerTimeout = function() {
 
 /**
  * Packet loss Backbone model.
+ * @param {Object} properties The model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -128,6 +152,9 @@ Mavelous.PacketLossModel = function(properties) {
 goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
 
 
+/**
+ * @inheritDoc
+ */
 Mavelous.PacketLossModel.prototype.defaults = function() {
   return {
     history: [],
@@ -136,12 +163,18 @@ Mavelous.PacketLossModel.prototype.defaults = function() {
 };
 
 
+/**
+ * @inheritDoc
+ */
 Mavelous.PacketLossModel.prototype.initialize = function() {
   this.metalinkquality = this.get('mavlinkSrc').subscribe(
-    'META_LINKQUALITY', this.onMessage, this);
+      'META_LINKQUALITY', this.onMessage, this);
 };
 
 
+/**
+ * Handles META_LINKQUALITY mavlink messages.
+ */
 Mavelous.PacketLossModel.prototype.onMessage = function() {
   var history = this.get('history');
   var current = this.get('current');
@@ -153,6 +186,10 @@ Mavelous.PacketLossModel.prototype.onMessage = function() {
 };
 
 
+/**
+ * Computes the change in packet comms stats since the last packet.
+ * @return {Object} The packet comms stats.
+ */
 Mavelous.PacketLossModel.prototype.getDelta = function() {
   var history = this.get('history');
   var current = this.get('current');
@@ -167,6 +204,13 @@ Mavelous.PacketLossModel.prototype.getDelta = function() {
 };
 
 
+/**
+ * Computes the raw change in packet comms stats.
+ * @param {Object} latest The most recent META_LINKQUALITY message.
+ * @param {Object} compare The previous META_LINKQUALITY message.
+ * @param {Number} period The period between the two messages.
+ * @return {Object} The packet comms stats.
+ */
 Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
   return {
     master_in: latest.master_in - compare.master_in,
@@ -179,6 +223,7 @@ Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
 
 /**
  * Communication status Backbone view.
+ * @param {Object} properties The view properties.
  * @constructor
  * @extends {Backbone.View}
  */
@@ -189,6 +234,9 @@ Mavelous.CommStatusButtonView = function(properties) {
 goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
 
 
+/**
+ * @inheritDoc
+ */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
   this.commStatusModel = this.options.commStatusModel;
   this.packetLossModel = this.options.packetLossModel;
@@ -208,16 +256,24 @@ Mavelous.CommStatusButtonView.prototype.buttonRender =  function() {
   var state = csm.toJSON();
   var server = state.server;
   var mav = state.mav;
-  if (server == csm.OK && mav == csm.OK) {
-    this.setButton(csm.OK);
-  } else if (server == csm.UNINITIALIZED || mav == csm.UNINITIALIZED) {
-    this.setButton(csm.UNINITIALIZED);
-  } else if (server == csm.TIMED_OUT_MANY || mav == csm.TIMED_OUT_MANY) {
-    this.setButton(csm.TIMED_OUT_MANY);
-  } else if (server == csm.TIMED_OUT_ONCE || mav == csm.TIMED_OUT_ONCE) {
-    this.setButton(csm.TIMED_OUT_ONCE);
+  var UNINITIALIZED = Mavelous.CommStatusModel.State.UNINITIALIZED;
+  var OK = Mavelous.CommStatusModel.State.OK;
+  var TIMED_OUT_ONCE = Mavelous.CommStatusModel.State.TIMED_OUT_ONCE;
+  var TIMED_OUT_MANY = Mavelous.CommStatusModel.State.TIMED_OUT_MANY;
+  var ERROR = Mavelous.CommStatusModel.State.ERROR;
+
+  if (server === OK && mav === OK) {
+    this.setButton(OK);
+  } else if (server === UNINITIALIZED || mav === UNINITIALIZED) {
+    this.setButton(UNINITIALIZED);
+  } else if (server === TIMED_OUT_MANY || mav === TIMED_OUT_MANY) {
+    this.setButton(TIMED_OUT_MANY);
+  } else if (server === TIMED_OUT_ONCE || mav === TIMED_OUT_ONCE) {
+    this.setButton(TIMED_OUT_ONCE);
+  } else if (server === ERROR || mav === ERROR) {
+    this.setButton(ERROR);
   } else {
-    this.setButton(csm.ERROR);
+    goog.asserts.assert(false, 'Unknown comm status: ' + server + '/' + mav);
   }
 };
 
@@ -228,16 +284,16 @@ Mavelous.CommStatusButtonView.prototype.setButton = function(stat) {
                        'btn-warning btn-inverse ');
   var html = 'Link: None';
   var lclass = 'btn-inverse';
-  if (stat == csm.UNINITIALIZED) {
+  if (stat === Mavelous.CommStatusModel.State.UNINITIALIZED) {
     lclass = 'btn-inverse';
     html = 'Link: None';
-  } else if (stat == csm.OK) {
+  } else if (stat === Mavelous.CommStatusModel.State.OK) {
     lclass = 'btn-success';
     html = 'Link: Good';
-  } else if (stat == csm.TIMED_OUT_ONCE) {
+  } else if (stat === Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
     lclass = 'btn-warning';
     html = 'Link: Lost';
-  } else if (stat == csm.TIMED_OUT_MANY) {
+  } else if (stat === Mavelous.CommStatusModel.State.TIMED_OUT_MANY) {
     lclass = 'btn-danger';
     html = 'Link: Lost';
   } else {
