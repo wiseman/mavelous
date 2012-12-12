@@ -9,6 +9,7 @@ goog.require('Mavelous.FlightModeModel');
 goog.require('Mavelous.GpsButtonView');
 goog.require('Mavelous.GuideAltitudeView');
 goog.require('Mavelous.GuideModel');
+goog.require('Mavelous.LeafletDroneIconModel');
 goog.require('Mavelous.MavlinkAPI');
 goog.require('Mavelous.ModeStringView');
 goog.require('Mavelous.PFD');
@@ -56,7 +57,7 @@ Mavelous.App.prototype.start = function() {
   /* Check whether we're in debug mode. */
   var debugValue = uri.getParameterValue('debug');
   if (goog.isDef(debugValue)) {
-    console.log('Enabling debug mode');
+    window.console.log('Enabling debug mode');
     /* ?debug with or without a value is enough to trigger fps display. */
     var fpsNode = document.getElementById('fps');
     var fpsValueNode = goog.dom.createDom('span', {id: 'fpsvalue'});
@@ -68,8 +69,8 @@ Mavelous.App.prototype.start = function() {
      * phonegap script.  You can then debug at
      * http://debug.phonegap.com/client/#<identifier> */
     if (debugValue.length > 0) {
-      console.log('Enabling phonegap at http://debug.phonegap.com/client/#' +
-                  debugValue);
+      window.console.log('Enabling phonegap at ' +
+                         'http://debug.phonegap.com/client/#' + debugValue);
       var phonegap_script_url = ('http://debug.phonegap.com/target/' +
                                  'target-script-min.js#' + debugValue);
       goog.net.jsloader.load(phonegap_script_url);

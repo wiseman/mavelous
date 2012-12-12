@@ -26,17 +26,17 @@ $(function() {
     /* Route implementations: */
     overview: function() {
       this.setnavbar('overview');
-      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.STANDARD });
+      this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.STANDARD });
     },
 
     fullpfd: function() {
       this.setnavbar('fullpfd');
-      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.FULLSCREEN });
+      this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.FULLSCREEN });
     },
 
     maponly: function() {
       this.setnavbar('maponly');
-      this.pfdSettingsModel.set({ size: this.pfdSettingsModel.HIDDEN });
+      this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.HIDDEN });
     },
 
     /* Make navbar only show selected item: */

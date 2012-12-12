@@ -9,87 +9,110 @@ goog.provide('Mavelous.PacketLossModel');
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.CommStatusModel = Backbone.Model.extend({
-  SERVER_TIMEOUT_INTERVAL: 3000,
-  HEARTBEAT_TIMEOUT_INTERVAL: 2000,
-  /* Constants: */
+Mavelous.CommStatusModel = function(properties) {
+  this.SERVER_TIMEOUT_INTERVAL = 3000;
+  this.HEARTBEAT_TIMEOUT_INTERVAL = 2000;
+  goog.base(this, properties);
+};
+goog.inherits(Mavelous.CommStatusModel, Backbone.Model);
+
+
+/**
+ * @enum {Number}
+ */
+Mavelous.CommStatusModel.State = {
   UNINITIALIZED: 0,
   OK: 1,
   TIMED_OUT_ONCE: 2,
   TIMED_OUT_MANY: 3,
-  ERROR: 4,
+  ERROR: 4
+};
 
-  defaults: function() {
-    return {
-      mav: this.UNINITIALIZED,
-      server: this.UNINITIALIZED
-    };
-  },
 
-  initialize: function() {
-    /* Only initialize the server.
-     * Mav is uninitialized until first heartbeat. */
-    var mavlink = this.get('mavlinkSrc');
-    mavlink.subscribe('HEARTBEAT', this.onHeartbeat, this);
-    mavlink.on('gotServerResponse', this.onServerSuccess, this);
-    mavlink.on('gotServerError', this.onServerError, this);
-    this.resetServerTimeout();
-  },
+/**
+ * @inheritDoc
+ */
+Mavelous.CommStatusModel.prototype.defaults = function() {
+  return {
+    mav: Mavelous.CommStatusModel.State.UNINITIALIZED,
+    server: Mavelous.CommStatusModel.State.UNINITIALIZED
+  };
+};
 
-  onHeartbeat: function() {
-    this.set('mav', this.OK);
-    this.resetHeartbeatTimeout();
-  },
 
-  resetHeartbeatTimeout: function() {
-    var self = this;
-    clearTimeout(this.heartbeatTimeout);
-    this.heartbeatTimeout = setTimeout(
-        function() {
-          self.onHeartbeatTimeout();
-        },
-        this.HEARTBEAT_TIMEOUT_INTERVAL);
-  },
+/**
+ * @inheritDoc
+ */
+Mavelous.CommStatusModel.prototype.initialize = function() {
+  /* Only initialize the server.
+   * Mav is uninitialized until first heartbeat. */
+  var mavlink = this.get('mavlinkSrc');
+  mavlink.subscribe('HEARTBEAT', this.onHeartbeat, this);
+  mavlink.on('gotServerResponse', this.onServerSuccess, this);
+  mavlink.on('gotServerError', this.onServerError, this);
+  this.resetServerTimeout();
+};
 
-  onHeartbeatTimeout: function() {
-    var mavstat = this.get('mav');
-    if (mavstat == this.OK) {
-      this.set('mav', this.TIMED_OUT_ONCE);
-    } else if (mavstat == this.TIMED_OUT_ONCE) {
-      this.set('mav', this.TIMED_OUT_MANY);
-    }
-    /* Do nothing if uninitialized. */
-    this.resetHeartbeatTimeout();
-  },
 
-  onServerSuccess: function() {
-    this.set('server', this.OK);
-    this.resetServerTimeout();
-  },
+Mavelous.CommStatusModel.prototype.onHeartbeat = function() {
+  this.set('mav', this.OK);
+  this.resetHeartbeatTimeout();
+};
 
-  onServerError: function() {
-    this.set('server', this.ERROR);
-  },
 
-  resetServerTimeout: function() {
-    var self = this;
-    clearTimeout(this.serverTimeout);
-    this.serverTimeout = setTimeout(
-        function() { self.onServerTimeout(); },
-        this.SERVER_TIMEOUT_INTERVAL);
-  },
+Mavelous.CommStatusModel.prototype.resetHeartbeatTimeout = function() {
+  var self = this;
+  clearTimeout(this.heartbeatTimeout);
+  this.heartbeatTimeout = setTimeout(
+      function() {
+        self.onHeartbeatTimeout();
+      },
+      this.HEARTBEAT_TIMEOUT_INTERVAL);
+};
 
-  onServerTimeout: function() {
-    var serverstat = this.get('server');
-    if (serverstat == this.OK) {
-      this.set('server', this.TIMED_OUT_ONCE);
-    } else if (serverstat == this.TIMED_OUT_ONCE) {
-      this.set('server', this.TIMED_OUT_MANY);
-    }
-    /* Do nothing if there is an error or uninitialized. */
-    this.resetServerTimeout();
+
+Mavelous.CommStatusModel.prototype.onHeartbeatTimeout = function() {
+  var mavstat = this.get('mav');
+  if (mavstat == Mavelous.CommStatusModel.State.OK) {
+    this.set('mav', Mavelous.CommStatusModel.State.TIMED_OUT_ONCE);
+  } else if (mavstat == Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
+    this.set('mav', Mavelous.CommStatusModel.State.TIMED_OUT_MANY);
   }
-});
+  /* Do nothing if uninitialized. */
+  this.resetHeartbeatTimeout();
+};
+
+
+Mavelous.CommStatusModel.prototype.onServerSuccess = function() {
+  this.set('server', this.OK);
+  this.resetServerTimeout();
+};
+
+
+Mavelous.CommStatusModel.prototype.onServerError = function() {
+  this.set('server', this.ERROR);
+};
+
+
+Mavelous.CommStatusModel.prototype.resetServerTimeout = function() {
+  var self = this;
+  clearTimeout(this.serverTimeout);
+  this.serverTimeout = setTimeout(
+      function() { self.onServerTimeout(); },
+      this.SERVER_TIMEOUT_INTERVAL);
+};
+
+
+Mavelous.CommStatusModel.prototype.onServerTimeout = function() {
+  var serverstat = this.get('server');
+  if (serverstat == Mavelous.CommStatusModel.State.OK) {
+    this.set('server', Mavelous.CommStatusModel.State.TIMED_OUT_ONCE);
+  } else if (serverstat == Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
+    this.set('server', Mavelous.CommStatusModel.State.TIMED_OUT_MANY);
+  }
+  /* Do nothing if there is an error or uninitialized. */
+  this.resetServerTimeout();
+};
 
 
 
@@ -98,52 +121,59 @@ Mavelous.CommStatusModel = Backbone.Model.extend({
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.PacketLossModel = Backbone.Model.extend({
+Mavelous.PacketLossModel = function(properties) {
+  this.period = 10; /* period should not be changed after initialization. */
+  goog.base(this, properties);
+};
+goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
 
-  period: 10, /* period should not be changed after initialization. */
 
-  defaults: function() {
-    return {
-      history: [],
-      current: -1
-    };
-  },
+Mavelous.PacketLossModel.prototype.defaults = function() {
+  return {
+    history: [],
+    current: -1
+  };
+};
 
-  initialize: function() {
-    this.metalinkquality = this.get('mavlinkSrc').subscribe(
-        'META_LINKQUALITY', this.onMessage, this);
-  },
 
-  onMessage: function() {
-    var history = this.get('history');
-    var current = this.get('current');
-    var latest = this.metalinkquality.toJSON();
-    var next = (current + 1) % (this.period + 1);
-    history[next] = latest;
-    this.set('history', history);
-    this.set('current', next);
-  },
+Mavelous.PacketLossModel.prototype.initialize = function() {
+  this.metalinkquality = this.get('mavlinkSrc').subscribe(
+    'META_LINKQUALITY', this.onMessage, this);
+};
 
-  getDelta: function() {
-    var history = this.get('history');
-    var current = this.get('current');
-    /* current is -1 when we dont yet have info from server. */
-    if (current < 0) return;
-    var nextposition = history[(current + 1) % (this.period + 1)];
-    if (nextposition) {
-      return this.diff(history[current], nextposition, this.period);
-    } else {
-      return this.diff(history[current], history[0], current);
-    }
-  },
-  diff: function(latest, compare, period) {
-    return {
-      master_in: latest.master_in - compare.master_in,
-      master_out: latest.master_out - compare.master_out,
-      mav_loss: latest.mav_loss - compare.mav_loss,
-      period: period };
+
+Mavelous.PacketLossModel.prototype.onMessage = function() {
+  var history = this.get('history');
+  var current = this.get('current');
+  var latest = this.metalinkquality.toJSON();
+  var next = (current + 1) % (this.period + 1);
+  history[next] = latest;
+  this.set('history', history);
+  this.set('current', next);
+};
+
+
+Mavelous.PacketLossModel.prototype.getDelta = function() {
+  var history = this.get('history');
+  var current = this.get('current');
+  /* current is -1 when we dont yet have info from server. */
+  if (current < 0) return;
+  var nextposition = history[(current + 1) % (this.period + 1)];
+  if (nextposition) {
+    return this.diff(history[current], nextposition, this.period);
+  } else {
+    return this.diff(history[current], history[0], current);
   }
-});
+};
+
+
+Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
+  return {
+    master_in: latest.master_in - compare.master_in,
+    master_out: latest.master_out - compare.master_out,
+    mav_loss: latest.mav_loss - compare.mav_loss,
+    period: period };
+};
 
 
 
@@ -152,81 +182,90 @@ Mavelous.PacketLossModel = Backbone.Model.extend({
  * @constructor
  * @extends {Backbone.View}
  */
-Mavelous.CommStatusButtonView = Backbone.View.extend({
-  initialize: function() {
-    this.commStatusModel = this.options.commStatusModel;
-    this.packetLossModel = this.options.packetLossModel;
-    this.commStatusModel.bind('change', this.buttonRender, this);
-    this.packetLossModel.bind('change', this.popoverRender, this);
-  },
+Mavelous.CommStatusButtonView = function(properties) {
+  this.popoverTitle = 'Link Info';
+  goog.base(this, properties);
+};
+goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
 
-  registerPopover: function(p) {
-    this.popover = p;
-    this.popover.on('selected', this.popoverRender, this);
-  },
 
-  buttonRender: function() {
-    var csm = this.commStatusModel;
-    var state = csm.toJSON();
-    var server = state.server;
-    var mav = state.mav;
-    if (server == csm.OK && mav == csm.OK) {
-      this.setButton(csm.OK);
-    } else if (server == csm.UNINITIALIZED || mav == csm.UNINITIALIZED) {
-      this.setButton(csm.UNINITIALIZED);
-    } else if (server == csm.TIMED_OUT_MANY || mav == csm.TIMED_OUT_MANY) {
-      this.setButton(csm.TIMED_OUT_MANY);
-    } else if (server == csm.TIMED_OUT_ONCE || mav == csm.TIMED_OUT_ONCE) {
-      this.setButton(csm.TIMED_OUT_ONCE);
-    } else {
-      this.setButton(csm.ERROR);
-    }
-  },
+Mavelous.CommStatusButtonView.prototype.initialize = function() {
+  this.commStatusModel = this.options.commStatusModel;
+  this.packetLossModel = this.options.packetLossModel;
+  this.commStatusModel.bind('change', this.buttonRender, this);
+  this.packetLossModel.bind('change', this.popoverRender, this);
+};
 
-  setButton: function(stat) {
-    var csm = this.commStatusModel;
-    this.$el.removeClass('btn-success btn-danger ' +
-                         'btn-warning btn-inverse ');
-    var html = 'Link: None';
-    var lclass = 'btn-inverse';
-    if (stat == csm.UNINITIALIZED) {
-      lclass = 'btn-inverse';
-      html = 'Link: None';
-    } else if (stat == csm.OK) {
-      lclass = 'btn-success';
-      html = 'Link: Good';
-    } else if (stat == csm.TIMED_OUT_ONCE) {
-      lclass = 'btn-warning';
-      html = 'Link: Lost';
-    } else if (stat == csm.TIMED_OUT_MANY) {
-      lclass = 'btn-danger';
-      html = 'Link: Lost';
-    } else {
-      lclass = 'btn-danger';
-      html = 'Link: Error';
-    }
-    this.$el.addClass(lclass);
-    html = '<span class="hidden-phone">' + html + '</span>';
-    html += '<i class="icon-signal icon-white visible-phone"></i>';
-    this.$el.html(html);
-  },
 
-  packetLossString: function(l) {
-    return ('In last ' + l.period + 's, ' +
-            l.master_in + ' packets received, ' +
-            l.master_out + ' sent, ' + l.mav_loss + ' lost');
-  },
+Mavelous.CommStatusButtonView.prototype.registerPopover = function(p) {
+  this.popover = p;
+  this.popover.on('selected', this.popoverRender, this);
+};
 
-  popoverTitle: 'Link Info',
 
-  popoverRender: function() {
-    var delta = this.packetLossModel.getDelta();
-    var c = this.packetLossString(delta);
-    if (this.popover) {
-      this.popover.content(
-          function($pcontent) {
-            $pcontent.html(c);
-          });
-    }
+Mavelous.CommStatusButtonView.prototype.buttonRender =  function() {
+  var csm = this.commStatusModel;
+  var state = csm.toJSON();
+  var server = state.server;
+  var mav = state.mav;
+  if (server == csm.OK && mav == csm.OK) {
+    this.setButton(csm.OK);
+  } else if (server == csm.UNINITIALIZED || mav == csm.UNINITIALIZED) {
+    this.setButton(csm.UNINITIALIZED);
+  } else if (server == csm.TIMED_OUT_MANY || mav == csm.TIMED_OUT_MANY) {
+    this.setButton(csm.TIMED_OUT_MANY);
+  } else if (server == csm.TIMED_OUT_ONCE || mav == csm.TIMED_OUT_ONCE) {
+    this.setButton(csm.TIMED_OUT_ONCE);
+  } else {
+    this.setButton(csm.ERROR);
   }
-});
+};
+
+
+Mavelous.CommStatusButtonView.prototype.setButton = function(stat) {
+  var csm = this.commStatusModel;
+  this.$el.removeClass('btn-success btn-danger ' +
+                       'btn-warning btn-inverse ');
+  var html = 'Link: None';
+  var lclass = 'btn-inverse';
+  if (stat == csm.UNINITIALIZED) {
+    lclass = 'btn-inverse';
+    html = 'Link: None';
+  } else if (stat == csm.OK) {
+    lclass = 'btn-success';
+    html = 'Link: Good';
+  } else if (stat == csm.TIMED_OUT_ONCE) {
+    lclass = 'btn-warning';
+    html = 'Link: Lost';
+  } else if (stat == csm.TIMED_OUT_MANY) {
+    lclass = 'btn-danger';
+    html = 'Link: Lost';
+  } else {
+    lclass = 'btn-danger';
+    html = 'Link: Error';
+  }
+  this.$el.addClass(lclass);
+  html = '<span class="hidden-phone">' + html + '</span>';
+  html += '<i class="icon-signal icon-white visible-phone"></i>';
+  this.$el.html(html);
+};
+
+
+Mavelous.CommStatusButtonView.prototype.packetLossString = function(l) {
+  return ('In last ' + l.period + 's, ' +
+          l.master_in + ' packets received, ' +
+          l.master_out + ' sent, ' + l.mav_loss + ' lost');
+};
+
+
+
+Mavelous.CommStatusButtonView.prototype.popoverRender = function() {
+  var delta = this.packetLossModel.getDelta();
+  var c = this.packetLossString(delta);
+  if (this.popover) {
+    this.popover.content(
+        function($pcontent) {
+          $pcontent.html(c);
+        });
+  }
+};

@@ -1,3 +1,4 @@
+goog.require('Mavelous.LeafletDroneIconModel');
 goog.require('Mavelous.MavlinkAPI');
 
 

@@ -10,76 +10,83 @@ goog.require('goog.math');
  *
  * @constructor
  */
-Mavelous.FakeVehicle = Backbone.Model.extend({
-  defaults: function() {
-    return {
-      lat: 37.7751,
-      lon: -122.4190,
-      alt: 30,
-      heading: 90,
-      pitch: 0,
-      roll: 0,
-      velocity: 10,
-      t: 0
-    };
-  },
+Mavelous.FakeVehicle = function(properties) {
+  goog.base(this, properties);
+};
+goog.inherits(Mavelous.FakeVehicle, Backbone.Model);
 
-  initialize: function() {
-    var t = Date.now();
-    this.firstupdate = t;
-    this.lastupdate = t;
-    this.lastmessagetime = t;
-  },
 
-  update: function() {
-    var tnow = Date.now();
-    var dt = (tnow - this.lastupdate) / 1000;
-    var t = (tnow - this.firstupdate) / 1000;
-    var newposition = Mavelous.FakeVehicle.nextposition(this, dt);
+Mavelous.FakeVehicle.prototype.defaults = function() {
+  return {
+    lat: 37.7751,
+    lon: -122.4190,
+    alt: 30,
+    heading: 90,
+    pitch: 0,
+    roll: 0,
+    velocity: 10,
+    t: 0
+  };
+};
 
-    var c = this.toJSON();
-    /* multiplied by a constant which is more or less eyeballed... */
-    var deltaalt = (2 * dt * c.velocity *
-                    Math.sin(goog.math.toRadians(c.pitch)));
-    var deltahead = (4 * dt * c.velocity *
-                     Math.sin(goog.math.toRadians(c.roll)));
 
-    this.set({
-      lat: newposition.lat,
-      lon: newposition.lon,
-      alt: c.alt + deltaalt,
-      heading: c.heading + deltahead,
-      /* pitch and roll follow a sinusoid */
-      pitch: 8 * Math.sin(t),
-      roll: 5 + 15 * Math.sin(t / 2),
-      t: t
-    });
+Mavelous.FakeVehicle.prototype.initialize = function() {
+  var t = Date.now();
+  this.firstupdate = t;
+  this.lastupdate = t;
+  this.lastmessagetime = t;
+};
 
-    this.lastupdate = tnow;
-  },
 
-  requestMessages: function(msgModels) {
-    /* Throttle results to 5hz - give a non-error response either way,
-     * but only increment the index above the expected if its been
-     * more than 200ms since we last responded to the request. */
-    var tnow = Date.now();
-    var increment = (tnow - this.lastmessagetime) > 200;
-    if (increment) { this.lastmessagetime = tnow; }
+Mavelous.FakeVehicle.prototype.update = function() {
+  var tnow = Date.now();
+  var dt = (tnow - this.lastupdate) / 1000;
+  var t = (tnow - this.firstupdate) / 1000;
+  var newposition = Mavelous.FakeVehicle.nextposition(this, dt);
 
-    var state = this.toJSON();
-    var results = {};
-    _.each(msgModels, function(mdl, name) {
-      if (name in Mavelous.FakeVehicle.fakeHandlers) {
-        var mdlidx = mdl.get('_index') || 0;
-        results[name] = {
-          index: (increment ? (mdlidx + 1) : mdlidx),
-          msg: Mavelous.FakeVehicle.fakeHandlers[name](state)
-        };
-      }
-    });
-    return results;
-  }
-});
+  var c = this.toJSON();
+  /* multiplied by a constant which is more or less eyeballed... */
+  var deltaalt = (2 * dt * c.velocity *
+                  Math.sin(goog.math.toRadians(c.pitch)));
+  var deltahead = (4 * dt * c.velocity *
+                   Math.sin(goog.math.toRadians(c.roll)));
+
+  this.set({
+    lat: newposition.lat,
+    lon: newposition.lon,
+    alt: c.alt + deltaalt,
+    heading: c.heading + deltahead,
+    /* pitch and roll follow a sinusoid */
+    pitch: 8 * Math.sin(t),
+    roll: 5 + 15 * Math.sin(t / 2),
+    t: t
+  });
+
+  this.lastupdate = tnow;
+};
+
+
+Mavelous.FakeVehicle.prototype.requestMessages = function(msgModels) {
+  /* Throttle results to 5hz - give a non-error response either way,
+   * but only increment the index above the expected if its been more
+   * than 200ms since we last responded to the request. */
+  var tnow = Date.now();
+  var increment = (tnow - this.lastmessagetime) > 200;
+  if (increment) { this.lastmessagetime = tnow; }
+
+  var state = this.toJSON();
+  var results = {};
+  _.each(msgModels, function(mdl, name) {
+    if (name in Mavelous.FakeVehicle.fakeHandlers) {
+      var mdlidx = mdl.get('_index') || 0;
+      results[name] = {
+        index: (increment ? (mdlidx + 1) : mdlidx),
+        msg: Mavelous.FakeVehicle.fakeHandlers[name](state)
+      };
+    }
+  });
+  return results;
+};
 
 
 /**
