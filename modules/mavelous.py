@@ -336,7 +336,7 @@ def init(module_context):
   g_module_context.mavelous_state = state
   state.server = mavelous_server.start_server(
     '0.0.0.0', port=9999, module_state=state)
-  print 'Mavekous is running at http://localhost:9999'
+  print 'Mavelous is running at http://localhost:9999'
 
 
 def unload():
