@@ -1,5 +1,6 @@
 goog.provide('Mavelous.App');
 
+goog.require('Mavelous.AppRouter');
 goog.require('Mavelous.BatteryButton');
 goog.require('Mavelous.CommStatusButtonView');
 goog.require('Mavelous.CommStatusModel');
