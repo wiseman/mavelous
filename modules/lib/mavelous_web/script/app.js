@@ -228,4 +228,5 @@ Mavelous.App.prototype.start = function() {
 
 
 // Ensures the symbol will be visible after compiler renaming.
-goog.exportSymbol('Mavelous.App.start', Mavelous.App.start);
+goog.exportSymbol('Mavelous.App', Mavelous.App);
+goog.exportSymbol('Mavelous.App.prototype.start', Mavelous.App.prototype.start);

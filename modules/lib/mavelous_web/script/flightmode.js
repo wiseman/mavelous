@@ -129,6 +129,9 @@ Mavelous.CommandLongModel.prototype.post = function(command) {
 
 
 
+/**
+ * @constructor
+ */
 Mavelous.ArmingButtonView = function(properties) {
   goog.base(this, properties);
 };
@@ -175,6 +178,9 @@ Mavelous.ArmingButtonView.prototype.onChange = function() {
 
 
 
+/**
+ * @constructor
+ */
 Mavelous.CommandButtonView = function(properties) {
   goog.base(this, properties);
 };
