@@ -188,13 +188,15 @@ Mavelous.PacketLossModel.prototype.onMessage = function() {
 
 /**
  * Computes the change in packet comms stats since the last packet.
- * @return {Object} The packet comms stats.
+ * @return {?Object} The packet comms stats.
  */
 Mavelous.PacketLossModel.prototype.getDelta = function() {
   var history = this.get('history');
   var current = this.get('current');
   /* current is -1 when we dont yet have info from server. */
-  if (current < 0) return;
+  if (current < 0) {
+    return null;
+  }
   var nextposition = history[(current + 1) % (this.period + 1)];
   if (nextposition) {
     return this.diff(history[current], nextposition, this.period);

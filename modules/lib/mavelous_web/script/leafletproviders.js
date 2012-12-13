@@ -3,12 +3,12 @@ goog.provide('Mavelous.LeafletProviders');
 
 
 /**
-   * @param {Object} properties The model properties.
+   * @param {Object=} opt_properties The model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.LeafletProviders = function(properties) {
-  goog.base(this, properties);
+Mavelous.LeafletProviders = function(opt_properties) {
+  goog.base(this, opt_properties);
 };
 goog.inherits(Mavelous.LeafletProviders, Backbone.Model);
 

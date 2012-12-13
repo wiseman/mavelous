@@ -90,14 +90,14 @@ Mavelous.LeafletPanModel.prototype.initialize = function() {
 Mavelous.LeafletPanModel.prototype.onVehicleChange = function() {
   if (!this.get('initialized')) {
     var p = this.vehicle.get('position');
-    if (p == undefined) return;
-    if (p.lat == 0 || p.lng == 0) return;
-    this.set({ center: p, initialized: true });
+    if (p && p.lat && p.lng) {
+      this.set({ center: p, initialized: true });
+    }
   } else if (this.get('tracking')) {
     var p = this.vehicle.get('position');
-    if (p == undefined) return;
-    if (p.lat == 0 || p.lng == 0) return;
-    this.set({ center: p});
+    if (p && p.lat && p.lng) {
+      this.set({ center: p });
+    }
   }
 };
 

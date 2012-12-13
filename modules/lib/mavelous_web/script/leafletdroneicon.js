@@ -5,13 +5,12 @@ goog.provide('Mavelous.LeafletDroneIconModel');
 /**
  * Keeps track of which icon to use for the drone.
  *
- * @param {{icon: Mavelous.LeafletDroneIconModel.Icons}} properties Model
- *     properties.
+ * @param {Object=} opt_properties Model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.LeafletDroneIconModel = function(properties) {
-  goog.base(this, properties);
+Mavelous.LeafletDroneIconModel = function(opt_properties) {
+  goog.base(this, opt_properties);
 };
 goog.inherits(Mavelous.LeafletDroneIconModel, Backbone.Model);
 

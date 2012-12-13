@@ -6,12 +6,12 @@ goog.provide('Mavelous.SelectedModel');
 
 /**
  * A simple selection model.
- * @param {{selected: boolean}} properties Model properties.
+ * @param {{selected: boolean}=} opt_properties Model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.SelectedModel = function(properties) {
-  goog.base(this, properties);
+Mavelous.SelectedModel = function(opt_properties) {
+  goog.base(this, opt_properties);
 };
 goog.inherits(Mavelous.SelectedModel, Backbone.Model);
 

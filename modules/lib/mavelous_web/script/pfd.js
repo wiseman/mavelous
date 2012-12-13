@@ -12,13 +12,15 @@ goog.provide('Mavelous.ArtificialHorizon');
 goog.provide('Mavelous.PFD');
 goog.provide('Mavelous.Tape');
 
+goog.require('goog.dom');
+
 
 
 /**
  * Renders an artifical horizon with sky/ground and pitch and roll
  * ladders.
  *
- * @param {{width: ?number, height: ?number, skyColor: ?string, groundColor: ?string, lineColor: ?string, planeColor: ?string}=} config
+ * @param {{x: number, y: number, width: number, height: number, skyColor: string, groundColor: string, lineColor: string, planeColor: string}} config
  * @constructor
  */
 Mavelous.ArtificialHorizon = function(config) {
@@ -350,8 +352,9 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
  * of numbers, every other number will be considered to be an
  * x-coordinate and reflected in place.
  *
- * @param {Object} x_pos_or_points A single x-coord or an array of x-coords.
- * @return {Object} Returns the reflected coordinate or coordinates.
+ * @param {number|Array.<number>} x_pos_or_points A single x-coord or an array
+ *     of x-coords.
+ * @return {number|Array.<number>} Returns the reflected coordinate or coordinates.
  * @private
  */
 Mavelous.Tape.prototype.reflect_ = function(x_pos_or_points) {
@@ -472,9 +475,9 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   // Instantaneous value text surrounded by polygon.
   this.instantaneousPolygon.drawFunc(context);
   var textY = this.attrs.height / 2;
-  var font = ('normal ' +
-              this.attrs.fontSize + 'pt ' +
-              this.attrs.fontFamily);
+  font = ('normal ' +
+          this.attrs.fontSize + 'pt ' +
+          this.attrs.fontFamily);
   context.font = font;
   context.textBaseline = 'middle';
   context.beginPath();
@@ -509,7 +512,7 @@ Mavelous.Tape.SideType = {
 
 /**
  * Primary Flight Display view.
- * @param {Object} container The DOM element to put the PFD in.
+ * @param {string|Element} container The DOM element to put the PFD in.
  * @constructor
  */
 Mavelous.PFD = function(container) {
@@ -519,11 +522,11 @@ Mavelous.PFD = function(container) {
 
 /**
  * Initializes the PFD.
- * @param {Object} container The DOM container.
- * @param {Object} options Configuration options.
+ * @param {string|Element} container The DOM element to put the PFD in.
+ * @param {Object=} opt_options Configuration options.
 */
-Mavelous.PFD.prototype.init = function(container, options) {
-  options = options || {};
+Mavelous.PFD.prototype.init = function(container, opt_options) {
+  var options = opt_options || {};
   this.options = options;
   this.options.fontFamily = options.fontFamily ||
       'Tahoma,monospace,sans-serif';
@@ -545,7 +548,7 @@ Mavelous.PFD.prototype.init = function(container, options) {
   this.flightMode = null;
   this.visible = true;
 
-  var containerElt = document.getElementById(container);
+  var containerElt = goog.dom.getElement(container);
   this.stage = new Kinetic.Stage({
     container: container,
     width: containerElt.offsetWidth,
@@ -558,9 +561,14 @@ Mavelous.PFD.prototype.init = function(container, options) {
 
   // Artificial horizon.
   this.attitudeIndicator = new Mavelous.ArtificialHorizon({
-    x: 35, y: 20, width: 130, height: 130,
+    x: 35,
+    y: 20,
+    width: 130,
+    height: 130,
     groundColor: this.options.groundColor,
-    skyColor: this.options.skyColor
+    skyColor: this.options.skyColor,
+    lineColor: 'white',
+    planeColor: 'black'
   });
   this.layer.add(this.attitudeIndicator);
 

@@ -30,12 +30,12 @@ Mavelous.PFDSizes = {
 
 /**
  * Primary flight display settings Backbone model.
- * @param {Object} properties The model properties.
+ * @param {Object=} opt_properties The model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
-Mavelous.PFDSettingsModel = function(properties) {
-  goog.base(this, properties);
+Mavelous.PFDSettingsModel = function(opt_properties) {
+  goog.base(this, opt_properties);
 };
 goog.inherits(Mavelous.PFDSettingsModel, Backbone.Model);
 

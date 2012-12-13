@@ -41,7 +41,7 @@ Mavelous.util.MavType = {
  * ArduPlane flight modes.
  * @type {Object.<number, string>}
  */
-Mavelous.util.ArduPlaneFlightMode = {
+Mavelous.util.ArduPlaneFlightModes = {
   0: 'MANUAL',
   1: 'CIRCLE',
   2: 'STABILIZE',
@@ -107,7 +107,7 @@ Mavelous.util.heartbeat.modestring = function(msg) {
   var custom_mode = msg.get('custom_mode');
 
   if (base_mode === null || type === null || custom_mode === null) {
-    return;
+    return 'badmode';
   }
 
   if (!base_mode & Mavelous.util.MavModeFlag.CUSTOM_MODE_ENABLED) {
@@ -129,11 +129,13 @@ Mavelous.util.heartbeat.modestring = function(msg) {
  * Checks whether the vehicle is armed.
  *
  * @param {Mavelous.MavlinkMessage} msg A heartbeat message.
- * @return {boolean} True if the vehicle is armed.
+ * @return {?boolean} True if the vehicle is armed.
  */
 Mavelous.util.heartbeat.armed = function(msg) {
   var base_mode = msg.get('base_mode');
-  if (base_mode == null) return null;
+  if (base_mode === null) {
+    return null;
+  }
   if (base_mode & Mavelous.util.MavModeFlag.SAFETY_ARMED) {
     return true;
   }
