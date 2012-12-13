@@ -3,6 +3,10 @@ Setup for a Linksys/Cisco WRT610N Version 1.0
 with openWrt/dd-wrt firmwares
 
 
+Overview
+--------
+![Network Diagram](https://github.com/wiseman/mavelous/raw/master/screenshots/wrt/wrt-diagram.png)
+
 Requirements
 ------------
 * Linksys/Cisco WRT610N Version 1.0
