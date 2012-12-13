@@ -10,7 +10,7 @@ goog.require('goog.debug.Logger');
 /**
  * A mavlink message.
  *
- * @param {{_type: {String}, _index: {Number}}} attrs The message attributes.
+ * @param {{_type: string, _index: number}} attrs The message attributes.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -25,7 +25,7 @@ goog.inherits(Mavelous.MavlinkMessage, Backbone.Model);
  * Fetches the most recent mavlink messages of interest from the
  * server.
  *
- * @param {{url: {String}}} attrs Attributes.
+ * @param {{url: string}} attrs Attributes.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -41,16 +41,16 @@ goog.inherits(Mavelous.MavlinkAPI, Backbone.Model);
 Mavelous.MavlinkAPI.prototype.initialize = function() {
   /** @type {goog.debug.Logger} */
   this.logger_ = goog.debug.Logger.getLogger('mavelous.MavlinkAPI');
-  /** @type {String} */
+  /** @type {string} */
   this.url = this.get('url');
   /** @type {boolean} */
   this.gotonline = false;
   /** @type {boolean} */
   this.online = true;
-  /** @type {Number} */
+  /** @type {number} */
   this.failcount = 0;
   // Table of message models, keyed by message type.
-  /** @type {Object.<String, Mavelous.MavlinkMessage>} */
+  /** @type {Object.<string, Mavelous.MavlinkMessage>} */
   this.messageModels = {};
   /** @type {?Mavelous.FakeVehicle} */
   this.fakevehicle = null;
@@ -60,7 +60,7 @@ Mavelous.MavlinkAPI.prototype.initialize = function() {
 /**
  * Registers a handler for a mavlink message type.
  *
- * @param {String} msgType The type of message.
+ * @param {string} msgType The type of message.
  * @param {function(Object)} handlerFunction The message handler function.
  * @param {Object} context Specifies the object which |this| should
  *     point to when the function is run.
@@ -92,7 +92,7 @@ Mavelous.MavlinkAPI.prototype.handleMessages = function(msgEnvelopes) {
  * Handles an incoming message.
  *
  * @param {Object} msg The JSON mavlink message.
- * @param {String} msgType The message type.
+ * @param {string} msgType The message type.
  */
 Mavelous.MavlinkAPI.prototype.handleMessage = function(msg, msgType) {
   this.trigger('gotServerResponse');

@@ -64,7 +64,7 @@ Mavelous.AppRouter.prototype.route_maponly = function() {
 /**
  * Make the navbar only show selected item.
  *
- * @param {String} route The new route.
+ * @param {string} route The new route.
  */
 Mavelous.AppRouter.prototype.setnavbar = function(route) {
   _.each(this.navbar, function(li) {

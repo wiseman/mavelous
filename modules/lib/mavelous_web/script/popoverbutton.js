@@ -69,7 +69,7 @@ Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
  * Setup a button to be backed by a selection model.
  *
  * @param {Object} btn button.
- * @param {Number} index beep.
+ * @param {number} index beep.
  * @return {Mavelous.SelectedModel} The new model.
  */
 Mavelous.RadioButtonPopoverView.prototype.registerButton = function(
@@ -85,7 +85,7 @@ Mavelous.RadioButtonPopoverView.prototype.registerButton = function(
 
 /**
  * Handles button clicks.
- * @param {Number} btnindex The button index.
+ * @param {number} btnindex The button index.
  */
 Mavelous.RadioButtonPopoverView.prototype.onButtonClick = function(btnindex) {
   var selected = this.buttons[btnindex].get('selected');
@@ -149,7 +149,7 @@ Mavelous.PopoverView.prototype.onSelectedChange = function() {
 
 /**
  * Handles new HTML content.
- * @param {String} c The new HTML.
+ * @param {string} c The new HTML.
  */
 Mavelous.PopoverView.prototype.onContent = function(c) {
   if (this.selectedModel.get('selected')) {

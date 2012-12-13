@@ -4,7 +4,7 @@ goog.provide('Mavelous.StatustextView');
 
 /**
  * Displays STATUSTEXT messages.
- * @param {{text: {String}}} attrs The model attributes.
+ * @param {{text: string}} attrs The model attributes.
  * @constructor
  * @extends {Backbone.View}
  */

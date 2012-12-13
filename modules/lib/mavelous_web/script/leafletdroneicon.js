@@ -5,7 +5,7 @@ goog.provide('Mavelous.LeafletDroneIconModel');
 /**
  * Keeps track of which icon to use for the drone.
  *
- * @param {{icon: {Mavelous.LeafletDroneIconModel.Icons}}} properties Model
+ * @param {{icon: Mavelous.LeafletDroneIconModel.Icons}} properties Model
  *     properties.
  * @constructor
  * @extends {Backbone.Model}

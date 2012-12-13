@@ -239,7 +239,7 @@ Mavelous.FakeVehicle.fakeHandlers = {
  * http://imedea.uib-csic.es/tmoos/gliders/administracion/documentacion/Javascript_Documentacion/overview-summary-latlon.js.html
  *
  * @param {Mavelous.FakeVehicle} model The vehicle model.
- * @param {Number} dt The time step.
+ * @param {number} dt The time step.
  * @return {Object} The new position.
  */
 Mavelous.FakeVehicle.nextposition = function(model, dt) {

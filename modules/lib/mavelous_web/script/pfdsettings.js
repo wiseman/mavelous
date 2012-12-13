@@ -5,7 +5,7 @@ goog.require('goog.json');
 
 /**
  * PFD position values.
- * @enum {Number}
+ * @enum {number}
  */
 Mavelous.PFDPositions = {
   TOPLEFT: 0,
@@ -17,7 +17,7 @@ Mavelous.PFDPositions = {
 
 /**
  * PFD size constants
- * @enum {Number}
+ * @enum {number}
  */
 Mavelous.PFDSizes = {
   STANDARD: 0,

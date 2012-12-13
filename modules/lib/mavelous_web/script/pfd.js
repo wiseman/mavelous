@@ -18,7 +18,7 @@ goog.provide('Mavelous.Tape');
  * Renders an artifical horizon with sky/ground and pitch and roll
  * ladders.
  *
- * @param {{width: ?Number, height: ?Number, skyColor: ?String, groundColor: ?String, lineColor: ?String, planeColor: ?String}=} config
+ * @param {{width: ?number, height: ?number, skyColor: ?string, groundColor: ?string, lineColor: ?string, planeColor: ?string}=} config
  * @constructor
  */
 Mavelous.ArtificialHorizon = function(config) {
@@ -150,9 +150,9 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
  * ladder.
  *
  * @param {Object} context The canvas to render to.
- * @param {Number} theta The angle of the circle.
- * @param {Number} length The length of the triangle.
- * @param {Number} radius The radius of the circle.
+ * @param {number} theta The angle of the circle.
+ * @param {number} length The length of the triangle.
+ * @param {number} radius The radius of the circle.
  * @param {boolean} filled Whether the triangle is filled.
  * @private
  */
@@ -183,9 +183,9 @@ Mavelous.ArtificialHorizon.prototype.drawTriangle_ = function(
 /**
  * Draws a rung on the roll ladder.
  * @param {Object} context The canvas to draw to.
- * @param {Number} theta The angle of the segment.
- * @param {Number} length The length of the segment.
- * @param {Number} radius The radius of the circle.
+ * @param {number} theta The angle of the segment.
+ * @param {number} length The length of the segment.
+ * @param {number} radius The radius of the circle.
  * @private
  */
 Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
@@ -206,8 +206,8 @@ Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
  * at +pitch and -pitch.
  *
  * @param {Object} context The canvas to render to.
- * @param {Number} pitchAngle The pitch angle.
- * @param {Number} length The length of the rung.
+ * @param {number} pitchAngle The pitch angle.
+ * @param {number} length The length of the rung.
  * @private
  */
 Mavelous.ArtificialHorizon.prototype.drawPitchRung_ = function(
@@ -233,8 +233,8 @@ Mavelous.ArtificialHorizon.prototype.drawPitchRung_ = function(
 
 /**
  * Computes the Y value of the horizon for a given pitch angle.
- * @param {Number} pitch The pitch angle.
- * @return {Number} The Y coordinate.
+ * @param {number} pitch The pitch angle.
+ * @return {number} The Y coordinate.
  * @private
  */
 Mavelous.ArtificialHorizon.prototype.getHorizon_ = function(pitch) {
@@ -244,8 +244,8 @@ Mavelous.ArtificialHorizon.prototype.getHorizon_ = function(pitch) {
 
 /**
  * Sets the pitch and roll to display on the artificial horizon.
- * @param {Number} pitch The pitch angle.
- * @param {Number} roll The roll angle.
+ * @param {number} pitch The pitch angle.
+ * @param {number} roll The roll angle.
  */
 Mavelous.ArtificialHorizon.prototype.setPitchRoll = function(pitch, roll) {
   this.pitch = pitch;
@@ -259,13 +259,13 @@ Mavelous.ArtificialHorizon.prototype.setPitchRoll = function(pitch, roll) {
  * display a "bug" showing the target value.
  *
  * @param {Object} config
- * config {Number} config.width width.
- * config {Number} config.height height.
- * config {String} config.backgroundColor The background color.
- * config {String} config.fontColor The font color to use for labels.
- * config {String} config.fontFamily The font to use for labels.
- * config {Number} config.fontSize The font size to use for labels.
- * config {String} config.fontStyle The font style to use for labels.
+ * config {number} config.width width.
+ * config {number} config.height height.
+ * config {string} config.backgroundColor The background color.
+ * config {string} config.fontColor The font color to use for labels.
+ * config {string} config.fontFamily The font to use for labels.
+ * config {number} config.fontSize The font size to use for labels.
+ * config {string} config.fontStyle The font style to use for labels.
  * config {Mavelous.Tape.SideType} side Whether the Tape is on the left or the
  *     right.
  * @constructor
@@ -285,7 +285,7 @@ Mavelous.Tape.WIDTH = 30;
 
 /**
  * Default Tape height.
- * @type {Number}
+ * @type {number}
  */
 Mavelous.Tape.HEIGHT = 140;
 
@@ -372,7 +372,7 @@ Mavelous.Tape.prototype.reflect_ = function(x_pos_or_points) {
 
 /**
  * Sets the instantaneous value to display on the tape.
- * @param {Number} value The value.
+ * @param {number} value The value.
  */
 Mavelous.Tape.prototype.setValue = function(value) {
   if (value != this.value) {
@@ -394,7 +394,7 @@ Mavelous.Tape.prototype.setValue = function(value) {
 
 /**
  * Sets the target value to display on the tape with the bug.
- * @param {Number} target The target value.  Can be null to turn off the bug.
+ * @param {number} target The target value.  Can be null to turn off the bug.
  */
 Mavelous.Tape.prototype.setTargetValue = function(target) {
   this.targetValue = target;
@@ -498,7 +498,7 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
 
 /**
  * Which side is the Tape on.
- * @enum {String}
+ * @enum {string}
  */
 Mavelous.Tape.SideType = {
   LEFT: 'left',
@@ -619,8 +619,8 @@ Mavelous.PFD.prototype.init = function(container, options) {
 
 /**
  * Sets the PFD's dimensions.
- * @param {Number} width The width.
- * @param {Number} height The height.
+ * @param {number} width The width.
+ * @param {number} height The height.
  */
 Mavelous.PFD.prototype.setSize = function(width, height) {
   var aspect = width / height;
@@ -637,7 +637,7 @@ Mavelous.PFD.prototype.setSize = function(width, height) {
 
 /**
  * Sets the vehicle speed.
- * @param {Number} speed The vehicle speed.
+ * @param {number} speed The vehicle speed.
  */
 Mavelous.PFD.prototype.setSpeed = function(speed) {
   this.speedTape.setValue(speed);
@@ -646,7 +646,7 @@ Mavelous.PFD.prototype.setSpeed = function(speed) {
 
 /**
  * Sets the vehicle's target speed.
- * @param {Number} speed The target speed.
+ * @param {number} speed The target speed.
 */
 Mavelous.PFD.prototype.setTargetSpeed = function(speed) {
   this.targetSpeed = speed;
@@ -678,7 +678,7 @@ Mavelous.PFD.prototype.setVisible = function(isVisible) {
 
 /**
  * Sets the vehicle altitude.
- * @param {Number} altitude The altitude.
+ * @param {number} altitude The altitude.
  */
 Mavelous.PFD.prototype.setAltitude = function(altitude) {
   this.altitudeTape.setValue(altitude);
@@ -687,7 +687,7 @@ Mavelous.PFD.prototype.setAltitude = function(altitude) {
 
 /**
  * Sets the vehicle's target altitude.
- * @param {Number} altitude The target altitude.
+ * @param {number} altitude The target altitude.
  */
 Mavelous.PFD.prototype.setTargetAltitude = function(altitude) {
   this.targetAltitude = altitude;
@@ -704,7 +704,7 @@ Mavelous.PFD.prototype.setTargetAltitude = function(altitude) {
 
 /**
  * Sets the vehicle's heading.
- * @param {Number} heading The heading.
+ * @param {number} heading The heading.
  */
 Mavelous.PFD.setHeading = function(heading) {
 };
@@ -712,8 +712,8 @@ Mavelous.PFD.setHeading = function(heading) {
 
 /**
  * Sets the vehicle's pitch and roll angles.
- * @param {Number} pitch The pitch angle.
- * @param {Number} roll The roll angle.
+ * @param {number} pitch The pitch angle.
+ * @param {number} roll The roll angle.
  */
 Mavelous.PFD.prototype.setAttitude = function(pitch, roll) {
   this.attitudeIndicator.setPitchRoll(pitch, roll);

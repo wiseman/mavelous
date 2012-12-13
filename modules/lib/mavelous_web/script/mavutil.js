@@ -12,7 +12,7 @@ Mavelous.util.heartbeat = {};
 
 /**
  * Bitfields for base_mode.
- * @enum {Number}
+ * @enum {number}
  */
 Mavelous.util.MavModeFlag = {
   CUSTOM_MODE_ENABLED: 1,
@@ -28,7 +28,7 @@ Mavelous.util.MavModeFlag = {
 
 /**
  * Vehicle types
- * @enum {Number}
+ * @enum {number}
  */
 
 Mavelous.util.MavType = {
@@ -39,7 +39,7 @@ Mavelous.util.MavType = {
 
 /**
  * ArduPlane flight modes.
- * @type {Object.<number, String>}
+ * @type {Object.<number, string>}
  */
 Mavelous.util.ArduPlaneFlightMode = {
   0: 'MANUAL',
@@ -60,7 +60,7 @@ Mavelous.util.ArduPlaneFlightMode = {
 
 /**
  * ArduCopter flight modes
- * @type {Object.<number, String>}
+ * @type {Object.<number, string>}
  */
 Mavelous.util.ArduCopterFlightModes = {
   0: 'STABILIZE',
@@ -82,7 +82,7 @@ Mavelous.util.ArduCopterFlightModes = {
  * Returns the vehicle type name.
  *
  * @param {Mavelous.MavlinkMessage} msg A heartbeat message.
- * @return {String} The type of vehicle: "ArduCopter", "ArduPlane" or
+ * @return {string} The type of vehicle: "ArduCopter", "ArduPlane" or
  *     "unknown".
  *
  */
@@ -99,7 +99,7 @@ Mavelous.util.heartbeat.mavtype = function(msg) {
 /**
  * Returns the name of the vehicle flight mode.
  * @param {Mavelous.MavlinkMessage} msg A heartbeat message.
- * @return {String} The name of the flight mode.
+ * @return {string} The name of the flight mode.
  */
 Mavelous.util.heartbeat.modestring = function(msg) {
   var base_mode = msg.get('base_mode');

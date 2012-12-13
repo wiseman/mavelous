@@ -19,7 +19,7 @@ goog.inherits(Mavelous.CommStatusModel, Backbone.Model);
 
 
 /**
- * @enum {Number}
+ * @enum {number}
  */
 Mavelous.CommStatusModel.State = {
   UNINITIALIZED: 0,
@@ -208,7 +208,7 @@ Mavelous.PacketLossModel.prototype.getDelta = function() {
  * Computes the raw change in packet comms stats.
  * @param {Object} latest The most recent META_LINKQUALITY message.
  * @param {Object} compare The previous META_LINKQUALITY message.
- * @param {Number} period The period between the two messages.
+ * @param {number} period The period between the two messages.
  * @return {Object} The packet comms stats.
  */
 Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
