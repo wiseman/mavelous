@@ -25,26 +25,35 @@ JFFS = Enable
 3: Enable SSHd. This is found under Services tab, under the Secure Shell section.
 SSHd = Enable
 
-4: Mount USB Thumb drive to /opt.  (See http://www.dd-wrt.com/wiki/index.php/USB_storage)
+4: Under Administration tab, and Commands sub tab, add the following
 
-5: Install ipkg-opt (Optware) (See http://www.dd-wrt.com/wiki/index.php/Optware)
+insmod usbserial
 
-6: SSH to router and run the following command "ipkg-opt install python2.7" (stock was 2.5, has issues) this can also be ran via web gui via Administration tab and the Commands sub tab. Fill out the "Command Shell" box and press the Run Commands button.
+insmod ftdi_sio
 
-7: Also run the command "ipkg-opt install git"
+and press the "Save Startup" to auto load the proper modules needed for 3dr radio usb.
 
-8: Copy files from modules.zip to /opt/lib/python2.7 (Modules.zip includes all 3rd party needed python modules)
 
-9: SSH to device and run the following: 
+5: Mount USB Thumb drive to /opt.  (See http://www.dd-wrt.com/wiki/index.php/USB_storage)
+
+6: Install ipkg-opt (Optware) (See http://www.dd-wrt.com/wiki/index.php/Optware)
+
+7: SSH to router and run the following command "ipkg-opt install python2.7" (stock was 2.5, has issues) this can also be ran via web gui via Administration tab and the Commands sub tab. Fill out the "Command Shell" box and press the Run Commands button.
+
+8: Also run the command "ipkg-opt install git"
+
+9: Copy files from modules.zip to /opt/lib/python2.7 (Modules.zip includes all 3rd party needed python modules)
+
+10: SSH to device and run the following: 
 mkdir /opt/Mavelous;
 cd /opt/Mavelous;
 git clone https://github.com/wiseman/mavlink;
 git clone https://github.com/wiseman/mavelous;
 
-10: (while still in /opt/Mavelous) run
+11: (while still in /opt/Mavelous) run
 "python2.7 mavelous/mavproxy.py --master=/dev/usb/tts/0 --baud=57600 --module=mavelous"
 
-11: Need to work on auto startup that does not break the normal rc startup scripts :(
+12: Need to work on auto startup that does not break the normal rc startup scripts :(
 
 Additional Notes
 ----------------
