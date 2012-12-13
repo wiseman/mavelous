@@ -66,6 +66,16 @@ and press the "Save Startup" to auto load the proper modules needed for 3dr radi
 12: Need to work on auto startup that does not break the normal rc startup scripts :(
 
 
+Control Scripts
+---------------
+
+MavClone.sh - Clone a copy of mavelous and mavlink from github.
+
+MavUpdate.sh - Fetch updates for existing copy of mavelous and mavlink from github.
+
+MavStart.sh - Starts up mavproxy.py, passing all arguments to mavproxy.py
+
+
 Additional Notes
 ----------------
 * Turn down WIFI transmit powers, lowers chance of causing RC Link issues
