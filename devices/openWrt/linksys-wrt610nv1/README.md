@@ -20,9 +20,11 @@ Setup Steps
 1: Load openWrt/dd-wrt firmware onto device (See http://dd-wrt.com/wiki/index.php/Linksys_WRT610N)
 
 2: Enable jffs (Needs a couple reboots to enable sometimes).  This is found on the web admin of the router under Administration tab under the JFFS2 Support section.
+
 	JFFS = Enable
 
 3: Enable SSHd. This is found under Services tab, under the Secure Shell section.
+
 	SSHd = Enable
 
 4: Under Administration tab, and Commands sub tab, add the following
@@ -38,15 +40,19 @@ and press the "Save Startup" to auto load the proper modules needed for 3dr radi
 6: Install ipkg-opt (Optware) (See http://www.dd-wrt.com/wiki/index.php/Optware)
 
 7: SSH to router and run the following command 
+
 	ipkg-opt install python2.7
+
 (stock was 2.5, has issues) this can also be ran via web gui via Administration tab and the Commands sub tab. Fill out the "Command Shell" box and press the Run Commands button.
 
 8: Also run the command 
+
 	ipkg-opt install git
 
 9: Copy files from modules.zip to /opt/lib/python2.7 (Modules.zip includes all 3rd party needed python modules)
 
 10: SSH to device and run the following: 
+
 	mkdir /opt/Mavelous
 	cd /opt/Mavelous
 	git clone https://github.com/wiseman/mavlink
