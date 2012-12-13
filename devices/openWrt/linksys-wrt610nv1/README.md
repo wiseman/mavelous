@@ -72,6 +72,7 @@ and press the "Save Startup" to auto load the proper modules needed for 3dr radi
 
 Control Scripts
 ---------------
+Scripts are located in opt/Mavelous
 
 MavClone.sh - Clone a copy of mavelous and mavlink from github.
 
