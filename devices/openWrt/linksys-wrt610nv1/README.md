@@ -58,8 +58,10 @@ and press the "Save Startup" to auto load the proper modules needed for 3dr radi
 	git clone https://github.com/wiseman/mavlink
 	git clone https://github.com/wiseman/mavelous
 
-11: (while still in /opt/Mavelous) run
+11: While still in /opt/Mavelous run
+
 	python2.7 mavelous/mavproxy.py --master=/dev/usb/tts/0 --baud=57600 --module=mavelous
+
 
 12: Need to work on auto startup that does not break the normal rc startup scripts :(
 
@@ -68,3 +70,4 @@ Additional Notes
 * Turn down WIFI transmit powers, lowers chance of causing RC Link issues
 
 * Place 3dr radio away from AP
+
