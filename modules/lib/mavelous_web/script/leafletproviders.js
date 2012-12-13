@@ -48,8 +48,12 @@ Mavelous.LeafletProviders.Providers = {
   bing: {
     description: 'Bing Satellite with Labels',
     constructor: function() {
-      return new L.BingLayer(Mavelous.LeafletProviders.bingKey,
-                             {type: 'AerialWithLabels'});
+      return new L.BingLayer(
+          Mavelous.LeafletProviders.bingKey,
+          {
+            type: 'AerialWithLabels',
+            maxZoom: 21
+          });
     }
   },
   cloudmade: {

@@ -66,8 +66,8 @@
 <script type="text/javascript" src="script/app.js"></script>
 <script>
   $(function() {
-    var app = new Mavelous.App();
-    app.start();
+  window.mavelous_app = new Mavelous.App();
+  mavelous_app.start();
     });
 </script>
 <script type="text/template" id="commstatustexttemplate">
@@ -136,7 +136,7 @@
     <div class="modal-body">
       <h4>Map</h4><br />
       <p>Provider <select id="settings-mapproviderpicker"></select> </p>
-      <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="18">
+      <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="21">
         <span id="settings-mapzoom-value"></span>
       <p>Icon <select id="settings-vehicleiconpicker"></select> </p>
       </p>

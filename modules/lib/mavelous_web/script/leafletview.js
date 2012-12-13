@@ -38,7 +38,8 @@ Mavelous.LeafletView.prototype.initialize = function() {
     layers: [this.tileLayer],
     zoomControl: false,
     doubleClickZoom: false,
-    attributionControl: false
+    attributionControl: false,
+    maxZoom: 21
   });
 
   this.providerModel.bind('change', this.providerChange, this);
