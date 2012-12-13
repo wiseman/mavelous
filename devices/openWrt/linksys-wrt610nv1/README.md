@@ -17,27 +17,34 @@ Requirements
 
 Setup Steps
 -----------
-1: Load openWrt/dd-wrt firmware onto device
+1: Load openWrt/dd-wrt firmware onto device (See http://dd-wrt.com/wiki/index.php/Linksys_WRT610N)
 
-2: Enable jffs (Needs a couple reboots to enable sometimes)
+2: Enable jffs (Needs a couple reboots to enable sometimes).  This is found on the web admin of the router under Administration tab under the JFFS2 Support section.
+JFFS = Enable
 
-3: Enable SSHd
+3: Enable SSHd. This is found under Services tab, under the Secure Shell section.
+SSHd = Enable
 
-4: Mount USB Thumb drive to /opt
+4: Mount USB Thumb drive to /opt.  (See http://www.dd-wrt.com/wiki/index.php/USB_storage)
 
-5: Install ipkg-opt (Optware) 
+5: Install ipkg-opt (Optware) (See http://www.dd-wrt.com/wiki/index.php/Optware)
 
-6: ipkg-opt install python2.7 (stock was 2.5, has issues)
+6: SSH to router and run the following command "ipkg-opt install python2.7" (stock was 2.5, has issues) this can also be ran via web gui via Administration tab and the Commands sub tab. Fill out the "Command Shell" box and press the Run Commands button.
 
-7: Copy files from modules.zip to /opt/lib/python2.7
+7: Also run the command "ipkg-opt install git"
 
-8: ipkg-opt install git
+8: Copy files from modules.zip to /opt/lib/python2.7 (Modules.zip includes all 3rd party needed python modules)
 
-9: mkdir /opt/Mavelous; cd /opt/Mavelous; git clone mavlink and mavelous
+9: SSH to device and run the following: 
+mkdir /opt/Mavelous;
+cd /opt/Mavelous;
+git clone https://github.com/wiseman/mavlink;
+git clone https://github.com/wiseman/mavelous;
 
-10: (while still in /opt/Mavelous) python2.7 mavelous/mavproxy.py --master=/dev/usb/tts/0 --baud=57600 --module=mavelous
+10: (while still in /opt/Mavelous) run
+"python2.7 mavelous/mavproxy.py --master=/dev/usb/tts/0 --baud=57600 --module=mavelous"
 
-
+11: Need to work on auto startup that does not break the normal rc startup scripts :(
 
 Additional Notes
 ----------------
