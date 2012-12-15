@@ -3,6 +3,10 @@ Setup for a Linksys/Cisco WRT610N Version 1.0
 with openWrt/dd-wrt firmwares
 
 
+Overview
+--------
+![Network Diagram](https://github.com/wiseman/mavelous/raw/master/screenshots/wrt/wrt-diagram.png)
+
 Requirements
 ------------
 * Linksys/Cisco WRT610N Version 1.0
@@ -68,6 +72,7 @@ and press the "Save Startup" to auto load the proper modules needed for 3dr radi
 
 Control Scripts
 ---------------
+Scripts are located in opt/Mavelous
 
 MavClone.sh - Clone a copy of mavelous and mavlink from github.
 
