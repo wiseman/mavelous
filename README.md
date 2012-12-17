@@ -31,6 +31,25 @@ an ArduCopter:
 http://www.youtube.com/watch?v=QNql3n4C8iA
 
 
+Features
+--------
+
+* Situational awareness.  Mavelous will show you a vehicle's current
+  position on a map.  It also has a primary flight display that
+  displays attitude, speed and altitude.
+
+* Tap-the-map navigation. You can double tap on the map, and the
+  vehicle will switch to
+  <tt>[GUIDED](http://code.google.com/p/arducopter/wiki/AC2_GuidedMode)</tt>
+  mode and fly to that position.
+
+* Flight mode.  You can arm and disarm the vehicle, and you can put it
+  into
+  <tt>[LOITER](http://code.google.com/p/arducopter/wiki/AC2_LoiterMode)</tt>,
+  <tt>[RTL](http://code.google.com/p/arducopter/wiki/AC2_RTLMode)</tt>,
+  or <tt>LAND</tt> mode.
+
+
 Installation
 ------------
 
