@@ -16,7 +16,7 @@ goog.inherits(Mavelous.GuideAltitudeView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.GuideAltitudeView.prototype.initialize = function() {
   var self = this;

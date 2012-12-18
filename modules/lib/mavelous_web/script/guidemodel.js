@@ -18,7 +18,7 @@ goog.inherits(Mavelous.GuideModel, Backbone.Model);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.GuideModel.prototype.defaults = function() {
   return {
@@ -30,7 +30,7 @@ Mavelous.GuideModel.prototype.defaults = function() {
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.GuideModel.prototype.initialize = function() {
   var mavlink = this.get('mavlinkSrc');

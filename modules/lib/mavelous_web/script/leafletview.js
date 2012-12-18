@@ -23,7 +23,7 @@ goog.inherits(Mavelous.LeafletView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.LeafletView.prototype.initialize = function() {
   this.vehicleModel = this.options.vehicle;

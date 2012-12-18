@@ -21,7 +21,7 @@ Mavelous.LeafletProviders.bingKey = ('AnFxXUB376BgaEQMj947c43V45ipmMvdcoY-' +
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.LeafletProviders.prototype.defaults = function() {
   return {

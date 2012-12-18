@@ -20,7 +20,7 @@ goog.inherits(Mavelous.AppRouter, Backbone.Router);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.AppRouter.prototype.initialize = function(options) {
   var navbar = {};

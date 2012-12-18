@@ -40,7 +40,10 @@ goog.addSingletonGetter(mavelous.ui.MissionItemRenderer);
 mavelous.ui.MissionItemRenderer.CSS_CLASS = 'mavelous-missionitem';
 
 
-/** @inheritDoc */
+/**
+ * @return {string} The CSS class name.
+ * @export
+ */
 mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
 };
@@ -215,7 +218,7 @@ mavelous.ui.MissionItem.prototype.isItemChecked = function() {
 };
 
 
-/** @inheritDoc */
+/** @export */
 mavelous.ui.MissionItem.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   var checkbox = this.getChildAt(0);
@@ -263,6 +266,8 @@ mavelous.ui.Label = function(opt_labelText) {
 };
 goog.inherits(mavelous.ui.Label, goog.ui.Component);
 
+
+/** @type {string} */
 mavelous.ui.Label.CSS_CLASS = 'example-label';
 
 
@@ -272,7 +277,7 @@ mavelous.ui.Label.prototype.getLabelText = function() {
 };
 
 
-/** @inheritDoc */
+/** @export */
 mavelous.ui.Label.prototype.createDom = function() {
   var el = this.dom_.createDom('span',
                                undefined /* opt_attributes */,

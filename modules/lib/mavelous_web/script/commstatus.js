@@ -31,7 +31,7 @@ Mavelous.CommStatusModel.State = {
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.CommStatusModel.prototype.defaults = function() {
   return {
@@ -42,7 +42,7 @@ Mavelous.CommStatusModel.prototype.defaults = function() {
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.CommStatusModel.prototype.initialize = function() {
   /* Only initialize the server.
@@ -153,7 +153,7 @@ goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.PacketLossModel.prototype.defaults = function() {
   return {
@@ -164,7 +164,7 @@ Mavelous.PacketLossModel.prototype.defaults = function() {
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.PacketLossModel.prototype.initialize = function() {
   this.metalinkquality = this.get('mavlinkSrc').subscribe(
@@ -237,7 +237,7 @@ goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
   this.commStatusModel = this.options.commStatusModel;

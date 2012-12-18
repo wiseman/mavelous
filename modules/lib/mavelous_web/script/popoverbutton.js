@@ -17,7 +17,7 @@ goog.inherits(Mavelous.SelectedModel, Backbone.Model);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.SelectedModel.prototype.defaults = function() {
   return {
@@ -56,7 +56,7 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
   /* this.buttons :: [ SelectedModel ]*/
@@ -115,7 +115,7 @@ goog.inherits(Mavelous.PopoverView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.PopoverView.prototype.initialize = function() {
   _.extend(this, Backbone.Events);

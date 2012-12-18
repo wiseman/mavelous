@@ -17,7 +17,7 @@ goog.inherits(Mavelous.SettingsView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.SettingsView.prototype.initialize = function() {
   var self = this;

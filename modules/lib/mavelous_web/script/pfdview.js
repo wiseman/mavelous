@@ -20,7 +20,7 @@ goog.inherits(Mavelous.PFDView, Backbone.View);
 
 
 /**
- * @inheritDoc
+ * @export
  */
 Mavelous.PFDView.prototype.initialize = function() {
   this.blockel = this.options.blockel;

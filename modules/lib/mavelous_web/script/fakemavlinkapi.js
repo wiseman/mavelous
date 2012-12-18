@@ -30,6 +30,9 @@ Mavelous.FakeVehicle.prototype.defaults = function() {
 };
 
 
+/**
+ * @export
+ */
 Mavelous.FakeVehicle.prototype.initialize = function() {
   var t = Date.now();
   this.firstupdate = t;
