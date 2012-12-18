@@ -34,7 +34,7 @@ python ${CLOSURE_BUILDER} \
     --root=script/ \
     --namespace="Mavelous.App" \
     --output_mode=compiled \
-    --compiler_flags="--compilation_level=SIMPLE_OPTIMIZATIONS" \
+    --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
     --compiler_flags="--summary_detail_level=3" \
     --compiler_flags="--warning_level=VERBOSE" \
     --compiler_flags="--externs=${THIS_DIR}/externs/backbone-0.9.1.js" \
@@ -42,5 +42,6 @@ python ${CLOSURE_BUILDER} \
     --compiler_flags="--externs=${THIS_DIR}/externs/kinetic-4.1.2.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/leaflet-0.5.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/underscore-1.3.1.js" \
+    --compiler_flags="--generate_exports" \
     --compiler_jar=${CLOSURE_COMPILER} \
     > ${THIS_DIR}/script/mavelous-compiled.js
