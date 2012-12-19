@@ -38,6 +38,7 @@ Mavelous.AppRouter.prototype.initialize = function(opt_options) {
 
 /**
  * Show overview.
+ * @export
  */
 Mavelous.AppRouter.prototype.route_overview = function() {
   this.setnavbar('overview');
@@ -47,6 +48,7 @@ Mavelous.AppRouter.prototype.route_overview = function() {
 
 /**
  * Show PFD only.
+ * @export
  */
 Mavelous.AppRouter.prototype.route_fullpfd = function() {
   this.setnavbar('fullpfd');
@@ -56,6 +58,7 @@ Mavelous.AppRouter.prototype.route_fullpfd = function() {
 
 /**
  * Show map only.
+ * @export
  */
 Mavelous.AppRouter.prototype.route_maponly = function() {
   this.setnavbar('maponly');
