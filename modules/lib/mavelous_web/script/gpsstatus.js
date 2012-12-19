@@ -15,6 +15,7 @@ goog.inherits(Mavelous.GpsTextView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.GpsTextView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
@@ -25,6 +26,7 @@ Mavelous.GpsTextView.prototype.initialize = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.GpsTextView.prototype.render = function() {
   var gps = this.gps;
@@ -67,6 +69,7 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.GpsButtonView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
@@ -127,7 +130,7 @@ Mavelous.GpsButtonView.prototype.renderPopover = function() {
 
   var content = '';
   if ('satellites_visible' in stat) {
-    var visible = stat.satellites_visible.toString();
+    var visible = stat['satellites_visible'].toString();
     content += ('Satellites: ' + visible +
                 '<br /> Coordinates: ' + lat + ', ' + lon);
   }

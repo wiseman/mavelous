@@ -21,6 +21,7 @@ goog.inherits(Mavelous.PFDView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.PFDView.prototype.initialize = function() {
   this.blockel = this.options['blockel'];
@@ -108,8 +109,8 @@ Mavelous.PFDView.prototype.onNavControllerOutputChange = function() {
  */
 Mavelous.PFDView.prototype.onSettingsChange = function() {
   var settings = this.settingsModel.toJSON();
-  this.setPosition(settings.position);
-  this.setSize(settings.size);
+  this.setPosition(settings['position']);
+  this.setSize(settings['size']);
 };
 
 

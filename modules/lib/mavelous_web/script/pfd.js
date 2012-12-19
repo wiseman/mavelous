@@ -49,7 +49,6 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
   this.radius = Math.min(config['width'], config['height']) / 2.0;
   this.pitch = 0;
   this.roll = 0;
-
   Kinetic.Shape.call(this, config);
   this._setDrawFuncs();
 };
@@ -58,6 +57,7 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
 /**
  * Renders the artifical horizon to a canvas.
  * @override
+ * @export
  */
 Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   var horizon = this.getHorizon_(this.pitch);
@@ -111,7 +111,7 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   context.beginPath();
   context.arc(0, 0, rollRadius,
               210 * Math.PI / 180.0, 330 * Math.PI / 180.0,
-              true);
+              false);
   context.stroke();
   this.drawRollRung_(context, 210 * Math.PI / 180, 10, rollRadius);
   this.drawRollRung_(context, 220 * Math.PI / 180, 5, rollRadius);
@@ -429,6 +429,7 @@ Mavelous.Tape.prototype.setTargetValue = function(target) {
 /**
  * Draws the tape.
  * @override
+ * @export
  */
 Mavelous.Tape.prototype.drawFunc = function(context) {
   // The tape displays 3 pieces of info:

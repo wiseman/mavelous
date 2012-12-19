@@ -24,6 +24,7 @@ goog.inherits(Mavelous.LeafletView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.LeafletView.prototype.initialize = function() {
   this.vehicleModel = this.options['vehicle'];
@@ -151,7 +152,7 @@ Mavelous.LeafletView.prototype.updateVehiclePath = function() {
  */
 Mavelous.LeafletView.prototype.updateGuideMarker = function() {
   var p = this.guideModel.toJSON();
-  var latlng = new L.LatLng(p.lat, p.lon);
+  var latlng = new L.LatLng(p['lat'], p['lon']);
   if (!p) return;
   if (this.guideMarker === undefined) {
     this.guideMarker = new L.Marker(latlng,

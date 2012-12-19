@@ -42,6 +42,7 @@ goog.inherits(Mavelous.PFDSettingsModel, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.PFDSettingsModel.prototype.initialize = function() {
   this.bind('change', function() {
@@ -52,6 +53,7 @@ Mavelous.PFDSettingsModel.prototype.initialize = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.PFDSettingsModel.prototype.defaults = function() {
   var defaults = this.readFromCookie();

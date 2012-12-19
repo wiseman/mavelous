@@ -8,6 +8,7 @@ goog.require('goog.math');
  * Very crude model of a vehicle - just enough to show the map working
  * offline.
  *
+ * @param {{lat: number, lon: number}} properties Model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -19,6 +20,7 @@ goog.inherits(Mavelous.FakeVehicle, Backbone.Model);
 
 /**
  * @override
+ * export
  */
 Mavelous.FakeVehicle.prototype.defaults = function() {
   return {
@@ -36,6 +38,7 @@ Mavelous.FakeVehicle.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.FakeVehicle.prototype.initialize = function() {
   var t = Date.now();
@@ -45,6 +48,9 @@ Mavelous.FakeVehicle.prototype.initialize = function() {
 };
 
 
+/**
+ * Updates the vehicle state.
+ */
 Mavelous.FakeVehicle.prototype.update = function() {
   var tnow = Date.now();
   var dt = (tnow - this.lastupdate) / 1000;
@@ -87,8 +93,8 @@ Mavelous.FakeVehicle.prototype.requestMessages = function(msgModels) {
     if (name in Mavelous.FakeVehicle.fakeHandlers) {
       var mdlidx = mdl.get('_index') || 0;
       results[name] = {
-        'index': (increment ? (mdlidx + 1) : mdlidx),
-        'msg': Mavelous.FakeVehicle.fakeHandlers[name](state)
+        index: (increment ? (mdlidx + 1) : mdlidx),
+        msg: Mavelous.FakeVehicle.fakeHandlers[name](state)
       };
     }
   });

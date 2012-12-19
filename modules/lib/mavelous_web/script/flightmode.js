@@ -22,6 +22,7 @@ goog.inherits(Mavelous.FlightModeModel, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.FlightModeModel.prototype.defaults = function() {
   return {
@@ -35,6 +36,7 @@ Mavelous.FlightModeModel.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.FlightModeModel.prototype.initialize = function() {
   var mavlinkSrc = this.get('mavlinkSrc');
@@ -142,6 +144,7 @@ goog.inherits(Mavelous.ArmingButtonView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.ArmingButtonView.prototype.initialize = function() {
   this.model.on('change:armed change:arming change:disarming',
@@ -195,6 +198,7 @@ goog.inherits(Mavelous.CommandButtonView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.CommandButtonView.prototype.initialize = function() {
   this.command = this.options['command'];
@@ -222,6 +226,7 @@ goog.inherits(Mavelous.FlightModeButtonView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.FlightModeButtonView.prototype.initialize = function() {
   this.modeModel = this.options['modeModel'];

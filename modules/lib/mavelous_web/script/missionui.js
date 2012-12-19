@@ -43,6 +43,7 @@ mavelous.ui.MissionItemRenderer.CSS_CLASS = 'mavelous-missionitem';
 /**
  * @return {string} The CSS class name.
  * @override
+ * @export
  */
 mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
@@ -186,6 +187,7 @@ goog.inherits(mavelous.ui.MissionItem, goog.ui.Control);
 /**
  * @return {!mavelous.MissionItem} The model.
  * @override
+ * @export
  */
 mavelous.ui.MissionItem.prototype.getModel;
 
@@ -218,7 +220,11 @@ mavelous.ui.MissionItem.prototype.isItemChecked = function() {
 };
 
 
-/** @override */
+/**
+ * @override
+ * @export
+ */
+
 mavelous.ui.MissionItem.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   var checkbox = this.getChildAt(0);
@@ -418,6 +424,7 @@ goog.inherits(mavelous.ui.Mission, goog.ui.Container);
 /**
  * @return {mavelous.Mission} The model.
  * @override
+ * @export
  */
 mavelous.ui.Mission.prototype.getModel;
 

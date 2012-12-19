@@ -18,6 +18,7 @@ goog.inherits(Mavelous.VehicleLeafletPosition, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.VehicleLeafletPosition.prototype.defaults = function() {
   return { 'position': null, 'heading': 0 };
@@ -26,6 +27,7 @@ Mavelous.VehicleLeafletPosition.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.VehicleLeafletPosition.prototype.initialize = function() {
   var mavlink = this.get('mavlinkSrc');
@@ -45,8 +47,8 @@ Mavelous.VehicleLeafletPosition.prototype.initialize = function() {
  */
 Mavelous.VehicleLeafletPosition.prototype.withVehicleGps = function() {
   var veh = this.vehicleGps.toJSON();
-  if (veh.lat === 0 && veh.lon === 0) return;
-  this.set('position', new L.LatLng(veh.lat / 1.0e7, veh.lon / 1.0e7));
+  if (veh['lat'] === 0 && veh['lon'] === 0) return;
+  this.set('position', new L.LatLng(veh['lat'] / 1.0e7, veh['lon'] / 1.0e7));
 };
 
 

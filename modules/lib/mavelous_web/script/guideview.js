@@ -17,6 +17,7 @@ goog.inherits(Mavelous.GuideAltitudeView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.GuideAltitudeView.prototype.initialize = function() {
   var self = this;
@@ -40,10 +41,11 @@ Mavelous.GuideAltitudeView.prototype.initialize = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.GuideAltitudeView.prototype.render = function() {
   var mdl = this.model.toJSON();
-  this.text.html(mdl.alt.toString() + ' m');
-  this.input.val(mdl.alt);
+  this.text.html(mdl['alt'].toString() + ' m');
+  this.input.val(mdl['alt']);
   return this;
 };

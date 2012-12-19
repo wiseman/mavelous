@@ -37,6 +37,7 @@ goog.inherits(Mavelous.MavlinkAPI, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.MavlinkAPI.prototype.initialize = function() {
   /** @type {goog.debug.Logger} */
@@ -154,6 +155,7 @@ Mavelous.MavlinkAPI.prototype.onlineUpdate = function() {
  * Gets the latest fake messages if we're in offline mode.
  */
 Mavelous.MavlinkAPI.prototype.offlineUpdate = function() {
+  goog.asserts.assert(this.fakevehicle);
   this.fakevehicle.update();
   var msgs = this.fakevehicle.requestMessages(this.messageModels);
   this.handleMessages(msgs);

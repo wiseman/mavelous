@@ -32,6 +32,7 @@ Mavelous.CommStatusModel.State = {
 
 /**
  * @override
+ * @export
  */
 Mavelous.CommStatusModel.prototype.defaults = function() {
   return {
@@ -43,6 +44,7 @@ Mavelous.CommStatusModel.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.CommStatusModel.prototype.initialize = function() {
   /* Only initialize the server.
@@ -154,6 +156,7 @@ goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.PacketLossModel.prototype.defaults = function() {
   return {
@@ -165,6 +168,7 @@ Mavelous.PacketLossModel.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.PacketLossModel.prototype.initialize = function() {
   this.metalinkquality = this.get('mavlinkSrc').subscribe(
@@ -215,9 +219,9 @@ Mavelous.PacketLossModel.prototype.getDelta = function() {
  */
 Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
   return {
-    'master_in': latest.master_in - compare.master_in,
-    'master_out': latest.master_out - compare.master_out,
-    'mav_loss': latest.mav_loss - compare.mav_loss,
+    'master_in': latest['master_in'] - compare['master_in'],
+    'master_out': latest['master_out'] - compare['master_out'],
+    'mav_loss': latest['mav_loss'] - compare['mav_loss'],
     'period': period };
 };
 
@@ -238,6 +242,7 @@ goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
   this.commStatusModel = this.options['commStatusModel'];
@@ -256,8 +261,8 @@ Mavelous.CommStatusButtonView.prototype.registerPopover = function(p) {
 Mavelous.CommStatusButtonView.prototype.buttonRender =  function() {
   var csm = this.commStatusModel;
   var state = csm.toJSON();
-  var server = state.server;
-  var mav = state.mav;
+  var server = state['server'];
+  var mav = state['mav'];
   var UNINITIALIZED = Mavelous.CommStatusModel.State.UNINITIALIZED;
   var OK = Mavelous.CommStatusModel.State.OK;
   var TIMED_OUT_ONCE = Mavelous.CommStatusModel.State.TIMED_OUT_ONCE;

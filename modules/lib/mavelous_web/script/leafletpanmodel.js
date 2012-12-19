@@ -16,6 +16,7 @@ goog.inherits(Mavelous.LeafletPanControlView, Backbone.View);
 
 /**
  * @override
+ * @export
  */
 Mavelous.LeafletPanControlView.prototype.initialize = function() {
   this.button = this.options['button'];
@@ -68,6 +69,7 @@ goog.inherits(Mavelous.LeafletPanModel, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.LeafletPanModel.prototype.defaults = function() {
   return {
@@ -80,6 +82,7 @@ Mavelous.LeafletPanModel.prototype.defaults = function() {
 
 /**
  * @override
+ * @export
  */
 Mavelous.LeafletPanModel.prototype.initialize = function() {
   this.vehicle = this.get('vehicle');

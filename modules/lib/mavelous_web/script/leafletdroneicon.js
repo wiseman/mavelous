@@ -17,6 +17,7 @@ goog.inherits(Mavelous.LeafletDroneIconModel, Backbone.Model);
 
 /**
  * @override
+ * @export
  */
 Mavelous.LeafletDroneIconModel.prototype.defaults = function() {
   return {
@@ -41,40 +42,40 @@ Mavelous.LeafletDroneIconModel.prototype.getIcon = function() {
  * @enum {Object}
  */
 Mavelous.LeafletDroneIconModel.Icons = {
-  predatorsmall: {
+  'predatorsmall': {
     description: 'Predator (small)',
     constructor: L.Icon.extend({options: {
-      iconUrl: 'image/drone-tiny.png',
-      shadowUrl: null,
-      iconAnchor: new L.Point(37, 25),
-      iconSize: new L.Point(75, 50)
+      'iconUrl': 'image/drone-tiny.png',
+      'shadowUrl': null,
+      'iconAnchor': new L.Point(37, 25),
+      'iconSize': new L.Point(75, 50)
     }})
   },
-  predator: {
+  'predator': {
     description: 'Predator',
     constructor: L.Icon.extend({options: {
-      iconUrl: 'image/drone-sm.png',
-      shadowUrl: null,
-      iconAnchor: new L.Point(75, 50),
-      iconSize: new L.Point(150, 100)
+      'iconUrl': 'image/drone-sm.png',
+      'shadowUrl': null,
+      'iconAnchor': new L.Point(75, 50),
+      'iconSize': new L.Point(150, 100)
     }})
   },
-  arduplane: {
+  'arduplane': {
     description: 'Generic Airplane',
     constructor: L.Icon.extend({options: {
-      iconUrl: 'image/plane.png',
-      shadowUrl: null,
-      iconAnchor: new L.Point(36, 38),
-      iconSize: new L.Point(73, 76)
+      'iconUrl': 'image/plane.png',
+      'shadowUrl': null,
+      'iconAnchor': new L.Point(36, 38),
+      'iconSize': new L.Point(73, 76)
     }})
   },
-  quad: {
+  'quad': {
     description: 'Quadcopter',
     constructor: L.Icon.extend({options: {
-      iconUrl: 'image/quad.png',
-      shadowUrl: null,
-      iconAnchor: new L.Point(37, 37),
-      iconSize: new L.Point(75, 75)
+      'iconUrl': 'image/quad.png',
+      'shadowUrl': null,
+      'iconAnchor': new L.Point(37, 37),
+      'iconSize': new L.Point(75, 75)
     }})
   }
 };
