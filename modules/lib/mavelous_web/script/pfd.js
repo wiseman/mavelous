@@ -25,8 +25,9 @@ goog.require('goog.dom');
  */
 Mavelous.ArtificialHorizon = function(config) {
   this.initArtificialHorizon_(config);
+  goog.base(this, config);
 };
-Kinetic.Global.extend(Mavelous.ArtificialHorizon, Kinetic.Shape);
+goog.inherits(Mavelous.ArtificialHorizon, Kinetic.Shape);
 
 
 /**
@@ -36,15 +37,15 @@ Kinetic.Global.extend(Mavelous.ArtificialHorizon, Kinetic.Shape);
  */
 Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
   this.setDefaultAttrs({
-    width: 100,
-    height: 100,
-    skyColor: '#72cde4',
-    groundColor: '#323232',
-    lineColor: '#ffffff',
-    planeColor: 'black'
+    'width': 100,
+    'height': 100,
+    'skyColor': '#72cde4',
+    'groundColor': '#323232',
+    'lineColor': '#ffffff',
+    'planeColor': 'black'
   });
   this.shapeType = 'ArtificialHorizon';
-  this.radius = Math.min(config.width, config.height) / 2.0;
+  this.radius = Math.min(config['width'], config['height']) / 2.0;
   this.pitch = 0;
   this.roll = 0;
 
@@ -57,11 +58,12 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
  * Renders the artifical horizon to a canvas.
  *
  * @param {Object} context The canvas to render to.
+ * @export
  */
 Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   var horizon = this.getHorizon_(this.pitch);
-  var width = this.attrs.width;
-  var height = this.attrs.height;
+  var width = this.attrs['width'];
+  var height = this.attrs['height'];
 
   context.translate(width / 2, height / 2);
   context.save();
@@ -76,15 +78,15 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   context.rotate(-this.roll);
 
   // Draw the ground.
-  context.fillStyle = this.attrs.groundColor;
-  context.strokeStyle = this.attrs.lineColor;
+  context.fillStyle = this.attrs['groundColor'];
+  context.strokeStyle = this.attrs['lineColor'];
   context.lineWidth = 3;
   context.beginPath();
   context.rect(-width, horizon, width * 2, height);
   context.fill();
 
   // Draw the sky.
-  context.fillStyle = this.attrs.skyColor;
+  context.fillStyle = this.attrs['skyColor'];
   context.beginPath();
   context.rect(-width, -height, width * 2, height + horizon);
   context.fill();
@@ -132,7 +134,7 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   this.drawTriangle_(context, 270 * Math.PI / 180, -5, rollRadius, false);
 
   // Draw the plane.
-  context.strokeStyle = this.attrs.planeColor;
+  context.strokeStyle = this.attrs['planeColor'];
   context.lineWidth = 3;
   context.beginPath();
   context.moveTo(-30, -1);
@@ -164,7 +166,7 @@ Mavelous.ArtificialHorizon.prototype.drawTriangle_ = function(
   var sin = Math.sin(theta);
   var phi = 2 * Math.PI / 180;
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs.lineColor;
+  context.strokeStyle = this.attrs['lineColor'];
   context.beginPath();
   context.moveTo(radius * Math.cos(theta),
                  radius * Math.sin(theta));
@@ -176,7 +178,7 @@ Mavelous.ArtificialHorizon.prototype.drawTriangle_ = function(
                  radius * Math.sin(theta));
   context.stroke();
   if (filled) {
-    context.fillStyle = this.attrs.lineColor;
+    context.fillStyle = this.attrs['lineColor'];
     context.fill();
   }
 };
@@ -195,7 +197,7 @@ Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
   var cos = Math.cos(theta);
   var sin = Math.sin(theta);
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs.lineColor;
+  context.strokeStyle = this.attrs['lineColor'];
   context.beginPath();
   context.moveTo(cos * radius, sin * radius);
   context.lineTo(cos * (radius + length), sin * (radius + length));
@@ -214,11 +216,11 @@ Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
  */
 Mavelous.ArtificialHorizon.prototype.drawPitchRung_ = function(
     context, pitchAngle, length) {
-  var height = this.attrs.height;
-  var width = this.attrs.width;
+  var height = this.attrs['height'];
+  var width = this.attrs['width'];
 
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs.lineColor;
+  context.strokeStyle = this.attrs['lineColor'];
   var horizon = this.getHorizon_(this.pitch + pitchAngle * Math.PI / 180);
   context.beginPath();
   context.moveTo(-length / 2, horizon);
@@ -274,8 +276,9 @@ Mavelous.ArtificialHorizon.prototype.setPitchRoll = function(pitch, roll) {
  */
 Mavelous.Tape = function(config) {
   this.initTape_(config);
+  goog.base(this, config);
 };
-Kinetic.Global.extend(Mavelous.Tape, Kinetic.Shape);
+goog.inherits(Mavelous.Tape, Kinetic.Shape);
 
 
 /**
@@ -301,12 +304,12 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
   var WIDTH = Mavelous.Tape.WIDTH;
   var HEIGHT = Mavelous.Tape.HEIGHT;
   this.setDefaultAttrs({
-    width: WIDTH,
-    height: HEIGHT,
-    fontFamily: 'Calibri',
-    fontSize: 12,
-    fontStyle: 'normal',
-    side: Mavelous.Tape.SideType.LEFT
+    'width': WIDTH,
+    'height': HEIGHT,
+    'fontFamily': 'Calibri',
+    'fontSize': 12,
+    'fontStyle': 'normal',
+    'side': Mavelous.Tape.SideType.LEFT
   });
   this.value = 0;
   this.targetValue = null;
@@ -318,31 +321,31 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
   // Because I'm lazy, we do this hacky trick of creating some Kinetic
   // objects then calling their drawFuncs in our drawFunc.
   this.instantaneousPolygon = new Kinetic.Polygon({
-    points: this.reflect_(
+    'points': this.reflect_(
         [0, HEIGHT * 60 / 140,
          WIDTH * 25 / 30, HEIGHT * 60 / 140,
          WIDTH, HEIGHT / 2,
          WIDTH * 25 / 30, HEIGHT * 80 / 140,
          0, HEIGHT * 80 / 140,
          0, HEIGHT * 60 / 140]),
-    stroke: config.fontColor,
-    strokeWidth: 1.0,
-    fill: config.instantaneousBackgroundColor
+    'stroke': config['fontColor'],
+    'strokeWidth': 1.0,
+    'fill': config['instantaneousBackgroundColor']
   });
 
   this.bug = new Kinetic.Polygon({
-    x: 0,
-    y: 0,
-    points: this.reflect_([
+    'x': 0,
+    'y': 0,
+    'points': this.reflect_([
       WIDTH * 31 / 30, 0,
       WIDTH * 34 / 30, HEIGHT * -2 / 140,
       WIDTH * 36 / 30, HEIGHT * -2 / 140,
       WIDTH * 36 / 30, HEIGHT * 2 / 140,
       WIDTH * 34 / 30, HEIGHT * 2 / 140,
       WIDTH * 31 / 30, 0]),
-    stroke: config.bugColor,
-    fill: config.bugColor,
-    strokeWidth: 1.0
+    'stroke': config['bugColor'],
+    'fill': config['bugColor'],
+    'strokeWidth': 1.0
   });
 };
 
@@ -358,8 +361,8 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
  * @private
  */
 Mavelous.Tape.prototype.reflect_ = function(x_pos_or_points) {
-  if (this.attrs.side === Mavelous.Tape.SideType.RIGHT) {
-    var width = this.attrs.width;
+  if (this.attrs['side'] === Mavelous.Tape.SideType.RIGHT) {
+    var width = this.attrs['width'];
     if (goog.isArray(x_pos_or_points)) {
       var len = x_pos_or_points.length;
       for (var i = 0; i < len; i += 2) {
@@ -407,6 +410,7 @@ Mavelous.Tape.prototype.setTargetValue = function(target) {
 /**
  * Draws the tape.
  * @param {Object} context The canvas to draw to.
+ * @export
  */
 Mavelous.Tape.prototype.drawFunc = function(context) {
   // The tape displays 3 pieces of info:
@@ -418,7 +422,7 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
 
   // background
   context.beginPath();
-  context.fillStyle = this.attrs.backgroundColor;
+  context.fillStyle = this.attrs['backgroundColor'];
   context.rect(0, 0, 30, 140);
   context.closePath();
   this.fillStroke(context);
@@ -435,19 +439,19 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   var maxValue = this.value + HEIGHT / 4;
   maxValue = Math.floor(maxValue / minorTicInterval) * minorTicInterval;
   var font = ('normal ' +
-              this.attrs.fontSize * 0.9 + 'pt ' +
-              this.attrs.fontFamily);
+              this.attrs['fontSize'] * 0.9 + 'pt ' +
+              this.attrs['fontFamily']);
   context.font = font;
-  context.fillStyle = this.attrs.fontColor;
-  context.strokeStyle = this.attrs.fontColor;
+  context.fillStyle = this.attrs['fontColor'];
+  context.strokeStyle = this.attrs['fontColor'];
   context.textBaseLine = 'top';
-  if (this.attrs.side === Mavelous.Tape.SideType.LEFT) {
+  if (this.attrs['side'] === Mavelous.Tape.SideType.LEFT) {
     context.textAlign = 'right';
   } else {
     context.textAlign = 'left';
   }
 
-  var lineHeightAdjust = this.attrs.fontSize / 2;
+  var lineHeightAdjust = this.attrs['fontSize'] / 2;
   for (var v = minValue; v <= maxValue; v += minorTicInterval) {
     var isMajorTic = (v % majorTicInterval < .001 ||
                       majorTicInterval - (v % majorTicInterval) < .001);
@@ -474,10 +478,10 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
 
   // Instantaneous value text surrounded by polygon.
   this.instantaneousPolygon.drawFunc(context);
-  var textY = this.attrs.height / 2;
+  var textY = this.attrs['height'] / 2;
   font = ('normal ' +
-          this.attrs.fontSize + 'pt ' +
-          this.attrs.fontFamily);
+          this.attrs['fontSize'] + 'pt ' +
+          this.attrs['fontFamily']);
   context.font = font;
   context.textBaseline = 'middle';
   context.beginPath();
@@ -528,18 +532,18 @@ Mavelous.PFD = function(container) {
 Mavelous.PFD.prototype.init = function(container, opt_options) {
   var options = opt_options || {};
   this.options = options;
-  this.options.fontFamily = options.fontFamily ||
+  this.options['fontFamily'] = options['fontFamily'] ||
       'Tahoma,monospace,sans-serif';
-  this.options.fontSize = options.fontSize || 8;
-  this.options.fontColor = options.fontColor || 'white';
-  this.options.backgroundColor1 = options.backgroundColor1 || 'black';
-  this.options.backgroundColor2 = options.backgroundColor2 ||
+  this.options['fontSize'] = options['fontSize'] || 8;
+  this.options['fontColor'] = options['fontColor'] || 'white';
+  this.options['backgroundColor1'] = options['backgroundColor1'] || 'black';
+  this.options['backgroundColor2'] = options['backgroundColor2'] ||
       'rgb(60,60,60)';
-  this.options.bugColor = options.bugColor || 'rgb(255,0,100)';
-  this.options.highlightColor = options.highlightColor ||
+  this.options['bugColor'] = options['bugColor'] || 'rgb(255,0,100)';
+  this.options['highlightColor'] = options['highlightColor'] ||
       'rgb(255,255,255)';
-  this.options.skyColor = options.skyColor || 'rgb(114,149,179)';
-  this.options.groundColor = options.groundColor || 'rgb(165,105,63)';
+  this.options['skyColor'] = options['skyColor'] || 'rgb(114,149,179)';
+  this.options['groundColor'] = options['groundColor'] || 'rgb(165,105,63)';
 
   this.speed = null;
   this.targetSpeed = null;
@@ -550,9 +554,9 @@ Mavelous.PFD.prototype.init = function(container, opt_options) {
 
   var containerElt = goog.dom.getElement(container);
   this.stage = new Kinetic.Stage({
-    container: container,
-    width: containerElt.offsetWidth,
-    height: containerElt.offsetHeight
+    'container': containerElt,
+    'width': containerElt.offsetWidth,
+    'height': containerElt.offsetHeight
   });
   this.layer = new Kinetic.Layer();
   this.stage.add(this.layer);
@@ -561,66 +565,66 @@ Mavelous.PFD.prototype.init = function(container, opt_options) {
 
   // Artificial horizon.
   this.attitudeIndicator = new Mavelous.ArtificialHorizon({
-    x: 35,
-    y: 20,
-    width: 130,
-    height: 130,
-    groundColor: this.options.groundColor,
-    skyColor: this.options.skyColor,
-    lineColor: 'white',
-    planeColor: 'black'
+    'x': 35,
+    'y': 20,
+    'width': 130,
+    'height': 130,
+    'groundColor': this.options['groundColor'],
+    'skyColor': this.options['skyColor'],
+    'lineColor': 'white',
+    'planeColor': 'black'
   });
   this.layer.add(this.attitudeIndicator);
 
   // Speed tape.
   this.speedTape = new Mavelous.Tape({
-    x: 0,
-    y: 15,
-    fill: this.options.backgroundColor2,
-    fontColor: this.options.fontColor,
-    fontFamily: this.options.fontFamily,
-    fontSize: this.options.fontSize,
-    instantaneousBackgroundColor: this.options.backgroundColor1,
-    bugColor: this.options.bugColor,
-    side: Mavelous.Tape.SideType.LEFT
+    'x': 0,
+    'y': 15,
+    'fill': this.options['backgroundColor2'],
+    'fontColor': this.options['fontColor'],
+    'fontFamily': this.options['fontFamily'],
+    'fontSize': this.options['fontSize'],
+    'instantaneousBackgroundColor': this.options['backgroundColor1'],
+    'bugColor': this.options['bugColor'],
+    'side': Mavelous.Tape.SideType.LEFT
   });
   this.layer.add(this.speedTape);
 
   // Altitude tape.
   this.altitudeTape = new Mavelous.Tape({
-    x: 170,
-    y: 15,
-    fill: this.options.backgroundColor2,
-    fontColor: this.options.fontColor,
-    fontFamily: this.options.fontFamily,
-    fontSize: this.options.fontSize,
-    instantaneousBackgroundColor: this.options.backgroundColor1,
-    bugColor: this.options.bugColor,
-    side: Mavelous.Tape.SideType.RIGHT
+    'x': 170,
+    'y': 15,
+    'fill': this.options['backgroundColor2'],
+    'fontColor': this.options['fontColor'],
+    'fontFamily': this.options['fontFamily'],
+    'fontSize': this.options['fontSize'],
+    'instantaneousBackgroundColor': this.options['backgroundColor1'],
+    'bugColor': this.options['bugColor'],
+    'side': Mavelous.Tape.SideType.RIGHT
   });
   this.layer.add(this.altitudeTape);
 
   // Target altitude text.
-  var smallFontSize = this.options.fontSize * 0.9;
+  var smallFontSize = this.options['fontSize'] * 0.9;
   this.targetAltitudeDisplay = new Kinetic.Text({
-    x: 170,
-    y: 5,
-    width: 30,
-    align: 'center',
-    fontSize: smallFontSize,
-    fontFamily: this.options.fontFamily,
-    textFill: this.options.bugColor});
+    'x': 170,
+    'y': 5,
+    'width': 30,
+    'align': 'center',
+    'fontSize': smallFontSize,
+    'fontFamily': this.options['fontFamily'],
+    'textFill': this.options['bugColor']});
   this.layer.add(this.targetAltitudeDisplay);
 
   // Target speed text.
   this.targetSpeedDisplay = new Kinetic.Text({
-    x: 0,
-    y: 5,
-    width: 30,
-    align: 'center',
-    fontSize: smallFontSize,
-    fontFamily: this.options.fontFamily,
-    textFill: this.options.bugColor});
+    'x': 0,
+    'y': 5,
+    'width': 30,
+    'align': 'center',
+    'fontSize': smallFontSize,
+    'fontFamily': this.options['fontFamily'],
+    'textFill': this.options['bugColor']});
   this.layer.add(this.targetSpeedDisplay);
 };
 

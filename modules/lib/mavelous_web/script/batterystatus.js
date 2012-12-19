@@ -16,9 +16,9 @@ goog.inherits(Mavelous.BatteryButton, Backbone.View);
  * @export
  */
 Mavelous.BatteryButton.prototype.initialize = function() {
-  var mavlink = this.options.mavlinkSrc;
+  var mavlink = this.options['mavlinkSrc'];
   this.sysstatus = mavlink.subscribe('SYS_STATUS', this.onSysStatus, this);
-  this.$el = this.options.el;
+  this.$el = this.options['el'];
 };
 
 

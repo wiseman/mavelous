@@ -18,8 +18,8 @@ goog.inherits(Mavelous.LeafletPanControlView, Backbone.View);
  * @export
  */
 Mavelous.LeafletPanControlView.prototype.initialize = function() {
-  this.button = this.options.button;
-  this.icon = this.options.icon;
+  this.button = this.options['button'];
+  this.icon = this.options['icon'];
   this.button.click(_.bind(this.onClick, this));
   this.model.on('change:tracking', this.onTrackingChange, this);
   this.onTrackingChange();
@@ -71,9 +71,9 @@ goog.inherits(Mavelous.LeafletPanModel, Backbone.Model);
  */
 Mavelous.LeafletPanModel.prototype.defaults = function() {
   return {
-    initialized: false,
-    tracking: true,
-    center: undefined
+    'initialized': false,
+    'tracking': true,
+    'center': undefined
   };
 };
 
@@ -91,12 +91,12 @@ Mavelous.LeafletPanModel.prototype.onVehicleChange = function() {
   if (!this.get('initialized')) {
     var p = this.vehicle.get('position');
     if (p && p.lat && p.lng) {
-      this.set({ center: p, initialized: true });
+      this.set({ 'center': p, 'initialized': true });
     }
   } else if (this.get('tracking')) {
     var p = this.vehicle.get('position');
     if (p && p.lat && p.lng) {
-      this.set({ center: p });
+      this.set({ 'center': p });
     }
   }
 };

@@ -70,8 +70,8 @@ Mavelous.MavlinkAPI.prototype.subscribe = function(
     msgType, handlerFunction, context) {
   if (!this.messageModels[msgType]) {
     this.messageModels[msgType] = new Mavelous.MavlinkMessage({
-      _type: msgType,
-      _index: -1});
+      '_type': msgType,
+      '_index': -1});
   }
   var model = this.messageModels[msgType];
   model.bind('change', handlerFunction, context);
@@ -101,9 +101,9 @@ Mavelous.MavlinkAPI.prototype.handleMessage = function(msg, msgType) {
   var mdlidx = msgModel.get('_index');
   if (mdlidx === undefined || msg.index > mdlidx) {
     msgModel.set({
-      _index: msg.index
+      '_index': msg.index
     }, {
-      silent: true
+      'silent': true
     });
     msgModel.set(msg.msg);
   }
@@ -168,7 +168,7 @@ Mavelous.MavlinkAPI.prototype.useOfflineMode = function() {
     this.logger_.info('Switching to offline mode');
     this.online = false;
     this.fakevehicle = new Mavelous.FakeVehicle({
-      lat: 45.5233, lon: -122.6670
+      'lat': 45.5233, 'lon': -122.6670
     });
   }
 };

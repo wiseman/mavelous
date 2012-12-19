@@ -126,19 +126,19 @@ mavelous.Mission.parseFromMavlink = function(jsonMissionItems) {
     var message = jsonMissionItems[i];
     var type = mavelous.MissionItemType.findByCommandId(message.command);
     values = {
-      target_system: message.target_system,
-      target_component: message.target_component,
-      seq: message.seq,
-      autocontinue: message.autocontinue,
-      frame: message.frame,
-      current: message.current,
-      p1: message.param1,
-      p2: message.param2,
-      p3: message.param3,
-      p4: message.param4,
-      x: message.x,
-      y: message.y,
-      z: message.z
+      'target_system': message['target_system'],
+      'target_component': message['target_component'],
+      'seq': message['seq'],
+      'autocontinue': message['autocontinue'],
+      'frame': message['frame'],
+      'current': message['current'],
+      'p1': message['param1'],
+      'p2': message['param2'],
+      'p3': message['param3'],
+      'p4': message['param4'],
+      'x': message.['x'],
+      'y': message.['y'],
+      'z': message.['z']
     };
     var item_values = {};
     for (var v in values) {
@@ -188,19 +188,19 @@ mavelous.makeMissionItemType_ = function(name, cmd_id, opt_fields) {
         opt_fields, 'opt_fields is not an object: ' + opt_fields);
   }
   fields = {
-    target_system: null,
-    target_component: null,
-    seq: null,
-    autocontinue: null,
-    frame: null,
-    current: null
+    'target_system': null,
+    'target_component': null,
+    'seq': null,
+    'autocontinue': null,
+    'frame': null,
+    'current': null
   };
   opt_fields = opt_fields || {};
   goog.object.extend(fields, opt_fields);
   return {
-    cmd_id: cmd_id,
-    name: name,
-    fields: fields
+    'cmd_id': cmd_id,
+    'name': name,
+    'fields': fields
   };
 };
 

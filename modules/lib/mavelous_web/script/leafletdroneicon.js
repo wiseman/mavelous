@@ -20,7 +20,7 @@ goog.inherits(Mavelous.LeafletDroneIconModel, Backbone.Model);
  */
 Mavelous.LeafletDroneIconModel.prototype.defaults = function() {
   return {
-    icon: 'predatorsmall'
+    'icon': 'predatorsmall'
   };
 };
 

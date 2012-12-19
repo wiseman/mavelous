@@ -23,11 +23,11 @@ goog.inherits(Mavelous.PFDView, Backbone.View);
  * @export
  */
 Mavelous.PFDView.prototype.initialize = function() {
-  this.blockel = this.options.blockel;
-  this.statel = this.options.statel;
-  this.pfdel = $('#' + this.options.drawingid);
+  this.blockel = this.options['blockel'];
+  this.statel = this.options['statel'];
+  this.pfdel = $('#' + this.options['drawingid']);
 
-  var mavlinkSrc = this.options.mavlinkSrc;
+  var mavlinkSrc = this.options['mavlinkSrc'];
   // Too bad backbone doesn't pass the model to event handlers; we
   // wouldn't need to keep these handles to models.
   this.attitude = mavlinkSrc.subscribe('ATTITUDE',
@@ -38,22 +38,22 @@ Mavelous.PFDView.prototype.initialize = function() {
       'NAV_CONTROLLER_OUTPUT', this.onNavControllerOutputChange, this);
 
   /* Create pfd object */
-  this.pfd = new Mavelous.PFD(this.options.drawingid);
+  this.pfd = new Mavelous.PFD(this.options['drawingid']);
 
   /* Connect to settings model */
-  if (this.options.settingsModel) {
-    this.settingsModel = this.options.settingsModel;
+  if (this.options['settingsModel']) {
+    this.settingsModel = this.options['settingsModel'];
     this.settingToDimension[Mavelous.PFDSizes.STANDARD] = {
-      height: function() { return '280px'; },
-      width: function() { return '400px'; }
+      'height': function() { return '280px'; },
+      'width': function() { return '400px'; }
     };
     this.settingToDimension[Mavelous.PFDSizes.FULLSCREEN] = {
-      height: function() { return $(window).height() - 120; },
-      width: function() { return $(window).width();}
+      'height': function() { return $(window).height() - 120; },
+      'width': function() { return $(window).width();}
     };
     this.settingToDimension[Mavelous.PFDSizes.SMALL] = {
-      height: function() { return '140px'; },
-      width: function() { return '200px'; }
+      'height': function() { return '140px'; },
+      'width': function() { return '200px'; }
     };
     this.settingsModel.bind('change', this.onSettingsChange, this);
     this.onSettingsChange();

@@ -22,33 +22,33 @@ goog.inherits(Mavelous.SettingsView, Backbone.View);
 Mavelous.SettingsView.prototype.initialize = function() {
   var self = this;
   /* Setup settings pane elements (jquery) */
-  this.modalToggle = this.options.modalToggle;
-  this.modal = this.options.modal;
+  this.modalToggle = this.options['modalToggle'];
+  this.modal = this.options['modal'];
   this.modalToggle.click(function() {
     self.modal.modal('toggle');
   });
   /* Leaflet map: for zoom */
-  this.map = this.options.map;
+  this.map = this.options['map'];
   /* Map models: */
-  this.mapProviderModel = this.options.mapProviderModel;
-  this.vehicleIconModel = this.options.vehicleIconModel;
+  this.mapProviderModel = this.options['mapProviderModel'];
+  this.vehicleIconModel = this.options['vehicleIconModel'];
   /* Map settings elements (jquery): */
-  this.mapProviderPicker = this.options.mapProviderPicker;
-  this.mapZoomSlider = this.options.mapZoomSlider;
-  this.mapZoomValue = this.options.mapZoomValue;
-  this.vehicleIconPicker = this.options.vehicleIconPicker;
+  this.mapProviderPicker = this.options['mapProviderPicker'];
+  this.mapZoomSlider = this.options['mapZoomSlider'];
+  this.mapZoomValue = this.options['mapZoomValue'];
+  this.vehicleIconPicker = this.options['vehicleIconPicker'];
 
   this.setupMapProviderPicker();
   this.setupMapZoomSlider();
   this.setupVehicleIconPicker();
 
   /* PFD Settings model: */
-  this.pfdSettingsModel = this.options.pfdSettingsModel;
+  this.pfdSettingsModel = this.options['pfdSettingsModel'];
   /* PFD Settings elements (jquery): */
-  this.pfdPositionLeft = this.options.pfdPositionLeft;
-  this.pfdPositionRight = this.options.pfdPositionRight;
-  this.pfdPositionUp = this.options.pfdPositionUp;
-  this.pfdPositionDown = this.options.pfdPositionDown;
+  this.pfdPositionLeft = this.options['pfdPositionLeft'];
+  this.pfdPositionRight = this.options['pfdPositionRight'];
+  this.pfdPositionUp = this.options['pfdPositionUp'];
+  this.pfdPositionDown = this.options['pfdPositionDown'];
 
   this.setupPFDSettings();
 };

@@ -22,9 +22,9 @@ goog.inherits(Mavelous.GuideModel, Backbone.Model);
  */
 Mavelous.GuideModel.prototype.defaults = function() {
   return {
-    alt: 20,
-    lat: null,
-    lon: null
+    'alt': 20,
+    'lat': null,
+    'lon': null
   };
 };
 
@@ -45,7 +45,7 @@ Mavelous.GuideModel.prototype.initialize = function() {
 Mavelous.GuideModel.prototype.onMetaWaypointChange = function() {
   var waypt = this.metaWaypointModel.get('waypoint');
   if (waypt) {
-    this.set({ alt: waypt.alt, lat: waypt.lat, lon: waypt.lon });
+    this.set({ 'alt': waypt['alt'], 'lat': waypt['lat'], 'lon': waypt['lon'] });
   }
 };
 
@@ -62,11 +62,11 @@ Mavelous.GuideModel.prototype.setTarget = function(target) {
  */
 Mavelous.GuideModel.prototype.send = function() {
   var loc = {
-    lat: this.get('lat'),
-    lon: this.get('lon'),
-    alt: this.get('alt')
+    'lat': this.get('lat'),
+    'lon': this.get('lon'),
+    'alt': this.get('alt')
   };
-  if (loc.lat !== null && loc.lon !== null && loc.alt !== null) {
+  if (loc['lat'] !== null && loc['lon'] !== null && loc['alt'] !== null) {
     this.sendServer(loc);
   }
 };
@@ -78,7 +78,7 @@ Mavelous.GuideModel.prototype.send = function() {
  * @param {Object} loc The new waypoint location.
  */
 Mavelous.GuideModel.prototype.sendServer = function(loc) {
-  var req = goog.json.serialize({ command: 'FLYTO', location: loc });
+  var req = goog.json.serialize({ 'command': 'FLYTO', 'location': loc });
   $.ajax({
     type: 'POST',
     url: '/guide',

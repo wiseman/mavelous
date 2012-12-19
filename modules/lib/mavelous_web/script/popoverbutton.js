@@ -21,7 +21,7 @@ goog.inherits(Mavelous.SelectedModel, Backbone.Model);
  */
 Mavelous.SelectedModel.prototype.defaults = function() {
   return {
-    selected: false
+    'selected': false
   };
 };
 
@@ -60,7 +60,7 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
  */
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
   /* this.buttons :: [ SelectedModel ]*/
-  this.buttons = _.map(this.options.popovers, /* :: [PopoverView] */
+  this.buttons = _.map(this.options['popovers'], /* :: [PopoverView] */
                        _.bind(this.registerButton, this));
 };
 
@@ -119,19 +119,19 @@ goog.inherits(Mavelous.PopoverView, Backbone.View);
  */
 Mavelous.PopoverView.prototype.initialize = function() {
   _.extend(this, Backbone.Events);
-  this.$el = this.options.button.$el;
+  this.$el = this.options['button'].$el;
   // XXX Bug: if you don't provide a popoverTitle in the button view
   // the whole popover won't work.
-  var t = this.options.button.popoverTitle;
+  var t = this.options['button'].popoverTitle;
   if (typeof t == 'undefined') t = 'need a popoverTitle in button view!';
   this.$el.popover({
-    animation: false,
-    placement: 'bottom',
-    title: t,
-    trigger: 'manual'
+    'animation': false,
+    'placement': 'bottom',
+    'title': t,
+    'trigger': 'manual'
   });
   this.on('content', this.onContent, this);
-  this.options.button.registerPopover(this);
+  this.options['button'].registerPopover(this);
 };
 
 

@@ -25,7 +25,7 @@ Mavelous.LeafletProviders.bingKey = ('AnFxXUB376BgaEQMj947c43V45ipmMvdcoY-' +
  */
 Mavelous.LeafletProviders.prototype.defaults = function() {
   return {
-    provider: 'bing'
+    'provider': 'bing'
   };
 };
 
@@ -45,7 +45,7 @@ Mavelous.LeafletProviders.prototype.getProvider = function() {
  * Provider specs.
  */
 Mavelous.LeafletProviders.Providers = {
-  bing: {
+  'bing': {
     description: 'Bing Satellite with Labels',
     constructor: function() {
       return new L.BingLayer(
@@ -56,7 +56,7 @@ Mavelous.LeafletProviders.Providers = {
           });
     }
   },
-  cloudmade: {
+  'cloudmade': {
     description: 'Cloudmade Road Map',
     constructor: function() {
       /* API Key registered by pat, 25 Nov 2012, for
@@ -68,7 +68,7 @@ Mavelous.LeafletProviders.Providers = {
       return new L.TileLayer(cloudmadeUrl, { maxZoom: 18 });
     }
   },
-  osm: {
+  'osm': {
     description: 'OpenStreetMaps',
     constructor: function() {
       var osmUrl = ('http://{s}.tile.openstreetmap.org/' +

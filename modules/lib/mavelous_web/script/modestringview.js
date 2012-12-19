@@ -20,8 +20,8 @@ goog.inherits(Mavelous.ModeStringView, Backbone.View);
  * @export
  */
 Mavelous.ModeStringView.prototype.initialize = function() {
-  var mavlinkSrc = this.options.mavlinkSrc;
-  this.$el = this.options.el;
+  var mavlinkSrc = this.options['mavlinkSrc'];
+  this.$el = this.options['el'];
   this.heartbeat = mavlinkSrc.subscribe('HEARTBEAT',
                                         this.onHeartbeat, this);
 };

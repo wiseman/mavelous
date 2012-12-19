@@ -53,7 +53,7 @@ Mavelous.App.prototype.start = function() {
   c.setCapturing(true);
 
   var uri = new goog.Uri(window.location.href);
-  this.mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  this.mavlinkAPI = new Mavelous.MavlinkAPI({ 'url': '/mavlink/' });
   /* If we see "offline" query parameter in the URL, enable offline
    * mode. */
   if (goog.isDef(uri.getParameterValue('offline'))) {
@@ -66,7 +66,7 @@ Mavelous.App.prototype.start = function() {
     window.console.log('Enabling debug mode');
     /* ?debug with or without a value is enough to trigger fps display. */
     var fpsNode = document.getElementById('fps');
-    var fpsValueNode = goog.dom.createDom('span', {id: 'fpsvalue'});
+    var fpsValueNode = goog.dom.createDom('span', {'id': 'fpsvalue'});
     goog.dom.appendChild(fpsNode, fpsValueNode);
     goog.dom.appendChild(fpsNode, goog.dom.createTextNode(' fps'));
     new goog.debug.FpsDisplay().decorate(fpsValueNode);
@@ -85,82 +85,82 @@ Mavelous.App.prototype.start = function() {
 
   this.pfdSettingsModel = new Mavelous.PFDSettingsModel();
   this.pfdView = new Mavelous.PFDView({
-    mavlinkSrc: this.mavlinkAPI,
-    settingsModel: this.pfdSettingsModel,
-    drawingid: 'pfdview',
-    blockel: $('#pfdblock'),
-    statel: $('#pfdstatus')
+    'mavlinkSrc': this.mavlinkAPI,
+    'settingsModel': this.pfdSettingsModel,
+    'drawingid': 'pfdview',
+    'blockel': $('#pfdblock'),
+    'statel': $('#pfdstatus')
   });
 
-  this.guideModel = new Mavelous.GuideModel({ mavlinkSrc: this.mavlinkAPI });
+  this.guideModel = new Mavelous.GuideModel({ 'mavlinkSrc': this.mavlinkAPI });
   this.guideAltView = new Mavelous.GuideAltitudeView({
-    model: this.guideModel,
-    input: $('#guidealt-input'),
-    submit: $('#guidealt-submit'),
-    text: $('#guidealt-text')
+    'model': this.guideModel,
+    'input': $('#guidealt-input'),
+    'submit': $('#guidealt-submit'),
+    'text': $('#guidealt-text')
   });
 
   this.leafletDroneIcon = new Mavelous.LeafletDroneIconModel();
   this.leafletProviders = new Mavelous.LeafletProviders();
 
   this.vehicle = new Mavelous.VehicleLeafletPosition({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
 
   this.panModel = new Mavelous.LeafletPanModel({
-    vehicle: this.vehicle
+    'vehicle': this.vehicle
   });
   this.panCtrl = new Mavelous.LeafletPanControlView({
-    model: this.panModel,
-    button: $('#mapoverlay-btn-centermap'),
-    icon: $('#mapoverlay-icon-centermap')
+    'model': this.panModel,
+    'button': $('#mapoverlay-btn-centermap'),
+    'icon': $('#mapoverlay-icon-centermap')
   });
   this.mapView = new Mavelous.LeafletView({
-    vehicle: this.vehicle,
-    provider: this.leafletProviders,
-    vehicleIcon: this.leafletDroneIcon,
-    guideModel: this.guideModel,
-    panModel: this.panModel
+    'vehicle': this.vehicle,
+    'provider': this.leafletProviders,
+    'vehicleIcon': this.leafletDroneIcon,
+    'guideModel': this.guideModel,
+    'panModel': this.panModel
   });
 
   this.commStatusModel = new Mavelous.CommStatusModel({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
 
   this.packetLossModel = new Mavelous.PacketLossModel({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
 
   this.commStatusButtonView = new Mavelous.CommStatusButtonView({
-    commStatusModel: this.commStatusModel,
-    packetLossModel: this.packetLossModel,
-    el: $('#navbar-btn-link')
+    'commStatusModel': this.commStatusModel,
+    'packetLossModel': this.packetLossModel,
+    'el': $('#navbar-btn-link')
   });
 
   this.gpsButtonView = new Mavelous.GpsButtonView({
-    mavlinkSrc: this.mavlinkAPI,
-    el: $('#navbar-btn-gps')
+    'mavlinkSrc': this.mavlinkAPI,
+    'el': $('#navbar-btn-gps')
   });
 
   this.statustextView = new Mavelous.StatustextView({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
 
   this.modeStringView = new Mavelous.ModeStringView({
-    mavlinkSrc: this.mavlinkAPI,
-    el: $('#pfd_modestringview')
+    'mavlinkSrc': this.mavlinkAPI,
+    'el': $('#pfd_modestringview')
   });
 
   this.flightModeModel = new Mavelous.FlightModeModel({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
   this.flightCommandModel = new Mavelous.CommandLongModel({
-    mavlinkSrc: this.mavlinkAPI
+    'mavlinkSrc': this.mavlinkAPI
   });
   this.flightModeButtonView = new Mavelous.FlightModeButtonView({
-    el: $('#navbar-btn-mode'),
-    modeModel: this.flightModeModel,
-    commandModel: this.flightCommandModel
+    'el': $('#navbar-btn-mode'),
+    'modeModel': this.flightModeModel,
+    'commandModel': this.flightCommandModel
   });
 
   /* Radio view controller */
@@ -169,41 +169,41 @@ Mavelous.App.prototype.start = function() {
       );
 
   this.batteryButton = new Mavelous.BatteryButton({
-    mavlinkSrc: this.mavlinkAPI,
-    el: $('#navbar-btn-battery')
+    'mavlinkSrc': this.mavlinkAPI,
+    'el': $('#navbar-btn-battery')
   });
 
   this.settingsView = new Mavelous.SettingsView({
     /* Map settings: */
-    map: this.mapView.map,
-    mapProviderModel: this.leafletProviders,
-    vehicleIconModel: this.leafletDroneIcon,
-    modalToggle: $('#navbar-a-settings'),
-    modal: $('#settings-modal'),
-    mapProviderPicker: $('#settings-mapproviderpicker'),
-    mapZoomSlider: $('#settings-mapzoom'),
-    mapZoomValue: $('#settings-mapzoom-value'),
-    vehicleIconPicker: $('#settings-vehicleiconpicker'),
+    'map': this.mapView.map,
+    'mapProviderModel': this.leafletProviders,
+    'vehicleIconModel': this.leafletDroneIcon,
+    'modalToggle': $('#navbar-a-settings'),
+    'modal': $('#settings-modal'),
+    'mapProviderPicker': $('#settings-mapproviderpicker'),
+    'mapZoomSlider': $('#settings-mapzoom'),
+    'mapZoomValue': $('#settings-mapzoom-value'),
+    'vehicleIconPicker': $('#settings-vehicleiconpicker'),
     /* PFD settings: */
-    pfdSettingsModel: this.pfdSettingsModel,
-    pfdPositionLeft: $('#settings-pfdpos-left'),
-    pfdPositionRight: $('#settings-pfdpos-right'),
-    pfdPositionUp: $('#settings-pfdpos-up'),
-    pfdPositionDown: $('#settings-pfdpos-down')
+    'pfdSettingsModel': this.pfdSettingsModel,
+    'pfdPositionLeft': $('#settings-pfdpos-left'),
+    'pfdPositionRight': $('#settings-pfdpos-right'),
+    'pfdPositionUp': $('#settings-pfdpos-up'),
+    'pfdPositionDown': $('#settings-pfdpos-down')
   });
 
   this.router = new Mavelous.AppRouter({
-    pfdSettingsModel: this.pfdSettingsModel
+    'pfdSettingsModel': this.pfdSettingsModel
   });
 
   Backbone.history.start();
 
   if ($(window).width() > 767) {
     /* On the desktop, default to overview */
-    this.router.navigate('overview', {trigger: true});
+    this.router.navigate('overview', {'trigger': true});
   } else {
     /* On tablets and phones, default to map only */
-    this.router.navigate('maponly', {trigger: true});
+    this.router.navigate('maponly', {'trigger': true});
   }
 
   // By trying to update at the maximum frame rate, but using a

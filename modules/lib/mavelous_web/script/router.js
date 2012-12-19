@@ -8,7 +8,7 @@ goog.provide('Mavelous.AppRouter');
  * @constructor
  */
 Mavelous.AppRouter = function(options) {
-  this.pfdSettingsModel = options.pfdSettingsModel;
+  this.pfdSettingsModel = options['pfdSettingsModel'];
   this.routes = {
     'overview': 'route_overview',
     'fullpfd' : 'route_fullpfd',
@@ -39,7 +39,7 @@ Mavelous.AppRouter.prototype.initialize = function(options) {
  */
 Mavelous.AppRouter.prototype.route_overview = function() {
   this.setnavbar('overview');
-  this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.STANDARD });
+  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.STANDARD });
 };
 
 
@@ -48,7 +48,7 @@ Mavelous.AppRouter.prototype.route_overview = function() {
  */
 Mavelous.AppRouter.prototype.route_fullpfd = function() {
   this.setnavbar('fullpfd');
-  this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.FULLSCREEN });
+  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.FULLSCREEN });
 };
 
 
@@ -57,7 +57,7 @@ Mavelous.AppRouter.prototype.route_fullpfd = function() {
  */
 Mavelous.AppRouter.prototype.route_maponly = function() {
   this.setnavbar('maponly');
-  this.pfdSettingsModel.set({ size: Mavelous.PFDSizes.HIDDEN });
+  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.HIDDEN });
 };
 
 

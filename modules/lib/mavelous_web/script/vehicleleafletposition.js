@@ -20,7 +20,7 @@ goog.inherits(Mavelous.VehicleLeafletPosition, Backbone.Model);
  * @export
  */
 Mavelous.VehicleLeafletPosition.prototype.defaults = function() {
-  return { position: null, heading: 0 };
+  return { 'position': null, 'heading': 0 };
 };
 
 

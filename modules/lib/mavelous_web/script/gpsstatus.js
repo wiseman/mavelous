@@ -16,7 +16,7 @@ goog.inherits(Mavelous.GpsTextView, Backbone.View);
  * @export
  */
 Mavelous.GpsTextView.prototype.initialize = function() {
-  var mavlink = this.options.mavlinkSrc;
+  var mavlink = this.options['mavlinkSrc'];
   this.gps = mavlink.subscribe('GPS_RAW_INT', this.render, this);
   this.render();
 };
@@ -67,7 +67,7 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
  * @export
  */
 Mavelous.GpsButtonView.prototype.initialize = function() {
-  var mavlink = this.options.mavlinkSrc;
+  var mavlink = this.options['mavlinkSrc'];
   this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS, this);
   this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus, this);
 };

@@ -20,16 +20,16 @@ goog.inherits(Mavelous.GuideAltitudeView, Backbone.View);
  */
 Mavelous.GuideAltitudeView.prototype.initialize = function() {
   var self = this;
-  this.input = this.options.input;
-  this.submit = this.options.submit;
-  this.text = this.options.text;
+  this.input = this.options['input'];
+  this.submit = this.options['submit'];
+  this.text = this.options['text'];
 
   /* render just updates the DOM via jQuery. */
   this.model.bind('change', this.render, this);
   this.render();
 
   this.input.change(function() {
-    self.model.set({ alt: self.input.val() });
+    self.model.set({ 'alt': self.input.val() });
   });
 
   this.submit.click(function() {

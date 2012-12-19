@@ -1,11 +1,11 @@
 goog.provide('Mavelous.LeafletView');
 
 var markerIcon = L.Icon.extend({
-  options: {
-    iconUrl: 'third_party/leaflet/images/marker-icon.png',
-    shadowUrl: 'third_party/leaflet/images/marker-shadow.png',
-    iconAnchor: new L.Point(13, 41),
-    iconSize: new L.Point(25, 41)
+  'options': {
+    'iconUrl': 'third_party/leaflet/images/marker-icon.png',
+    'shadowUrl': 'third_party/leaflet/images/marker-shadow.png',
+    'iconAnchor': new L.Point(13, 41),
+    'iconSize': new L.Point(25, 41)
   }
 });
 
@@ -26,20 +26,20 @@ goog.inherits(Mavelous.LeafletView, Backbone.View);
  * @export
  */
 Mavelous.LeafletView.prototype.initialize = function() {
-  this.vehicleModel = this.options.vehicle;
-  this.vehicleIconModel = this.options.vehicleIcon;
-  this.providerModel = this.options.provider;
-  this.guideModel = this.options.guideModel;
-  this.panModel = this.options.panModel;
+  this.vehicleModel = this.options['vehicle'];
+  this.vehicleIconModel = this.options['vehicleIcon'];
+  this.providerModel = this.options['provider'];
+  this.guideModel = this.options['guideModel'];
+  this.panModel = this.options['panModel'];
   this.initializedcenter = false;
 
   this.tileLayer = this.providerModel.getProvider();
   this.map = new L.Map('map', {
-    layers: [this.tileLayer],
-    zoomControl: false,
-    doubleClickZoom: false,
-    attributionControl: false,
-    maxZoom: 21
+    'layers': [this.tileLayer],
+    'zoomControl': false,
+    'doubleClickZoom': false,
+    'attributionControl': false,
+    'maxZoom': 21
   });
 
   this.providerModel.bind('change', this.providerChange, this);
@@ -58,7 +58,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
  * @param {Object} e The double click event.
  */
 Mavelous.LeafletView.prototype.doubleClickHandler = function(e) {
-  this.guideModel.setTarget({ lat: e.latlng.lat, lon: e.latlng.lng });
+  this.guideModel.setTarget({ 'lat': e.latlng.lat, 'lon': e.latlng.lng });
 };
 
 
@@ -99,8 +99,8 @@ Mavelous.LeafletView.prototype.updateVehicleMarker = function() {
     this.vehicleMarker = new L.Marker(
         p,
         {
-          icon: this.vehicleIconModel.getIcon(),
-          iconAngle: h
+          'icon': this.vehicleIconModel.getIcon(),
+          'iconAngle': h
         });
     this.map.addLayer(this.vehicleMarker);
   } else {
@@ -121,8 +121,8 @@ Mavelous.LeafletView.prototype.vehicleIconChange = function() {
   this.vehicleMarker = new L.Marker(
       p,
       {
-        icon: this.vehicleIconModel.getIcon(),
-        iconAngle: h
+        'icon': this.vehicleIconModel.getIcon(),
+        'iconAngle': h
       });
   this.map.addLayer(this.vehicleMarker);
 };
@@ -135,7 +135,7 @@ Mavelous.LeafletView.prototype.updateVehiclePath = function() {
   var p = this.vehicleModel.get('position');
   if (!p) return;
   if (this.vehiclePath === undefined) {
-    this.vehiclePath = new L.Polyline([p], {color: 'red'});
+    this.vehiclePath = new L.Polyline([p], {'color': 'red'});
     this.vehiclePath.addTo(this.map);
   } else {
     this.vehiclePath.addLatLng(p);
@@ -152,7 +152,7 @@ Mavelous.LeafletView.prototype.updateGuideMarker = function() {
   if (!p) return;
   if (this.guideMarker === undefined) {
     this.guideMarker = new L.Marker(latlng,
-                                    { icon: new markerIcon()});
+                                    { 'icon': new markerIcon()});
     this.map.addLayer(this.guideMarker);
   } else {
     this.guideMarker.setLatLng(latlng);

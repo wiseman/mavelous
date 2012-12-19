@@ -35,8 +35,8 @@ Mavelous.CommStatusModel.State = {
  */
 Mavelous.CommStatusModel.prototype.defaults = function() {
   return {
-    mav: Mavelous.CommStatusModel.State.UNINITIALIZED,
-    server: Mavelous.CommStatusModel.State.UNINITIALIZED
+    'mav': Mavelous.CommStatusModel.State.UNINITIALIZED,
+    'server': Mavelous.CommStatusModel.State.UNINITIALIZED
   };
 };
 
@@ -157,8 +157,8 @@ goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
  */
 Mavelous.PacketLossModel.prototype.defaults = function() {
   return {
-    history: [],
-    current: -1
+    'history': [],
+    'current': -1
   };
 };
 
@@ -215,10 +215,10 @@ Mavelous.PacketLossModel.prototype.getDelta = function() {
  */
 Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
   return {
-    master_in: latest.master_in - compare.master_in,
-    master_out: latest.master_out - compare.master_out,
-    mav_loss: latest.mav_loss - compare.mav_loss,
-    period: period };
+    'master_in': latest.master_in - compare.master_in,
+    'master_out': latest.master_out - compare.master_out,
+    'mav_loss': latest.mav_loss - compare.mav_loss,
+    'period': period };
 };
 
 
@@ -240,8 +240,8 @@ goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
  * @export
  */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
-  this.commStatusModel = this.options.commStatusModel;
-  this.packetLossModel = this.options.packetLossModel;
+  this.commStatusModel = this.options['commStatusModel'];
+  this.packetLossModel = this.options['packetLossModel'];
   this.commStatusModel.bind('change', this.buttonRender, this);
   this.packetLossModel.bind('change', this.popoverRender, this);
 };

@@ -18,14 +18,14 @@ goog.inherits(Mavelous.FakeVehicle, Backbone.Model);
 
 Mavelous.FakeVehicle.prototype.defaults = function() {
   return {
-    lat: 37.7751,
-    lon: -122.4190,
-    alt: 30,
-    heading: 90,
-    pitch: 0,
-    roll: 0,
-    velocity: 10,
-    t: 0
+    'lat': 37.7751,
+    'lon': -122.4190,
+    'alt': 30,
+    'heading': 90,
+    'pitch': 0,
+    'roll': 0,
+    'velocity': 10,
+    't': 0
   };
 };
 
@@ -49,20 +49,20 @@ Mavelous.FakeVehicle.prototype.update = function() {
 
   var c = this.toJSON();
   /* multiplied by a constant which is more or less eyeballed... */
-  var deltaalt = (2 * dt * c.velocity *
-                  Math.sin(goog.math.toRadians(c.pitch)));
-  var deltahead = (4 * dt * c.velocity *
-                   Math.sin(goog.math.toRadians(c.roll)));
+  var deltaalt = (2 * dt * c['velocity'] *
+                  Math.sin(goog.math.toRadians(c['pitch'])));
+  var deltahead = (4 * dt * c['velocity'] *
+                   Math.sin(goog.math.toRadians(c['roll'])));
 
   this.set({
-    lat: newposition.lat,
-    lon: newposition.lon,
-    alt: c.alt + deltaalt,
-    heading: c.heading + deltahead,
+    'lat': newposition['lat'],
+    'lon': newposition['lon'],
+    'alt': c['alt'] + deltaalt,
+    'heading': c['heading'] + deltahead,
     /* pitch and roll follow a sinusoid */
-    pitch: 8 * Math.sin(t),
-    roll: 5 + 15 * Math.sin(t / 2),
-    t: t
+    'pitch': 8 * Math.sin(t),
+    'roll': 5 + 15 * Math.sin(t / 2),
+    't': t
   });
 
   this.lastupdate = tnow;
@@ -83,8 +83,8 @@ Mavelous.FakeVehicle.prototype.requestMessages = function(msgModels) {
     if (name in Mavelous.FakeVehicle.fakeHandlers) {
       var mdlidx = mdl.get('_index') || 0;
       results[name] = {
-        index: (increment ? (mdlidx + 1) : mdlidx),
-        msg: Mavelous.FakeVehicle.fakeHandlers[name](state)
+        'index': (increment ? (mdlidx + 1) : mdlidx),
+        'msg': Mavelous.FakeVehicle.fakeHandlers[name](state)
       };
     }
   });
@@ -99,8 +99,8 @@ Mavelous.FakeVehicle.prototype.requestMessages = function(msgModels) {
  */
 Mavelous.FakeVehicle.fakeAttitude = function(state) {
   return {
-    pitch: goog.math.toRadians(state.pitch),
-    roll: goog.math.toRadians(state.roll)
+    'pitch': goog.math.toRadians(state['pitch']),
+    'roll': goog.math.toRadians(state['roll'])
   };
 };
 
@@ -112,9 +112,9 @@ Mavelous.FakeVehicle.fakeAttitude = function(state) {
  */
 Mavelous.FakeVehicle.fakeVfrHud = function(state) {
   return {
-    heading: state.heading,
-    alt: state.alt,
-    airspeed: state.velocity
+    'heading': state['heading'],
+    'alt': state['alt'],
+    'airspeed': state['velocity']
   };
 };
 
@@ -126,8 +126,8 @@ Mavelous.FakeVehicle.fakeVfrHud = function(state) {
  */
 Mavelous.FakeVehicle.fakeNavControllerOutput = function(state) {
   return {
-    alt_error: 30 - state.alt,
-    aspd_error: 4 - state.velocity
+    'alt_error': 30 - state['alt'],
+    'aspd_error': 4 - state['velocity']
   };
 };
 
@@ -139,9 +139,9 @@ Mavelous.FakeVehicle.fakeNavControllerOutput = function(state) {
  */
 Mavelous.FakeVehicle.fakeGpsRawInt = function(state) {
   return {
-    fix_type: 3,
-    lat: Math.round(state.lat * 10e6),
-    lon: Math.round(state.lon * 10e6)
+    'fix_type': 3,
+    'lat': Math.round(state['lat'] * 10e6),
+    'lon': Math.round(state['lon'] * 10e6)
   };
 };
 
@@ -164,10 +164,10 @@ Mavelous.FakeVehicle.fakeMetaWaypoint = function(state) {
  */
 Mavelous.FakeVehicle.fakeHeartbeat = function(state) {
   return {
-    type: 2, /* MAV_TYPE_QUADROTOR */
-    base_mode: 129, /* MAV_MODE_FLAG_CUSTOM_MODE_ENABLED = 1
-                       | MAV_MODE_FLAG_SAFETY_ARMED = 128 */
-    custom_mode: 3 /* ArduCopter AUTO mode */
+    'type': 2, /* MAV_TYPE_QUADROTOR */
+    'base_mode': 129, /* MAV_MODE_FLAG_CUSTOM_MODE_ENABLED = 1
+                         | MAV_MODE_FLAG_SAFETY_ARMED = 128 */
+    'custom_mode': 3 /* ArduCopter AUTO mode */
   };
 };
 
@@ -179,9 +179,9 @@ Mavelous.FakeVehicle.fakeHeartbeat = function(state) {
  */
 Mavelous.FakeVehicle.fakeMetaLinkquality = function(state) {
   return {
-    master_in: Math.floor(11 * state.t),
-    master_out: Math.floor(9 * state.t),
-    mav_loss: 0
+    'master_in': Math.floor(11 * state['t']),
+    'master_out': Math.floor(9 * state['t']),
+    'mav_loss': 0
   };
 };
 
@@ -192,7 +192,7 @@ Mavelous.FakeVehicle.fakeMetaLinkquality = function(state) {
  * @return {Object} GPS_STATUS message.
  */
 Mavelous.FakeVehicle.fakeGpsStatus = function(state) {
-  return { satellites_visible: 8 };
+  return { 'satellites_visible': 8 };
 };
 
 
@@ -202,7 +202,7 @@ Mavelous.FakeVehicle.fakeGpsStatus = function(state) {
  * @return {Object} STATUSTEXT message.
  */
 Mavelous.FakeVehicle.fakeStatustext = function(state) {
-  return { text: 'Offline mode' };
+  return { 'text': 'Offline mode' };
 };
 
 
@@ -260,9 +260,11 @@ Mavelous.FakeVehicle.nextposition = function(model, dt) {
   // normalise to -180...+180
   lon2 = (lon2 + Math.PI) % (2 * Math.PI) - Math.PI;
 
-  if (isNaN(lat2) || isNaN(lon2)) return null;
+  if (isNaN(lat2) || isNaN(lon2)) {
+    throw new Error('nope');
+  }
   return {
-    lat: goog.math.toDegrees(lat2),
-    lon: goog.math.toDegrees(lon2)
+    'lat': goog.math.toDegrees(lat2),
+    'lon': goog.math.toDegrees(lon2)
   };
 };
