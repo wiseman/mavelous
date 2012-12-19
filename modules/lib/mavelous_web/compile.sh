@@ -31,7 +31,7 @@ rm -f ${THIS_DIR}/script/mavelous-compiled.js
 python ${CLOSURE_BUILDER} \
     --root=${CLOSURE_LIBRARY_DIR}/closure/goog \
     --root=${CLOSURE_LIBRARY_DIR}/third_party/closure \
-    --root=script/ \
+    --root=${THIS_DIR}/script/ \
     --namespace="Mavelous.App" \
     --output_mode=compiled \
     --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
@@ -41,6 +41,7 @@ python ${CLOSURE_BUILDER} \
     --compiler_flags="--externs=${THIS_DIR}/externs/jquery-1.7.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/kinetic-4.1.2.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/leaflet-0.5.js" \
+    --compiler_flags="--externs=${THIS_DIR}/externs/twitter-bootstrap.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/underscore-1.3.1.js" \
     --compiler_flags="--generate_exports" \
     --compiler_jar=${CLOSURE_COMPILER} \
