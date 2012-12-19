@@ -17,7 +17,7 @@ goog.inherits(Mavelous.SelectedModel, Backbone.Model);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.SelectedModel.prototype.defaults = function() {
   return {
@@ -56,12 +56,12 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
   /* this.buttons :: [ SelectedModel ]*/
   this.buttons = _.map(this.options['popovers'], /* :: [PopoverView] */
-                       _.bind(this.registerButton, this));
+                       goog.bind(this.registerButton, this));
 };
 
 
@@ -76,7 +76,7 @@ Mavelous.RadioButtonPopoverView.prototype.registerButton = function(
     btn, index) {
   var mdl = new Mavelous.SelectedModel();
   mdl.set('index', index);
-  btn.$el.click(_.bind(this.onButtonClick, this, index));
+  btn.$el.click(goog.bind(this.onButtonClick, this, index));
   btn.selectedModel = mdl;
   mdl.bind('change', btn.onSelectedChange, btn);
   return mdl;
@@ -115,7 +115,7 @@ goog.inherits(Mavelous.PopoverView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.PopoverView.prototype.initialize = function() {
   _.extend(this, Backbone.Events);

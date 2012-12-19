@@ -5,6 +5,7 @@ goog.provide('Mavelous.GpsTextView');
 
 /**
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.GpsTextView = function(properties) {
   goog.base(this, properties);
@@ -13,7 +14,7 @@ goog.inherits(Mavelous.GpsTextView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.GpsTextView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
@@ -23,7 +24,7 @@ Mavelous.GpsTextView.prototype.initialize = function() {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.GpsTextView.prototype.render = function() {
   var gps = this.gps;
@@ -55,6 +56,7 @@ Mavelous.GpsTextView.prototype.render = function() {
 
 /**
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.GpsButtonView = function(properties) {
   this.popoverTitle = 'GPS Info';
@@ -64,7 +66,7 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.GpsButtonView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];

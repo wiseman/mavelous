@@ -21,7 +21,7 @@ goog.inherits(Mavelous.FlightModeModel, Backbone.Model);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.FlightModeModel.prototype.defaults = function() {
   return {
@@ -34,7 +34,7 @@ Mavelous.FlightModeModel.prototype.defaults = function() {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.FlightModeModel.prototype.initialize = function() {
   var mavlinkSrc = this.get('mavlinkSrc');
@@ -104,6 +104,7 @@ Mavelous.FlightModeModel.prototype.postDisarmRequest = function() {
 /**
  * Sends COMMAND_LONG mavlink message.
  * @constructor
+ * @extends {Backbone.Model}
  */
 Mavelous.CommandLongModel = function(properties) {
   goog.base(this, properties);
@@ -131,6 +132,7 @@ Mavelous.CommandLongModel.prototype.post = function(command) {
 
 /**
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.ArmingButtonView = function(properties) {
   goog.base(this, properties);
@@ -139,12 +141,12 @@ goog.inherits(Mavelous.ArmingButtonView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.ArmingButtonView.prototype.initialize = function() {
   this.model.on('change:armed change:arming change:disarming',
                 this.onChange, this);
-  this.$el.click(_.bind(this.onClick, this));
+  this.$el.click(goog.bind(this.onClick, this));
   this.onChange();
 };
 
@@ -183,6 +185,7 @@ Mavelous.ArmingButtonView.prototype.onChange = function() {
 
 /**
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.CommandButtonView = function(properties) {
   goog.base(this, properties);
@@ -191,11 +194,11 @@ goog.inherits(Mavelous.CommandButtonView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.CommandButtonView.prototype.initialize = function() {
   this.command = this.options['command'];
-  this.$el.click(_.bind(this.onClick, this));
+  this.$el.click(goog.bind(this.onClick, this));
 };
 
 
@@ -208,6 +211,7 @@ Mavelous.CommandButtonView.prototype.onClick = function() {
 /**
  * Flight mode button Backbone view.
  * @constructor
+ * @extends {Backbone.View}
  */
 Mavelous.FlightModeButtonView = function(properties) {
   this.popoverTitle = 'Flight Commands';
@@ -217,7 +221,7 @@ goog.inherits(Mavelous.FlightModeButtonView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.FlightModeButtonView.prototype.initialize = function() {
   this.modeModel = this.options['modeModel'];

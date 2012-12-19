@@ -16,7 +16,7 @@ goog.inherits(Mavelous.LeafletDroneIconModel, Backbone.Model);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.LeafletDroneIconModel.prototype.defaults = function() {
   return {

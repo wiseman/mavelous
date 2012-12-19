@@ -9,6 +9,7 @@ goog.require('goog.math');
  * offline.
  *
  * @constructor
+ * @extends {Backbone.Model}
  */
 Mavelous.FakeVehicle = function(properties) {
   goog.base(this, properties);
@@ -16,6 +17,9 @@ Mavelous.FakeVehicle = function(properties) {
 goog.inherits(Mavelous.FakeVehicle, Backbone.Model);
 
 
+/**
+ * @override
+ */
 Mavelous.FakeVehicle.prototype.defaults = function() {
   return {
     'lat': 37.7751,
@@ -31,7 +35,7 @@ Mavelous.FakeVehicle.prototype.defaults = function() {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.FakeVehicle.prototype.initialize = function() {
   var t = Date.now();

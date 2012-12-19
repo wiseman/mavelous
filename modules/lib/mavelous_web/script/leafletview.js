@@ -23,7 +23,7 @@ goog.inherits(Mavelous.LeafletView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.LeafletView.prototype.initialize = function() {
   this.vehicleModel = this.options['vehicle'];
@@ -45,7 +45,10 @@ Mavelous.LeafletView.prototype.initialize = function() {
   this.providerModel.bind('change', this.providerChange, this);
   this.vehicleIconModel.bind('change', this.vehicleIconChange, this);
   this.panModel.bind('change:center', this.panModelChange, this);
-  this.map.on('dragstart', function() {this.panModel.cancelTracking()}, this);
+  this.map.addEventListener(
+      'dragstart',
+      function() {this.panModel.cancelTracking()},
+      this);
   this.vehicleModel.bind('change', this.updateVehicleMarker, this);
   this.vehicleModel.bind('change', this.updateVehiclePath, this);
   this.map.addEventListener('dblclick', this.doubleClickHandler, this);
@@ -55,7 +58,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
 
 /**
  * Handles double clicks.
- * @param {Object} e The double click event.
+ * @param {{latlng: {lat: number, lng: number}}} e The double click event.
  */
 Mavelous.LeafletView.prototype.doubleClickHandler = function(e) {
   this.guideModel.setTarget({ 'lat': e.latlng.lat, 'lon': e.latlng.lng });

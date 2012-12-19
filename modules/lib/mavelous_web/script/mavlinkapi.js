@@ -36,7 +36,7 @@ goog.inherits(Mavelous.MavlinkAPI, Backbone.Model);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.MavlinkAPI.prototype.initialize = function() {
   /** @type {goog.debug.Logger} */

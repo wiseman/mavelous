@@ -15,7 +15,7 @@ goog.inherits(Mavelous.StatustextView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.StatustextView.prototype.initialize = function() {
   var mavlinkSrc = this.options['mavlinkSrc'];

@@ -37,8 +37,8 @@ python ${CLOSURE_BUILDER} \
     --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
     --compiler_flags="--summary_detail_level=3" \
     --compiler_flags="--warning_level=VERBOSE" \
-    --compiler_flags="--externs=${THIS_DIR}/externs/backbone-0.9.1.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/jquery-1.7.js" \
+    --compiler_flags="--externs=${THIS_DIR}/externs/backbone-0.9.1.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/kinetic-4.1.2.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/leaflet-0.5.js" \
     --compiler_flags="--externs=${THIS_DIR}/externs/twitter-bootstrap.js" \

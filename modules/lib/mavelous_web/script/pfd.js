@@ -22,6 +22,7 @@ goog.require('goog.dom');
  *
  * @param {{x: number, y: number, width: number, height: number, skyColor: string, groundColor: string, lineColor: string, planeColor: string}} config
  * @constructor
+ * @extends {Kinetic.Shape}
  */
 Mavelous.ArtificialHorizon = function(config) {
   this.initArtificialHorizon_(config);
@@ -56,14 +57,13 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
 
 /**
  * Renders the artifical horizon to a canvas.
- *
- * @param {Object} context The canvas to render to.
- * @export
+ * @override
  */
 Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   var horizon = this.getHorizon_(this.pitch);
-  var width = this.attrs['width'];
-  var height = this.attrs['height'];
+  var attrs = this.getAttrs();
+  var width = attrs['width'];
+  var height = attrs['height'];
 
   context.translate(width / 2, height / 2);
   context.save();
@@ -78,15 +78,15 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   context.rotate(-this.roll);
 
   // Draw the ground.
-  context.fillStyle = this.attrs['groundColor'];
-  context.strokeStyle = this.attrs['lineColor'];
+  context.fillStyle = attrs['groundColor'];
+  context.strokeStyle = attrs['lineColor'];
   context.lineWidth = 3;
   context.beginPath();
   context.rect(-width, horizon, width * 2, height);
   context.fill();
 
   // Draw the sky.
-  context.fillStyle = this.attrs['skyColor'];
+  context.fillStyle = attrs['skyColor'];
   context.beginPath();
   context.rect(-width, -height, width * 2, height + horizon);
   context.fill();
@@ -110,7 +110,8 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   var rollRadius = this.radius * 0.9;
   context.beginPath();
   context.arc(0, 0, rollRadius,
-              210 * Math.PI / 180.0, 330 * Math.PI / 180.0);
+              210 * Math.PI / 180.0, 330 * Math.PI / 180.0,
+              true);
   context.stroke();
   this.drawRollRung_(context, 210 * Math.PI / 180, 10, rollRadius);
   this.drawRollRung_(context, 220 * Math.PI / 180, 5, rollRadius);
@@ -134,7 +135,7 @@ Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
   this.drawTriangle_(context, 270 * Math.PI / 180, -5, rollRadius, false);
 
   // Draw the plane.
-  context.strokeStyle = this.attrs['planeColor'];
+  context.strokeStyle = attrs['planeColor'];
   context.lineWidth = 3;
   context.beginPath();
   context.moveTo(-30, -1);
@@ -165,8 +166,9 @@ Mavelous.ArtificialHorizon.prototype.drawTriangle_ = function(
   var cos = Math.cos(theta);
   var sin = Math.sin(theta);
   var phi = 2 * Math.PI / 180;
+  var attrs = this.getAttrs();
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs['lineColor'];
+  context.strokeStyle = attrs['lineColor'];
   context.beginPath();
   context.moveTo(radius * Math.cos(theta),
                  radius * Math.sin(theta));
@@ -178,7 +180,7 @@ Mavelous.ArtificialHorizon.prototype.drawTriangle_ = function(
                  radius * Math.sin(theta));
   context.stroke();
   if (filled) {
-    context.fillStyle = this.attrs['lineColor'];
+    context.fillStyle = attrs['lineColor'];
     context.fill();
   }
 };
@@ -196,8 +198,9 @@ Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
     context, theta, length, radius) {
   var cos = Math.cos(theta);
   var sin = Math.sin(theta);
+  var attrs = this.getAttrs();
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs['lineColor'];
+  context.strokeStyle = attrs['lineColor'];
   context.beginPath();
   context.moveTo(cos * radius, sin * radius);
   context.lineTo(cos * (radius + length), sin * (radius + length));
@@ -216,11 +219,12 @@ Mavelous.ArtificialHorizon.prototype.drawRollRung_ = function(
  */
 Mavelous.ArtificialHorizon.prototype.drawPitchRung_ = function(
     context, pitchAngle, length) {
-  var height = this.attrs['height'];
-  var width = this.attrs['width'];
+  var attrs = this.getAttrs();
+  var height = attrs['height'];
+  var width = attrs['width'];
 
   context.lineWidth = 1;
-  context.strokeStyle = this.attrs['lineColor'];
+  context.strokeStyle = attrs['lineColor'];
   var horizon = this.getHorizon_(this.pitch + pitchAngle * Math.PI / 180);
   context.beginPath();
   context.moveTo(-length / 2, horizon);
@@ -273,6 +277,7 @@ Mavelous.ArtificialHorizon.prototype.setPitchRoll = function(pitch, roll) {
  * config {Mavelous.Tape.SideType} side Whether the Tape is on the left or the
  *     right.
  * @constructor
+ * @extends {Kinetic.Shape}
  */
 Mavelous.Tape = function(config) {
   this.initTape_(config);
@@ -351,28 +356,42 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
 
 
 /**
- * Reflects c-xoordinates for left vs. right Tapes.  If given an array
- * of numbers, every other number will be considered to be an
- * x-coordinate and reflected in place.
+ * Reflects x-coordinates for left vs. right Tapes.
  *
- * @param {number|Array.<number>} x_pos_or_points A single x-coord or an array
- *     of x-coords.
- * @return {number|Array.<number>} Returns the reflected coordinate or coordinates.
+ * @param {number} x_coord A single x-coord.
+ * @return {number} Returns the reflected coordinate.
  * @private
  */
-Mavelous.Tape.prototype.reflect_ = function(x_pos_or_points) {
-  if (this.attrs['side'] === Mavelous.Tape.SideType.RIGHT) {
-    var width = this.attrs['width'];
-    if (goog.isArray(x_pos_or_points)) {
-      var len = x_pos_or_points.length;
-      for (var i = 0; i < len; i += 2) {
-        x_pos_or_points[i] = width - x_pos_or_points[i];
-      }
-    } else {
-      x_pos_or_points = width - x_pos_or_points;
+Mavelous.Tape.prototype.reflect1_ = function(x_coord) {
+  var attrs = this.getAttrs();
+  if (attrs['side'] === Mavelous.Tape.SideType.RIGHT) {
+    var width = attrs['width'];
+    return width - x_coord;
+  } else {
+    return x_coord;
+  }
+};
+
+
+/**
+ * Reflects c-xoordinates for left vs. right Tapes.  Every other
+ * number in the input array will be considered to be an x-coordinate
+ * and reflected in place.
+ *
+ * @param {Array.<number>} points An array of coordinates.
+ * @return {Array.<number>} Returns the reflected coordinates.
+ * @private
+ */
+Mavelous.Tape.prototype.reflect_ = function(points) {
+  var attrs = this.getAttrs();
+  if (attrs['side'] === Mavelous.Tape.SideType.RIGHT) {
+    var width = attrs['width'];
+    var len = points.length;
+    for (var i = 0; i < len; i += 2) {
+      points[i] = width - points[i];
     }
   }
-  return x_pos_or_points;
+  return points;
 };
 
 
@@ -409,8 +428,7 @@ Mavelous.Tape.prototype.setTargetValue = function(target) {
 
 /**
  * Draws the tape.
- * @param {Object} context The canvas to draw to.
- * @export
+ * @override
  */
 Mavelous.Tape.prototype.drawFunc = function(context) {
   // The tape displays 3 pieces of info:
@@ -419,10 +437,11 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   //   * target value, if set
   var WIDTH = Mavelous.Tape.WIDTH;
   var HEIGHT = Mavelous.Tape.HEIGHT;
+  var attrs = this.getAttrs();
 
   // background
   context.beginPath();
-  context.fillStyle = this.attrs['backgroundColor'];
+  context.fillStyle = attrs['backgroundColor'];
   context.rect(0, 0, 30, 140);
   context.closePath();
   this.fillStroke(context);
@@ -439,59 +458,59 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   var maxValue = this.value + HEIGHT / 4;
   maxValue = Math.floor(maxValue / minorTicInterval) * minorTicInterval;
   var font = ('normal ' +
-              this.attrs['fontSize'] * 0.9 + 'pt ' +
-              this.attrs['fontFamily']);
+              attrs['fontSize'] * 0.9 + 'pt ' +
+              attrs['fontFamily']);
   context.font = font;
-  context.fillStyle = this.attrs['fontColor'];
-  context.strokeStyle = this.attrs['fontColor'];
+  context.fillStyle = attrs['fontColor'];
+  context.strokeStyle = attrs['fontColor'];
   context.textBaseLine = 'top';
-  if (this.attrs['side'] === Mavelous.Tape.SideType.LEFT) {
+  if (attrs['side'] === Mavelous.Tape.SideType.LEFT) {
     context.textAlign = 'right';
   } else {
     context.textAlign = 'left';
   }
 
-  var lineHeightAdjust = this.attrs['fontSize'] / 2;
+  var lineHeightAdjust = attrs['fontSize'] / 2;
   for (var v = minValue; v <= maxValue; v += minorTicInterval) {
     var isMajorTic = (v % majorTicInterval < .001 ||
                       majorTicInterval - (v % majorTicInterval) < .001);
     var y = HEIGHT / 2 + valueScale * (this.value - v);
     if (isMajorTic) {
       context.beginPath();
-      context.moveTo(this.reflect_(WIDTH * 25 / 30), y);
-      context.lineTo(this.reflect_(WIDTH), y);
+      context.moveTo(this.reflect1_(WIDTH * 25 / 30), y);
+      context.lineTo(this.reflect1_(WIDTH), y);
       context.stroke();
 
       var label = '' + Math.round(v);
       context.beginPath();
       context.fillText(
           label,
-          this.reflect_(WIDTH * 23 / 30),
+          this.reflect1_(WIDTH * 23 / 30),
           y + lineHeightAdjust);
     } else {
       context.beginPath();
-      context.moveTo(this.reflect_(WIDTH * 28 / 30), y);
-      context.lineTo(this.reflect_(WIDTH), y);
+      context.moveTo(this.reflect1_(WIDTH * 28 / 30), y);
+      context.lineTo(this.reflect1_(WIDTH), y);
       context.stroke();
     }
   }
 
   // Instantaneous value text surrounded by polygon.
   this.instantaneousPolygon.drawFunc(context);
-  var textY = this.attrs['height'] / 2;
+  var textY = attrs['height'] / 2;
   font = ('normal ' +
-          this.attrs['fontSize'] + 'pt ' +
-          this.attrs['fontFamily']);
+          attrs['fontSize'] + 'pt ' +
+          attrs['fontFamily']);
   context.font = font;
   context.textBaseline = 'middle';
   context.beginPath();
   context.fillText(
       this.valueText,
-      this.reflect_(WIDTH * 25 / 30),
+      this.reflect1_(WIDTH * 25 / 30),
       textY);
 
   if (goog.isDefAndNotNull(this.targetValue)) {
-    var bugX = this.reflect_(0);
+    var bugX = this.reflect1_(0);
     var bugY = 70;
     bugY -= this.targetValue * valueScale;
     bugY += this.value * valueScale;

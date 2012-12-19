@@ -15,7 +15,7 @@
  */
 
 /**
- * @fileoverview Externs for jQuery 1.7.2
+ * @fileoverview Externs for jQuery 1.7.2.
  *
  * Note that some functions use different return types depending on the number
  * of parameters passed in. In these cases, you may need to annotate the type
@@ -27,14 +27,18 @@
  * @externs
  */
 
+
 /**
  * @typedef {(Window|Document|Element|Array.<Element>|string|jQuery|
  *     NodeList)}
  */
 var jQuerySelector;
 
+
 /** @typedef {function()|Array.<function()>} */
 var jQueryCallback;
+
+
 
 /**
  * @constructor
@@ -46,6 +50,8 @@ var jQueryCallback;
  */
 function jQuery(arg1, arg2) {}
 
+
+
 /**
  * @constructor
  * @extends {jQuery}
@@ -56,6 +62,7 @@ function jQuery(arg1, arg2) {}
  * @return {!jQuery}
  */
 function $(arg1, arg2) {}
+
 
 /**
  * @param {(jQuerySelector|Array.<Element>|string|jQuery)} arg1
@@ -1122,11 +1129,12 @@ $.holdReady = function(hold) {};
  */
 jQuery.prototype.hover = function(arg1, handlerOut) {};
 
+
 /**
- * @param {(string|function(number,string))=} arg1
+ * @param {string|function(number,string)=} opt_arg1
  * @return {(string|!jQuery)}
  */
-jQuery.prototype.html = function(arg1) {};
+jQuery.prototype.html = function(opt_arg1) {};
 
 /**
  * @param {*} value

@@ -31,7 +31,7 @@ Mavelous.CommStatusModel.State = {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.CommStatusModel.prototype.defaults = function() {
   return {
@@ -42,7 +42,7 @@ Mavelous.CommStatusModel.prototype.defaults = function() {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.CommStatusModel.prototype.initialize = function() {
   /* Only initialize the server.
@@ -153,7 +153,7 @@ goog.inherits(Mavelous.PacketLossModel, Backbone.Model);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.PacketLossModel.prototype.defaults = function() {
   return {
@@ -164,7 +164,7 @@ Mavelous.PacketLossModel.prototype.defaults = function() {
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.PacketLossModel.prototype.initialize = function() {
   this.metalinkquality = this.get('mavlinkSrc').subscribe(
@@ -210,7 +210,7 @@ Mavelous.PacketLossModel.prototype.getDelta = function() {
  * Computes the raw change in packet comms stats.
  * @param {Object} latest The most recent META_LINKQUALITY message.
  * @param {Object} compare The previous META_LINKQUALITY message.
- * @param {number} period The period between the two messages.
+ * @param {?} period The period between the two messages.
  * @return {Object} The packet comms stats.
  */
 Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
@@ -237,7 +237,7 @@ goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
 
 
 /**
- * @export
+ * @override
  */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
   this.commStatusModel = this.options['commStatusModel'];

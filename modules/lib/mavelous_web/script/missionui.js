@@ -42,7 +42,7 @@ mavelous.ui.MissionItemRenderer.CSS_CLASS = 'mavelous-missionitem';
 
 /**
  * @return {string} The CSS class name.
- * @export
+ * @override
  */
 mavelous.ui.MissionItemRenderer.prototype.getCssClass = function() {
   return mavelous.ui.MissionItemRenderer.CSS_CLASS;
@@ -218,7 +218,7 @@ mavelous.ui.MissionItem.prototype.isItemChecked = function() {
 };
 
 
-/** @export */
+/** @override */
 mavelous.ui.MissionItem.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   var checkbox = this.getChildAt(0);

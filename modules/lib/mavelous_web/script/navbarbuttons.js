@@ -3,6 +3,8 @@ goog.provide('Mavelous.StatusButtons');
 goog.require('Mavelous.PopoverView');
 goog.require('Mavelous.RadioButtonPopoverView');
 
+goog.require('goog.array');
+
 
 /**
  * Creates a RadioButtonPopoverView of status buttons.
@@ -12,8 +14,10 @@ goog.require('Mavelous.RadioButtonPopoverView');
  */
 Mavelous.StatusButtons = function(buttons) {
   return new Mavelous.RadioButtonPopoverView({
-    'popovers': _(buttons).map(function(b) {
-      return new Mavelous.PopoverView({ 'button': b });
-    })
+    'popovers': goog.array.map(
+        buttons,
+        function(b) {
+          return new Mavelous.PopoverView({ 'button': b });
+        })
   });
 };

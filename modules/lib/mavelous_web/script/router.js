@@ -6,6 +6,7 @@ goog.provide('Mavelous.AppRouter');
  * The Mavelous router.
  * @param {Object} options The router options.
  * @constructor
+ * @extends {Backbone.Router}
  */
 Mavelous.AppRouter = function(options) {
   this.pfdSettingsModel = options['pfdSettingsModel'];
@@ -20,9 +21,9 @@ goog.inherits(Mavelous.AppRouter, Backbone.Router);
 
 
 /**
- * @export
+ * @override
  */
-Mavelous.AppRouter.prototype.initialize = function(options) {
+Mavelous.AppRouter.prototype.initialize = function(opt_options) {
   var navbar = {};
   _.each(this.routes, function(g, route) {
     var el = $('#navbar-' + route);
