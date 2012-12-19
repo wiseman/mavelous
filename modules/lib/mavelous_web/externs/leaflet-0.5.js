@@ -1,19 +1,48 @@
-// Externs file generated at Tue Dec 18 2012 14:38:58 GMT-0800 (PST)
+// Externs file generated at Tue Dec 18 2012 22:05:41 GMT-0800 (PST)
 //
 // Source URLs:
-//   https://raw.github.com/CloudMade/Leaflet/master/dist/leaflet.js
+//   https://raw.github.com/wiseman/mavelous/master/modules/lib/mavelous_web/third_party/leaflet-0.5.js
+//   https://raw.github.com/wiseman/mavelous/master/modules/lib/mavelous_web/third_party/leaflet/layer/tile/Bing.js
 //
 // Namespace: L
 
 var L = {
+  'BingLayer': {
+    '_update': function() {},
+    '_update_attribution': function() {},
+    'constructor': function() {},
+    'getTileUrl': function() {},
+    'initMetadata': function() {},
+    'initialize': function() {},
+    'loadMetadata': function() {},
+    'onRemove': function() {},
+    'options': {
+      'attribution': {},
+      'culture': {},
+      'errorTileUrl': {},
+      'maxZoom': {},
+      'minZoom': {},
+      'opacity': {},
+      'subdomains': {
+        '0': {},
+        '1': {},
+        '2': {},
+        '3': {}
+      },
+      'tileSize': {},
+      'type': {},
+      'unloadInvisibleTiles': {},
+      'updateWhenIdle': {},
+      'zoomOffset': {}
+    },
+    'tile2quad': function() {}
+  },
   'Bounds': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'contains': function() {},
     'extend': function() {},
     'getBottomLeft': function() {},
     'getCenter': function() {},
-    'getSize': function() {},
     'getTopRight': function() {},
     'initialize': function() {},
     'intersects': function() {},
@@ -442,7 +471,6 @@ var L = {
     '_checkIfEmpty': function() {},
     '_getLatRadius': function() {},
     '_getLngRadius': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'getBounds': function() {},
     'getLatLng': function() {},
@@ -465,7 +493,6 @@ var L = {
     'setRadius': function() {}
   },
   'CircleMarker': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'options': {
@@ -486,7 +513,6 @@ var L = {
   'Class': function() {},
   'Control': {
     'addTo': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'getPosition': function() {},
     'initialize': function() {},
@@ -497,7 +523,6 @@ var L = {
     'setPosition': function() {}
   },
   'DivIcon': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'createIcon': function() {},
     'createShadow': function() {},
@@ -564,7 +589,6 @@ var L = {
     '_simulateEvent': function() {},
     '_updatePosition': function() {},
     'addEventListener': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'disable': function() {},
     'enable': function() {},
@@ -583,7 +607,6 @@ var L = {
     'bindPopup': function() {},
     'bringToBack': function() {},
     'bringToFront': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'fire': function() {},
     'fireEvent': function() {},
@@ -598,14 +621,12 @@ var L = {
   'GeoJSON': {
     '_setLayerStyle': function() {},
     'addData': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'resetStyle': function() {},
     'setStyle': function() {}
   },
   'Handler': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'disable': function() {},
     'enable': function() {},
@@ -617,7 +638,6 @@ var L = {
     '_createImg': function() {},
     '_getIconUrl': function() {},
     '_setIconStyles': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'createIcon': function() {},
     'createShadow': function() {},
@@ -636,7 +656,6 @@ var L = {
     'addTo': function() {},
     'bringToBack': function() {},
     'bringToFront': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'fire': function() {},
     'fireEvent': function() {},
@@ -655,11 +674,9 @@ var L = {
   'LatLng': {
     'distanceTo': function() {},
     'equals': function() {},
-    'toString': function() {},
-    'wrap': function() {}
+    'toString': function() {}
   },
   'LatLngBounds': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'contains': function() {},
     'equals': function() {},
@@ -678,7 +695,6 @@ var L = {
   'LayerGroup': {
     'addLayer': function() {},
     'addTo': function() {},
-    'callInitHooks': function() {},
     'clearLayers': function() {},
     'constructor': function() {},
     'eachLayer': function() {},
@@ -728,7 +744,12 @@ var L = {
     '_initContainer': function() {},
     '_initControlPos': function() {},
     '_initEvents': function() {},
-    '_initHooks': {
+    '_initHooks': function() {},
+    '_initLayers': function() {},
+    '_initLayout': function() {},
+    '_initPanes': function() {},
+    '_initPathRoot': function() {},
+    '_initializers': {
       '0': function() {},
       '1': function() {},
       '2': function() {},
@@ -739,10 +760,6 @@ var L = {
       '7': function() {},
       '8': function() {}
     },
-    '_initLayers': function() {},
-    '_initLayout': function() {},
-    '_initPanes': function() {},
-    '_initPathRoot': function() {},
     '_latLngToNewLayerPoint': function() {},
     '_limitZoom': function() {},
     '_offsetIsWithinView': function() {},
@@ -767,7 +784,6 @@ var L = {
     'addEventListener': function() {},
     'addHandler': function() {},
     'addLayer': function() {},
-    'callInitHooks': function() {},
     'closePopup': function() {},
     'constructor': function() {},
     'containerPointToLatLng': function() {},
@@ -894,7 +910,6 @@ var L = {
     'addEventListener': function() {},
     'addTo': function() {},
     'bindPopup': function() {},
-    'callInitHooks': function() {},
     'closePopup': function() {},
     'constructor': function() {},
     'fire': function() {},
@@ -957,13 +972,11 @@ var L = {
     }
   },
   'MultiPolygon': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'setLatLngs': function() {}
   },
   'MultiPolyline': {
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'setLatLngs': function() {}
@@ -982,7 +995,6 @@ var L = {
     'bindPopup': function() {},
     'bringToBack': function() {},
     'bringToFront': function() {},
-    'callInitHooks': function() {},
     'closePopup': function() {},
     'constructor': function() {},
     'getPathString': function() {},
@@ -1013,7 +1025,6 @@ var L = {
   'Polygon': {
     '_clipPoints': function() {},
     '_getPathPartStr': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'options': {
@@ -1036,19 +1047,17 @@ var L = {
     '_convertLatLngs': function() {},
     '_getPathPartStr': function() {},
     '_initEvents': function() {},
-    '_initHooks': {
-      '0': function() {}
-    },
     '_simplifyPoints': function() {},
     '_updatePath': function() {},
     'addLatLng': function() {},
-    'callInitHooks': function() {},
     'closestLayerPoint': function() {},
     'constructor': function() {},
     'getBounds': function() {},
     'getLatLngs': function() {},
     'getPathString': function() {},
     'initialize': function() {},
+    'onAdd': function() {},
+    'onRemove': function() {},
     'options': {
       'clickable': {},
       'color': {},
@@ -1078,7 +1087,6 @@ var L = {
     '_zoomAnimation': function() {},
     'addEventListener': function() {},
     'addTo': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'fire': function() {},
     'fireEvent': function() {},
@@ -1114,7 +1122,6 @@ var L = {
     '_onTransitionEnd': function() {},
     '_transformRe': function() {},
     'addEventListener': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'fire': function() {},
     'fireEvent': function() {},
@@ -1145,7 +1152,6 @@ var L = {
   },
   'Rectangle': {
     '_boundsToLatLngs': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'initialize': function() {},
     'setBounds': function() {}
@@ -1180,7 +1186,6 @@ var L = {
     'addTo': function() {},
     'bringToBack': function() {},
     'bringToFront': function() {},
-    'callInitHooks': function() {},
     'constructor': function() {},
     'fire': function() {},
     'fireEvent': function() {},
@@ -1212,6 +1217,8 @@ var L = {
   },
   'Transformation': {
     '_transform': function() {},
+    'constructor': function() {},
+    'initialize': function() {},
     'transform': function() {},
     'untransform': function() {}
   },

@@ -1,3 +1,4 @@
+// Hand edits by wiseman.
 /**
  * @fileoverview Externs for backbone-0.9.1.js
  *
@@ -166,6 +167,7 @@ Backbone.View.prototype = {
     "unbind": function () {},
     "tagName": {},
     "$": function () {},
+    "$el": {},  // Added by wiseman
     "initialize": function () {},
     "render": function () {},
     "remove": function () {},
