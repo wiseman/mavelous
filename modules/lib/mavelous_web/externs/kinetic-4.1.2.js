@@ -39,6 +39,13 @@ Kinetic.Node.prototype.setDefaultAttrs = function(opt_config) {};
 Kinetic.Node.prototype.setScale = function(x, y) {};
 
 
+/**
+ * @param {number} width
+ * @param {number} height
+ */
+Kinetic.Node.prototype.setSize = function(width, height) {};
+
+
 
 /**
  * @param {Object=} opt_config
