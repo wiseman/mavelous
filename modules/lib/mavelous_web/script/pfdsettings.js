@@ -3,30 +3,6 @@ goog.provide('Mavelous.PFDSettingsModel');
 goog.require('goog.json');
 
 
-/**
- * PFD position values.
- * @enum {number}
- */
-Mavelous.PFDPositions = {
-  TOPLEFT: 0,
-  TOPRIGHT: 1,
-  BOTTOMLEFT: 2,
-  BOTTOMRIGHT: 3
-};
-
-
-/**
- * PFD size constants
- * @enum {number}
- */
-Mavelous.PFDSizes = {
-  STANDARD: 0,
-  FULLSCREEN: 1,
-  SMALL: 2,
-  HIDDEN: 3
-};
-
-
 
 /**
  * Primary flight display settings Backbone model.
@@ -38,6 +14,30 @@ Mavelous.PFDSettingsModel = function(opt_properties) {
   goog.base(this, opt_properties);
 };
 goog.inherits(Mavelous.PFDSettingsModel, Backbone.Model);
+
+
+/**
+ * PFD position values.
+ * @enum {number}
+ */
+Mavelous.PFDSettingsModel.Position = {
+  TOPLEFT: 0,
+  TOPRIGHT: 1,
+  BOTTOMLEFT: 2,
+  BOTTOMRIGHT: 3
+};
+
+
+/**
+ * PFD size constants
+ * @enum {number}
+ */
+Mavelous.PFDSettingsModel.Size = {
+  STANDARD: 0,
+  FULLSCREEN: 1,
+  SMALL: 2,
+  HIDDEN: 3
+};
 
 
 /**
@@ -59,13 +59,14 @@ Mavelous.PFDSettingsModel.prototype.defaults = function() {
   var defaults = this.readFromCookie();
   if (defaults) {
     return {
-      'position': defaults['position'] || Mavelous.PFDPositions.TOPLEFT,
-      'size': defaults['size'] || Mavelous.PFDSizes.STANDARD
+      'position': (defaults['position'] ||
+                   Mavelous.PFDSettingsModel.Position.TOPLEFT),
+      'size': defaults['size'] || Mavelous.PFDSettingsModel.Size.STANDARD
     };
   } else {
     return {
-      'position': Mavelous.PFDPositions.TOPLEFT,
-      'size': Mavelous.PFDSizes.STANDARD
+      'position': Mavelous.PFDSettingsModel.Position.TOPLEFT,
+      'size': Mavelous.PFDSettingsModel.Size.STANDARD
     };
   }
 };

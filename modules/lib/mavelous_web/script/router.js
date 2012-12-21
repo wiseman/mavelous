@@ -42,7 +42,9 @@ Mavelous.AppRouter.prototype.initialize = function(opt_options) {
  */
 Mavelous.AppRouter.prototype.route_overview = function() {
   this.setnavbar('overview');
-  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.STANDARD });
+  this.pfdSettingsModel.set({
+    'size': Mavelous.PFDSettingsModel.Size.STANDARD
+  });
 };
 
 
@@ -52,7 +54,9 @@ Mavelous.AppRouter.prototype.route_overview = function() {
  */
 Mavelous.AppRouter.prototype.route_fullpfd = function() {
   this.setnavbar('fullpfd');
-  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.FULLSCREEN });
+  this.pfdSettingsModel.set({
+    'size': Mavelous.PFDSettingsModel.Size.FULLSCREEN
+  });
 };
 
 
@@ -62,7 +66,9 @@ Mavelous.AppRouter.prototype.route_fullpfd = function() {
  */
 Mavelous.AppRouter.prototype.route_maponly = function() {
   this.setnavbar('maponly');
-  this.pfdSettingsModel.set({ 'size': Mavelous.PFDSizes.HIDDEN });
+  this.pfdSettingsModel.set({
+    'size': Mavelous.PFDSettingsModel.Size.HIDDEN
+  });
 };
 
 

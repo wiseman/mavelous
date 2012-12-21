@@ -130,40 +130,40 @@ Mavelous.SettingsView.prototype.setupPFDSettings = function() {
   this.pfdPositionLeft.click(function() {
     if (self.pfdPositionUp.hasClass('active')) {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.TOPLEFT);
+                                Mavelous.PFDSettingsModel.Position.TOPLEFT);
     } else {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.BOTTOMLEFT);
+                                Mavelous.PFDSettingsModel.Position.BOTTOMLEFT);
     }
   });
 
   this.pfdPositionRight.click(function() {
     if (self.pfdPositionUp.hasClass('active')) {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.TOPRIGHT);
+                                Mavelous.PFDSettingsModel.Position.TOPRIGHT);
     } else {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.BOTTOMRIGHT);
+                                Mavelous.PFDSettingsModel.Position.BOTTOMRIGHT);
     }
   });
 
   this.pfdPositionUp.click(function() {
     if (self.pfdPositionLeft.hasClass('active')) {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.TOPLEFT);
+                                Mavelous.PFDSettingsModel.Position.TOPLEFT);
     } else {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.TOPRIGHT);
+                                Mavelous.PFDSettingsModel.Position.TOPRIGHT);
     }
   });
 
   this.pfdPositionDown.click(function() {
     if (self.pfdPositionLeft.hasClass('active')) {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.BOTTOMLEFT);
+                                Mavelous.PFDSettingsModel.Position.BOTTOMLEFT);
     } else {
       self.pfdSettingsModel.set('position',
-                                Mavelous.PFDPositions.BOTTOMRIGHT);
+                                Mavelous.PFDSettingsModel.Position.BOTTOMRIGHT);
     }
   });
 
@@ -178,19 +178,19 @@ Mavelous.SettingsView.prototype.setupPFDSettings = function() {
 Mavelous.SettingsView.prototype.onPFDSettingsChange = function() {
   var position = this.pfdSettingsModel.get('position');
   switch (position) {
-    case Mavelous.PFDPositions.TOPLEFT:
+    case Mavelous.PFDSettingsModel.Position.TOPLEFT:
       this.pfdPositionLeft.button('toggle');
       this.pfdPositionUp.button('toggle');
       break;
-    case Mavelous.PFDPositions.TOPRIGHT:
+    case Mavelous.PFDSettingsModel.Position.TOPRIGHT:
       this.pfdPositionRight.button('toggle');
       this.pfdPositionUp.button('toggle');
       break;
-    case Mavelous.PFDPositions.BOTTOMLEFT:
+    case Mavelous.PFDSettingsModel.Position.BOTTOMLEFT:
       this.pfdPositionLeft.button('toggle');
       this.pfdPositionDown.button('toggle');
       break;
-    case Mavelous.PFDPositions.BOTTOMRIGHT:
+    case Mavelous.PFDSettingsModel.Position.BOTTOMRIGHT:
       this.pfdPositionRight.button('toggle');
       this.pfdPositionDown.button('toggle');
       break;

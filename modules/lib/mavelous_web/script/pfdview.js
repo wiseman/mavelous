@@ -44,15 +44,15 @@ Mavelous.PFDView.prototype.initialize = function() {
   /* Connect to settings model */
   if (this.options['settingsModel']) {
     this.settingsModel = this.options['settingsModel'];
-    this.settingToDimension[Mavelous.PFDSizes.STANDARD] = {
+    this.settingToDimension[Mavelous.PFDSettingsModel.Size.STANDARD] = {
       'height': function() { return '280px'; },
       'width': function() { return '400px'; }
     };
-    this.settingToDimension[Mavelous.PFDSizes.FULLSCREEN] = {
+    this.settingToDimension[Mavelous.PFDSettingsModel.Size.FULLSCREEN] = {
       'height': function() { return $(window).height() - 120; },
       'width': function() { return $(window).width();}
     };
-    this.settingToDimension[Mavelous.PFDSizes.SMALL] = {
+    this.settingToDimension[Mavelous.PFDSettingsModel.Size.SMALL] = {
       'height': function() { return '140px'; },
       'width': function() { return '200px'; }
     };
@@ -117,21 +117,21 @@ Mavelous.PFDView.prototype.onSettingsChange = function() {
 /**
  * Changes the position of the PFD.
  *
- * @param {Mavelous.PFDPositions} position The desired position.
+ * @param {Mavelous.PFDSettingsModel.Position} position The desired position.
  */
 Mavelous.PFDView.prototype.setPosition = function(position) {
   this.blockel.removeClass('pfd-top pfd-bottom pfd-left pfd-right');
   switch (position) {
-    case Mavelous.PFDPositions.TOPLEFT:
+    case Mavelous.PFDSettingsModel.Position.TOPLEFT:
       this.blockel.addClass('pfd-top pfd-left');
       break;
-    case Mavelous.PFDPositions.TOPRIGHT:
+    case Mavelous.PFDSettingsModel.Position.TOPRIGHT:
       this.blockel.addClass('pfd-top pfd-right');
       break;
-    case Mavelous.PFDPositions.BOTTOMLEFT:
+    case Mavelous.PFDSettingsModel.Position.BOTTOMLEFT:
       this.blockel.addClass('pfd-bottom pfd-left');
       break;
-    case Mavelous.PFDPositions.BOTTOMRIGHT:
+    case Mavelous.PFDSettingsModel.Position.BOTTOMRIGHT:
       this.blockel.addClass('pfd-bottom pfd-right');
       break;
   }
@@ -141,19 +141,20 @@ Mavelous.PFDView.prototype.setPosition = function(position) {
 /**
  * Changes the size of the PFD.
  *
- * @param {Mavelous.PFDSizes} size The desired size.
+ * @param {Mavelous.PFDSettingsModel.Size} size The desired size.
  */
 Mavelous.PFDView.prototype.setSize = function(size) {
-  goog.asserts.assert(goog.object.containsValue(Mavelous.PFDSizes, size),
-                      'unknown PFD size value: ' + size);
+  goog.asserts.assert(
+      goog.object.containsValue(Mavelous.PFDSettingsModel.Size, size),
+      'unknown PFD size value: ' + size);
   var block = this.blockel;
-  if (size == Mavelous.PFDSizes.FULLSCREEN) {
+  if (size == Mavelous.PFDSettingsModel.Size.FULLSCREEN) {
     $('#droneicon').addClass('droneicon-hide');
   } else if ($('#droneicon').hasClass('droneicon-hide')) {
     $('#droneicon').removeClass('droneicon-hide');
   }
 
-  if (size == Mavelous.PFDSizes.HIDDEN) {
+  if (size == Mavelous.PFDSettingsModel.Size.HIDDEN) {
     this.pfd.setVisible(false);
     block.hide();
   } else {
