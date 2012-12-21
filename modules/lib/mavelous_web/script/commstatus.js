@@ -6,7 +6,7 @@ goog.provide('Mavelous.PacketLossModel');
 
 /**
  * Communication status Backbone model.
- * @param {Object} properties The model properties.
+ * @param {{mavlinkSrc: Mavelous.MavlinkAPI}} properties The model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -19,6 +19,7 @@ goog.inherits(Mavelous.CommStatusModel, Backbone.Model);
 
 
 /**
+ * Communications status state.
  * @enum {number}
  */
 Mavelous.CommStatusModel.State = {
@@ -258,7 +259,10 @@ Mavelous.CommStatusButtonView.prototype.registerPopover = function(p) {
 };
 
 
-Mavelous.CommStatusButtonView.prototype.buttonRender =  function() {
+/**
+ * Renders the button.  Called when the packet loss model changes.
+ */
+Mavelous.CommStatusButtonView.prototype.buttonRender = function() {
   var csm = this.commStatusModel;
   var state = csm.toJSON();
   var server = state['server'];
@@ -285,22 +289,26 @@ Mavelous.CommStatusButtonView.prototype.buttonRender =  function() {
 };
 
 
-Mavelous.CommStatusButtonView.prototype.setButton = function(stat) {
+/**
+ * Updates the button view to reflect the communications state.
+ * @param {Mavelous.CommStatusModel.State} state The communications state.
+ */
+Mavelous.CommStatusButtonView.prototype.setButton = function(state) {
   var csm = this.commStatusModel;
   this.$el.removeClass('btn-success btn-danger ' +
                        'btn-warning btn-inverse ');
   var html = 'Link: None';
   var lclass = 'btn-inverse';
-  if (stat === Mavelous.CommStatusModel.State.UNINITIALIZED) {
+  if (state === Mavelous.CommStatusModel.State.UNINITIALIZED) {
     lclass = 'btn-inverse';
     html = 'Link: None';
-  } else if (stat === Mavelous.CommStatusModel.State.OK) {
+  } else if (state === Mavelous.CommStatusModel.State.OK) {
     lclass = 'btn-success';
     html = 'Link: Good';
-  } else if (stat === Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
+  } else if (state === Mavelous.CommStatusModel.State.TIMED_OUT_ONCE) {
     lclass = 'btn-warning';
     html = 'Link: Lost';
-  } else if (stat === Mavelous.CommStatusModel.State.TIMED_OUT_MANY) {
+  } else if (state === Mavelous.CommStatusModel.State.TIMED_OUT_MANY) {
     lclass = 'btn-danger';
     html = 'Link: Lost';
   } else {
@@ -314,17 +322,24 @@ Mavelous.CommStatusButtonView.prototype.setButton = function(stat) {
 };
 
 
-Mavelous.CommStatusButtonView.prototype.packetLossString = function(l) {
-  return ('In last ' + l.period + 's, ' +
-          l.master_in + ' packets received, ' +
-          l.master_out + ' sent, ' + l.mav_loss + ' lost');
+/**
+ * @param {Object} stats Communications stats.
+ * @return {string} A text description of the communications stats.
+ * @private
+ */
+Mavelous.CommStatusButtonView.prototype.packetLossString_ = function(stats) {
+  return ('In last ' + stats.period + 's, ' +
+          stats.master_in + ' packets received, ' +
+          stats.master_out + ' sent, ' + stats.mav_loss + ' lost');
 };
 
 
-
+/**
+ * Renders the popover.
+ */
 Mavelous.CommStatusButtonView.prototype.popoverRender = function() {
   var delta = this.packetLossModel.getDelta();
-  var c = this.packetLossString(delta);
+  var c = this.packetLossString_(delta);
   if (this.popover) {
     this.popover.content(
         function($pcontent) {

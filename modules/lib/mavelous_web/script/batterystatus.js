@@ -4,6 +4,8 @@ goog.provide('Mavelous.BatteryButton');
 
 /**
  * Battery status button.
+ * @param {{mavlinkSrc: Mavelous.MavlinkAPI, el: (Element|jQuery)}} properties
+ *     Button properties.
  * @constructor
  * @extends {Backbone.View}
  */
@@ -24,27 +26,36 @@ Mavelous.BatteryButton.prototype.initialize = function() {
 };
 
 
+/**
+ * Handles SYS_STATUS mavlink messages.
+ */
 Mavelous.BatteryButton.prototype.onSysStatus = function() {
   var stat = this.sysstatus;
   var remaining = stat.get('battery_remaining');
   var voltage = stat.get('voltage_battery');
   if (remaining < 30) {
-    this.setButton('btn-warning', remaining.toFixed(0) + '%');
+    this.setButton_('btn-warning', remaining.toFixed(0) + '%');
   } else if (remaining < 20) {
-    this.setButton('btn-danger',
-                   remaining.toFixed(0) + '% ' + voltage.toFixed(1) + 'v');
+    this.setButton_('btn-danger',
+                    remaining.toFixed(0) + '% ' + voltage.toFixed(1) + 'v');
   } else if (remaining === undefined) {
-    this.setButton('btn-inverse', 'Unknown');
+    this.setButton_('btn-inverse', 'Unknown');
   } else {
-    this.setButton('btn-success', remaining.toFixed(0) + '%');
+    this.setButton_('btn-success', remaining.toFixed(0) + '%');
   }
 };
 
 
-Mavelous.BatteryButton.prototype.setButton = function(c, text) {
+/**
+ * Sets the button state.
+ * @param {string} cssClass The CSS class.
+ * @param {string} textLabel The button label.
+ * @private
+ */
+Mavelous.BatteryButton.prototype.setButton_ = function(cssClass, textLabel) {
   this.$el.removeClass('btn-success btn-warning btn-danger btn-inverse');
-  this.$el.addClass(c);
-  var html = '<span class="hidden-phone">Batt: ' + text + '</span>';
+  this.$el.addClass(cssClass);
+  var html = '<span class="hidden-phone">Batt: ' + textLabel + '</span>';
   html += '<i class="icon-fire icon-white visible-phone"></i>';
   this.$el.html(html);
 };
