@@ -121,7 +121,7 @@ mavelous.Mission = function(items) {
 
 
 mavelous.Mission.parseFromMavlink = function(jsonMissionItems) {
-  var missionItems = new Array();
+  var missionItems = [];
   for (var i = 0; i < jsonMissionItems.length; i++) {
     var message = jsonMissionItems[i];
     var type = mavelous.MissionItemType.findByCommandId(message.command);
@@ -136,9 +136,9 @@ mavelous.Mission.parseFromMavlink = function(jsonMissionItems) {
       'p2': message['param2'],
       'p3': message['param3'],
       'p4': message['param4'],
-      'x': message.['x'],
-      'y': message.['y'],
-      'z': message.['z']
+      'x': message['x'],
+      'y': message['y'],
+      'z': message['z']
     };
     var item_values = {};
     for (var v in values) {

@@ -33,7 +33,7 @@ Mavelous.LeafletDroneIconModel.prototype.defaults = function() {
 Mavelous.LeafletDroneIconModel.prototype.getIcon = function() {
   var name = this.get('icon');
   var iconSpec = Mavelous.LeafletDroneIconModel.Icons[name];
-  return new iconSpec.constructor;
+  return new iconSpec.constructor();
 };
 
 

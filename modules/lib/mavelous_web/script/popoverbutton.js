@@ -171,5 +171,5 @@ Mavelous.PopoverView.prototype.element = function(k) {
 
 
 Mavelous.PopoverView.prototype.content = function(k) {
-  this.element(function(e) { k(e.find('.popover-content > *')) });
+  this.element(function(e) { k(e.find('.popover-content > *')); });
 };

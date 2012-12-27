@@ -48,7 +48,9 @@ Mavelous.LeafletView.prototype.initialize = function() {
   this.panModel.bind('change:center', this.panModelChange, this);
   this.map.addEventListener(
       'dragstart',
-      function() {this.panModel.cancelTracking()},
+      function() {
+        this.panModel.cancelTracking();
+      },
       this);
   this.vehicleModel.bind('change', this.updateVehicleMarker, this);
   this.vehicleModel.bind('change', this.updateVehiclePath, this);
@@ -81,7 +83,7 @@ Mavelous.LeafletView.prototype.providerChange = function() {
  */
 Mavelous.LeafletView.prototype.panModelChange = function() {
   var center = this.panModel.get('center');
-  if (center == undefined) return;
+  if (center === undefined) return;
   if (this.initializedcenter) {
     this.map.panTo(center);
   } else {
@@ -99,7 +101,7 @@ Mavelous.LeafletView.prototype.updateVehicleMarker = function() {
   var p = this.vehicleModel.get('position');
   var h = this.vehicleModel.get('heading');
   if (!p || !h) return;
-  if (this.vehicleMarker == undefined) {
+  if (this.vehicleMarker === undefined) {
     this.vehicleMarker = new L.Marker(
         p,
         {

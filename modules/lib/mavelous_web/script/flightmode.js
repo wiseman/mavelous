@@ -46,6 +46,9 @@ Mavelous.FlightModeModel.prototype.initialize = function() {
 };
 
 
+/**
+ * Handles HEARTBEAT mavlink messages.
+ */
 Mavelous.FlightModeModel.prototype.onHeartbeat = function() {
   var modestring = Mavelous.util.heartbeat.modestring(this.heartbeat);
   var armed = Mavelous.util.heartbeat.armed(this.heartbeat);
@@ -53,6 +56,9 @@ Mavelous.FlightModeModel.prototype.onHeartbeat = function() {
 };
 
 
+/**
+ * Handles changes to the FlightModeModel.
+ */
 Mavelous.FlightModeModel.prototype.onChangeArmed = function() {
   if (this.get('armed')) {
     if (this.get('arming')) {
@@ -66,38 +72,43 @@ Mavelous.FlightModeModel.prototype.onChangeArmed = function() {
 };
 
 
+/**
+ * Requests that motors be armed.
+ */
 Mavelous.FlightModeModel.prototype.requestArm = function() {
-  this.postArmRequest();
+  this.postArmRequest_(true);
   this.set('arming', true);
 };
 
 
+/**
+ * Requests that motors be disarmed.
+ */
 Mavelous.FlightModeModel.prototype.requestDisarm = function() {
-  this.postDisarmRequest();
+  this.postArmRequest_(false);
   this.set('disarming', true);
 };
 
 
-Mavelous.FlightModeModel.prototype.postArmRequest = function() {
+/**
+ * Sends a request to the server to arm or disarm the motors.
+ * @param {boolean} armed Whether to arm the motors.
+ * @private
+ */
+Mavelous.FlightModeModel.prototype.postArmRequest_ = function(armed) {
+  var setting;
+  if (armed) {
+    setting = 'ARM';
+  } else {
+    setting = 'DISARM';
+  }
   $.ajax({
     type: 'POST',
     url: '/command_long',
     data: goog.json.serialize({
       command: 'COMPONENT_ARM_DISARM',
       component: 'SYSTEM_CONTROL',
-      setting: 'ARM'
-    })});
-};
-
-
-Mavelous.FlightModeModel.prototype.postDisarmRequest = function() {
-  $.ajax({
-    type: 'POST',
-    url: '/command_long',
-    data: goog.json.serialize({
-      command: 'COMPONENT_ARM_DISARM',
-      component: 'SYSTEM_CONTROL',
-      setting: 'DISARM'
+      setting: setting
     })});
 };
 
@@ -105,6 +116,7 @@ Mavelous.FlightModeModel.prototype.postDisarmRequest = function() {
 
 /**
  * Sends COMMAND_LONG mavlink message.
+ * @param {{mavlinkSrc: Mavelous.MavlinkAPI}} properties Model properties.
  * @constructor
  * @extends {Backbone.Model}
  */
@@ -114,6 +126,10 @@ Mavelous.CommandLongModel = function(properties) {
 goog.inherits(Mavelous.CommandLongModel, Backbone.Model);
 
 
+/**
+ * Sends a command to the server.
+ * @param {string} command The command to send.
+ */
 Mavelous.CommandLongModel.prototype.post = function(command) {
   if (typeof command == 'string') {
     $.ajax({
@@ -134,6 +150,7 @@ Mavelous.CommandLongModel.prototype.post = function(command) {
 
 /**
  * @constructor
+ * @param {{el: jQuery, model: Backbone.Model}} properties View properties.
  * @extends {Backbone.View}
  */
 Mavelous.ArmingButtonView = function(properties) {
@@ -148,13 +165,17 @@ goog.inherits(Mavelous.ArmingButtonView, Backbone.View);
  */
 Mavelous.ArmingButtonView.prototype.initialize = function() {
   this.model.on('change:armed change:arming change:disarming',
-                this.onChange, this);
-  this.$el.click(goog.bind(this.onClick, this));
-  this.onChange();
+                this.onChange_, this);
+  this.$el.click(goog.bind(this.onClick_, this));
+  this.onChange_();
 };
 
 
-Mavelous.ArmingButtonView.prototype.onClick = function() {
+/**
+ * Handles button clicks to arm/disarm the motors.
+ * @private
+ */
+Mavelous.ArmingButtonView.prototype.onClick_ = function() {
   if (this.model.get('armed')) {
     this.model.requestDisarm();
   } else {
@@ -163,7 +184,11 @@ Mavelous.ArmingButtonView.prototype.onClick = function() {
 };
 
 
-Mavelous.ArmingButtonView.prototype.onChange = function() {
+/**
+ * Handles changes in the model.
+ * @private
+ */
+Mavelous.ArmingButtonView.prototype.onChange_ = function() {
   this.$el.removeClass('btn-success btn-warning');
   if (this.model.get('armed')) {
     if (this.model.get('disarming')) {
@@ -187,6 +212,8 @@ Mavelous.ArmingButtonView.prototype.onChange = function() {
 
 
 /**
+ * @param {{el: jQuery, model: Mavelous.CommandLongModel, command: string}}
+ *     properties The view properties.
  * @constructor
  * @extends {Backbone.View}
  */
@@ -202,11 +229,15 @@ goog.inherits(Mavelous.CommandButtonView, Backbone.View);
  */
 Mavelous.CommandButtonView.prototype.initialize = function() {
   this.command = this.options['command'];
-  this.$el.click(goog.bind(this.onClick, this));
+  this.$el.click(goog.bind(this.onClick_, this));
 };
 
 
-Mavelous.CommandButtonView.prototype.onClick = function() {
+/**
+ * Handles button clicks.
+ * @private
+ */
+Mavelous.CommandButtonView.prototype.onClick_ = function() {
   this.model.post(this.command);
 };
 
@@ -214,6 +245,8 @@ Mavelous.CommandButtonView.prototype.onClick = function() {
 
 /**
  * Flight mode button Backbone view.
+ * @param {{el: jQuery, modeModel: Mavelous.FlightModeModel, commandModel:
+ *     Mavelous.CommandLongModel}} properties View properties.
  * @constructor
  * @extends {Backbone.View}
  */

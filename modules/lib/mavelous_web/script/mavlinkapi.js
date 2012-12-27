@@ -82,7 +82,7 @@ Mavelous.MavlinkAPI.prototype.subscribe = function(
 
 /**
  * Handles an array of incoming mavlink messages.
- * @param {Array.<Object>} msgEnvelopes The messages.
+ * @param {Object} msgEnvelopes The messages.
  */
 Mavelous.MavlinkAPI.prototype.handleMessages = function(msgEnvelopes) {
   _.each(msgEnvelopes, this.handleMessage, this);

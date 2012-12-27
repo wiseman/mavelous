@@ -253,6 +253,9 @@ Mavelous.CommStatusButtonView.prototype.initialize = function() {
 };
 
 
+/**
+ * TODO: Document how this is used.
+ */
 Mavelous.CommStatusButtonView.prototype.registerPopover = function(p) {
   this.popover = p;
   this.popover.on('selected', this.popoverRender, this);

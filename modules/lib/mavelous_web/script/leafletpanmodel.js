@@ -91,15 +91,14 @@ Mavelous.LeafletPanModel.prototype.initialize = function() {
 
 
 Mavelous.LeafletPanModel.prototype.onVehicleChange = function() {
+  var pos = this.vehicle.get('position');
   if (!this.get('initialized')) {
-    var p = this.vehicle.get('position');
-    if (p && p.lat && p.lng) {
-      this.set({ 'center': p, 'initialized': true });
+    if (pos && pos.lat && pos.lng) {
+      this.set({ 'center': pos, 'initialized': true });
     }
   } else if (this.get('tracking')) {
-    var p = this.vehicle.get('position');
-    if (p && p.lat && p.lng) {
-      this.set({ 'center': p });
+    if (pos && pos.lat && pos.lng) {
+      this.set({ 'center': pos });
     }
   }
 };

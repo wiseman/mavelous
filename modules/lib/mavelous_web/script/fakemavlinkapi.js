@@ -79,6 +79,11 @@ Mavelous.FakeVehicle.prototype.update = function() {
 };
 
 
+/**
+ * Updates fake MavlinkMessages.
+ * @param {Object} msgModels The MavlinkMessages.
+ * @return {Object} The newest messages.
+ */
 Mavelous.FakeVehicle.prototype.requestMessages = function(msgModels) {
   /* Throttle results to 5hz - give a non-error response either way,
    * but only increment the index above the expected if its been more

@@ -473,8 +473,8 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
 
   var lineHeightAdjust = attrs['fontSize'] / 2;
   for (var v = minValue; v <= maxValue; v += minorTicInterval) {
-    var isMajorTic = (v % majorTicInterval < .001 ||
-                      majorTicInterval - (v % majorTicInterval) < .001);
+    var isMajorTic = (v % majorTicInterval < 0.001 ||
+                      majorTicInterval - (v % majorTicInterval) < 0.001);
     var y = HEIGHT / 2 + valueScale * (this.value - v);
     if (isMajorTic) {
       context.beginPath();

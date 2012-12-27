@@ -42,8 +42,13 @@ Mavelous.LeafletProviders.prototype.getProvider = function() {
 };
 
 
+/** @typedef {{description: String, constructor: Function}} */
+Mavelous.LeafletProvider;
+
+
 /**
  * Provider specs.
+ * @type {Object}
  */
 Mavelous.LeafletProviders.Providers = {
   'bing': {

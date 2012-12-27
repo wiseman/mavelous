@@ -178,7 +178,7 @@ mavelous.ui.MissionItem = function(item, renderer) {
       text: '',
       checked: false};
   }
-  this.fields = new Array();
+  this.fields = [];
   this.setModel(item);
 };
 goog.inherits(mavelous.ui.MissionItem, goog.ui.Control);

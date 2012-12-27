@@ -96,7 +96,7 @@ Mavelous.GpsButtonView.prototype.renderFixType = function(fix_type) {
     /* 2D Fix */
     lclass = 'btn-warning';
     html = 'GPS: 2D';
-  } else if (fix_type = 1) {
+  } else if (fix_type == 1) {
     /* Nofix */
     lclass = 'btn-danger';
     html = 'GPS: No Lock';
