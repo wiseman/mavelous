@@ -20,7 +20,6 @@ goog.addDependency("../../../../script/leafletview.js", ['Mavelous.LeafletView']
 goog.addDependency("../../../../script/mavlinkapi.js", ['Mavelous.MavlinkAPI', 'Mavelous.MavlinkMessage'], ['Mavelous.FakeVehicle', 'goog.debug.Logger']);
 goog.addDependency("../../../../script/guideview.js", ['Mavelous.GuideAltitudeView'], []);
 goog.addDependency("../../../../script/vehicleleafletposition.js", ['Mavelous.VehicleLeafletPosition'], []);
-goog.addDependency("../../../../script/mavelous-compiled.js", [], []);
 goog.addDependency("../../../../script/fakemavlinkapi.js", ['Mavelous.FakeVehicle'], ['goog.math']);
 goog.addDependency("../../../../script/pfd.js", ['Mavelous.ArtificialHorizon', 'Mavelous.PFD', 'Mavelous.Tape'], ['goog.dom']);
 goog.addDependency("../../../../script/guidemodel.js", ['Mavelous.GuideModel'], ['goog.json']);
