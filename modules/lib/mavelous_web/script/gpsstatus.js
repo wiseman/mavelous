@@ -7,59 +7,6 @@ goog.provide('Mavelous.GpsTextView');
  * @constructor
  * @extends {Backbone.View}
  */
-Mavelous.GpsTextView = function(properties) {
-  goog.base(this, properties);
-};
-goog.inherits(Mavelous.GpsTextView, Backbone.View);
-
-
-/**
- * @override
- * @export
- */
-Mavelous.GpsTextView.prototype.initialize = function() {
-  var mavlink = this.options['mavlinkSrc'];
-  this.gps = mavlink.subscribe('GPS_RAW_INT', this.render, this);
-  this.render();
-};
-
-
-/**
- * @override
- * @export
- */
-Mavelous.GpsTextView.prototype.render = function() {
-  var gps = this.gps;
-  var fix_type = gps.get('fix_type');
-  var lclass = 'slow';
-  var text = 'GPS: ?';
-  if (fix_type >= 3) {
-    lclass = 'ok';
-    text = 'GPS: 3D';
-  } else if (fix_type == 2) {
-    lclass = 'slow';
-    text = 'GPS: 2D';
-  } else if (fix_type === null || fix_type === undefined) {
-    lclass = 'slow';
-    text = 'GPS: ?';
-  } else {
-    lclass = 'error';
-    text = 'GPS: ' + fix_type;
-  }
-  var html = '<span class="' + lclass + '">';
-  html += '<span class="hidden-phone">' + text + '</span>';
-  html += '<i class="icon-globe icon-white visible-phone"></i>';
-  html += '</span>';
-  this.$el.html(html);
-  return this;
-};
-
-
-
-/**
- * @constructor
- * @extends {Backbone.View}
- */
 Mavelous.GpsButtonView = function(properties) {
   this.popoverTitle = 'GPS Info';
   goog.base(this, properties);
