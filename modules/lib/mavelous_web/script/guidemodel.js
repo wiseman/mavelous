@@ -52,6 +52,10 @@ Mavelous.GuideModel.prototype.onMetaWaypointChange = function() {
 };
 
 
+/**
+ * Sets a new target waypoint.
+ * @param {{lat: number, lon: number}} target The new target location.
+ */
 Mavelous.GuideModel.prototype.setTarget = function(target) {
   this.set(target);
   this.send();

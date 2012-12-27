@@ -4,6 +4,8 @@ goog.provide('Mavelous.GpsTextView');
 
 
 /**
+ * @param {{mavlinkSrc: Mavelous.MavlinkAPI, el: jQuery}} properties View
+ *     properties.
  * @constructor
  * @extends {Backbone.View}
  */
@@ -20,8 +22,8 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
  */
 Mavelous.GpsButtonView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
-  this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS, this);
-  this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus, this);
+  this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS_, this);
+  this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus_, this);
 };
 
 
@@ -31,7 +33,13 @@ Mavelous.GpsButtonView.prototype.registerPopover = function(p) {
 };
 
 
-Mavelous.GpsButtonView.prototype.renderFixType = function(fix_type) {
+/**
+ * Renders the GPS fix type into the button.
+ * @param {number} fix_type The GPS fix type (from the GPS_RAW_INT mavlink
+ *     message).
+ * @private
+ */
+Mavelous.GpsButtonView.prototype.renderFixType_ = function(fix_type) {
   this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
   var lclass = 'btn-inverse';
   var html = 'GPS: None';
@@ -52,18 +60,25 @@ Mavelous.GpsButtonView.prototype.renderFixType = function(fix_type) {
   html = '<span class="hidden-phone">' + html + '</span>';
   html += '<i class="icon-globe icon-white visible-phone"></i>';
   this.$el.html(html);
-  return this;
 };
 
 
-Mavelous.GpsButtonView.prototype.onGPS = function() {
+/**
+ * Handles GPS_RAW_INT mavlink messages.
+ * @private
+ */
+Mavelous.GpsButtonView.prototype.onGPS_ = function() {
   var fix_type = this.gps.get('fix_type');
-  this.renderFixType(fix_type);
+  this.renderFixType_(fix_type);
   this.renderPopover(); /* XXX need to tie the loop properly. */
 };
 
 
-Mavelous.GpsButtonView.prototype.onStatus = function() {
+/**
+ * Handles GPS_STATUS messages.
+ * @private
+ */
+Mavelous.GpsButtonView.prototype.onStatus_ = function() {
   this.renderPopover();
 };
 

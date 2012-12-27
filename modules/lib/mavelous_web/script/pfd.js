@@ -703,6 +703,12 @@ Mavelous.PFD.prototype.draw = function() {
 };
 
 
+/**
+ * Tell the PFD whether it is visible.  This is a hack--we don't
+ * bother doing all the rendering work if we're not visible, but there
+ * should be some other way of detecting that?
+ * @param {boolean} isVisible Whether the PFD is visible.
+ */
 Mavelous.PFD.prototype.setVisible = function(isVisible) {
   this.visible = isVisible;
 };

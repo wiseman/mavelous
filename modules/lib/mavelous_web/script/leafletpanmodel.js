@@ -86,11 +86,15 @@ Mavelous.LeafletPanModel.prototype.defaults = function() {
  */
 Mavelous.LeafletPanModel.prototype.initialize = function() {
   this.vehicle = this.get('vehicle');
-  this.vehicle.on('change', this.onVehicleChange, this);
+  this.vehicle.on('change', this.onVehicleChange_, this);
 };
 
 
-Mavelous.LeafletPanModel.prototype.onVehicleChange = function() {
+/**
+ * Handles changes to the vehicle model.
+ * @private
+ */
+Mavelous.LeafletPanModel.prototype.onVehicleChange_ = function() {
   var pos = this.vehicle.get('position');
   if (!this.get('initialized')) {
     if (pos && pos.lat && pos.lng) {

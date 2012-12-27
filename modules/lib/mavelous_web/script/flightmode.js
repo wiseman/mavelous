@@ -265,7 +265,7 @@ Mavelous.FlightModeButtonView.prototype.initialize = function() {
   this.modeModel = this.options['modeModel'];
   this.commandModel = this.options['commandModel'];
   this.$el = this.options['el'];
-  this.modeModel.on('change', this.onChange, this);
+  this.modeModel.on('change', this.onChange_, this);
 };
 
 
@@ -275,7 +275,11 @@ Mavelous.FlightModeButtonView.prototype.registerPopover = function(p) {
 };
 
 
-Mavelous.FlightModeButtonView.prototype.onChange = function() {
+/**
+ * Handles changes to the FlightModeModel.
+ * @private
+ */
+Mavelous.FlightModeButtonView.prototype.onChange_ = function() {
   this.$el.removeClass('btn-success btn-warning');
   if (this.modeModel.get('armed')) {
     this.$el.addClass('btn-success');
