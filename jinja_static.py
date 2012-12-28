@@ -29,7 +29,7 @@ def create_env(defines):
 
 def main(argv):
   parser = argparse.ArgumentParser(
-    description='Expand a static jinja template')
+    description='Expand a static jinja template file.')
   parser.add_argument('template_file', type=argparse.FileType('r'))
   parser.add_argument(
     '-D', '--define', action='append', help='Define a template value.')
