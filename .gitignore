@@ -10,3 +10,4 @@ mav.log
 mav.log.raw
 test.ArduCopter/
 .DS_Store
+.tools
