@@ -245,6 +245,22 @@ There is a public [mailing list](https://groups.google.com/group/mavelous)
 for Mavelous users and developers.
 
 
+Development
+-----------
+
+To lint the code:
+
+```
+$ make lint
+```
+
+To regenerate `mavelous-deps.js`:
+
+```
+$ make deps
+```
+
+
 Acknowledgments
 ------------
 
