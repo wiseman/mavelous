@@ -248,10 +248,23 @@ for Mavelous users and developers.
 Development
 -----------
 
+To generate HTML files from templates, generate javascript
+dependencies (`mavelous-deps.js`) and minify/compile javascript:
+
+```
+$ make
+```
+
 To lint the code:
 
 ```
 $ make lint
+```
+
+To fix some lint issues automatically:
+
+```
+$ make lintfix
 ```
 
 To regenerate `mavelous-deps.js`:

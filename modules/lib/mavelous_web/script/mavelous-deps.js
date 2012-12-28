@@ -3,7 +3,6 @@ goog.addDependency("../../../../script/batterystatus.js", ['Mavelous.BatteryButt
 goog.addDependency("../../../../script/statustextview.js", ['Mavelous.StatustextView'], []);
 goog.addDependency("../../../../script/flightmode.js", ['Mavelous.CommandLongModel', 'Mavelous.FlightModeButtonView', 'Mavelous.FlightModeModel'], ['Mavelous.util', 'goog.json']);
 goog.addDependency("../../../../script/leafletproviders.js", ['Mavelous.LeafletProviders'], []);
-goog.addDependency("../../../../script/mavelous-deps.js", [], []);
 goog.addDependency("../../../../script/settingsview.js", ['Mavelous.SettingsView'], ['Mavelous.PFDSettingsModel']);
 goog.addDependency("../../../../script/pfdview.js", ['Mavelous.PFDView'], ['Mavelous.PFD', 'Mavelous.PFDSettingsModel']);
 goog.addDependency("../../../../script/pfdsettings.js", ['Mavelous.PFDSettingsModel'], ['goog.json']);

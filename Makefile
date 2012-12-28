@@ -41,15 +41,16 @@ JS_FILES = app.js \
 
 JS_SRCS = $(addprefix ${JS_SCRIPT_DIR}/,${JS_FILES})
 
-MAVELOUS_TARGET = ${JS_SCRIPT_DIR}/mavelous.min.js
-MAVELOUS_DEPS_TARGET = ${JS_SCRIPT_DIR}/mavelous-deps.js
+MAVELOUS_TARGETS = ${JS_SCRIPT_DIR}/mavelous.min.js ${JS_SCRIPT_DIR}/mavelous-deps.js ${WEB_DIR}/index.html ${WEB_DIR}/index_compiled.html
+
+.PHONY: all build deps lint lintfix clean build-tool-deps
 
 
 all: build deps
 
-build: build-tool-deps ${MAVELOUS_TARGET}
+build: build-tool-deps ${MAVELOUS_TARGETS}
 
-deps: ${MAVELOUS_DEPS_TARGET}
+deps: ${JS_SCRIPT_DIR}/mavelous-deps.js
 
 lint:
 	-gjslint --unix_mode --strict ${JS_SRCS}
@@ -59,13 +60,13 @@ lintfix:
 	fixjsstyle --strict ${JS_SRCS}
 
 clean:
-	-rm ${MAVELOUS_TARGET} ${MAVELOUS_DEPS_TARGET}
+	-rm ${MAVELOUS_TARGETS}
 
 
 build-tool-deps: ${CLOSURE_COMPILER}
 
 
-${MAVELOUS_TARGET}: ${JS_SRCS}
+${JS_SCRIPT_DIR}/mavelous.min.js: ${JS_SRCS}
 	python ${CLOSURE_BUILDER} \
 	    --root=${CLOSURE_LIBRARY_DIR}/closure/goog \
 	    --root=${CLOSURE_LIBRARY_DIR}/third_party/closure \
@@ -73,7 +74,7 @@ ${MAVELOUS_TARGET}: ${JS_SRCS}
 	    --namespace="Mavelous.App" \
 	    --output_mode=compiled \
 	    --compiler_jar=${CLOSURE_COMPILER} \
-	    --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
+	    --compiler_flags="--compilation_level=SIMPLE_OPTIMIZATIONS" \
 	    --compiler_flags="--summary_detail_level=3" \
 	    --compiler_flags="--warning_level=VERBOSE" \
 	    --compiler_flags="--externs=${WEB_DIR}/externs/jquery-1.7.js" \
@@ -83,16 +84,24 @@ ${MAVELOUS_TARGET}: ${JS_SRCS}
 	    --compiler_flags="--externs=${WEB_DIR}/externs/twitter-bootstrap.js" \
 	    --compiler_flags="--externs=${WEB_DIR}/externs/underscore-1.3.1.js" \
 	    --compiler_flags="--generate_exports" \
-	    --compiler_flags="--js_output_file=${MAVELOUS_TARGET}"
+	    --compiler_flags="--js_output_file=$@"
 
 
-${MAVELOUS_DEPS_TARGET}: ${JS_SRCS}
+${JS_SCRIPT_DIR}/mavelous-deps.js: ${JS_SRCS}
 	python ${CLOSURE_LIBRARY_DIR}/closure/bin/calcdeps.py \
 	 --dep=${CLOSURE_LIBRARY_DIR} \
 	 --path=${JS_SCRIPT_DIR} \
-	 --exclude=${MAVELOUS_TARGET} \
+	 --exclude=${JS_SCRIPT_DIR}/mavelous.min.js \
 	 --output_mode=deps \
-	 --output_file=${MAVELOUS_DEPS_TARGET}
+	 --output_file=$@
+
+
+${WEB_DIR}/index.html: ${WEB_DIR}/index.tmpl
+	python jinja_static.py ${WEB_DIR}/index.tmpl --output_file=${WEB_DIR}/index.html
+
+${WEB_DIR}/index_compiled.html: ${WEB_DIR}/index.tmpl
+	python jinja_static.py ${WEB_DIR}/index.tmpl -D compiled --output_file=${WEB_DIR}/index_compiled.html
+
 
 
 ${CLOSURE_COMPILER}:
