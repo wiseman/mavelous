@@ -83,9 +83,11 @@ Mavelous.MavlinkAPI.prototype.subscribe = function(
 /**
  * Handles an array of incoming mavlink messages.
  * @param {Object} msgEnvelopes The messages.
+ * @private
  */
-Mavelous.MavlinkAPI.prototype.handleMessages = function(msgEnvelopes) {
-  _.each(msgEnvelopes, this.handleMessage, this);
+Mavelous.MavlinkAPI.prototype.handleMessages_ = function(msgEnvelopes) {
+  this.trigger('gotServerResponse');
+  _.each(msgEnvelopes, this.handleMessage_, this);
 };
 
 
@@ -94,9 +96,9 @@ Mavelous.MavlinkAPI.prototype.handleMessages = function(msgEnvelopes) {
  *
  * @param {Object} msg The JSON mavlink message.
  * @param {string} msgType The message type.
+ * @private
  */
-Mavelous.MavlinkAPI.prototype.handleMessage = function(msg, msgType) {
-  this.trigger('gotServerResponse');
+Mavelous.MavlinkAPI.prototype.handleMessage_ = function(msg, msgType) {
   // Update the model if this is a new message for this type.
   var msgModel = this.messageModels[msgType];
   var mdlidx = msgModel.get('_index');
@@ -136,7 +138,7 @@ Mavelous.MavlinkAPI.prototype.onlineUpdate = function() {
     datatype: 'json',
     success: function(data) {
       this.gotonline = true;
-      this.handleMessages(data);
+      this.handleMessages_(data);
     },
     error: function() {
       this.trigger('gotServerError');
@@ -158,7 +160,7 @@ Mavelous.MavlinkAPI.prototype.offlineUpdate = function() {
   goog.asserts.assert(this.fakevehicle);
   this.fakevehicle.update();
   var msgs = this.fakevehicle.requestMessages(this.messageModels);
-  this.handleMessages(msgs);
+  this.handleMessages_(msgs);
 };
 
 
