@@ -1,15 +1,15 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure
 http://closure-library.googlecode.com/svn
 
 
 
-2012-12-08T00:06:50.000000Z
-2365
-johnlenz@google.com
+2012-12-20T23:42:01.000000Z
+2405
+markcollins@google.com
 
 
 
@@ -26,6 +26,9 @@ johnlenz@google.com
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
 
+goog
+dir
+
 known_issues
 dir
 
@@ -33,8 +36,5 @@ bin
 dir
 
 css
-dir
-
-goog
 dir
 

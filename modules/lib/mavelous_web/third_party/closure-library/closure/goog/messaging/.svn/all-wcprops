@@ -1,61 +1,19 @@
 K 25
 svn:wc:ra_dav:version-url
 V 47
-/svn/!svn/ver/2268/trunk/closure/goog/messaging
-END
-deferredchannel.js
-K 25
-svn:wc:ra_dav:version-url
-V 66
-/svn/!svn/ver/1566/trunk/closure/goog/messaging/deferredchannel.js
-END
-multichannel_test.html
-K 25
-svn:wc:ra_dav:version-url
-V 69
-/svn/!svn/ver/850/trunk/closure/goog/messaging/multichannel_test.html
-END
-bufferedchannel.js
-K 25
-svn:wc:ra_dav:version-url
-V 66
-/svn/!svn/ver/1899/trunk/closure/goog/messaging/bufferedchannel.js
-END
-messaging.js
-K 25
-svn:wc:ra_dav:version-url
-V 59
-/svn/!svn/ver/850/trunk/closure/goog/messaging/messaging.js
-END
-portchannel.js
-K 25
-svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/1899/trunk/closure/goog/messaging/portchannel.js
-END
-messagechannel.js
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/!svn/ver/850/trunk/closure/goog/messaging/messagechannel.js
-END
-loggerclient.js
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svn/!svn/ver/1302/trunk/closure/goog/messaging/loggerclient.js
-END
-multichannel.js
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svn/!svn/ver/1302/trunk/closure/goog/messaging/multichannel.js
+/svn/!svn/ver/2391/trunk/closure/goog/messaging
 END
 abstractchannel_test.html
 K 25
 svn:wc:ra_dav:version-url
 V 73
 /svn/!svn/ver/1434/trunk/closure/goog/messaging/abstractchannel_test.html
+END
+multichannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/1302/trunk/closure/goog/messaging/multichannel.js
 END
 portnetwork_test.html
 K 25
@@ -79,7 +37,7 @@ abstractchannel.js
 K 25
 svn:wc:ra_dav:version-url
 V 66
-/svn/!svn/ver/1302/trunk/closure/goog/messaging/abstractchannel.js
+/svn/!svn/ver/2391/trunk/closure/goog/messaging/abstractchannel.js
 END
 loggerserver_test.html
 K 25
@@ -152,4 +110,46 @@ K 25
 svn:wc:ra_dav:version-url
 V 61
 /svn/!svn/ver/1506/trunk/closure/goog/messaging/portcaller.js
+END
+deferredchannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1566/trunk/closure/goog/messaging/deferredchannel.js
+END
+multichannel_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/850/trunk/closure/goog/messaging/multichannel_test.html
+END
+bufferedchannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/1899/trunk/closure/goog/messaging/bufferedchannel.js
+END
+messagechannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/850/trunk/closure/goog/messaging/messagechannel.js
+END
+portchannel.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1899/trunk/closure/goog/messaging/portchannel.js
+END
+messaging.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/850/trunk/closure/goog/messaging/messaging.js
+END
+loggerclient.js
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/1302/trunk/closure/goog/messaging/loggerclient.js
 END

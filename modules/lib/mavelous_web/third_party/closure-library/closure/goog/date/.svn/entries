@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/date
 http://closure-library.googlecode.com/svn
 
@@ -25,6 +25,40 @@ vladbagrin@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+date_test.html
+file
+
+
+
+
+2012-11-03T23:33:09.801414Z
+21ea048394def174fe9ad43cb6db23c9
+2012-05-04T13:58:21.000000Z
+1819
+pallosp@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+54080
 
 utcdatetime.js
 file
@@ -297,38 +331,4 @@ has-props
 
 
 839
-
-date_test.html
-file
-
-
-
-
-2012-11-03T23:33:09.801414Z
-21ea048394def174fe9ad43cb6db23c9
-2012-05-04T13:58:21.000000Z
-1819
-pallosp@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-54080
 

@@ -175,8 +175,9 @@ goog.proto2.Message.prototype.setUnknown = function(tag, value) {
 goog.proto2.Message.prototype.forEachUnknown = function(callback, opt_scope) {
   var scope = opt_scope || this;
   for (var key in this.values_) {
-    if (!this.fields_[/** @type {number} */ (key)]) {
-      callback.call(scope, Number(key), this.values_[key]);
+    var keyNum = Number(key);
+    if (!this.fields_[keyNum]) {
+      callback.call(scope, keyNum, this.values_[key]);
     }
   }
 };
@@ -361,9 +362,9 @@ goog.proto2.Message.prototype.equals = function(other) {
     if (this.has(field)) {
       var isComposite = field.isCompositeType();
 
-      function fieldsEqual(value1, value2) {
+      var fieldsEqual = function(value1, value2) {
         return isComposite ? value1.equals(value2) : value1 == value2;
-      }
+      };
 
       var thisValue = this.getValueForField_(field);
       var otherValue = other.getValueForField_(field);

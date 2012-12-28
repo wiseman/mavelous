@@ -1,13 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 48
-/svn/!svn/ver/2251/trunk/closure/goog/disposable
-END
-disposable.js
-K 25
-svn:wc:ra_dav:version-url
-V 62
-/svn/!svn/ver/2251/trunk/closure/goog/disposable/disposable.js
+/svn/!svn/ver/2380/trunk/closure/goog/disposable
 END
 disposable_test.html
 K 25
@@ -20,4 +14,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 63
 /svn/!svn/ver/1499/trunk/closure/goog/disposable/idisposable.js
+END
+disposable.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/2380/trunk/closure/goog/disposable/disposable.js
 END

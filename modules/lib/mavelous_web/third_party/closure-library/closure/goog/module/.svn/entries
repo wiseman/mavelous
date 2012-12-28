@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/module
 http://closure-library.googlecode.com/svn
 
@@ -25,6 +25,40 @@ wittek@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+loader.js
+file
+
+
+
+
+2012-11-03T23:33:10.909382Z
+df5ec529d2446e8db33d320964c2a63b
+2012-02-16T01:53:32.000000Z
+1588
+kpy@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9226
 
 modulemanager_test.html
 file
@@ -402,38 +436,4 @@ has-props
 
 
 5694
-
-loader.js
-file
-
-
-
-
-2012-11-03T23:33:10.909382Z
-df5ec529d2446e8db33d320964c2a63b
-2012-02-16T01:53:32.000000Z
-1588
-kpy@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9226
 

@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/format
 http://closure-library.googlecode.com/svn
 
@@ -25,74 +25,6 @@ davinci@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-htmlprettyprinter_test.html
-file
-
-
-
-
-2012-11-03T23:33:12.001350Z
-9cc48ae724a88345a1acd5d35135b482
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-7034
-
-format.js
-file
-
-
-
-
-2012-11-03T23:33:12.001350Z
-89927762d69c0ec16fda145d6ba51325
-2012-06-19T08:48:07.000000Z
-1991
-davinci@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-16561
 
 jsonprettyprinter_test.html
 file
@@ -297,4 +229,72 @@ has-props
 
 
 12971
+
+htmlprettyprinter_test.html
+file
+
+
+
+
+2012-11-03T23:33:12.001350Z
+9cc48ae724a88345a1acd5d35135b482
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7034
+
+format.js
+file
+
+
+
+
+2012-11-03T23:33:12.001350Z
+89927762d69c0ec16fda145d6ba51325
+2012-06-19T08:48:07.000000Z
+1991
+davinci@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16561
 

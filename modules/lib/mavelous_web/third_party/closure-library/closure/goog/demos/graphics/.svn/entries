@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/demos/graphics
 http://closure-library.googlecode.com/svn
 
@@ -25,6 +25,74 @@ nnaze@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+advancedcoordinates.html
+file
+
+
+
+
+2012-11-03T23:32:59.697706Z
+b8a83532dda4b76b227157648dfdf328
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4307
+
+advancedcoordinates2.html
+file
+
+
+
+
+2012-11-03T23:32:59.697706Z
+3cec9380c1e4df3f79f8511d0f7e9d14
+2011-04-12T20:35:47.000000Z
+850
+diegosalas@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3548
 
 events.html
 file
@@ -229,72 +297,4 @@ has-props
 
 
 8687
-
-advancedcoordinates.html
-file
-
-
-
-
-2012-11-03T23:32:59.697706Z
-b8a83532dda4b76b227157648dfdf328
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4307
-
-advancedcoordinates2.html
-file
-
-
-
-
-2012-11-03T23:32:59.697706Z
-3cec9380c1e4df3f79f8511d0f7e9d14
-2011-04-12T20:35:47.000000Z
-850
-diegosalas@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3548
 

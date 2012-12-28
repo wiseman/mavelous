@@ -1,14 +1,14 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/soy
 http://closure-library.googlecode.com/svn
 
 
 
-2012-11-28T21:12:17.000000Z
-2340
+2012-12-14T20:12:13.000000Z
+2382
 gboyer@google.com
 
 
@@ -32,11 +32,11 @@ file
 
 
 
-2012-11-03T23:33:12.765328Z
-a77962608939368b816110695d143d21
-2011-12-19T23:47:22.000000Z
-1490
-ecattell@google.com
+2012-12-28T09:00:16.168640Z
+a1843c4f9dbb5658f03d88a5305b31b3
+2012-12-14T20:12:13.000000Z
+2382
+gboyer@google.com
 has-props
 
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-5604
+5619
 
 soy_test.js
 file
@@ -168,11 +168,11 @@ file
 
 
 
-2012-11-03T23:33:12.765328Z
-c1ad948a19418f5ec4806a81ef6fde08
-2011-06-02T18:12:20.000000Z
-993
-chrishenry@google.com
+2012-12-28T09:00:16.168640Z
+001a80deeb89aae0f5a0aae39d0a9ec4
+2012-12-14T20:12:13.000000Z
+2382
+gboyer@google.com
 has-props
 
 
@@ -194,7 +194,7 @@ has-props
 
 
 
-2366
+2578
 
 soy_test.html
 file

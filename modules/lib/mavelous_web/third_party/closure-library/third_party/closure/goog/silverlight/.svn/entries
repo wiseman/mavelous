@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/third_party/closure/goog/silverlight
 http://closure-library.googlecode.com/svn
 
@@ -25,6 +25,74 @@ bolinfest@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+ClipboardButtonApp.xaml.cs
+file
+
+
+
+
+2012-11-03T23:32:57.097781Z
+5c274142643d4d63a28927ebaa3f2311
+2010-11-29T17:27:37.000000Z
+497
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3027
+
+ClosureClipboardButton.csproj.user
+file
+
+
+
+
+2012-11-03T23:32:57.097781Z
+9cac3d690c8074d225f241303f50955e
+2010-11-29T17:27:37.000000Z
+497
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1114
 
 clipboardbutton.js
 file
@@ -365,72 +433,4 @@ has-props
 
 
 1388
-
-ClipboardButtonApp.xaml.cs
-file
-
-
-
-
-2012-11-03T23:32:57.097781Z
-5c274142643d4d63a28927ebaa3f2311
-2010-11-29T17:27:37.000000Z
-497
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3027
-
-ClosureClipboardButton.csproj.user
-file
-
-
-
-
-2012-11-03T23:32:57.097781Z
-9cac3d690c8074d225f241303f50955e
-2010-11-29T17:27:37.000000Z
-497
-nicksantos@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1114
 

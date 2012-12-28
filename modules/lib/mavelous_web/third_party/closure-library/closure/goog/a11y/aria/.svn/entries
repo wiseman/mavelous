@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/a11y/aria
 http://closure-library.googlecode.com/svn
 
@@ -25,40 +25,6 @@ bobbrose@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-announcer.js
-file
-
-
-
-
-2012-12-11T05:05:04.307392Z
-bad370ed3acc8eccec166251a6f17c01
-2012-12-05T18:23:27.000000Z
-2355
-atincheva@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3260
 
 aria.js
 file
@@ -161,4 +127,38 @@ has-props
 
 
 2933
+
+announcer.js
+file
+
+
+
+
+2012-12-11T05:05:04.307392Z
+bad370ed3acc8eccec166251a6f17c01
+2012-12-05T18:23:27.000000Z
+2355
+atincheva@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3260
 

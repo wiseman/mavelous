@@ -1,7 +1,7 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/window
 http://closure-library.googlecode.com/svn
 
@@ -25,40 +25,6 @@ mpd@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-window.js
-file
-
-
-
-
-2012-11-03T23:32:59.493712Z
-a61e89c8a5d157f7b1c7c2699f38f6fa
-2011-08-22T15:58:45.000000Z
-1240
-mpd@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-8195
 
 window_test.html
 file
@@ -93,4 +59,38 @@ has-props
 
 
 7208
+
+window.js
+file
+
+
+
+
+2012-11-03T23:32:59.493712Z
+a61e89c8a5d157f7b1c7c2699f38f6fa
+2011-08-22T15:58:45.000000Z
+1240
+mpd@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8195
 

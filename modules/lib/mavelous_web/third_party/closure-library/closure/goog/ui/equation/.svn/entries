@@ -1,15 +1,15 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/ui/equation
 http://closure-library.googlecode.com/svn
 
 
 
-2012-05-22T21:01:40.000000Z
-1896
-chrishenry@google.com
+2012-12-12T19:33:45.000000Z
+2374
+arthurhsu@google.com
 
 
 
@@ -25,142 +25,6 @@ chrishenry@google.com
 
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
-
-texpane.js
-file
-
-
-
-
-2012-11-03T23:33:15.101261Z
-42df4998fbed787927324d04e86764f6
-2011-09-27T00:20:47.000000Z
-1302
-bmccann@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-12688
-
-texeditor.js
-file
-
-
-
-
-2012-11-03T23:33:15.101261Z
-0f71ea0494390e6fe6481959d6ee9d38
-2011-09-27T00:20:47.000000Z
-1302
-bmccann@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-3709
-
-mathpalette.js
-file
-
-
-
-
-2012-11-03T23:33:15.101261Z
-78b7a588aef5f9fe8429aaf2770a9e49
-2011-08-19T16:22:39.000000Z
-1236
-bills@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1735
-
-arrowpalette.js
-file
-
-
-
-
-2012-11-03T23:33:15.101261Z
-9cc4a48be69dcf4cb1e37e27fd9fa7c0
-2011-08-19T16:22:39.000000Z
-1236
-bills@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1520
 
 imagerenderer.js
 file
@@ -196,17 +60,17 @@ has-props
 
 5681
 
-equationeditordialog.js
+arrowpalette.js
 file
 
 
 
 
-2012-11-03T23:33:15.105261Z
-02a624202b7735d997d943c3a4a3b1ae
-2011-09-27T00:20:47.000000Z
-1302
-bmccann@google.com
+2012-11-03T23:33:15.101261Z
+9cc4a48be69dcf4cb1e37e27fd9fa7c0
+2011-08-19T16:22:39.000000Z
+1236
+bills@google.com
 has-props
 
 
@@ -228,7 +92,7 @@ has-props
 
 
 
-3961
+1520
 
 greekpalette.js
 file
@@ -263,6 +127,40 @@ has-props
 
 
 1953
+
+equationeditordialog.js
+file
+
+
+
+
+2012-12-28T09:00:16.216642Z
+cb88310b992b3973b44df5e26266232c
+2012-12-12T19:33:45.000000Z
+2374
+arthurhsu@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4010
 
 menupalette.js
 file
@@ -366,6 +264,40 @@ has-props
 
 1158
 
+palettemanager.js
+file
+
+
+
+
+2012-12-28T09:00:16.212642Z
+321f47ec9e58d2560706c6a81e64c316
+2012-12-12T19:33:45.000000Z
+2374
+arthurhsu@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5606
+
 comparisonpalette.js
 file
 
@@ -399,40 +331,6 @@ has-props
 
 
 1635
-
-palettemanager.js
-file
-
-
-
-
-2012-11-03T23:33:15.101261Z
-00d7bcc6e2fb22435000dfa44ab377ae
-2011-09-27T00:20:47.000000Z
-1302
-bmccann@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5564
 
 editorpane.js
 file
@@ -535,4 +433,106 @@ has-props
 
 
 8017
+
+texpane.js
+file
+
+
+
+
+2012-11-03T23:33:15.101261Z
+42df4998fbed787927324d04e86764f6
+2011-09-27T00:20:47.000000Z
+1302
+bmccann@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+12688
+
+texeditor.js
+file
+
+
+
+
+2012-11-03T23:33:15.101261Z
+0f71ea0494390e6fe6481959d6ee9d38
+2011-09-27T00:20:47.000000Z
+1302
+bmccann@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3709
+
+mathpalette.js
+file
+
+
+
+
+2012-11-03T23:33:15.101261Z
+78b7a588aef5f9fe8429aaf2770a9e49
+2011-08-19T16:22:39.000000Z
+1236
+bills@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1735
 

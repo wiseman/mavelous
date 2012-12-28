@@ -1,19 +1,13 @@
 K 25
 svn:wc:ra_dav:version-url
 V 43
-/svn/!svn/ver/1926/trunk/closure/goog/tweak
-END
-registry.js
-K 25
-svn:wc:ra_dav:version-url
-V 54
-/svn/!svn/ver/850/trunk/closure/goog/tweak/registry.js
+/svn/!svn/ver/2399/trunk/closure/goog/tweak
 END
 tweakui.js
 K 25
 svn:wc:ra_dav:version-url
-V 53
-/svn/!svn/ver/850/trunk/closure/goog/tweak/tweakui.js
+V 54
+/svn/!svn/ver/2399/trunk/closure/goog/tweak/tweakui.js
 END
 entries.js
 K 25
@@ -30,8 +24,8 @@ END
 registry_test.html
 K 25
 svn:wc:ra_dav:version-url
-V 61
-/svn/!svn/ver/850/trunk/closure/goog/tweak/registry_test.html
+V 62
+/svn/!svn/ver/2374/trunk/closure/goog/tweak/registry_test.html
 END
 entries_test.html
 K 25
@@ -48,6 +42,12 @@ END
 testhelpers.js
 K 25
 svn:wc:ra_dav:version-url
-V 57
-/svn/!svn/ver/850/trunk/closure/goog/tweak/testhelpers.js
+V 58
+/svn/!svn/ver/2374/trunk/closure/goog/tweak/testhelpers.js
+END
+registry.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/850/trunk/closure/goog/tweak/registry.js
 END

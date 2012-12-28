@@ -1,15 +1,15 @@
 10
 
 dir
-2365
+2405
 http://closure-library.googlecode.com/svn/trunk/closure/goog/ui/editor
 http://closure-library.googlecode.com/svn
 
 
 
-2012-09-28T16:23:40.000000Z
-2196
-avictor@google.com
+2012-12-17T17:43:05.000000Z
+2386
+nicksantos@google.com
 
 
 
@@ -26,17 +26,17 @@ avictor@google.com
 
 0b95b8e8-c90f-11de-9d4f-f947ee5921c8
 
-defaulttoolbar.js
+toolbarcontroller.js
 file
 
 
 
 
 2012-11-03T23:33:15.661245Z
-c33f70b1c639fc9b104ae4e8581beeb7
-2012-03-26T23:42:03.000000Z
-1689
-chrishenry@google.com
+4f3d98102d3c286c002276027f4510a9
+2011-12-13T22:20:28.000000Z
+1472
+ccalabro@google.com
 has-props
 
 
@@ -58,7 +58,41 @@ has-props
 
 
 
-39437
+9123
+
+defaulttoolbar.js
+file
+
+
+
+
+2012-12-28T09:00:16.264644Z
+9c1ac97aa115752f79132b124cb3d9b9
+2012-12-17T17:43:05.000000Z
+2386
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+39450
 
 messages.js
 file
@@ -467,38 +501,4 @@ has-props
 
 
 20001
-
-toolbarcontroller.js
-file
-
-
-
-
-2012-11-03T23:33:15.661245Z
-4f3d98102d3c286c002276027f4510a9
-2011-12-13T22:20:28.000000Z
-1472
-ccalabro@google.com
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-9123
 
