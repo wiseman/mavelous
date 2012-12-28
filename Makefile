@@ -53,7 +53,7 @@ deps: ${MAVELOUS_DEPS_TARGET}
 
 lint:
 	-gjslint --unix_mode --strict ${JS_SRCS}
-	-jshint ${JS_SRCS}
+	-jshint --config=jshintrc ${JS_SRCS}
 
 lintfix:
 	fixjsstyle --strict ${JS_SRCS}
