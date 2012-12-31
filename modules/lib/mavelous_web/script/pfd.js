@@ -309,6 +309,7 @@ Mavelous.Tape.prototype.initTape_ = function(config) {
   var WIDTH = Mavelous.Tape.WIDTH;
   var HEIGHT = Mavelous.Tape.HEIGHT;
   this.setDefaultAttrs({
+    'backgroundColor': undefined,
     'width': WIDTH,
     'height': HEIGHT,
     'fontFamily': 'Calibri',
@@ -441,11 +442,13 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   var attrs = this.getAttrs();
 
   // background
-  context.beginPath();
-  context.fillStyle = attrs['backgroundColor'];
-  context.rect(0, 0, 30, 140);
-  context.closePath();
-  this.fillStroke(context);
+  if (goog.isDefAndNotNull(attrs['backgroundColor'])) {
+    context.beginPath();
+    context.fillStyle = attrs['backgroundColor'];
+    context.rect(0, 0, 30, 140);
+    context.closePath();
+    this.fillStroke(context);
+  }
 
   // Draw the value tics.
   var minorTicInterval = 2;
