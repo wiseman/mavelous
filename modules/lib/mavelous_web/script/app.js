@@ -21,12 +21,14 @@ goog.require('Mavelous.PFD');
 goog.require('Mavelous.PFDSettingsModel');
 goog.require('Mavelous.PFDView');
 goog.require('Mavelous.PacketLossModel');
+goog.require('Mavelous.PopoverView');
+goog.require('Mavelous.RadioButtonPopoverView');
 goog.require('Mavelous.SettingsView');
-goog.require('Mavelous.StatusButtons');
 goog.require('Mavelous.StatustextView');
 goog.require('Mavelous.VehicleLeafletPosition');
 
 goog.require('goog.Uri');
+goog.require('goog.array');
 goog.require('goog.async.AnimationDelay');
 goog.require('goog.async.Throttle');
 goog.require('goog.debug.Console');
@@ -164,7 +166,7 @@ Mavelous.App.prototype.start = function() {
   });
 
   /* Radio view controller */
-  this.statusButtons = Mavelous.StatusButtons(
+  this.statusButtons = this.createStatusButtons_(
       [this.gpsButtonView, this.commStatusButtonView, this.flightModeButtonView]
       );
 
@@ -225,6 +227,25 @@ Mavelous.App.prototype.start = function() {
       });
   animationDelay.start();
 };
+
+
+/**
+ * Creates a RadioButtonPopoverView of status buttons.
+ *
+ * @param {Array.<Backbone.View>} buttons The navbar button views.
+ * @return {Mavelous.RadioButtonPopoverView} The new popoview view.
+ * @private
+ */
+Mavelous.App.prototype.createStatusButtons_ = function(buttons) {
+  return new Mavelous.RadioButtonPopoverView({
+    'popovers': goog.array.map(
+        buttons,
+        function(b) {
+          return new Mavelous.PopoverView({ 'button': b });
+        })
+  });
+};
+
 
 
 // Ensures the symbol will be visible after compiler renaming.
