@@ -29,7 +29,6 @@ JS_FILES = app.js \
 	   mission.js \
 	   missionui.js \
 	   modestringview.js \
-	   navbarbuttons.js \
 	   pfd.js \
 	   pfdsettings.js \
 	   pfdview.js \
