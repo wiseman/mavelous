@@ -144,17 +144,6 @@ mavelous.ui.MissionItemRenderer.prototype.decorate = function(
   label.decorate(goog.dom.getNextElementSibling(checkbox.getElement()));
   missionItem.getModel().setType(label.getLabelText());
 
-  // Note that the following approach would not have worked because using
-  // goog.ui.decorate() creates a checkbox that is already in the document, so
-  // it cannot be added to missionItem because it is not in the document yet,
-  // as it is in the process of being decorated. In this case, decorate() must
-  // be called after addChild(), as demonstrated in the working code earlier.
-  //
-  // var checkboxEl = goog.dom.getFirstElementChild(element);
-  // var checkbox = /** @type {goog.ui.Checkbox} */ goog.ui.decorate(checkboxEl);
-  // missionItem.addChild(checkbox);
-  // missionItem.getModel().checked = checkbox.isChecked();
-
   return element;
 };
 
@@ -321,7 +310,13 @@ goog.inherits(mavelous.ui.Input, goog.ui.Control);
 /** @inheritDoc */
 mavelous.ui.Input.prototype.createDom = function() {
   this.setElementInternal(
-      this.getDomHelper().createDom('input', {'type': 'text', 'size': '5', 'value': this.value_}));
+      this.getDomHelper().createDom(
+          'input',
+          {
+            'type': 'text',
+            'size': '5',
+            'value': this.value_
+          }));
   goog.style.setUnselectable(this.getElement(), false, true);
 };
 
@@ -434,20 +429,6 @@ mavelous.ui.Mission.prototype.enterDocument = function() {
   goog.base(this, 'enterDocument');
   //goog.style.setUnselectable(this.getElement(), true, false);
 };
-
-
-/**
- * @param {goog.events.Event} e The event.
- * @private
- */
-// mavelous.ui.Mission.prototype.onCheckChange_ = function(e) {
-//   // The mavelous.ui.Mission class chooses to keep CHECK and UNCHECK events to
-//   // itself by preventing such events from bubbling upward. Instead, it expects
-//   // clients to listen to its custom CHECKED_COUNT_CHANGED events for updates.
-//   e.stopPropagation();
-//   this.dispatchEvent(new goog.events.Event(
-//       mavelous.ui.Mission.EventType.CHECKED_COUNT_CHANGED, this));
-// };
 
 
 /** @enum {string} */
