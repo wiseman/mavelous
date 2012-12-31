@@ -63,7 +63,7 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
   /* this.buttons :: [ SelectedModel ]*/
   this.buttons = _.map(this.options['popovers'], /* :: [PopoverView] */
-                       goog.bind(this.registerButton, this));
+                       goog.bind(this.registerButton_, this));
 };
 
 
@@ -73,12 +73,13 @@ Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
  * @param {Object} btn button.
  * @param {number} index beep.
  * @return {Mavelous.SelectedModel} The new model.
+ * @private
  */
-Mavelous.RadioButtonPopoverView.prototype.registerButton = function(
+Mavelous.RadioButtonPopoverView.prototype.registerButton_ = function(
     btn, index) {
   var mdl = new Mavelous.SelectedModel();
   mdl.set('index', index);
-  btn.$el.click(goog.bind(this.onButtonClick, this, index));
+  btn.$el.click(goog.bind(this.onButtonClick_, this, index));
   btn.selectedModel = mdl;
   mdl.bind('change', btn.onSelectedChange, btn);
   return mdl;
@@ -88,8 +89,9 @@ Mavelous.RadioButtonPopoverView.prototype.registerButton = function(
 /**
  * Handles button clicks.
  * @param {number} btnindex The button index.
+ * @private
  */
-Mavelous.RadioButtonPopoverView.prototype.onButtonClick = function(btnindex) {
+Mavelous.RadioButtonPopoverView.prototype.onButtonClick_ = function(btnindex) {
   var selected = this.buttons[btnindex].get('selected');
   if (selected) {
     /* Unset this button - no buttons are selected. */
