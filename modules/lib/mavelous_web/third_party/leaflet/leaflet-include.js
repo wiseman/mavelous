@@ -53,6 +53,7 @@
 		'map/handler/Map.TouchZoom.js',
 		'map/handler/Map.DoubleClickZoom.js',
 		'map/handler/Map.ScrollWheelZoom.js',
+		'map/handler/Map.ModalScrollWheelZoom.js',
 		'map/handler/Map.BoxZoom.js',
 		'map/handler/Map.Keyboard.js',
 
