@@ -39,6 +39,8 @@ Mavelous.LeafletView.prototype.initialize = function() {
     'layers': [this.tileLayer],
     'zoomControl': false,
     'doubleClickZoom': false,
+    'scrollWheelZoom': false,
+    'centerScrollWheelZoom': true,
     'attributionControl': false,
     'maxZoom': 21
   });
@@ -46,6 +48,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
   this.providerModel.bind('change', this.providerChange, this);
   this.vehicleIconModel.bind('change', this.vehicleIconChange, this);
   this.panModel.bind('change:center', this.panModelChange, this);
+  this.panModel.bind('change:tracking', this.panTrackingChange, this);
   this.map.addEventListener(
       'dragstart',
       function() {
@@ -79,7 +82,7 @@ Mavelous.LeafletView.prototype.providerChange = function() {
 
 
 /**
- * Handles pan model changes.
+ * Handles pan model position changes.
  */
 Mavelous.LeafletView.prototype.panModelChange = function() {
   var center = this.panModel.get('center');
@@ -92,7 +95,20 @@ Mavelous.LeafletView.prototype.panModelChange = function() {
   }
 };
 
-
+/**
+ * Handles pan model tracking mode changes.
+ */
+Mavelous.LeafletView.prototype.panTrackingChange = function() {
+  var tracking = this.panModel.get('tracking');
+  if (tracking === undefined) return;
+  if (tracking) {
+    this.map.scrollWheelZoom.disable();
+    this.map.centerScrollWheelZoom.enable();
+  } else {
+    this.map.scrollWheelZoom.enable();
+    this.map.centerScrollWheelZoom.disable();
+  }
+};
 /**
  * Called when the vehicle's position or heading changes.
  */
