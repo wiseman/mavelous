@@ -35,14 +35,22 @@ Mavelous.LeafletView.prototype.initialize = function() {
   this.initializedcenter = false;
 
   this.tileLayer = this.providerModel.getProvider();
+
+  this.touchzoomable = L.Browser.touch && !L.Browser.android23;
+
   this.map = new L.Map('map', {
     'layers': [this.tileLayer],
     'zoomControl': false,
     'doubleClickZoom': false,
+    'attributionControl': false,
+    'maxZoom': 21,
+    /* Modal scroll wheel zoom: by default, zoom to center */
     'scrollWheelZoom': false,
     'centerScrollWheelZoom': true,
-    'attributionControl': false,
-    'maxZoom': 21
+    /* Modal touch zoom: by default, zoom to center */
+    'touchZoom': false,
+    'centerTouchZoom': this.touchzoomable
+
   });
 
   this.providerModel.bind('change', this.providerChange, this);
@@ -104,9 +112,18 @@ Mavelous.LeafletView.prototype.panTrackingChange = function() {
   if (tracking) {
     this.map.scrollWheelZoom.disable();
     this.map.centerScrollWheelZoom.enable();
+    this.map.touchZoom.disable();
+    if (this.touchzoomable) {
+        this.map.centerTouchZoom.enable();
+    }
+
   } else {
     this.map.scrollWheelZoom.enable();
     this.map.centerScrollWheelZoom.disable();
+    this.map.centerTouchZoom.disable();
+    if (this.touchzoomable) {
+        this.map.touchZoom.enable();
+    }
   }
 };
 /**

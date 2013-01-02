@@ -11,7 +11,6 @@ goog.addDependency("../../../../script/pfdview.js", ['Mavelous.PFDView'], ['Mave
 goog.addDependency("../../../../script/gpsstatus.js", ['Mavelous.GpsButtonView', 'Mavelous.GpsTextView'], []);
 goog.addDependency("../../../../script/commstatus.js", ['Mavelous.CommStatusButtonView', 'Mavelous.CommStatusModel', 'Mavelous.PacketLossModel'], []);
 goog.addDependency("../../../../script/missionui.js", ['mavelous.ui', 'mavelous.ui.Input', 'mavelous.ui.Label', 'mavelous.ui.Mission', 'mavelous.ui.MissionItemRenderer', 'mavelous.ui.MissionRenderer'], ['goog.dom', 'goog.events', 'goog.events.Event', 'goog.ui.BidiInput', 'goog.ui.Checkbox', 'goog.ui.Checkbox.State', 'goog.ui.Container', 'goog.ui.ContainerRenderer', 'goog.ui.Control', 'goog.ui.ControlRenderer', 'goog.ui.FlatMenuButtonRenderer', 'goog.ui.Select', 'goog.ui.registry', 'mavelous.Mission', 'mavelous.MissionItem', 'mavelous.MissionItemType']);
-goog.addDependency("../../../../script/mavelous-deps.js", [], []);
 goog.addDependency("../../../../script/vehicleleafletposition.js", ['Mavelous.VehicleLeafletPosition'], []);
 goog.addDependency("../../../../script/statustextview.js", ['Mavelous.StatustextView'], []);
 goog.addDependency("../../../../script/fakemavlinkapi.js", ['Mavelous.FakeVehicle'], ['goog.math']);
