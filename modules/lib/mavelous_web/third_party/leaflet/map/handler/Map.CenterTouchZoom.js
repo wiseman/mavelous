@@ -24,7 +24,7 @@ L.Map.CenterTouchZoom = L.Handler.extend({
 		    p2 = map.mouseEventToLayerPoint(e.touches[1]),
 		    viewCenter = map._getCenterLayerPoint();
 
-		this._startCenter = p1.add(p2)._divideBy(2);
+	        this._startCenter = viewCenter;
 		this._startDist = p1.distanceTo(p2);
 
 		this._moved = false;
@@ -88,7 +88,6 @@ L.Map.CenterTouchZoom = L.Handler.extend({
 		// it didn't count the origin on the first touch-zoom but worked correctly afterwards
 
 		map._tileBg.style[L.DomUtil.TRANSFORM] =
-		        L.DomUtil.getTranslateString(this._delta) + ' ' +
 		        L.DomUtil.getScaleString(this._scale, this._startCenter);
 	},
 
@@ -123,7 +122,7 @@ L.Map.CenterTouchZoom = L.Handler.extend({
 	},
 
 	_getScaleOrigin: function () {
-        return this._map._getCenterLayerPoint();
+          return this._map._getCenterLayerPoint();
 	}
 });
 
