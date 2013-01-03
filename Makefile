@@ -92,7 +92,7 @@ ${JS_SCRIPT_DIR}/mavelous-deps.js: ${JS_SRCS}
 	 --path=${JS_SCRIPT_DIR} \
 	 --exclude=${JS_SCRIPT_DIR}/mavelous.min.js \
 	 --output_mode=deps \
-	 --output_file=$@
+	| sort > $@
 
 
 ${WEB_DIR}/index.html: ${WEB_DIR}/index.tmpl
