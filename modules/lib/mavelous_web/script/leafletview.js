@@ -24,9 +24,10 @@ L.Transition = null;
 
 
 /**
- * @param {String} id The ID of the element to put the map in.
+ * @param {Element|string} id The ID of the element to put the map in.
  * @param {Object} options Map options.
  * @constructor
+ * @extends {L.Map}
  */
 Mavelous.UnanimatedMap = function(id, options) {
   goog.base(this, id, options);
@@ -37,6 +38,7 @@ goog.inherits(Mavelous.UnanimatedMap, L.Map);
 /**
  * Pans without animating.
  * @param {L.LatLng} center The new center of the map.
+ * @override
  */
 Mavelous.UnanimatedMap.prototype.panTo = function(center) {
   var offset = this._getNewTopLeftPoint(center).subtract(

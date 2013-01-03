@@ -4,16 +4,54 @@
  * @externs
  */
 
+
 /**
  * @type {Object}
  * @const
  */
-
 var L = {};
 
 
 /**
+ * @type {Object}
+ * @const
+ */
+L.Mixin = {};
+
+
+
+/**
+ * @constructor
+ */
+L.Mixin.Events = function() {};
+
+
+/**
+ * @param {string} type
+ * @param {Object=} opt_data
+ * @return {L.Mixin.Events}
+ */
+L.Mixin.Events.prototype.fire = function(type, opt_data) {};
+
+
+/**
+ * @type {Object}
+ */
+L.Browser = {};
+
+
+/** @type {boolean} */
+L.Browser.touch;
+
+
+/** @type {boolean} */
+L.Browser.android23;
+
+
+
+/**
  * @param {Object} options
+ * @constructor
  */
 L.Icon = function(options) {};
 
@@ -44,6 +82,13 @@ L.LatLng.prototype.lng;
 L.Point = function(x, y) {};
 
 
+/**
+ * @param {L.Point} point
+ * @return {L.Point}
+ */
+L.Point.prototype.subtract = function(point) {};
+
+
 
 /**
  * @param {string} apiKey
@@ -67,6 +112,7 @@ L.TileLayer = function(url, config) {};
  * @param {Element|string} id
  * @param {Object=} opt_config
  * @constructor
+ * @extends {L.Mixin.Events}
  */
 L.Map = function(id, opt_config) {};
 
@@ -115,6 +161,29 @@ L.Map.prototype.setView = function(center, zoom, opt_forceReset) {};
  * @param {number} zoom
  */
 L.Map.prototype.setZoom = function(zoom) {};
+
+
+/**
+ * @param {L.LatLng} center
+ * @param {number=} opt_zoom
+ * @return {L.Point}
+ * @protected
+ */
+L.Map.prototype._getNewTopLeftPoint = function(center, opt_zoom) {};
+
+
+/**
+ * @return {L.Point}
+ * @protected
+ */
+L.Map.prototype._getTopLeftPoint = function() {};
+
+
+/**
+ * @param {L.Point} offset
+ * @protected
+ */
+L.Map.prototype._rawPanBy = function(offset) {};
 
 
 
