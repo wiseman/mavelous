@@ -65,7 +65,7 @@ clean:
 build-tool-deps: ${CLOSURE_COMPILER}
 
 
-${JS_SCRIPT_DIR}/mavelous.min.js: ${JS_SRCS}
+${JS_SCRIPT_DIR}/mavelous.min.js: ${JS_SRCS} ${WEB_DIR}/externs/*.js
 	python ${CLOSURE_BUILDER} \
 	    --root=${CLOSURE_LIBRARY_DIR}/closure/goog \
 	    --root=${CLOSURE_LIBRARY_DIR}/third_party/closure \
