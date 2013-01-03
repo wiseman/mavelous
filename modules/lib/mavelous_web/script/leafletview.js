@@ -11,6 +11,44 @@ var markerIcon = L.Icon.extend({
 
 
 
+/* Code to prevent animation of pans has been stolen from
+ * https://github.com/CloudMade/Leaflet/issues/340#issuecomment-3948709
+ *
+ * The part where we globally set L.Transition to null is pretty hacky.
+ */
+
+
+/** This is a hack. */
+L.Transition = null;
+
+
+
+/**
+ * @param {String} id The ID of the element to put the map in.
+ * @param {Object} options Map options.
+ * @constructor
+ */
+Mavelous.UnanimatedMap = function(id, options) {
+  goog.base(this, id, options);
+};
+goog.inherits(Mavelous.UnanimatedMap, L.Map);
+
+
+/**
+ * Pans without animating.
+ * @param {L.LatLng} center The new center of the map.
+ */
+Mavelous.UnanimatedMap.prototype.panTo = function(center) {
+  var offset = this._getNewTopLeftPoint(center).subtract(
+      this._getTopLeftPoint());
+  this.fire('movestart');
+  this._rawPanBy(offset);
+  this.fire('move');
+  this.fire('moveend');
+};
+
+
+
 /**
  * @param {Object} properties The view properties.
  * @constructor
@@ -38,7 +76,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
 
   this.touchzoomable = L.Browser.touch && !L.Browser.android23;
 
-  this.map = new L.Map('map', {
+  this.map = new Mavelous.UnanimatedMap('map', {
     'layers': [this.tileLayer],
     'zoomControl': false,
     'doubleClickZoom': false,
@@ -52,6 +90,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
     'centerTouchZoom': this.touchzoomable
 
   });
+
 
   this.providerModel.bind('change', this.providerChange, this);
   this.vehicleIconModel.bind('change', this.vehicleIconChange, this);
@@ -103,6 +142,7 @@ Mavelous.LeafletView.prototype.panModelChange = function() {
   }
 };
 
+
 /**
  * Handles pan model tracking mode changes.
  */
@@ -114,7 +154,7 @@ Mavelous.LeafletView.prototype.panTrackingChange = function() {
     this.map.centerScrollWheelZoom.enable();
     this.map.touchZoom.disable();
     if (this.touchzoomable) {
-        this.map.centerTouchZoom.enable();
+      this.map.centerTouchZoom.enable();
     }
 
   } else {
@@ -122,10 +162,12 @@ Mavelous.LeafletView.prototype.panTrackingChange = function() {
     this.map.centerScrollWheelZoom.disable();
     this.map.centerTouchZoom.disable();
     if (this.touchzoomable) {
-        this.map.touchZoom.enable();
+      this.map.touchZoom.enable();
     }
   }
 };
+
+
 /**
  * Called when the vehicle's position or heading changes.
  */
