@@ -39,13 +39,10 @@
         , title = this.getTitle()
         , content = this.getContent()
       /* customization to use optional content function, pch (mavelous) */
-      $tip.find('.popover-title')[this.isHTML(title) ? 'html' : 'text'](title)
+      $tip.find('.popover-title').text(title)
       if (typeof k == 'function') {
         k($tip);
-      } else {
-        $tip.find('.popover-content > *')[this.isHTML(content) ? 'html' : 'text'](content)
       }
-
       $tip.removeClass('fade top bottom left right in')
     }
 
@@ -69,7 +66,7 @@
       }
       return this.$tip
     }
-/// inherited below this point 
+
   , init: function (type, element, options) {
       var eventIn
         , eventOut
@@ -77,55 +74,13 @@
       this.type = type
       this.$element = $(element)
       this.options = this.getOptions(options)
-      this.enabled = true
 
-      if (this.options.trigger != 'manual') {
-        eventIn  = this.options.trigger == 'hover' ? 'mouseenter' : 'focus'
-        eventOut = this.options.trigger == 'hover' ? 'mouseleave' : 'blur'
-        this.$element.on(eventIn, this.options.selector, $.proxy(this.enter, this))
-        this.$element.on(eventOut, this.options.selector, $.proxy(this.leave, this))
-      }
-
-      this.options.selector ?
-        (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
-        this.fixTitle()
     }
 
   , getOptions: function (options) {
-      options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data())
+      return $.extend({}, $.fn[this.type].defaults, options,
+                      this.$element.data())
 
-      if (options.delay && typeof options.delay == 'number') {
-        options.delay = {
-          show: options.delay
-        , hide: options.delay
-        }
-      }
-
-      return options
-    }
-
-  , enter: function (e) {
-      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
-
-      if (!self.options.delay || !self.options.delay.show) return self.show()
-
-      clearTimeout(this.timeout)
-      self.hoverState = 'in'
-      this.timeout = setTimeout(function() {
-        if (self.hoverState == 'in') self.show()
-      }, self.options.delay.show)
-    }
-
-  , leave: function (e) {
-      var self = $(e.currentTarget)[this.type](this._options).data(this.type)
-
-      if (this.timeout) clearTimeout(this.timeout)
-      if (!self.options.delay || !self.options.delay.hide) return self.hide()
-
-      self.hoverState = 'out'
-      this.timeout = setTimeout(function() {
-        if (self.hoverState == 'out') self.hide()
-      }, self.options.delay.hide)
     }
 
     /* argument k is a customization to use optional content callback
@@ -139,7 +94,7 @@
         , placement
         , tp
 
-      if (this.hasContent() && this.enabled) {
+      if (this.hasContent()) {
         $tip = this.tip()
         this.setContent(k)
 
@@ -185,15 +140,6 @@
       }
     }
 
-  , isHTML: function(text) {
-      // html string detection logic adapted from jQuery
-      return typeof text != 'string'
-        || ( text.charAt(0) === "<"
-          && text.charAt( text.length - 1 ) === ">"
-          && text.length >= 3
-        ) || /^(?:[^<]*<[\w\W]+>[^>]*$)/.exec(text)
-    }
-
   , hide: function () {
       var that = this
         , $tip = this.tip()
@@ -216,13 +162,6 @@
         $tip.remove()
     }
 
-  , fixTitle: function () {
-      var $e = this.$element
-      if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
-        $e.attr('data-original-title', $e.attr('title') || '').removeAttr('title')
-      }
-    }
-
   , getPosition: function (inside) {
       return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
         width: this.$element[0].offsetWidth
@@ -240,31 +179,6 @@
 
       return title
     }
-
-  , validate: function () {
-      if (!this.$element[0].parentNode) {
-        this.hide()
-        this.$element = null
-        this.options = null
-      }
-    }
-
-  , enable: function () {
-      this.enabled = true
-    }
-
-  , disable: function () {
-      this.enabled = false
-    }
-
-  , toggleEnabled: function () {
-      this.enabled = !this.enabled
-    }
-
-  , toggle: function () {
-      this[this.tip().hasClass('in') ? 'hide' : 'show']()
-    }
-
 
   }
 
@@ -298,7 +212,6 @@
   , selector: false
   , trigger: 'hover'
   , title: ''
-  , delay: 0
   }
 
 }(window.jQuery);
