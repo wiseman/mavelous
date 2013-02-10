@@ -282,4 +282,3 @@ Mavelous.FlightModeButtonView.prototype.onChange_ = function() {
 };
 
 
-

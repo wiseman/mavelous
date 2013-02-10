@@ -320,4 +320,3 @@ Mavelous.CommStatusButtonView.prototype.setButton = function(state) {
 };
 
 
-

@@ -52,27 +52,10 @@ Mavelous.PopoverView.prototype.onSelectedChange = function() {
   }
 };
 
-
-/**
- * Handles new HTML content.
- * @param {string} c The new HTML.
- */
-Mavelous.PopoverView.prototype.onContent = function(c) {
+Mavelous.PopoverView.prototype.content = function(c) {
   if (this.selectedModel.get('selected')) {
-    this.$el.popover('show', function(pel) {
-      pel.find('.popover-content > *').html(c);
+    this.$el.popover('show', function(e) {
+      (e.find('.popover-content > *')).html(c);
     });
   }
-};
-
-
-Mavelous.PopoverView.prototype.element = function(k) {
-  if (this.selectedModel.get('selected')) {
-    this.$el.popover('show', k);
-  }
-};
-
-
-Mavelous.PopoverView.prototype.content = function(k) {
-  this.element(function(e) { k(e.find('.popover-content > *')); });
 };
