@@ -34,20 +34,13 @@
 
     constructor: Popover
 
-  , setContent: function (k) {
+  , setContent: function (content) {
       var $tip = this.tip()
         , title = this.getTitle()
-        , content = this.getContent()
       /* customization to use optional content function, pch (mavelous) */
       $tip.find('.popover-title').text(title)
-      if (typeof k == 'function') {
-        k($tip);
-      }
+      $tip.find('.popover-content').html(content);
       $tip.removeClass('fade top bottom left right in')
-    }
-
-  , hasContent: function () {
-      return this.getTitle() || this.getContent()
     }
 
   , getContent: function () {
@@ -83,9 +76,7 @@
 
     }
 
-    /* argument k is a customization to use optional content callback
-     * pch (mavelous) */
-  , show: function (k) {
+  , show: function (content) {
       var $tip
         , inside
         , pos
@@ -94,50 +85,48 @@
         , placement
         , tp
 
-      if (this.hasContent()) {
-        $tip = this.tip()
-        this.setContent(k)
+      $tip = this.tip()
+      this.setContent(content)
 
-        if (this.options.animation) {
-          $tip.addClass('fade')
-        }
-
-        placement = typeof this.options.placement == 'function' ?
-          this.options.placement.call(this, $tip[0], this.$element[0]) :
-          this.options.placement
-
-        inside = /in/.test(placement)
-
-        $tip
-          .remove()
-          .css({ top: 0, left: 0, display: 'block' })
-          .appendTo(inside ? this.$element : document.body)
-
-        pos = this.getPosition(inside)
-
-        actualWidth = $tip[0].offsetWidth
-        actualHeight = $tip[0].offsetHeight
-
-        switch (inside ? placement.split(' ')[1] : placement) {
-          case 'bottom':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'top':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'left':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
-            break
-          case 'right':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
-            break
-        }
-
-        $tip
-          .css(tp)
-          .addClass(placement)
-          .addClass('in')
+      if (this.options.animation) {
+        $tip.addClass('fade')
       }
+
+      placement = typeof this.options.placement == 'function' ?
+        this.options.placement.call(this, $tip[0], this.$element[0]) :
+        this.options.placement
+
+      inside = /in/.test(placement)
+
+      $tip
+        .remove()
+        .css({ top: 0, left: 0, display: 'block' })
+        .appendTo(inside ? this.$element : document.body)
+
+      pos = this.getPosition(inside)
+
+      actualWidth = $tip[0].offsetWidth
+      actualHeight = $tip[0].offsetHeight
+
+      switch (inside ? placement.split(' ')[1] : placement) {
+        case 'bottom':
+          tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
+          break
+        case 'top':
+          tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
+          break
+        case 'left':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
+          break
+        case 'right':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
+          break
+      }
+
+      $tip
+        .css(tp)
+        .addClass(placement)
+        .addClass('in')
     }
 
   , hide: function () {

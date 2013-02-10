@@ -54,8 +54,6 @@ Mavelous.PopoverView.prototype.onSelectedChange = function() {
 
 Mavelous.PopoverView.prototype.content = function(c) {
   if (this.selectedModel.get('selected')) {
-    this.$el.popover('show', function(e) {
-      (e.find('.popover-content > *')).html(c);
-    });
+    this.$el.popover('show', c);
   }
 };
