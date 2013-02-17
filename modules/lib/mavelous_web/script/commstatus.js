@@ -2,8 +2,6 @@ goog.provide('Mavelous.CommStatusButtonView');
 goog.provide('Mavelous.CommStatusModel');
 goog.provide('Mavelous.PacketLossModel');
 
-
-
 /**
  * Communication status Backbone model.
  * @param {{mavlinkSrc: Mavelous.MavlinkAPI}} properties The model properties.
@@ -235,7 +233,6 @@ Mavelous.PacketLossModel.prototype.diff = function(latest, compare, period) {
  * @extends {Backbone.View}
  */
 Mavelous.CommStatusButtonView = function(properties) {
-  this.popoverTitle = 'Link Info';
   goog.base(this, properties);
 };
 goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
@@ -247,9 +244,7 @@ goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
  */
 Mavelous.CommStatusButtonView.prototype.initialize = function() {
   this.commStatusModel = this.options['commStatusModel'];
-  this.packetLossModel = this.options['packetLossModel'];
   this.commStatusModel.bind('change', this.buttonRender, this);
-  this.packetLossModel.bind('change', this.popoverRender, this);
 };
 
 
@@ -325,28 +320,4 @@ Mavelous.CommStatusButtonView.prototype.setButton = function(state) {
 };
 
 
-/**
- * @param {Object} stats Communications stats.
- * @return {string} A text description of the communications stats.
- * @private
- */
-Mavelous.CommStatusButtonView.prototype.packetLossString_ = function(stats) {
-  return ('In last ' + stats.period + 's, ' +
-          stats.master_in + ' packets received, ' +
-          stats.master_out + ' sent, ' + stats.mav_loss + ' lost');
-};
 
-
-/**
- * Renders the popover.
- */
-Mavelous.CommStatusButtonView.prototype.popoverRender = function() {
-  var delta = this.packetLossModel.getDelta();
-  var c = this.packetLossString_(delta);
-  if (this.popover) {
-    this.popover.content(
-        function($pcontent) {
-          $pcontent.html(c);
-        });
-  }
-};
