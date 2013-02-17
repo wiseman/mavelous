@@ -10,7 +10,6 @@ goog.provide('Mavelous.GpsTextView');
  * @extends {Backbone.View}
  */
 Mavelous.GpsButtonView = function(properties) {
-  this.popoverTitle = 'GPS Info';
   goog.base(this, properties);
 };
 goog.inherits(Mavelous.GpsButtonView, Backbone.View);
@@ -23,13 +22,6 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
 Mavelous.GpsButtonView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
   this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS_, this);
-  this.stat = mavlink.subscribe('GPS_STATUS', this.onStatus_, this);
-};
-
-
-Mavelous.GpsButtonView.prototype.registerPopover = function(p) {
-  this.popover = p;
-  this.popover.on('selected', this.renderPopover, this);
 };
 
 
@@ -70,44 +62,58 @@ Mavelous.GpsButtonView.prototype.renderFixType_ = function(fix_type) {
 Mavelous.GpsButtonView.prototype.onGPS_ = function() {
   var fix_type = this.gps.get('fix_type');
   this.renderFixType_(fix_type);
-  this.renderPopover(); /* XXX need to tie the loop properly. */
 };
-
 
 /**
- * Handles GPS_STATUS messages.
- * @private
+ * @param {{mavlinkSrc: Mavelous.MavlinkAPI, el: jQuery}} properties View
+ *     properties.
+ * @constructor
+ * @extends {Backbone.View}
  */
-Mavelous.GpsButtonView.prototype.onStatus_ = function() {
-  this.renderPopover();
+Mavelous.GpsPopoverViewDelegate = function(properties) {
+  this.popoverTitle = 'GPS Info';
+  goog.base(this, properties);
+};
+goog.inherits(Mavelous.GpsPopoverViewDelegate , Backbone.View);
+
+Mavelous.GpsPopoverViewDelegate.prototype.initialize = function() {
+  var mavlink = this.options['mavlinkSrc'];
+  this.gps = mavlink.subscribe('GPS_RAW_INT', this.render, this);
+  this.stat = mavlink.subscribe('GPS_STATUS', this.render, this);
 };
 
+Mavelous.GpsPopoverViewDelegate.prototype.popoverCreated = function(el) {
+  this.$el = el;
+  this.render();
+};
 
+Mavelous.GpsPopoverViewDelegate.prototype.popoverDestroyed = function() {
+  this.$el = null;
+};
 
-Mavelous.GpsButtonView.prototype.renderPopover = function() {
-  var stat = this.stat.toJSON();
+Mavelous.GpsPopoverViewDelegate.prototype.render = function() {
+  if (this.$el) {
+    var stat = this.stat.toJSON();
 
-  var lat = (this.gps.get('lat') / 10e6).toFixed(7);
-  var lon = (this.gps.get('lon') / 10e6).toFixed(7);
+    var lat = (this.gps.get('lat') / 10e6).toFixed(7);
+    var lon = (this.gps.get('lon') / 10e6).toFixed(7);
 
-  var content = '';
-  if ('satellites_visible' in stat) {
-    var visible = stat['satellites_visible'].toString();
-    content += ('Satellites: ' + visible +
-                '<br /> Coordinates: ' + lat + ', ' + lon);
-  }
+    var content = '';
+    if ('satellites_visible' in stat) {
+      var visible = stat['satellites_visible'].toString();
+      content += ('Satellites: ' + visible +
+                  '<br /> Coordinates: ' + lat + ', ' + lon);
+    }
 
-  var eph = this.gps.get('eph');
-  if (typeof eph != 'undefined' && eph != 65535) {
-    content += ('<br />HDOP: ' + (eph / 100).toFixed(2) + 'm');
-  }
-  var epv = this.gps.get('epv');
-  if (typeof epv != 'undefined' && epv != 65535) {
-    content += ('<br />VDOP: ' + (epv / 100).toFixed(2) + 'm');
-  }
-
-  if (this.popover) {
-    this.popover.trigger('content', content);
+    var eph = this.gps.get('eph');
+    if (typeof eph != 'undefined' && eph != 65535) {
+      content += ('<br />HDOP: ' + (eph / 100).toFixed(2) + 'm');
+    }
+    var epv = this.gps.get('epv');
+    if (typeof epv != 'undefined' && epv != 65535) {
+      content += ('<br />VDOP: ' + (epv / 100).toFixed(2) + 'm');
+    }
+    this.$el.html(content);
   }
 };
 
