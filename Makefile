@@ -27,7 +27,6 @@ JS_FILES = app.js \
 	   leafletpanmodel.js \
 	   leafletproviders.js \
 	   leafletview.js \
-	   m-popover.js \
 	   mavlinkapi.js \
 	   mavutil.js \
 	   mission.js \
