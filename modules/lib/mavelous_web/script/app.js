@@ -164,14 +164,29 @@ Mavelous.App.prototype.start = function() {
   });
   this.flightModeButtonView = new Mavelous.FlightModeButtonView({
     'el': $('#navbar-btn-mode'),
-    'modeModel': this.flightModeModel,
-    'commandModel': this.flightCommandModel
+    'modeModel': this.flightModeModel
   });
 
   /* Radio view controller */
-  this.statusButtons = this.createStatusButtons_(
-      [this.gpsButtonView, this.commStatusButtonView, this.flightModeButtonView]
-      );
+  this.statusButtons = new Mavelous.RadioButtonPopoverView({
+    popovers: [ { btn: this.gpsButtonView,
+                  delegate: new Mavelous.GpsPopoverViewDelegate({
+                    'mavlinkSrc': this.mavlinkAPI
+                    })
+                },
+                { btn: this.commStatusButtonView,
+                  delegate: new Mavelous.CommStatusPopoverViewDelegate({
+                    'packetLossModel': this.packetLossModel
+                    })
+                },
+                { btn: this.flightModeButtonView,
+                  delegate: new Mavelous.FlightModePopoverViewDelegate({
+                    'modeModel': this.flightModeModel,
+                    'commandModel': this.flightCommandModel
+                    })
+                }
+              ]
+  });
 
   this.batteryButton = new Mavelous.BatteryButton({
     'mavlinkSrc': this.mavlinkAPI,
