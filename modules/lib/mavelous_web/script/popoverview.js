@@ -7,6 +7,9 @@ goog.provide('Mavelous.PopoverView');
  * @extends {Backbone.View}
  */
 Mavelous.PopoverView = function(properties) {
+  this.template = '<div class="popover"><div class="arrow"></div>' +
+        '<div class="popover-inner"><h3 class="popover-title"></h3>' +
+        '<div class="popover-content"><p></p></div></div></div>';
   goog.base(this, properties);
 };
 goog.inherits(Mavelous.PopoverView, Backbone.View);
@@ -17,27 +20,10 @@ goog.inherits(Mavelous.PopoverView, Backbone.View);
  * @export
  */
 Mavelous.PopoverView.prototype.initialize = function() {
-  this.parentel = this.options['button'].$el;
-};
-
-
-/**
- * @override
- * @export
- */
-Mavelous.PopoverView.prototype.initialize = function() {
-  _.extend(this, Backbone.Events);
-  this.$el = this.options['button'].$el;
-  var t = this.options['button'].popoverTitle;
-  if (typeof t == 'undefined') t = 'need a popoverTitle in button view!';
-  this.$el.popover({
-    'animation': false,
-    'placement': 'bottom',
-    'title': t,
-    'trigger': 'manual'
-  });
-  this.on('content', this.onContent, this);
-  this.options['button'].registerPopover(this);
+  this.btn = this.options['btn'];
+  this.placement = this.options['placement'] || 'bottom';
+  this.delegate = this.options['delegate'];
+  this.selectionModel = this.options['selectionModel'];
 };
 
 
