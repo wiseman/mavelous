@@ -11,7 +11,7 @@ Mavelous.CommStatusPopoverViewDelegate = function(properties) {
   this.$el = null;
   goog.base(this, properties);
 };
-goog.inherits(Mavelous.CommStatusButtonView, Backbone.View);
+goog.inherits(Mavelous.CommStatusPopoverViewDelegate, Backbone.View);
 
 Mavelous.CommStatusPopoverViewDelegate.prototype.initialize = function() {
   this.packetLossModel = this.options['packetLossModel'];
