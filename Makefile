@@ -14,9 +14,12 @@ CLOSURE_BUILDER = ${CLOSURE_LIBRARY_DIR}/closure/bin/build/closurebuilder.py
 JS_FILES = app.js \
 	   batterystatus.js \
 	   commstatus.js \
+	   commstatuspopover.js \
 	   fakemavlinkapi.js \
 	   flightmode.js \
+	   flightmodepopover.js \
 	   gpsstatus.js \
+	   gpsstatuspopover.js \
 	   guidemodel.js \
 	   guideview.js \
 	   leaflet_app.js \
@@ -24,6 +27,7 @@ JS_FILES = app.js \
 	   leafletpanmodel.js \
 	   leafletproviders.js \
 	   leafletview.js \
+	   m-popover.js \
 	   mavlinkapi.js \
 	   mavutil.js \
 	   mission.js \
@@ -32,7 +36,8 @@ JS_FILES = app.js \
 	   pfd.js \
 	   pfdsettings.js \
 	   pfdview.js \
-	   popoverbutton.js \
+	   popoverview.js \
+	   radiopopovers.js \
 	   router.js \
 	   settingsview.js \
 	   statustextview.js \
