@@ -1,45 +1,4 @@
 goog.provide('Mavelous.RadioButtonPopoverView');
-goog.provide('Mavelous.SelectedModel');
-
-
-/**
- * A simple selection model.
- * @param {{selected: boolean}=} opt_properties Model properties.
- * @constructor
- * @extends {Backbone.Model}
- */
-Mavelous.SelectedModel = function(opt_properties) {
-  goog.base(this, opt_properties);
-};
-goog.inherits(Mavelous.SelectedModel, Backbone.Model);
-
-
-/**
- * @override
- * @export
- */
-Mavelous.SelectedModel.prototype.defaults = function() {
-  return {
-    'selected': false
-  };
-};
-
-
-/**
- * Select.
- */
-Mavelous.SelectedModel.prototype.select = function() {
-  this.set('selected', true);
-};
-
-
-/**
- * Deselect.
- */
-Mavelous.SelectedModel.prototype.deselect = function() {
-  this.set('selected', false);
-};
-
 
 
 /**
@@ -59,53 +18,35 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
  * @export
  */
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
-  this.popovers = this.options['popovers'];
+  /* create child views with the given prototypes and this object as
+   * the parent controller. children will connect their click handlers
+   * to onButtonClick in initialize. */
+  var prototypes = this.options['popovers'];
+  var self = this;
+  this.popoverViews = goog.array.map(prototypes, function (proto) {
+    goog.object.extend(proto, {'radioBtnController': self });
+    return new Mavelous.PopoverView(proto);
+  });
 };
-
-
-/**
- * Setup a button to be backed by a selection model.
- *
- * @param {Object} btn button.
- * @param {number} index beep.
- * @return {Mavelous.SelectedModel} The new model.
- * @private
- */
-Mavelous.RadioButtonPopoverView.prototype.registerButton_ = function(
-    btn, index) {
-  var mdl = new Mavelous.SelectedModel();
-  mdl.set('index', index);
-  btn.$el.click(goog.bind(this.onButtonClick_, this, index));
-  btn.selectedModel = mdl;
-  mdl.bind('change', btn.onSelectedChange, btn);
-  return mdl;
-};
-
 
 /**
  * Handles button clicks.
  * @param {number} btnindex The button index.
  * @private
  */
-Mavelous.RadioButtonPopoverView.prototype.onButtonClick_ = function(btnindex) {
-  window.console.log('radio button click ' + btnindex.toString());
-  var selected = this.buttons[btnindex].get('selected');
+Mavelous.RadioButtonPopoverView.prototype.onButtonClick = function( clickedview ) {
+  var selected = clickedview.selected();
   if (selected) {
-    /* Unset this button - no buttons are selected. */
-    this.buttons[btnindex].deselect();
-    window.console.log('btn deselect ' + btnindex.toString());
+    /* delselect this popover */
+    clickedview.deselect();
   } else {
-    /* Unset all of the other buttons, then set this one. */
-    _.each(this.buttons,
-           function(b) {
-             if (b.get('selected')) {
-               var idx = b.get('index');
-               b.deselect();
-               window.console.log('btn deselect ' + idx.toString());
-              }
-           });
-    this.buttons[btnindex].select();
-    window.console.log('btn select ' + btnindex.toString());
+    /* deselect other popovers, then select this one. */
+    goog.array.map(this.popoverViews, function(childview) {
+      if (childview.selected()) {
+        childview.deselect();
+       }
+    });
+    clickedview.select();
   }
 };
 

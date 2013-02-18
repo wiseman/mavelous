@@ -247,25 +247,6 @@ Mavelous.App.prototype.start = function() {
 };
 
 
-/**
- * Creates a RadioButtonPopoverView of status buttons.
- *
- * @param {Array.<Backbone.View>} buttons The navbar button views.
- * @return {Mavelous.RadioButtonPopoverView} The new popoview view.
- * @private
- */
-Mavelous.App.prototype.createStatusButtons_ = function(buttons) {
-  return new Mavelous.RadioButtonPopoverView({
-    'popovers': goog.array.map(
-        buttons,
-        function(b) {
-          return new Mavelous.PopoverView({ 'button': b });
-        })
-  });
-};
-
-
-
 // Ensures the symbol will be visible after compiler renaming.
 goog.exportSymbol('Mavelous.App', Mavelous.App);
 goog.exportSymbol('Mavelous.App.prototype.start', Mavelous.App.prototype.start);
