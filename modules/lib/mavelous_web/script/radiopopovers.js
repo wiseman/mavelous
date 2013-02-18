@@ -59,9 +59,7 @@ goog.inherits(Mavelous.RadioButtonPopoverView, Backbone.View);
  * @export
  */
 Mavelous.RadioButtonPopoverView.prototype.initialize = function() {
-  /* this.buttons :: [ SelectedModel ]*/
-  this.buttons = _.map(this.options['popovers'], /* :: [PopoverView] */
-                       goog.bind(this.registerButton_, this));
+  this.popovers = this.options['popovers'];
 };
 
 
@@ -90,15 +88,24 @@ Mavelous.RadioButtonPopoverView.prototype.registerButton_ = function(
  * @private
  */
 Mavelous.RadioButtonPopoverView.prototype.onButtonClick_ = function(btnindex) {
+  window.console.log('radio button click ' + btnindex.toString());
   var selected = this.buttons[btnindex].get('selected');
   if (selected) {
     /* Unset this button - no buttons are selected. */
     this.buttons[btnindex].deselect();
+    window.console.log('btn deselect ' + btnindex.toString());
   } else {
     /* Unset all of the other buttons, then set this one. */
+    _.each(this.buttons,
+           function(b) {
+             if (b.get('selected')) {
+               var idx = b.get('index');
+               b.deselect();
+               window.console.log('btn deselect ' + idx.toString());
+              }
+           });
     this.buttons[btnindex].select();
-    _.each(_.without(this.buttons, this.buttons[btnindex]),
-           function(b) { b.deselect(); });
+    window.console.log('btn select ' + btnindex.toString());
   }
 };
 
