@@ -46,7 +46,7 @@ Mavelous.FlightModePopoverViewDelegate.prototype.setupPopover = function() {
   var arm =
       '<p><a class="btn" id="flightmode-btn-arm" href="#">Arm</a></p>';
 
-  $el.html(arm + '<br />' + loiter + rtl + land);
+  this.$el.html(arm + '<br />' + loiter + rtl + land);
 
   this.armingButtonView = new Mavelous.ArmingButtonView({
     'el': $('#flightmode-btn-arm'),
