@@ -75,7 +75,7 @@ Mavelous.PopoverView.prototype.selected = function () {
 Mavelous.PopoverView.prototype.onSelectionChange_ = function() {
   if (this.selectionModel.get('selected')) {
     this.createElement();
-    var inner = this.$el.find('.popover-content');
+    var inner = this.$el.find('.popover-inner');
     this.delegate.popoverCreated(inner);
   } else {
     this.delegate.popoverDestroyed();

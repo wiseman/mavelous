@@ -20,6 +20,7 @@ Mavelous.GpsPopoverViewDelegate.prototype.initialize = function() {
 
 Mavelous.GpsPopoverViewDelegate.prototype.popoverCreated = function(el) {
   this.$el = el;
+  this.$el.find('.popover-title').text(this.popoverTitle);
   this.render();
 };
 
@@ -49,7 +50,7 @@ Mavelous.GpsPopoverViewDelegate.prototype.render = function() {
     if (typeof epv != 'undefined' && epv != 65535) {
       content += ('<br />VDOP: ' + (epv / 100).toFixed(2) + 'm');
     }
-    this.$el.html(content);
+    this.$el.find('.popover-content').html(content);
   }
 };
 

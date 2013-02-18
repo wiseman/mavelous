@@ -20,6 +20,7 @@ Mavelous.CommStatusPopoverViewDelegate.prototype.initialize = function() {
 
 Mavelous.CommStatusPopoverViewDelegate.prototype.popoverCreated = function(el) {
   this.$el = el;
+  this.$el.find('.popover-title').text(this.popoverTitle);
   this.render();
 };
 
@@ -34,7 +35,7 @@ Mavelous.CommStatusPopoverViewDelegate.prototype.render = function() {
   if (this.$el) {
     var delta = this.packetLossModel.getDelta();
     var c = this.packetLossString_(delta);
-    this.$el.html(c);
+    this.$el.find('.popover-content').html(c);
   }
 };
 

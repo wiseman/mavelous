@@ -25,6 +25,7 @@ Mavelous.FlightModePopoverViewDelegate.prototype.initialize = function() {
 
 Mavelous.FlightModePopoverViewDelegate.prototype.popoverCreated = function(el) {
   this.$el = el;
+  this.$el.find('.popover-title').text(this.popoverTitle);
   this.setupPopover();
 };
 
@@ -46,7 +47,7 @@ Mavelous.FlightModePopoverViewDelegate.prototype.setupPopover = function() {
   var arm =
       '<p><a class="btn" id="flightmode-btn-arm" href="#">Arm</a></p>';
 
-  this.$el.html(arm + '<br />' + loiter + rtl + land);
+  this.$el.find('.popover-content').html(arm + '<br />' + loiter + rtl + land);
 
   this.armingButtonView = new Mavelous.ArmingButtonView({
     'el': $('#flightmode-btn-arm'),
