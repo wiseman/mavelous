@@ -249,15 +249,6 @@ Mavelous.CommStatusButtonView.prototype.initialize = function() {
 
 
 /**
- * TODO: Document how this is used.
- */
-Mavelous.CommStatusButtonView.prototype.registerPopover = function(p) {
-  this.popover = p;
-  this.popover.on('selected', this.popoverRender, this);
-};
-
-
-/**
  * Renders the button.  Called when the packet loss model changes.
  */
 Mavelous.CommStatusButtonView.prototype.buttonRender = function() {
