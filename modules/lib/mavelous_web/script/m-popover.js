@@ -92,11 +92,9 @@
         $tip.addClass('fade')
       }
 
-      placement = typeof this.options.placement == 'function' ?
-        this.options.placement.call(this, $tip[0], this.$element[0]) :
-        this.options.placement
+      placement = this.options.placement;
 
-      inside = /in/.test(placement)
+      inside = false;
 
       $tip
         .remove()
@@ -152,7 +150,7 @@
     }
 
   , getPosition: function (inside) {
-      return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
+      return $.extend({}, this.$element.offset(), {
         width: this.$element[0].offsetWidth
       , height: this.$element[0].offsetHeight
       })
@@ -196,7 +194,6 @@
   $.fn.popover.defaults = {
     placement: 'right'
   , content: ''
-  , template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
   , animation: true
   , selector: false
   , trigger: 'hover'
