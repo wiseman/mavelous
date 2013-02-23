@@ -19,10 +19,20 @@ goog.inherits(Mavelous.GpsButtonView, Backbone.View);
  */
 Mavelous.GpsButtonView.prototype.initialize = function() {
   var mavlink = this.options['mavlinkSrc'];
+  this.renderTemplate_();
   this.gps = mavlink.subscribe('GPS_RAW_INT', this.onGPS_, this);
 };
 
-
+Mavelous.GpsButtonView.prototype.renderTemplate_ = function() {
+  var templ = "";
+  templ += '<span class="hidden-phone">';
+  templ += 'GPS: <span id="gps-btn-lock-status"></span>';
+  templ += '</span>';
+  templ += '<i class="icon-globe icon-white visible-phone"></i>';
+  this.$el.html(templ);
+  this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
+  this.$el.addClass('btn-inverse');
+};
 /**
  * Renders the GPS fix type into the button.
  * @param {number} fix_type The GPS fix type (from the GPS_RAW_INT mavlink
@@ -32,24 +42,22 @@ Mavelous.GpsButtonView.prototype.initialize = function() {
 Mavelous.GpsButtonView.prototype.renderFixType_ = function(fix_type) {
   this.$el.removeClass('btn-success btn-danger btn-warning btn-inverse');
   var lclass = 'btn-inverse';
-  var html = 'GPS: None';
+  var txt = 'None';
   if (fix_type >= 3) {
     /* 3D Fix */
     lclass = 'btn-success';
-    html = 'GPS: 3D';
+    txt = '3D';
   } else if (fix_type == 2) {
     /* 2D Fix */
     lclass = 'btn-warning';
-    html = 'GPS: 2D';
+    txt = '2D';
   } else if (fix_type == 1) {
     /* Nofix */
     lclass = 'btn-danger';
-    html = 'GPS: No Lock';
+    txt = 'No Lock';
   }
   this.$el.addClass(lclass);
-  html = '<span class="hidden-phone">' + html + '</span>';
-  html += '<i class="icon-globe icon-white visible-phone"></i>';
-  this.$el.html(html);
+  this.$el.find('#gps-btn-lock-status').text(txt);
 };
 
 
