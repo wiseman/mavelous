@@ -40,6 +40,8 @@
 <script type="text/javascript" src="third_party/bootstrap/js/bootstrap-transition.js"></script>
 <script type="text/javascript" src="third_party/bootstrap/js/bootstrap-modal.js"></script>
 <script type="text/javascript" src="third_party/bootstrap/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-popover.js"></script>
 <script type="text/javascript" src="third_party/bootstrap/js/bootstrap-button.js"></script>
 <script type="text/javascript" src="third_party/bootstrap/js/bootstrap-collapse.js"></script>
 
@@ -61,9 +63,9 @@
 
 <!-- GOOGLE CLOSURE -->
 <script src="third_party/closure-library/closure/goog/base.js"></script>
+<script src="script/mavelous-deps.js"></script>
 
 <!-- MAVELOUS -->
-<script src="script/mavelous-deps.js"></script>
 <script src="script/app.js"></script>
 
 
@@ -141,6 +143,10 @@
       <p>Provider <select id="settings-mapproviderpicker"></select> </p>
       <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="21">
         <span id="settings-mapzoom-value"></span>
+      <p>Path <select id="settings-mappathpicker">
+                 <option value="on" selected>On</option>
+                 <option value="off">Off</option>
+               </select> </p>
       <p>Icon <select id="settings-vehicleiconpicker"></select> </p>
       </p>
       <hr>
