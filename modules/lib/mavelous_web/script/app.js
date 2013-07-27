@@ -196,6 +196,7 @@ Mavelous.App.prototype.start = function() {
   this.settingsView = new Mavelous.SettingsView({
     /* Map settings: */
     'map': this.mapView.map,
+    'mapView': this.mapView,
     'mapProviderModel': this.leafletProviders,
     'vehicleIconModel': this.leafletDroneIcon,
     'modalToggle': $('#navbar-a-settings'),
@@ -203,6 +204,7 @@ Mavelous.App.prototype.start = function() {
     'mapProviderPicker': $('#settings-mapproviderpicker'),
     'mapZoomSlider': $('#settings-mapzoom'),
     'mapZoomValue': $('#settings-mapzoom-value'),
+    'mapPathPicker': $('#settings-mappathpicker'),
     'vehicleIconPicker': $('#settings-vehicleiconpicker'),
     /* PFD settings: */
     'pfdSettingsModel': this.pfdSettingsModel,
