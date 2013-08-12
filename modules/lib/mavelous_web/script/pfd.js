@@ -37,7 +37,8 @@ goog.inherits(Mavelous.ArtificialHorizon, Kinetic.Shape);
  * @private
  */
 Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
-  this.setDefaultAttrs({
+  Kinetic.Shape.call(this, config);
+  this.setAttrs({
     'width': 100,
     'height': 100,
     'skyColor': '#72cde4',
@@ -49,7 +50,6 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
   this.radius = Math.min(config['width'], config['height']) / 2.0;
   this.pitch = 0;
   this.roll = 0;
-  Kinetic.Shape.call(this, config);
   this._setDrawFuncs();
 };
 
@@ -59,7 +59,8 @@ Mavelous.ArtificialHorizon.prototype.initArtificialHorizon_ = function(config) {
  * @override
  * @export
  */
-Mavelous.ArtificialHorizon.prototype.drawFunc = function(context) {
+Mavelous.ArtificialHorizon.prototype.drawFunc = function(canvas) {
+  var context = canvas.getContext();
   var horizon = this.getHorizon_(this.pitch);
   var attrs = this.getAttrs();
   var width = attrs['width'];
@@ -280,8 +281,8 @@ Mavelous.ArtificialHorizon.prototype.setPitchRoll = function(pitch, roll) {
  * @extends {Kinetic.Shape}
  */
 Mavelous.Tape = function(config) {
-  this.initTape_(config);
   goog.base(this, config);
+  this.initTape_(config);
 };
 goog.inherits(Mavelous.Tape, Kinetic.Shape);
 
@@ -308,7 +309,7 @@ Mavelous.Tape.HEIGHT = 140;
 Mavelous.Tape.prototype.initTape_ = function(config) {
   var WIDTH = Mavelous.Tape.WIDTH;
   var HEIGHT = Mavelous.Tape.HEIGHT;
-  this.setDefaultAttrs({
+  this.setAttrs({
     'backgroundColor': undefined,
     'width': WIDTH,
     'height': HEIGHT,
@@ -432,7 +433,8 @@ Mavelous.Tape.prototype.setTargetValue = function(target) {
  * @override
  * @export
  */
-Mavelous.Tape.prototype.drawFunc = function(context) {
+Mavelous.Tape.prototype.drawFunc = function(canvas) {
+  var context = canvas.getContext();
   // The tape displays 3 pieces of info:
   //   * current value
   //   * moving value ladder
@@ -500,7 +502,8 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
   }
 
   // Instantaneous value text surrounded by polygon.
-  this.instantaneousPolygon.drawFunc(context);
+  this.instantaneousPolygon.drawFunc(canvas);
+  var context = canvas.getContext();
   var textY = attrs['height'] / 2;
   font = ('normal ' +
           attrs['fontSize'] + 'pt ' +
@@ -520,7 +523,7 @@ Mavelous.Tape.prototype.drawFunc = function(context) {
     bugY += this.value * valueScale;
     bugY = Math.min(162, Math.max(16, bugY));
     context.translate(0, bugY);
-    this.bug.drawFunc(context);
+    this.bug.drawFunc(canvas);
     context.translate(0, -bugY);
   }
 };
