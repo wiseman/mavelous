@@ -73,6 +73,7 @@ Mavelous.LeafletView.prototype.initialize = function() {
   this.guideModel = this.options['guideModel'];
   this.panModel = this.options['panModel'];
   this.initializedcenter = false;
+  this.vehiclePathVisible = true;
 
   this.tileLayer = this.providerModel.getProvider();
 
@@ -211,12 +212,27 @@ Mavelous.LeafletView.prototype.vehicleIconChange = function() {
 };
 
 
+Mavelous.LeafletView.prototype.setPathVisible = function(setting) {
+  if (this.vehiclePathVisible === undefined) {
+    this.vehiclePathVisible = true;
+  }
+  if (setting == 'on') {
+    this.vehiclePathVisible = true;
+  }
+  if (setting == 'off') {
+    this.vehiclePathVisible = false;
+    this.map.removeLayer(this.vehiclePath);
+    this.vehiclePath = undefined;
+  }
+ 
+};
 /**
  * Updates the vehicle path when the vehicle model changes.
  */
 Mavelous.LeafletView.prototype.updateVehiclePath = function() {
   var p = this.vehicleModel.get('position');
   if (!p) return;
+  if (this.vehiclePathVisible == false) return;
   if (this.vehiclePath === undefined) {
     this.vehiclePath = new L.Polyline([p], {'color': 'red'});
     this.vehiclePath.addTo(this.map);

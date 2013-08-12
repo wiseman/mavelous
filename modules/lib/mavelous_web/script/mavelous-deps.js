@@ -5,10 +5,15 @@ goog.addDependency("../../../../script/commstatuspopover.js", ['Mavelous.CommSta
 goog.addDependency("../../../../script/fakemavlinkapi.js", ['Mavelous.FakeVehicle'], ['goog.math']);
 goog.addDependency("../../../../script/flightmode.js", ['Mavelous.CommandLongModel', 'Mavelous.FlightModeButtonView', 'Mavelous.FlightModeModel'], ['Mavelous.util', 'goog.json']);
 goog.addDependency("../../../../script/flightmodepopover.js", ['Mavelous.FlightModePopoverViewDelegate'], []);
+goog.addDependency("../../../../script/gen-js/Calculator.js", [], []);
+goog.addDependency("../../../../script/gen-js/SharedService.js", [], []);
+goog.addDependency("../../../../script/gen-js/shared_types.js", [], []);
+goog.addDependency("../../../../script/gen-js/tutorial_types.js", [], []);
 goog.addDependency("../../../../script/gpsstatus.js", ['Mavelous.GpsButtonView', 'Mavelous.GpsTextView'], []);
 goog.addDependency("../../../../script/gpsstatuspopover.js", ['Mavelous.GpsPopoverViewDelegate'], []);
 goog.addDependency("../../../../script/guidemodel.js", ['Mavelous.GuideModel'], ['goog.json']);
 goog.addDependency("../../../../script/guideview.js", ['Mavelous.GuideAltitudeView'], []);
+goog.addDependency("../../../../script/js/thrift.js", [], []);
 goog.addDependency("../../../../script/leaflet_app.js", [], ['Mavelous.LeafletDroneIconModel', 'Mavelous.MavlinkAPI']);
 goog.addDependency("../../../../script/leafletdroneicon.js", ['Mavelous.LeafletDroneIconModel'], []);
 goog.addDependency("../../../../script/leafletpanmodel.js", ['Mavelous.LeafletPanControlView', 'Mavelous.LeafletPanModel'], []);

@@ -30,6 +30,7 @@ Mavelous.SettingsView.prototype.initialize = function() {
   });
   /* Leaflet map: for zoom */
   this.map = this.options['map'];
+  this.mapView = this.options['mapView'];
   /* Map models: */
   this.mapProviderModel = this.options['mapProviderModel'];
   this.vehicleIconModel = this.options['vehicleIconModel'];
@@ -37,10 +38,12 @@ Mavelous.SettingsView.prototype.initialize = function() {
   this.mapProviderPicker = this.options['mapProviderPicker'];
   this.mapZoomSlider = this.options['mapZoomSlider'];
   this.mapZoomValue = this.options['mapZoomValue'];
+  this.mapPathPicker = this.options['mapPathPicker'];
   this.vehicleIconPicker = this.options['vehicleIconPicker'];
 
   this.setupMapProviderPicker();
   this.setupMapZoomSlider();
+  this.setupMapPathPicker();
   this.setupVehicleIconPicker();
 
   /* PFD Settings model: */
@@ -91,6 +94,19 @@ Mavelous.SettingsView.prototype.setupMapZoomSlider = function() {
   this.map.on('zoomend', this.onZoomChange, this);
 };
 
+/**
+ * Set up map trail picker
+ */
+Mavelous.SettingsView.prototype.setupMapPathPicker = function() {
+  var self = this;
+  if (this.map === undefined) {
+    return;
+  }
+  this.mapPathPicker.change(function() {
+    var setting = self.mapPathPicker.val();
+    self.mapView.setPathVisible(setting);
+  });
+};
 
 /**
  * Set up the vehicle icon picker.
