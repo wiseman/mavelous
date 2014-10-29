@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/2400/trunk/closure/goog/i18n
+END
+currency_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1374/trunk/closure/goog/i18n/currency_test.html
+END
+timezone_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/850/trunk/closure/goog/i18n/timezone_test.html
+END
+currencycodemap.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1472/trunk/closure/goog/i18n/currencycodemap.js
+END
+messageformat_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2055/trunk/closure/goog/i18n/messageformat_test.html
+END
+graphemebreak_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/850/trunk/closure/goog/i18n/graphemebreak_test.html
+END
+charlistdecompressor_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/850/trunk/closure/goog/i18n/charlistdecompressor_test.html
+END
+datetimeparse.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/850/trunk/closure/goog/i18n/datetimeparse.js
+END
+numberformatsymbolsext.js
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/2400/trunk/closure/goog/i18n/numberformatsymbolsext.js
+END
+datetimeformat_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/1970/trunk/closure/goog/i18n/datetimeformat_test.html
+END
+graphemebreak.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2307/trunk/closure/goog/i18n/graphemebreak.js
+END
+messageformat.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2055/trunk/closure/goog/i18n/messageformat.js
+END
+datetimepatternsext.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1728/trunk/closure/goog/i18n/datetimepatternsext.js
+END
+bidi_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1825/trunk/closure/goog/i18n/bidi_test.html
+END
+charlistdecompressor.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/850/trunk/closure/goog/i18n/charlistdecompressor.js
+END
+uchar.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/850/trunk/closure/goog/i18n/uchar.js
+END
+datetimesymbols.js
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1970/trunk/closure/goog/i18n/datetimesymbols.js
+END
+datetimeformat.js
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1970/trunk/closure/goog/i18n/datetimeformat.js
+END
+bidi.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2011/trunk/closure/goog/i18n/bidi.js
+END
+numberformatsymbols.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2400/trunk/closure/goog/i18n/numberformatsymbols.js
+END
+mime_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/850/trunk/closure/goog/i18n/mime_test.html
+END
+bidiformatter_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2058/trunk/closure/goog/i18n/bidiformatter_test.html
+END
+datetimesymbolsext.js
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1970/trunk/closure/goog/i18n/datetimesymbolsext.js
+END
+mime.js
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/2276/trunk/closure/goog/i18n/mime.js
+END
+numberformat_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/1996/trunk/closure/goog/i18n/numberformat_test.html
+END
+uchar_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/850/trunk/closure/goog/i18n/uchar_test.html
+END
+currency.js
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/2345/trunk/closure/goog/i18n/currency.js
+END
+timezone.js
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/850/trunk/closure/goog/i18n/timezone.js
+END
+bidiformatter.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2058/trunk/closure/goog/i18n/bidiformatter.js
+END
+numberformat.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1996/trunk/closure/goog/i18n/numberformat.js
+END
+ordinalrules.js
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/2051/trunk/closure/goog/i18n/ordinalrules.js
+END
+charpickerdata.js
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/850/trunk/closure/goog/i18n/charpickerdata.js
+END
+pluralrules.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2051/trunk/closure/goog/i18n/pluralrules.js
+END
+datetimepatterns.js
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1728/trunk/closure/goog/i18n/datetimepatterns.js
+END
+datetimeparse_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/922/trunk/closure/goog/i18n/datetimeparse_test.html
+END

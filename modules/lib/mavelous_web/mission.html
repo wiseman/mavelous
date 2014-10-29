@@ -1,0 +1,103 @@
+<!--
+To test this, do
+
+  cd mavelous/modules/lib/mmap_app
+  python -m SimpleHTTPServer
+
+Then go to http://127.0.0.1:8000/mission.html
+-->
+
+<html>
+<head>
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/common.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/checkbox.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/menu.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/menuitem.css">
+  <link rel="stylesheet" href="third_party/closure-library/closure/goog/css/flatmenubutton.css">
+  <style>
+
+.example-checklist-item-checked {
+  text-decoration: line-through;
+  color: #777;
+}
+
+.mavelous-mission {
+  display: table;
+}
+
+.mavelous-missionitem {
+  display: table-row;
+}
+
+.mavelous-missionitem-field {
+  display: table-cell;
+  font-family: 'AvenirNextCondensed-Regular', 'helvetica neue', helvetica, arial, geneva, sans-serif;
+  font-size: 13px;
+  text-align: right;
+}
+
+input.mavelous-missionitem-field {
+  -webkit-user-select: auto;
+  text-align: left;
+}
+
+  </style>
+</head>
+<body>
+<div id="mission"></div>
+
+<script src="third_party/closure-library/closure/goog/base.js"></script>
+<script src="script/mission-deps.js"></script>
+<!--
+<script src="script/mission-compiled.js"></script>
+-->
+<script>
+  goog.require('mavelous');
+  goog.require('mavelous.ui');
+  goog.require('goog.net.XhrIo');
+</script>
+
+<script>
+function getMissionFromVehicle() {
+  var request = new goog.net.XhrIo();
+  goog.events.listen(request, 'complete', function(event) {
+    console.log(event);
+    console.log(request);
+    if (request.isSuccess()) {
+      var mission = mavelous.Mission.parseFromMavlink(
+        request.getResponseJson().results);
+      var container = new mavelous.ui.Mission(mission);
+      var missionDiv = goog.dom.getElement('mission');
+      goog.dom.removeChildren(missionDiv);
+      container.render(missionDiv);
+    } else {
+      console.log('Error');
+    }
+  });
+  request.send('/get_mission', 'POST');
+};
+
+
+var mission = new mavelous.Mission([
+  new mavelous.MissionItem(mavelous.MissionItemType.TAKEOFF, {z: 100}),
+  new mavelous.MissionItem(mavelous.MissionItemType.WAYPOINT, {x: 10, y: 4, z: 10, p1: 5.0, p2: 5.0, p4: 0.0}),
+  new mavelous.MissionItem(mavelous.MissionItemType.CONDITION_YAW, {p1: 180, p2: 5.0, p3: 1, p4: 0}),
+  new mavelous.MissionItem(mavelous.MissionItemType.LAND)
+  ]);
+
+// Rendering example.
+var container = new mavelous.ui.Mission(mission);
+container.render(goog.dom.getElement('mission'));
+
+</script>
+
+  <input type="button" id="get_mission" value="Get mission">
+
+<script>
+  goog.events.listen(
+    goog.dom.getElement('get_mission'), 'click', getMissionFromVehicle);
+</script>
+
+<body>
+
+</body>

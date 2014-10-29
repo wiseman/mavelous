@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!-- ANALYTICS -->
+<script>
+  if (window.location.href.indexOf('mavelousdemo.appspot.com') != -1) {
+    console.log('Enabling analytics.');
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-36746049-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  }
+</script>
+<link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap.css" />
+  <style>
+    body {
+      padding-top: 40px;
+    }
+  </style>
+<link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" href="third_party/leaflet/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<!-- JQUERY -->
+<script type="text/javascript" src="third_party/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="third_party/jquery.color.js"></script>
+<script type="text/javascript" src="third_party/jquery.cookie.js"></script>
+
+<!-- BOOTSTRAP -->
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-collapse.js"></script>
+
+<!-- BACKBONE -->
+<script type="text/javascript" src="third_party/underscore-1.3.3.js"></script>
+<script type="text/javascript" src="third_party/backbone-0.9.9.js"></script>
+<script type="text/javascript" src="third_party/backbone.marionette.js"></script>
+
+<!-- KINETIC: for drawing pfd -->
+<script type="text/javascript" src="third_party/kinetic-v4.5.5.min.js"></script>
+
+<!-- LEAFLET -->
+<script type="text/javascript" src="third_party/leaflet-0.5.js"></script>
+<script type="text/javascript" src="third_party/leaflet/layer/tile/Bing.js"></script>
+<script type="text/javascript" src="third_party/leaflet/layer/marker/Marker.Rotate.js"></script>
+<script type="text/javascript" src="third_party/leaflet/map/handler/Map.CenterScrollWheelZoom.js"></script>
+<script type="text/javascript" src="third_party/leaflet/map/handler/Map.CenterTouchZoom.js"></script>
+
+{% if compiled %}
+<!-- MAVELOUS -->
+<script type="text/javascript" src="script/mavelous.min.js"></script>
+{% else %}
+<!-- GOOGLE CLOSURE -->
+<script src="third_party/closure-library/closure/goog/base.js"></script>
+<script src="script/mavelous-deps.js"></script>
+
+<!-- MAVELOUS -->
+<script src="script/app.js"></script>
+{% endif %}
+
+<script>
+  $(function() {
+  window.mavelous_app = new Mavelous.App();
+  mavelous_app.start();
+    });
+</script>
+<script type="text/template" id="commstatustexttemplate">
+    MAV <%= mav_html %> | SERVER <%= server_html %>
+</script>
+
+<!-- HTML BODY-->
+<title>Mavelous</title>
+</head>
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand hidden-phone" href="#">Mavelous</a>
+        <ul class="nav">
+          <li id="navbar-overview" class="hidden-phone">
+            <a href="#overview">Overview</a>
+          </li>
+          <li id="navbar-fullpfd">
+            <a href="#fullpfd">PFD</a>
+          </li>
+          <li id="navbar-maponly">
+            <a href="#maponly">Map</a>
+          </li>
+          <li class="divider-vertical"></li>
+        </ul>
+        <span class="navbar-text">
+          <a class="btn" id="navbar-btn-mode" href="#">Mode</a>
+          <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
+          <a class="btn" id="navbar-btn-link" href="#">Link</a>
+          <a class="btn" id="navbar-btn-battery" href="#">Batt</a>
+        </span>
+        <span class="navbar-text" id="fps"></span>
+        <ul class="nav pull-right">
+          <li><a href="#" id="navbar-a-settings"><i class="icon-cog icon-white"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="pfdblock">
+      <div id="pfdstatus">
+          <span id="pfd_modestringview"></span>
+      </div>
+      <div id="pfdview"></div>
+      <div id="guidealtitudeview">
+        Guide Altitude:
+        <input id="guidealt-input" type="range" value="20" min="0" max="200">
+        <input id="guidealt-submit" type="submit" value="Update">
+        <span  id="guidealt-text"></span>
+      </div>
+  </div>
+  <div id="statustextview"></div>
+
+  <div id="mapoverlay-btns" class="mapoverlay-right mapoverlay-top">
+    <a class="btn" id="mapoverlay-btn-centermap" href="#">
+      <i id="mapoverlay-icon-centermap" class="icon-screenshot icon-black"></i>
+    </a>
+  </div>
+
+  <div id="map"></div>
+  <div id="settings-modal" class="modal hide">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3>Settings</h3>
+    </div>
+    <div class="modal-body">
+      <h4>Map</h4><br />
+      <p>Provider <select id="settings-mapproviderpicker"></select> </p>
+      <p>Zoom <input id="settings-mapzoom" type="range" min="1" max="21">
+        <span id="settings-mapzoom-value"></span>
+      <p>Path <select id="settings-mappathpicker">
+                 <option value="on" selected>On</option>
+                 <option value="off">Off</option>
+               </select> </p>
+      <p>Icon <select id="settings-vehicleiconpicker"></select> </p>
+      </p>
+      <hr>
+      <h4>PFD</h4><br />
+      Position:
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn" id="settings-pfdpos-left">Left</button>
+        <button class="btn" id="settings-pfdpos-right">Right</button>
+      </div>
+      <br />
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn" id="settings-pfdpos-up">Top</button>
+        <button class="btn" id="settings-pfdpos-down">Bottom</button>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+  </div>
+</body>
+</html>

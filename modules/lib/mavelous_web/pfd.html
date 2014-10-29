@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <style type="text/css">
+  #pfd {
+    position: absolute;
+    top: 0px;
+    height: 0px;
+    width: 100%;
+    height: 100%;
+    background: rgb(0,0,0);
+  }
+  </style>
+
+<!-- JQUERY -->
+<script type="text/javascript" src="third_party/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="third_party/jquery.color.js"></script>
+
+<!-- BACKBONE -->
+<script type="text/javascript" src="third_party/underscore-1.3.3.js"></script>
+<script type="text/javascript" src="third_party/backbone-0.9.2.js"></script>
+
+<script type="text/javascript" src="third_party/kinetic-v3.10.3.js"></script>
+
+<!-- APP MODULES -->
+  <!-- MAVLINK MESSAGES -->
+<script type="text/javascript" src="script/modestringview.js"></script>
+  <!-- MAVELOUS SPECIFIC MODULES -->
+<script type="text/javascript" src="script/mavlinkapi.js"></script>
+  <!-- ADI MODULES -->
+<script type="text/javascript" src="script/pfd.js"></script>
+<script type="text/javascript" src="script/pfdview.js"></script>
+
+<script type="text/javascript">
+$(function() {
+
+  var mavlinkAPI = new Mavelous.MavlinkAPI({ url: '/mavlink/' });
+  var pfdView = new Mavelous.PFDView({
+    mavlinkSrc: mavlinkAPI,
+    drawingid: 'pfd',
+    el: $('#pfdblock')
+  });
+  setInterval(function() {
+    mavlinkAPI.update();
+  });
+
+});
+</script>
+
+<!-- HTML BODY-->
+<title>mavelous : PFD</title>
+</head>
+<body>
+  <div id="pfdwithstatus">
+    <div id="pfdblock">
+      <div id="pfd"></div>
+    </div>
+    <div id="pfdstatus">
+      <center>
+        <div id="modestringview"></div>
+      </center>
+    </div>
+  </div>
+</body>
+</html>

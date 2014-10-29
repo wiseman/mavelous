@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/2268/trunk/closure/goog/vec
+END
+vec3.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1533/trunk/closure/goog/vec/vec3.js
+END
+float32array_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/850/trunk/closure/goog/vec/float32array_test.html
+END
+vec4.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1530/trunk/closure/goog/vec/vec4.js
+END
+mat3.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1726/trunk/closure/goog/vec/mat3.js
+END
+float64array_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/1530/trunk/closure/goog/vec/float64array_test.html
+END
+mat4.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/2122/trunk/closure/goog/vec/mat4.js
+END
+float32array.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/1926/trunk/closure/goog/vec/float32array.js
+END
+quaternion_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/1714/trunk/closure/goog/vec/quaternion_test.html
+END
+vec.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1546/trunk/closure/goog/vec/vec.js
+END
+matrix3_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/949/trunk/closure/goog/vec/matrix3_test.html
+END
+float64array.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2220/trunk/closure/goog/vec/float64array.js
+END
+matrix4_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/1406/trunk/closure/goog/vec/matrix4_test.html
+END
+vec_array_perf.html
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/1440/trunk/closure/goog/vec/vec_array_perf.html
+END
+vec_perf.html
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/850/trunk/closure/goog/vec/vec_perf.html
+END
+ray_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1547/trunk/closure/goog/vec/ray_test.html
+END
+quaternion.js
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/1714/trunk/closure/goog/vec/quaternion.js
+END
+vec2_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1554/trunk/closure/goog/vec/vec2_test.html
+END
+matrix3.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/981/trunk/closure/goog/vec/matrix3.js
+END
+vec3_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1530/trunk/closure/goog/vec/vec3_test.html
+END
+vec4_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1530/trunk/closure/goog/vec/vec4_test.html
+END
+matrix4.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2268/trunk/closure/goog/vec/matrix4.js
+END
+ray.js
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1547/trunk/closure/goog/vec/ray.js
+END
+mat3_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/1726/trunk/closure/goog/vec/mat3_test.html
+END
+mat4_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/2122/trunk/closure/goog/vec/mat4_test.html
+END
+vec2.js
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1554/trunk/closure/goog/vec/vec2.js
+END

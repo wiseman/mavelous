@@ -69,7 +69,7 @@ class MPSettings(object):
         self.rc1mul = 1
         self.rc2mul = 1
         self.rc4mul = 1
-        self.moddebug = 0
+        self.moddebug = 2
 
     def set(self, vname, value):
         '''set a setting'''
@@ -1214,7 +1214,8 @@ def master_callback(m, master):
                     'FENCE_POINT', 'FENCE_STATUS', 'DCM', 'RADIO', 'AHRS', 'HWSTATUS', 'SIMSTATE', 'PPP' ]:
         pass
     else:
-        mpstate.console.writeln("Got MAVLink msg: %s" % m)
+        pass
+        #mpstate.console.writeln("Got MAVLink msg: %s" % m)
 
     if mpstate.status.watch is not None:
         if fnmatch.fnmatch(m.get_type().upper(), mpstate.status.watch.upper()):

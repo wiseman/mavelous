@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/2405/trunk/closure/goog
+END
+base_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2215/trunk/closure/goog/base_test.html
+END
+base.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2392/trunk/closure/goog/base.js
+END
+deps.js
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/2403/trunk/closure/goog/deps.js
+END

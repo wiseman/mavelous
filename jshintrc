@@ -1,0 +1,7 @@
+{
+  // Tolerate all forms of subscript notation besides dot notation
+  // e.g. `dict['key']` instead of `dict.key`.
+  "sub":          true,
+  "expr":         true
+}
+

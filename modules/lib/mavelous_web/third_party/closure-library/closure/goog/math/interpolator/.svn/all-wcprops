@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator
+END
+pchip1.js
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/pchip1.js
+END
+spline1.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/spline1.js
+END
+pchip1_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/pchip1_test.html
+END
+linear1.js
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/linear1.js
+END
+linear1_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/linear1_test.html
+END
+spline1_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/spline1_test.html
+END
+interpolator1.js
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2130/trunk/closure/goog/math/interpolator/interpolator1.js
+END

@@ -1,0 +1,316 @@
+10
+
+dir
+2405
+http://closure-library.googlecode.com/svn/trunk/closure/goog
+http://closure-library.googlecode.com/svn
+
+
+
+2012-12-20T23:42:01.000000Z
+2405
+markcollins@google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0b95b8e8-c90f-11de-9d4f-f947ee5921c8
+
+useragent
+dir
+
+locale
+dir
+
+storage
+dir
+
+images
+dir
+
+demos
+dir
+
+tweak
+dir
+
+base_test.html
+file
+
+
+
+
+2012-11-03T23:33:16.933208Z
+8ee1808a61b39e571204e35e2dfbdad2
+2012-10-04T18:27:57.000000Z
+2215
+nicksantos@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+34150
+
+date
+dir
+
+testing
+dir
+
+color
+dir
+
+i18n
+dir
+
+dom
+dir
+
+reflect
+dir
+
+proto2
+dir
+
+module
+dir
+
+editor
+dir
+
+format
+dir
+
+history
+dir
+
+crypt
+dir
+
+proto
+dir
+
+deps.js
+file
+
+
+
+
+2012-12-28T09:00:16.320647Z
+361c6a6980c94ae52ed4d9b7e2e2aa6d
+2012-12-20T21:53:56.000000Z
+2403
+chrishenry@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+221064
+
+a11y
+dir
+
+async
+dir
+
+ui
+dir
+
+disposable
+dir
+
+datasource
+dir
+
+uri
+dir
+
+webgl
+dir
+
+positioning
+dir
+
+events
+dir
+
+window
+dir
+
+fs
+dir
+
+json
+dir
+
+jsaction
+dir
+
+bootstrap
+dir
+
+vec
+dir
+
+messaging
+dir
+
+fx
+dir
+
+spell
+dir
+
+timer
+dir
+
+labs
+dir
+
+cssom
+dir
+
+base.js
+file
+
+
+
+
+2012-12-28T09:00:16.320647Z
+7a1bd2bf80991949d38e569c31b3bcf8
+2012-12-18T20:21:01.000000Z
+2392
+asweintraub@google.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+50160
+
+net
+dir
+
+css
+dir
+
+stats
+dir
+
+pubsub
+dir
+
+graphics
+dir
+
+style
+dir
+
+gears
+dir
+
+iter
+dir
+
+throttle
+dir
+
+memoize
+dir
+
+object
+dir
+
+string
+dir
+
+structs
+dir
+
+functions
+dir
+
+soy
+dir
+
+result
+dir
+
+array
+dir
+
+asserts
+dir
+
+db
+dir
+
+debug
+dir
+
+docs
+dir
+
+math
+dir
+

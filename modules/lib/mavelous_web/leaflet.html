@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap.css" />
+  <style>
+    body {
+      padding-top: 40px;
+    }
+  </style>
+<link rel="stylesheet" type="text/css" href="third_party/bootstrap/css/bootstrap-responsive.css" />
+<link rel="stylesheet" type="text/css" href="third_party/leaflet/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+<!-- JQUERY -->
+<script type="text/javascript" src="third_party/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="third_party/jquery.color.js"></script>
+<script type="text/javascript" src="third_party/jquery.cookie.js"></script>
+
+<!-- BOOTSTRAP -->
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-transition.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-popover.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-button.js"></script>
+<script type="text/javascript" src="third_party/bootstrap/js/bootstrap-collapse.js"></script>
+
+<!-- BACKBONE -->
+<script type="text/javascript" src="third_party/underscore-1.3.3.js"></script>
+<script type="text/javascript" src="third_party/backbone-0.9.2.js"></script>
+
+<!-- LEAFLET -->
+<script type="text/javascript" src="third_party/leaflet/leaflet-include.js"></script>
+
+<!-- MAVELOUS APP -->
+  <!-- Mavlink API -->
+<script type="text/javascript" src="script/mavlinkapi.js"></script>
+<script type="text/javascript" src="script/fakemavlinkapi.js"></script>
+
+<script type="text/javascript" src="script/guidemodel.js"></script>
+
+  <!-- Leaflet frame -->
+<script type="text/javascript" src="script/leafletdroneicon.js"></script>
+<script type="text/javascript" src="script/leafletproviders.js"></script>
+<script type="text/javascript" src="script/vehicleleafletposition.js"></script>
+<script type="text/javascript" src="script/leafletview.js"></script>
+
+  <!-- App  -->
+<script type="text/javascript" src="script/leaflet_app.js"></script>
+
+<!-- HTML BODY-->
+<title>Mavelous</title>
+</head>
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <a class="brand" href="#">Mavelous</a>
+        <ul class="nav">
+          <li id="navbar-overview" class="hidden-phone">
+            <a href="#overview">Overview</a>
+          </li>
+          <li id="navbar-fullpfd">
+            <a href="#fullpfd">PFD</a>
+          </li>
+          <li id="navbar-maponly">
+            <a href="#maponly">Map</a>
+          </li>
+          <li class="divider-vertical"></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li><a href="#" id="navbar-a-settings">Settings</a></li>
+        </ul>
+        <p class="navbar-text pull-right">
+          <a class="btn" id="navbar-btn-mode" href="#">Mode</a>
+          <a class="btn" id="navbar-btn-gps" href="#">GPS</a>
+          <a class="btn" id="navbar-btn-link" href="#">Link</a>
+          <a class="btn" id="navbar-btn-battery" href="#">Batt</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+</body>
+</html>

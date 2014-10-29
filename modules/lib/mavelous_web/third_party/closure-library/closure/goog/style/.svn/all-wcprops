@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/2346/trunk/closure/goog/style
+END
+style_test_standard.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/850/trunk/closure/goog/style/style_test_standard.html
+END
+bidi.js
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1860/trunk/closure/goog/style/bidi.js
+END
+cursor.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/850/trunk/closure/goog/style/cursor.js
+END
+transition_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/2117/trunk/closure/goog/style/transition_test.html
+END
+style_webkit_scrollbars_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/2346/trunk/closure/goog/style/style_webkit_scrollbars_test.html
+END
+style_test_iframe_quirk.html
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/2254/trunk/closure/goog/style/style_test_iframe_quirk.html
+END
+style_quirks_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/2346/trunk/closure/goog/style/style_quirks_test.html
+END
+style_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/2346/trunk/closure/goog/style/style_test.html
+END
+style_test_iframe_standard.html
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/850/trunk/closure/goog/style/style_test_iframe_standard.html
+END
+transition.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2330/trunk/closure/goog/style/transition.js
+END
+bidi_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1737/trunk/closure/goog/style/bidi_test.html
+END
+style_test.js
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/2346/trunk/closure/goog/style/style_test.js
+END
+style.js
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/2343/trunk/closure/goog/style/style.js
+END
+style_test_quirk.html
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/850/trunk/closure/goog/style/style_test_quirk.html
+END
+style_scrollbar_test.js
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/2346/trunk/closure/goog/style/style_scrollbar_test.js
+END
+cursor_test.html
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/1292/trunk/closure/goog/style/cursor_test.html
+END

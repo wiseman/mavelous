@@ -4,3 +4,10 @@ mavproxy
 *.pyc
 *.log
 camera/
+.*.swp
+status.txt
+mav.log
+mav.log.raw
+test.ArduCopter/
+.DS_Store
+.tools
